@@ -1,0 +1,41 @@
+{
+  "name": "search-hub",
+  "version": "1.0.0",
+  "authors": [
+    "Lucidworks"
+  ],
+  "description": "Search Hub by Lucidworks.",
+  "main": "gulpfile.js",
+  "keywords": [
+    "framework",
+    "angular",
+    "web",
+    "apps"
+  ],
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/lucidworks/searchhub-fusion",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "foundation-apps": "~1.2.0",
+    "lodash": "https://github.com/lodash/lodash.git",
+    "ng-orwell": "~1.1.2",
+    "angucomplete-alt": "~2.2.0",
+    "angular-sanitize": "~1.4.10",
+    "angular-cookies": "~1.4.9",
+    "angular-rison": "~0.0.13",
+    "angularjs-humanize": "master",
+    "asciidoctor.js": "1.5.5-1"
+  },
+  "devDependencies": {
+    "angular-mocks": "~1.4.8"
+  },
+  "resolutions": {
+    "angular": "1.4.10"
+  }
+}

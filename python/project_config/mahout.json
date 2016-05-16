@@ -1,0 +1,76 @@
+{
+  "name": "mahout",
+  "description": "The Apache Mahout project, tweets, wiki, github, et. al",
+  "label": "Apache Mahout",
+  "query_pipeline": "lucidfind-default",
+  "github_pipeline": "github-default",
+  "jira_pipeline": "jira-default",
+  "mailing_list_pipeline": "mailing-list-default",
+  "twitter_pipeline": "twitter-default",
+  "website_pipeline": "website-default",
+  "wiki_pipeline": "wiki-default",
+  "websites": [
+    {
+      "name": "mahout-website",
+      "label": "Apache Mahout Website",
+      "url": "http://mahout.apache.org/",
+      "schedule": {
+        "repeatUnit": "WEEK",
+        "interval": 1
+      }
+    }
+  ],
+  "mailing_lists": [
+    {
+      "name": "mahout-user",
+      "label": "Mahout User",
+      "mbox": "mahout-user",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 1
+      }
+    },
+    {
+      "name": "mahout-dev",
+      "label": "Mahout Dev",
+      "mbox": "mahout-dev",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 1
+      }
+    }
+  ],
+  "jira": {
+    "name": "apache-jira-mahout",
+    "label": "Apache Mahout JIRA Issues",
+    "url": "https://issues.apache.org/jira/browse/MAHOUT",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 1
+      }
+  },
+  "githubs": [
+    {
+      "name": "mahout-github",
+      "label": "Apache Mahout Github",
+      "url": "https://github.com/apache/mahout",
+      "github_user": "lucid-ci",
+      "github_pass": "GITHUB_KEY",
+      "schedule": {
+        "repeatUnit": "DAY",
+        "interval": 1
+      }
+    }
+  ],
+  "wikis": [
+    {
+      "name": "mahout-wiki",
+      "label": "Mahout Wiki",
+      "url": "http://wiki.apache.org/mahout/",
+      "schedule": {
+        "repeatUnit": "WEEK",
+        "interval": 1
+      }
+    }
+  ]
+}

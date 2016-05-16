@@ -1,0 +1,96 @@
+@import "fonts";
+@import "settings";
+@import "foundation";
+@import "../components/components";
+@import "../components/shub-components";
+
+#sidebar {
+  //padding: 0 !important;
+  //background: #f9f9f9 !important;
+  background: #f9f9f9;
+  border-right: 1px solid #e7e7e7;
+  // transition-timing-function: cubic-bezier(.76, -.245, .24, 1.245);
+}
+
+.search-box-outer{
+  flex: 1;
+}
+
+.mail-body > span{
+  font-family: monospace;
+  white-space: pre;
+}
+
+.main-view{
+}
+
+.search-label{
+  margin-bottom: 0;
+}
+
+.card-result-comment {
+  margin-top: .75rem;
+  .card-get-started,
+  .card-no-results {
+    text-align: center;
+  }
+}
+
+.label.secondary{
+  @extend %label;
+  @include label-style($secondary-color, isitlight($secondary-color));
+}
+
+.sort-button svg.iconic-sm {
+  height: 16px;
+  width: 16px;
+}
+
+.navLogo {
+    flex: 1 1 0;
+    display:flex;
+    cursor: pointer;
+    margin: auto;
+    svg {
+      //@include simpleTransition(opacity,0.15s,ease-in-out);
+      height: 30px;
+      width: 30px;
+      margin:auto;
+      //fill: #0bbdd6;
+    }
+
+  }
+
+blockquote.twitter-tweet {
+  display: inline-block;
+  font-family: "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 16px;
+  border-color: #eee #ddd #bbb;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  margin: 10px 5px;
+  padding: 0 16px 16px 16px;
+  max-width: 468px;
+}
+
+blockquote.twitter-tweet p {
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 20px;
+}
+
+blockquote.twitter-tweet a {
+  color: inherit;
+  font-weight: normal;
+  text-decoration: none;
+  outline: 0 none;
+}
+
+blockquote.twitter-tweet a:hover,
+blockquote.twitter-tweet a:focus {
+  text-decoration: underline;
+}

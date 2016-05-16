@@ -1,0 +1,30 @@
+{
+  "id": "twitter-default",
+  "stages": [
+    {
+      "type": "field-mapping",
+      "mappings": [
+        {
+          "source": "/(.*?)lat(itude)?$/",
+          "target": "$1_lat_lon",
+          "operation": "move"
+        },
+        {
+          "source": "/(.*?)lon(gitude)?$/",
+          "target": "$1_lat_lon",
+          "operation": "move"
+        }
+      ],
+      "reservedFieldsMappingAllowed": false,
+      "skip": false,
+      "label": "field-mapping"
+    },
+    {
+      "type": "solr-index",
+      "enforceSchema": true,
+      "bufferDocsForSolr": false,
+      "skip": false,
+      "label": "solr-index"
+    }
+  ]
+}

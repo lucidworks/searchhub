@@ -1,0 +1,9 @@
+[
+  {
+    "name": "lucid.mbox",
+    "fetcherClass": "com.lucidworks.searchhub.connectors.mail",
+    "types": {
+      "mbox": "com.lucidworks.searchhub.connectors.mail.MBoxDataSourceType"
+    }
+  }
+]

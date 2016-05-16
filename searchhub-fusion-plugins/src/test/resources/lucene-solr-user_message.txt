@@ -1,0 +1,93 @@
+From solr-user-return-110322-apmail-lucene-solr-user-archive=lucene.apache.org@lucene.apache.org  Thu Apr  2 12:14:36 2015
+Return-Path: <solr-user-return-110322-apmail-lucene-solr-user-archive=lucene.apache.org@lucene.apache.org>
+X-Original-To: apmail-lucene-solr-user-archive@minotaur.apache.org
+Delivered-To: apmail-lucene-solr-user-archive@minotaur.apache.org
+Received: from mail.apache.org (hermes.apache.org [140.211.11.3])
+	by minotaur.apache.org (Postfix) with SMTP id 4EDEE17794
+	for <apmail-lucene-solr-user-archive@minotaur.apache.org>; Thu,  2 Apr 2015 12:14:36 +0000 (UTC)
+Received: (qmail 56618 invoked by uid 500); 2 Apr 2015 12:14:32 -0000
+Delivered-To: apmail-lucene-solr-user-archive@lucene.apache.org
+Received: (qmail 56551 invoked by uid 500); 2 Apr 2015 12:14:32 -0000
+Mailing-List: contact solr-user-help@lucene.apache.org; run by ezmlm
+Precedence: bulk
+List-Help: <mailto:solr-user-help@lucene.apache.org>
+List-Unsubscribe: <mailto:solr-user-unsubscribe@lucene.apache.org>
+List-Post: <mailto:solr-user@lucene.apache.org>
+List-Id: <solr-user.lucene.apache.org>
+Reply-To: solr-user@lucene.apache.org
+Delivered-To: mailing list solr-user@lucene.apache.org
+Received: (qmail 56539 invoked by uid 99); 2 Apr 2015 12:14:32 -0000
+Received: from nike.apache.org (HELO nike.apache.org) (192.87.106.230)
+    by apache.org (qpsmtpd/0.29) with ESMTP; Thu, 02 Apr 2015 12:14:32 +0000
+X-ASF-Spam-Status: No, hits=1.5 required=5.0
+	tests=HTML_MESSAGE,RCVD_IN_DNSWL_LOW,SPF_PASS
+X-Spam-Check-By: apache.org
+Received-SPF: pass (nike.apache.org: domain of jack.krupansky@gmail.com designates 74.125.82.48 as permitted sender)
+Received: from [74.125.82.48] (HELO mail-wg0-f48.google.com) (74.125.82.48)
+    by apache.org (qpsmtpd/0.29) with ESMTP; Thu, 02 Apr 2015 12:14:06 +0000
+Received: by wgoe14 with SMTP id e14so83096869wgo.0
+        for <solr-user@lucene.apache.org>; Thu, 02 Apr 2015 05:14:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20120113;
+        h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+         :content-type;
+        bh=doo+PvVLAyFUqO7IzoazqJCkCFvD32oTbUuYKpJbHbY=;
+        b=Pq7wPilewCTHYirfknc38ceNY36stcSExkHksm6291wXJFXlbRD+oZBstzJQ4vwoTB
+         PpXozupS6fUCBTGO3UfOOIwPJjAzPd43uLhYtVMQ5j28ZSrOr4JeeYGTYQxuhJo2Nt/J
+         RMqUhVEyB5oz0ogmNhhvbe/obETlFPU36SmxUATmWVxyOFw0m2duy8U/aXF0Nyf12j4S
+         pdHSfqxdYwQ8symBDjh7y/5iUywbHV5tyi/xpjKbnRZW3OFgE+ly4YY5Cvt3MrKtfDes
+         GBWnxlbYMjqLOBXTlessDoE1KNu58kyGeiX3wW+3ELP/+87iHhx+0LfH8cmlO6nmha4b
+         JH9w==
+MIME-Version: 1.0
+X-Received: by 10.194.237.34 with SMTP id uz2mr91677468wjc.157.1427976845047;
+ Thu, 02 Apr 2015 05:14:05 -0700 (PDT)
+Received: by 10.27.9.129 with HTTP; Thu, 2 Apr 2015 05:14:04 -0700 (PDT)
+In-Reply-To: <CAL5zfJbEiS6JeEhLf12KAUJJorCr_BVgFqrtPC=SefSHfAaBbg@mail.gmail.com>
+References: <CAL5zfJbEiS6JeEhLf12KAUJJorCr_BVgFqrtPC=SefSHfAaBbg@mail.gmail.com>
+Date: Thu, 2 Apr 2015 08:14:04 -0400
+Message-ID: <CAOxAL605VTzRAbtryijekaLvGOCUMXdb4EpK+s7sNNUJY5t3QQ@mail.gmail.com>
+Subject: Re: edismax operators
+From: Jack Krupansky <jack.krupansky@gmail.com>
+To: solr-user@lucene.apache.org
+Content-Type: multipart/alternative; boundary=089e01493c6e98bdf70512bcc43b
+X-Virus-Checked: Checked by ClamAV on apache.org
+
+--089e01493c6e98bdf70512bcc43b
+Content-Type: text/plain; charset=UTF-8
+
+The parentheses signal a nested query. Your plus operator applies to the
+overall nested query - that the nested query must match something. Use the
+plus operator on each of the discrete terms if each of them is mandatory.
+The plus and minus operators apply to the overall nested query - they do
+not distribute to each term within the nested query. They don't magically
+distribute to all nested queries.
+
+Let's see you full set of query parameters, both on the request and in
+solrconfig.
+
+-- Jack Krupansky
+
+On Thu, Apr 2, 2015 at 7:12 AM, Mahmoud Almokadem <prog.mahmoud@gmail.com>
+wrote:
+
+> Hello,
+>
+> I've a strange behaviour on using edismax with multiwords. When using
+> passing q=+(word1 word2) I got
+>
+> "rawquerystring": "+(word1 word2)", "querystring": "+(word1 word2)", "
+> parsedquery": "(+(+(DisjunctionMaxQuery((title:word1))
+> DisjunctionMaxQuery((title:word2)))))/no_coord",
+> "parsedquery_toString": "+(+((title:word1)
+> (title:word2)))",
+>
+> I expected to get two words as must as I added "+" before the parentheses
+> so It must be applied for all terms in parentheses.
+>
+> How can I apply default operator AND for all words.
+>
+> Thanks,
+> Mahmoud
+>
+
+--089e01493c6e98bdf70512bcc43b--

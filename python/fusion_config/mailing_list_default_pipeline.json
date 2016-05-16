@@ -1,0 +1,22 @@
+{
+  "id": "mailing-list-default",
+  "stages": [
+    {
+      "type": "mbox-parsing",
+      "id": "8j7l23xr",
+      "skip": false,
+      "label": "Mail Parsing"
+    },
+    {
+      "type": "solr-index",
+      "id": "3d0d3dd8-771a-450c-ad7a-c1e3c108246a",
+      "enforceSchema": true,
+      "dateFormats": [ ],
+      "params": [ ],
+      "bufferDocsForSolr": false,
+      "skip": false,
+      "label": "solr-index"
+    }
+  ],
+  "properties": { }
+}

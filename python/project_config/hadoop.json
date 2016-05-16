@@ -1,0 +1,61 @@
+{
+  "name": "hadoop",
+  "description": "The Apache Hadoop project, tweets, wiki, github, et. al",
+  "label": "Apache Hadoop",
+  "query_pipeline": "lucidfind-default",
+  "github_pipeline": "github-default",
+  "jira_pipeline": "jira-default",
+  "mailing_list_pipeline": "mailing-list-default",
+  "twitter_pipeline": "twitter-default",
+  "website_pipeline": "website-default",
+  "wiki_pipeline": "wiki-default",
+  "websites": [
+    {
+      "name": "hadoop-website",
+      "label": "Apache Hadoop Website",
+      "url": "http://hadoop.apache.org/",
+      "schedule": {
+        "repeatUnit": "WEEK",
+        "interval": 1
+      }
+    }
+  ],
+  "mailing_lists": [
+    {
+      "name": "hadoop-common-user",
+      "label": "Hadoop Common User",
+      "mbox": "hadoop-common-user",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 1
+      }
+    },
+    {
+      "name": "hadoop-common-dev",
+      "label": "Hadoop Common Dev",
+      "mbox": "hadoop-common-dev",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 1
+      }
+    },
+    {
+      "name": "hadoop-yarn-dev",
+      "label": "Hadoop YARN Dev",
+      "mbox": "hadoop-yarn-dev",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 1
+      }
+    }
+  ],
+  "jira": {
+    "name": "apache-jira-hadoop",
+    "label": "Apache Hadoop JIRA Issues",
+    "url": "https://issues.apache.org/jira/browse/HADOOP",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 1
+      }
+  }
+}

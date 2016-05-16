@@ -1,0 +1,47 @@
+{
+  "id": "shub-typeahead",
+  "stages": [
+    {
+      "id": "g6wdn29",
+      "params": [
+        {
+          "key": "wt",
+          "value": "json",
+          "policy": "default"
+        },
+        {
+          "key": "fl",
+          "value": "id,subject, title, body",
+          "policy": "default"
+        },
+        {
+          "key": "defType",
+          "value": "edismax",
+          "policy": "default"
+        },
+        {
+          "key": "qf",
+          "value": "subject^10 title^10 body^3",
+          "policy": "default"
+        }
+      ],
+      "skip": false,
+      "label": "set-params",
+      "type": "set-params"
+    },
+    {
+      "type": "solr-query",
+      "id": "7gxbhuxr",
+      "allowedRequestHandlers": [
+        "file",
+        "hub",
+        "browse",
+        "spell"
+      ],
+      "httpMethod": "GET",
+      "skip": false,
+      "label": "solr-query",
+      "type": "solr-query"
+    }
+  ]
+}

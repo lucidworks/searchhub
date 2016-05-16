@@ -1,0 +1,16 @@
+<div class="detail vertical grid-content" ng-class="{'small-8':dc.doc.lw_image, 'medium-10': dc.doc.lw_image, 'small-12':!dc.doc.lw_image}">
+    <!-- show head field linked with a url. -->
+    <h3 class="head-field" ng-if="dc.doc.lw_url"><a ng-href="{{dc.doc.lw_url}}" ng-click="dc.postSignal(dc.doc.__signals_doc_id__)" target="_blank">{{dc.doc.lw_head}}</a></h3>
+    <!-- show head field without a url. -->
+    <h3 class="head-field" ng-if="!dc.doc.lw_url">{{dc.doc.lw_head}}</h3>
+
+    <h4 class="subheader">{{dc.doc.lw_subhead}}</h4>
+    <p class="large-8 xlarge-7 xx-large-6">
+      {{dc.doc.lw_description}}
+    </p>
+    {{dc}}
+    <!-- Output of CONFIG BASED FIELD DISPLAY -->
+    <p ng-repeat = "(field, value) in dc.doc.fieldsToDisplay">
+      <span><strong>{{field}}</strong>: {{value}}</span>
+    </p>
+  </div>

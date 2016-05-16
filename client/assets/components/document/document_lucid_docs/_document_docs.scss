@@ -1,0 +1,11 @@
+.document-file {
+  .detail {
+    margin: .5rem 0;
+  }
+  .size, .mimetype, .owner, .last-modified {
+    padding: .25rem;
+  }
+  .doc-label {
+    font-weight: bold;
+  }
+}

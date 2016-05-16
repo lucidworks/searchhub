@@ -1,0 +1,335 @@
+
+{
+  "id" : "lw-com-website-default",
+  "stages" : [ {
+    "type" : "tika-parser",
+    "id" : "conn_tika",
+    "includeImages" : true,
+    "flattenCompound" : false,
+    "addFailedDocs" : true,
+    "addOriginalContent" : false,
+    "contentField" : "_raw_content_",
+    "contentEncoding" : "binary",
+    "returnXml" : false,
+    "keepOriginalStructure" : false,
+    "extractHtmlLinks" : true,
+    "extractOtherLinks" : false,
+    "csvParsing" : true,
+    "skip" : false,
+    "label" : "tika-parser",
+    "type" : "tika-parser",
+    "sourceField" : "_raw_content_"
+  }, {
+    "type" : "field-mapping",
+    "id" : "conn_mapping",
+    "mappings" : [ {
+      "source" : "Content-Encoding",
+      "target" : "characterSet_s",
+      "operation" : "move"
+    }, {
+      "source" : "Content-Encoding",
+      "target" : "characterSet_s",
+      "operation" : "move"
+    }, {
+      "source" : "Content-Length",
+      "target" : "fileSize_l",
+      "operation" : "move"
+    }, {
+      "source" : "FileSize",
+      "target" : "fileSize_l",
+      "operation" : "move"
+    }, {
+      "source" : "FileName",
+      "target" : "fileName_s",
+      "operation" : "move"
+    }, {
+      "source" : "Content-Type",
+      "target" : "mimeType_s",
+      "operation" : "move"
+    }, {
+      "source" : "Content_Type",
+      "target" : "mimeType_s",
+      "operation" : "move"
+    }, {
+      "source" : "MimeType",
+      "target" : "mimeType_s",
+      "operation" : "move"
+    }, {
+      "source" : "Title",
+      "target" : "title",
+      "operation" : "move"
+    }, {
+      "source" : "Description",
+      "target" : "description",
+      "operation" : "move"
+    }, {
+      "source" : "Subject",
+      "target" : "subject",
+      "operation" : "move"
+    }, {
+      "source" : "created",
+      "target" : "dateCreated_dt",
+      "operation" : "move"
+    }, {
+      "source" : "ContentCreated",
+      "target" : "dateCreated_dt",
+      "operation" : "move"
+    }, {
+      "source" : "meta:creation_date",
+      "target" : "dateCreated_dt",
+      "operation" : "move"
+    }, {
+      "source" : "Creation-Date",
+      "target" : "dateCreated_dt",
+      "operation" : "move"
+    }, {
+      "source" : "Author",
+      "target" : "author",
+      "operation" : "move"
+    },
+      {
+      "source" : "meta:author",
+      "target" : "author",
+      "operation" : "move"
+    }, {
+      "source" : "Contributor",
+      "target" : "author",
+      "operation" : "move"
+    }, {
+      "source" : "LastModifiedBy",
+      "target" : "author",
+      "operation" : "move"
+    }, {
+      "source" : "Last-Author",
+      "target" : "author",
+      "operation" : "move"
+    }, {
+      "source" : "fullname",
+      "target" : "author",
+      "operation" : "move"
+    }, {
+      "source" : "author",
+      "target" : "author_facet",
+      "operation" : "copy"
+    }, {
+      "source" : "Last-Modified",
+      "target" : "last_modified",
+      "operation" : "move"
+    }, {
+      "source" : "fileLastModified",
+      "target" : "last_modified",
+      "operation" : "move"
+    }, {
+      "source" : "ContentLastModified",
+      "target" : "last_modified",
+      "operation" : "move"
+    }, {
+      "source" : "fullText",
+      "target" : "content",
+      "operation" : "move"
+    }, {
+      "source" : "plainTextContent",
+      "target" : "content",
+      "operation" : "move"
+    }, {
+      "source" : "plainTextMessageContent",
+      "target" : "content",
+      "operation" : "move"
+    }, {
+      "source" : "body",
+      "target" : "content",
+      "operation" : "move"
+    }, {
+      "source" : "keyword",
+      "target" : "keywords",
+      "operation" : "move"
+    }, {
+      "source" : "Keywords",
+      "target" : "keywords",
+      "operation" : "move"
+    }, {
+      "source" : "Page-Count",
+      "target" : "pageCount_i",
+      "operation" : "move"
+    }, {
+      "source" : "PageCount",
+      "target" : "pageCount_i",
+      "operation" : "move"
+    }, {
+      "source" : "Slide-Count",
+      "target" : "pageCount_i",
+      "operation" : "move"
+    }, {
+      "source" : "Slides",
+      "target" : "pageCount_i",
+      "operation" : "move"
+    }, {
+      "source" : "xmpTPg:NPages",
+      "target" : "pageCount_i",
+      "operation" : "move"
+    }, {
+      "source" : "parsing_time",
+      "target" : "parsing_time_l",
+      "operation" : "move"
+    }, {
+      "source" : "parsing",
+      "target" : "parsing_s",
+      "operation" : "move"
+    }, {
+      "source" : "document_fetching_time",
+      "target" : "document_fetching_time_l",
+      "operation" : "move"
+    }, {
+      "source" : "Comments",
+      "target" : "comments",
+      "operation" : "move"
+    }, {
+      "source" : "resourceName",
+      "target" : "resourcename",
+      "operation" : "move"
+    }, {
+      "source" : "resource_name",
+      "target" : "resourcename",
+      "operation" : "move"
+    }, {
+      "source" : "Content-Location",
+      "target" : "url",
+      "operation" : "move"
+    }, {
+      "source" : "meta:character-count",
+      "target" : "character-count_i",
+      "operation" : "move"
+    }, {
+      "source" : "Word-Count",
+      "target" : "Word-Count_i",
+      "operation" : "move"
+    }, {
+      "source" : "date",
+      "operation" : "delete"
+    }, {
+      "source" : "Last-Printed",
+      "operation" : "delete"
+    }, {
+      "source" : "type",
+      "operation" : "delete"
+    }, {
+      "source" : "/(.*)_[isltbfd]s?/",
+      "operation" : "keep"
+    }, {
+      "source" : "/(.*)_txt/",
+      "operation" : "keep"
+    }, {
+      "source" : "/(.*)_en/",
+      "operation" : "keep"
+    }, {
+      "source" : "/(.*)_dts?/",
+      "operation" : "keep"
+    }, {
+      "source" : "/(.*)_t[ilfd]/",
+      "operation" : "keep"
+    }, {
+      "source" : "/(.*)_p/",
+      "operation" : "keep"
+    }, {
+      "source" : "/(.*)_c/",
+      "operation" : "keep"
+    }, {
+      "source" : "/(.*)_coordinate/",
+      "operation" : "keep"
+    }, {
+      "source" : "/attr_(.*)/",
+      "operation" : "keep"
+    }, {
+      "source" : "/random_(.*)/",
+      "operation" : "keep"
+    }, {
+      "source" : "/ignored_(.*)/",
+      "operation" : "keep"
+    } ],
+    "skip" : false,
+    "label" : "field-mapping",
+    "type" : "field-mapping"
+  }, {
+    "type" : "regex-extractor",
+    "id" : "nhppsyvi",
+    "rules" : [ {
+      "source" : [ "id_copy" ],
+      "target" : "category",
+      "pattern" : "http://n3vm203/([^/\\r\\n]+)/?(.*)?",
+      "group" : 1
+    } ],
+    "skip" : false,
+    "label" : "Extract category from url",
+    "type" : "regex-extractor"
+  }, {
+    "type" : "javascript-index",
+    "id" : "bomeu3di",
+    "script" : "function(doc) {\n  if (doc.hasField(\"category\")) {\n    if (doc.getFirstFieldValue(\"category\").equals(\"blog\")) {\n      doc.setField(\"type\", \"post\");\n    } else {\n      doc.setField(\"type\", \"page\");\n    }\n  } else {\n    doc.setField(\"type\", \"page\")\n  }\n  \n  return doc;\n}",
+    "skip" : false,
+    "label" : "Set field type to page or post",
+    "type" : "javascript-index"
+  }, {
+    "type" : "field-mapping",
+    "id" : "n1hy3nmi",
+    "mappings" : [ {
+      "source" : "x-content",
+      "target" : "content",
+      "operation" : "move"
+    }, {
+      "source" : "resourcename",
+      "target" : "resourcename_s",
+      "operation" : "copy"
+    }, {
+      "source" : "og_type",
+      "target" : "og_type_ss",
+      "operation" : "move"
+    }, {
+      "source" : "og_site_name",
+      "target" : "og_site_name_ss",
+      "operation" : "move"
+    }, {
+      "source" : "article_publisher",
+      "target" : "article_publisher_ss",
+      "operation" : "move"
+    }, {
+      "source" : "article_tag",
+      "target" : "article_tag_ss",
+      "operation" : "move"
+    }, {
+      "source" : "article_section",
+      "target" : "article_section_ss",
+      "operation" : "move"
+    }, {
+      "source" : "article_published_time",
+      "target" : "article_published_time_dt",
+      "operation" : "move"
+    }, {
+      "source" : "article_modified_time",
+      "target" : "article_modified_time_dt",
+      "operation" : "move"
+    }, {
+      "source" : "og_updated_time",
+      "target" : "og_updated_time_dt",
+      "operation" : "move"
+    }, {
+      "source" : "twitter_creator",
+      "target" : "twitter_creator_ss",
+      "operation" : "move"
+    }, {
+      "source" : "twitter:domain",
+      "target" : "twitter_domain_ss",
+      "operation" : "move"
+    } ],
+    "skip" : false,
+    "label" : "Custom field mappings for lucidworks site",
+    "type" : "field-mapping"
+  }, {
+    "type" : "solr-index",
+    "id" : "conn_solr",
+    "enforceSchema" : true,
+    "bufferDocsForSolr" : true,
+    "skip" : false,
+    "label" : "solr-index",
+    "type" : "solr-index"
+  } ]
+}

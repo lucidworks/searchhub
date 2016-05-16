@@ -1,0 +1,47 @@
+{
+  "name": "lucidworks",
+  "description":"The Lucidworks sites",
+  "label": "Lucidworks",
+  "query_pipeline":"lucidfind-default",
+  "github_pipeline": "github-default",
+  "jira_pipeline":"jira-default",
+  "mailing_list_pipeline": "mailing-list-default",
+  "twitter_pipeline":"twitter-default",
+  "website_pipeline":"website-default",
+  "wiki_pipeline": "wiki-default",
+  "twitter":{
+    "follows": ["@lucidworks", "@gsingers", "@pbrane"]
+  },
+  "websites": [
+    {
+      "name": "lucidworks-website",
+      "label":"lucidworks.com Website",
+      "pipeline":"lw-com-website-default",
+      "url":"http://www.lucidworks.com",
+      "schedule": {
+        "repeatUnit": "WEEK",
+        "interval": 1
+      }
+    },
+    {
+      "name": "lucidworks-docs-website",
+      "label":"lucidworks.com Docs Website",
+      "pipeline":"lw-docs-default",
+      "url":"https://docs.lucidworks.com/index.html",
+      "schedule": {
+        "repeatUnit": "DAY",
+        "interval": 2
+      }
+    },
+    {
+      "name": "lucidworks-knowldege-base-website",
+      "label":"lucidworks.com KB Website",
+      "pipeline":"lw-com-website-default",
+      "url":"http://support.lucidworks.com/hc",
+      "schedule": {
+        "repeatUnit": "DAY",
+        "interval": 2
+      }
+    }
+  ]
+}

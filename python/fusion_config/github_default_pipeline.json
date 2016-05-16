@@ -1,0 +1,55 @@
+{
+  "id": "github-default",
+  "stages": [
+    {
+      "type": "regex-extractor",
+      "id": "riugcik9",
+      "rules": [
+        {
+          "source": [
+            "_lw_data_source_s"
+          ],
+          "target": "project",
+          "pattern": "\"(.*?)-(.*?)-\\d+\"",
+          "annotateAs": "",
+          "group": 2
+        }
+      ],
+      "skip": false,
+      "label": "Project Name Extractor"
+    },
+    {
+      "type": "field-mapping",
+      "mappings": [
+        {
+          "source": "/(.*?)lat(itude)?$/",
+          "target": "$1_lat_lon",
+          "operation": "move"
+        },
+        {
+          "source": "/(.*?)lon(gitude)?$/",
+          "target": "$1_lat_lon",
+          "operation": "move"
+        },
+        {
+          "source": "lastModified_dt",
+          "target": "publishedOnDate",
+          "operation": "copy"
+        }
+      ],
+      "reservedFieldsMappingAllowed": false,
+      "skip": false,
+      "label": "field-mapping"
+    },
+    {
+      "type": "solr-index",
+      "enforceSchema": true,
+      "dateFormats": [],
+      "params": [],
+      "bufferDocsForSolr": false,
+      "skip": false,
+      "label": "solr-index"
+    }
+  ],
+  "properties": {}
+}

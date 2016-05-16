@@ -1,0 +1,52 @@
+{
+  "name": "nutch",
+    "description": "The Apache Nutch project, tweets, wiki, github, et. al",
+  "label": "Apache Nutch",
+  "query_pipeline": "lucidfind-default",
+  "github_pipeline": "github-default",
+  "jira_pipeline": "jira-default",
+  "mailing_list_pipeline": "mailing-list-default",
+  "twitter_pipeline": "twitter-default",
+  "website_pipeline": "website-default",
+  "wiki_pipeline": "wiki-default",
+  "websites": [
+    {
+      "name": "nutch-website",
+      "label": "Apache Nutch Website",
+      "url": "http://nutch.apache.org/",
+      "schedule": {
+        "repeatUnit": "WEEK",
+        "interval": 1
+      }
+    }
+  ],
+  "mailing_lists": [
+    {
+      "name": "nutch-user",
+      "label": "Nutch User",
+      "mbox": "nutch-user",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 1
+      }
+    },
+    {
+      "name": "nutch-dev",
+      "label": "Nutch Dev",
+      "mbox": "nutch-dev",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 1
+      }
+    }
+  ],
+  "jira": {
+    "name": "apache-jira-nutch",
+    "label": "Apache Nutch JIRA Issues",
+    "url": "https://issues.apache.org/jira/browse/NUTCH",
+      "schedule": {
+        "repeatUnit": "DAY",
+        "interval": 1
+      }
+  }
+}

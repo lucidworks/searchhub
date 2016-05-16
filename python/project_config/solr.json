@@ -1,0 +1,72 @@
+{
+  "name": "solr",
+  "description": "The Apache Solr project, tweets, wiki, github, et. al",
+  "label": "Apache Solr",
+  "query_pipeline": "lucidfind-default",
+  "github_pipeline": "github-default",
+  "jira_pipeline": "jira-default",
+  "mailing_list_pipeline": "mailing-list-default",
+  "twitter_pipeline": "twitter-default",
+  "website_pipeline": "website-default",
+  "wiki_pipeline": "wiki-default",
+  "twitter": {
+    "follows": [
+      "solr"
+    ]
+  },
+  "websites": [
+    {
+      "name": "solr-website",
+      "label": "Apache Solr Website",
+      "url": "http://lucene.apache.org/solr",
+      "schedule": {
+        "repeatUnit": "WEEK",
+        "interval": 1
+      }
+    }
+  ],
+  "mailing_lists": [
+    {
+      "name": "solr-user",
+      "label": "Solr User",
+      "mbox": "lucene-solr-user",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 1
+      }
+    }
+  ],
+  "jira": {
+    "name": "apache-jira-solr",
+    "label": "Apache Solr JIRA Issues",
+    "url": "https://issues.apache.org/jira/browse/SOLR",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 3
+      }
+  },
+  "githubs": [
+    {
+      "name": "solr-github",
+      "label": "Apache Solr Github",
+      "url": "https://github.com/apache/lucene-solr",
+      "github_user": "lucid-ci",
+      "github_pass": "GITHUB_KEY",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 6
+      }
+    }
+  ],
+  "wikis": [
+    {
+      "name": "solr-ref-guide",
+      "label": "Solr Reference Guide",
+      "url": "https://cwiki.apache.org/confluence/display/solr/Apache+Solr+Reference+Guide",
+      "schedule": {
+        "repeatUnit": "DAY",
+        "interval": 1
+      }
+    }
+  ]
+}

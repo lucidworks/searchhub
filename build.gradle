@@ -1,0 +1,263 @@
+plugins {
+  id 'java'
+//  id 'com.github.johnrengelman.shadow' version '1.2.2'
+//  id "com.moowork.node" version "0.11"
+}
+
+defaultTasks 'build'
+
+//some useful common things
+task printVersions << {
+  println "Gradle is version " + GradleVersion.current()
+  println "Gradle is running with JVM " + org.gradle.internal.jvm.Jvm.current()
+}
+
+if (!project.hasProperty("output")) {
+    ext.output = "build/mail"
+}
+if (!project.hasProperty("mailing_list")) {
+    ext.mailing_list = "src/main/resources/mailing_list_small.csv"
+}
+
+if (!project.hasProperty("npm_exec")) {
+    ext.npm_exec = "npm"
+}
+
+subprojects {
+  apply plugin: "maven"
+  apply plugin: "project-report"
+
+  tasks.withType(ScalaCompile) {
+    sourceCompatibility = "1.7"
+    targetCompatibility = "1.7"
+  }
+
+  repositories {
+    mavenLocal()
+    mavenCentral()
+    //not thrilled by this, but let's try it
+    flatDir {
+      dirs "$searchhubFusionHome" + "/apps/jetty/connectors/webapps/connectors/WEB-INF/lib",
+        "$searchhubFusionHome" + "/apps/jetty/connectors/webapps/connectors/WEB-INF/classes"
+    }
+  }
+
+  // Global excludes
+  configurations {
+    compile.exclude group: "jline"
+    compile.exclude group: "jms"
+    compile.exclude group: "jmxri"
+    compile.exclude group: "jmxtools"
+    compile.exclude group: "mail"
+    compile.exclude group: "org.ow2.asm"
+    compile.exclude module: "wstx-asl"
+    /// we pull in javax.servlet:javax.servlet-api:3.1 or higher explicitly elsewhere; servlet-api:2.5 breaks things
+    compile.exclude group: "javax.servlet", module: "servlet-api"
+    compile.exclude group: "com.codahale.metrics"
+    // this has moved to io.dropwizard.metrics; we want to exclude old ones.
+  }
+
+  task allDeps(type: DependencyReportTask) {}
+  allDeps.description "Runs `dependencies` task on all subprojects. Accepts --configuration option"
+
+  task allDepInsight(type: DependencyInsightReportTask) << {}
+  allDepInsight.description "Run dependency insight for a given configuration and dependency. Use --configuration and  --dependency"
+
+  task deleteDepDump(type: Delete) {
+    delete "${buildDir}/dependency-jars"
+  }
+
+  task dumpDeps(type: Copy, dependsOn: [deleteDepDump]) {
+    description "Copy all the dependencies for a project into build/dependency-jars"
+    from configurations.compile
+    into "${buildDir}/dependency-jars"
+  }
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '2.9'
+  distributionUrl = "https://downloads.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
+}
+
+task checkRequiredProperties() {
+  if (!project.hasProperty("searchhubFusionHome")) {
+    throw new GradleException('missing searchhubFusionHome. Configure in ~/.gradle/gradle.properties per the README.txt')
+  } else {
+    println("Search Hub Fusion location set to $searchhubFusionHome")
+  }
+}
+checkRequiredProperties
+
+version = '1.0'
+jar {
+  manifest {
+    attributes 'Implementation-Title': 'SearchHub Fusion',
+      'Implementation-Version': version
+  }
+
+  dependencies {
+    compile project(":searchhub-fusion-plugins")
+  }
+}
+
+def jarDir = "searchhub-fusion-plugins/build/libs"
+
+task deployLibsToConnectors(type: Copy) {
+  from jarDir
+  into "$searchhubFusionHome/apps/jetty/connectors/webapps/connectors/WEB-INF/lib/"
+  dependsOn "searchhub-fusion-plugins:compileJava"
+  dependsOn "jar"
+}
+
+task deployLibsToApi(type: Copy) {
+  from jarDir
+  into "$searchhubFusionHome/apps/jetty/api/webapps/api/WEB-INF/lib/"
+  dependsOn "searchhub-fusion-plugins:compileJava"
+  dependsOn "jar"
+}
+
+task deployLibs(dependsOn: [deployLibsToConnectors, deployLibsToApi]) {
+  println("Copied libs to connectors and apis")
+}
+
+task installNPM(type: Exec) {
+  commandLine "$npm_exec", 'install'
+}
+
+task installBower(type: Exec, dependsOn: [installNPM]) {
+  commandLine 'node_modules/bower/bin/bower', 'install'
+}
+
+task setupPythonVirtualEnv(type: Exec) {
+  commandLine 'virtualenv', 'venv'
+}
+
+task activatePythonVirtualEnv(type: Exec, dependsOn: [setupPythonVirtualEnv]) {
+  commandLine 'bash', '-c', 'source venv/bin/activate'
+}
+
+task installPythonReqs(type: Exec, dependsOn: [activatePythonVirtualEnv]) {
+  commandLine 'venv/bin/pip', 'install', '-r', 'reqs.txt'
+}
+
+task installPython(dependsOn: [installPythonReqs]) {
+  doFirst {
+    println("Installing Python")
+  }
+}
+
+task install(dependsOn: [checkRequiredProperties, deployLibs, installNPM, installBower, installPython]) {
+  doFirst {
+    println("Installing Dependencies and other Requirements")
+  }
+  doLast {
+    println("!!!!!!! DON'T FORGET TO RESTART FUSION !!!!!!!!!")
+  }
+}
+
+task gulpConfig(type: Exec) {
+  commandLine 'node_modules/gulp/bin/gulp.js', 'copy:configSample'
+}
+
+task gulpBuild(type: Exec) {
+  commandLine 'node_modules/gulp/bin/gulp.js', 'build'
+}
+
+task buildUI(dependsOn: [gulpConfig, gulpBuild]) {
+
+}
+
+task build(dependsOn: [buildUI]) {
+
+}
+
+task compile(dependsOn: [deployLibs]){
+
+}
+
+
+project(":searchhub-fusion-plugins") {
+  apply plugin: 'java'
+  apply plugin: 'scala'
+  sourceCompatibility = 1.8
+  targetCompatibility = 1.8
+
+  sourceSets.main.scala.srcDir "src/main/java"
+  sourceSets.main.java.srcDirs = []
+  sourceSets.test.scala.srcDir "src/test/java"
+  sourceSets.test.java.srcDirs = []
+
+  dependencies {
+    compile fileTree(
+      dir: "$searchhubFusionHome/apps/jetty/connectors/webapps/connectors/WEB-INF/lib/",
+      includes: ["*.jar"]
+    )
+    compile fileTree(
+      dir: "$searchhubFusionHome/apps/jetty/api/webapps/api/WEB-INF/lib/",
+      includes: ["*.jar"]
+    )
+    compile "org.scala-lang:scala-library:2.10.5"
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile group: 'org.scalatest', name: 'scalatest_2.10', version: '2.2.1'
+  }
+
+  compileScala.doFirst{
+    println("Removing old instances of the plugin jar from Fusion")
+    delete fileTree(dir: "$searchhubFusionHome/apps/jetty/api/webapps/api/WEB-INF/lib/",
+        include: "searchhub-fusion-plugins*.jar"
+    )
+    delete fileTree(dir: "$searchhubFusionHome/apps/jetty/connectors/webapps/connectors/WEB-INF/lib/",
+      include: "searchhub-fusion-plugins*.jar"
+    )
+  }
+
+  task getMail(type: JavaExec) {
+    main = "com.lucidworks.utils.mail.downloader.ApacheMailMboxGetter"
+    classpath = sourceSets.main.runtimeClasspath
+    args = ["$mailing_list", "-output", "$output"]
+  }
+
+  /*
+  dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile "org.slf4j:slf4j-api:1.7.5"
+    compile "org.apache.logging.log4j:log4j-slf4j-impl:2.1"
+    compile "commons-io:commons-io:2.4"
+    compile "commons-lang:commons-lang:2.6"
+    compile "org.json:json:20160212"
+    compile "guava-16.0.1"
+    compile "org.codehaus.jackson:jackson-core-asl:1.8.8"
+    compile "org.apache.httpcomponents:httpclient:4.5.1"
+    compile "commons-cli:commons-cli:1.2"
+    //compile "org.apache.derby:derby:10.12.1.1"
+    compile "javax.mail:mail:1.5.0-b01"
+    compile name: "solr-solrj-5.2.1"
+    compile name: "solr-core-5.2.1"
+    compile name: "camel-core-2.12.2"
+
+    compile name: "lucidworks-shared-2.1.3"
+    compile name: "lucid-indexing-pipeline-service-2.1.3"
+    compile name: "lucid-base-service-2.1.3"
+    compile name: "lucid-base-pipeline-2.1.3"
+    compile name: "lucid-client-2.1.3"
+    //compile project(":Apollo:shared:lucid-base-service")
+  }*/
+}
+
+//test {
+//  systemProperties 'property': 'value'
+//}
+
+uploadArchives {
+  repositories {
+    flatDir {
+      dirs 'repos'
+    }
+  }
+}
+
+task getMail(dependsOn: tasks.getByPath(':searchhub-fusion-plugins:getMail')){
+  doLast{
+    print("Finished downloading Mailboxes")
+  }
+}

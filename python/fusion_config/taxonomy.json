@@ -1,0 +1,48 @@
+[
+  {
+    "id": "1",
+    "label": "Project",
+    "children": [
+      {
+        "id": "11",
+        "label": "Mailing List",
+        "parameters": [
+          {
+            "key": "facet.field",
+            "value": "author"
+          }
+        ]
+      },
+      {
+        "id": "12",
+        "label": "Website",
+        "parameters": [
+          {
+            "key": "facet.field",
+            "value": "author"
+          }
+        ]
+      },
+      {
+        "id": "13",
+        "label": "Wiki",
+        "parameters": [
+          {
+            "key": "facet.field",
+            "value": "author"
+          }
+        ]
+      },
+      {
+        "id": "14",
+        "label": "Twitter",
+        "parameters": [
+          {
+            "key": "facet.field",
+            "value": "author"
+          }
+        ]
+      }
+    ]
+  }
+]

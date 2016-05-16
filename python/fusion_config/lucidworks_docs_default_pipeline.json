@@ -1,0 +1,80 @@
+{
+  "id": "lw-docs-default",
+  "stages": [
+    {
+      "type": "index-set-property",
+      "id": "y8sq0k9",
+      "source": [
+        "id", "name_s"
+      ],
+      "regularExpression": "asciidoc",
+      "outputType": "context",
+      "outputKey": "isDocumentation",
+      "outputValue": "true",
+      "falseOutputValue": "false",
+      "skip": false,
+      "label": "isDocumentation",
+      "whatMatchedKey": "whatMatched"
+    },
+    {
+      "type": "tika-parser",
+      "id": "9e86b948-9502-4d02-989d-6533c592062f",
+      "includeImages": true,
+      "flattenCompound": false,
+      "addFailedDocs": false,
+      "addOriginalContent": true,
+      "contentField": "_raw_content_",
+      "contentEncoding": "binary",
+      "returnXml": false,
+      "keepOriginalStructure": false,
+      "extractHtmlLinks": true,
+      "extractOtherLinks": false,
+      "csvParsing": true,
+      "skip": false,
+      "condition": "ctx.getString(\"isDocumentation\") == \"true\"",
+      "label": "tika-parser"
+    },
+    {
+      "type": "field-mapping",
+      "id": "914434ab-1fb0-40ed-811d-280a96929472",
+      "mappings": [
+        {
+          "source": "/(.*?)lat(itude)?$/",
+          "target": "$1_lat_lon",
+          "operation": "move"
+        },
+        {
+          "source": "/(.*?)lon(gitude)?$/",
+          "target": "$1_lat_lon",
+          "operation": "move"
+        },
+        {
+          "source": "lastModified_dt",
+          "target": "publishedOnDate",
+          "operation": "copy"
+        },
+        {
+          "source": "project",
+          "target": "Lucidworks Docs",
+          "operation": "copy"
+        }
+      ],
+      "reservedFieldsMappingAllowed": false,
+      "skip": false,
+      "condition": "ctx.getString(\"isDocumentation\") == \"true\"",
+      "label": "field-mapping"
+    },
+    {
+      "type": "solr-index",
+      "id": "7488fd3a-9926-41a1-afa9-53e8daf4598e",
+      "enforceSchema": true,
+      "dateFormats": [],
+      "params": [],
+      "bufferDocsForSolr": false,
+      "skip": false,
+      "condition": "ctx.getString(\"isDocumentation\") == \"true\"",
+      "label": "solr-index"
+    }
+  ],
+  "properties": {}
+}

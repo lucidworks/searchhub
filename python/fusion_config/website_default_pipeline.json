@@ -1,0 +1,46 @@
+{
+  "id" : "website-default",
+  "stages" : [ {
+    "type" : "tika-parser",
+    "id" : "66efc3ab-7195-4a3e-8865-0d7220057d7d",
+    "includeImages" : true,
+    "flattenCompound" : false,
+    "addFailedDocs" : false,
+    "addOriginalContent" : true,
+    "contentField" : "_raw_content_",
+    "contentEncoding" : "binary",
+    "returnXml" : false,
+    "keepOriginalStructure" : false,
+    "extractHtmlLinks" : true,
+    "extractOtherLinks" : false,
+    "includeContentTypes" : [ ],
+    "excludeContentTypes" : [ ],
+    "skip" : false,
+    "label" : "tika-parser"
+  }, {
+    "type" : "field-mapping",
+    "id" : "67aaa0c2-f57f-4c4a-98a5-d9ce80fef3fd",
+    "mappings" : [ {
+      "source" : "/(.*?)lat(itude)?$/",
+      "target" : "$1_lat_lon",
+      "operation" : "move"
+    }, {
+      "source" : "/(.*?)lon(gitude)?$/",
+      "target" : "$1_lat_lon",
+      "operation" : "move"
+    } ],
+    "reservedFieldsMappingAllowed" : false,
+    "skip" : false,
+    "label" : "field-mapping"
+  }, {
+    "type" : "solr-index",
+    "id" : "a17dc410-5b5e-4d07-849b-d63ea40f84b8",
+    "enforceSchema" : true,
+    "dateFormats" : [ ],
+    "params" : [ ],
+    "bufferDocsForSolr" : false,
+    "skip" : false,
+    "label" : "solr-index"
+  } ],
+  "properties" : { }
+}

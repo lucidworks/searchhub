@@ -1,0 +1,52 @@
+{
+  "name": "pdfbox",
+    "description": "The Apache Pdfbox project, tweets, wiki, github, et. al",
+  "label": "Apache Pdfbox",
+  "query_pipeline": "lucidfind-default",
+  "github_pipeline": "github-default",
+  "jira_pipeline": "jira-default",
+  "mailing_list_pipeline": "mailing-list-default",
+  "twitter_pipeline": "twitter-default",
+  "website_pipeline": "website-default",
+  "wiki_pipeline": "wiki-default",
+  "websites": [
+    {
+      "name": "pdfbox-website",
+      "label": "Apache Pdfbox Website",
+      "url": "http://pdfbox.apache.org/",
+      "schedule": {
+        "repeatUnit": "WEEK",
+        "interval": 1
+      }
+    }
+  ],
+  "mailing_lists": [
+    {
+      "name": "pdfbox-user",
+      "label": "Pdfbox User",
+      "mbox": "pdfbox-user",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 1
+      }
+    },
+    {
+      "name": "pdfbox-dev",
+      "label": "Pdfbox Dev",
+      "mbox": "pdfbox-dev",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 1
+      }
+    }
+  ],
+  "jira": {
+    "name": "apache-jira-pdfbox",
+    "label": "Apache Pdfbox JIRA Issues",
+    "url": "https://issues.apache.org/jira/browse/PDFBOX",
+    "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 1
+      }
+  }
+}

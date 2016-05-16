@@ -1,7 +1,10 @@
 # Lucidworks Search Hub
   
-  Search Hub is an application built on top of [Lucidworks Fusion](http://www.lucidworks.com/products/fusion).  It is designed to be a showcase of Fusion's search, machine learning and analytical capability
-   as well as act as a community service for a large number of Apache Software Foundation projects.  A production version of this software is hosted at FILL ME IN. 
+  Search Hub is an application built on top of [Lucidworks Fusion](http://www.lucidworks.com/products/fusion).  
+  It is designed to be a showcase of Fusion's search, machine learning and analytical capability
+   as well as act as a community service for a large number of Apache Software Foundation projects.  It is the basis of several talks
+    by Lucidworks employees (e.g. http://www.slideshare.net/lucidworks/data-science-with-solr-and-spark).  A production version of this software hosted by [Lucidworks](http://www.lucidworks.com) will
+   be available soon. 
    
    Search Hub contains all you need to download and run your own community search site. It comes with prebuilt definitions to crawl a large number of ASF projects, including
    their mailing lists, websites, wikis, JIRAs and Github repositories.  These prebuilt definitions may also serve as templates for adding additional projects.  The project

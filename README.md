@@ -66,10 +66,11 @@ Build the UI: This will copy the client files into python/server
 Setup Python Flask:
 
 ```bash
+source venv/bin/activate
 cd python
-cp config-SAMPLE.py config.py
+cp sample-config.py config.py
 #fill in config.py as appropriate. You will need Twitter keys to make Twitter work.
-venv/bin/python bootstrap.py
+python bootstrap.py
 ```
 
 The bootstrap.py step creates a number of objects in Fusion, including collections, pipelines, schedules and data sources.  By default, the start up 

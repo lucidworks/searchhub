@@ -6,9 +6,14 @@ import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.functions._
 
 
-
+/***
+  * This file is not meant to be imported or loaded in any way - imagine using the lines here inside of
+  * the spark shell.  You'll already have a "val sqlContext: SQLContext" in scope, so you can work your way down
+  * this file, bit by bit.  It's encapsulated in an object so that it compiles, and if code changes that makes this
+  * file not compile, it shows that this example code needs updating.
+  */
 object SparkShellHelpers {
-  var sqlContext: SQLContext = ???
+  val sqlContext: SQLContext = ???
   //Setup our Solr connection
   val opts = Map("zkhost" -> "localhost:9983", "collection" -> "lucidfind", "query" -> "*:*",
     "fields" -> "id,body,title,subject,publishedOnDate,project,content")

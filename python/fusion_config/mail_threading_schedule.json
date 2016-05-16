@@ -4,9 +4,9 @@
     "creatorId": "admin",
     "createTime": "2016-05-15T14:50:17.346Z",
     "startTime": "2016-05-15T14:49:50.000Z",
-    "repeatUnit": "DAY"
+    "repeatUnit": "DAY",
     "interval": 1,
-    "active": false,
+    "active": true,
     "callParams": {
       "uri": "service://spark/jobs",
       "method": "POST",
@@ -14,7 +14,7 @@
         "id": "mail_threading_scheduled",
         "type": "script",
         "maxRows": 1,
-        "script": "import com.lcidworks.searchhub.analytics._ \n val mailData = SearchHubLoader.loadFromSolr(SearchHubLoader.Config(sqlContext)) \n val withThreads = MailThreadJob.createThreadGroups(mailData) \n withThreads.write.format(\"solr\").options(SearchHubLoader.opts()).mode(org.apache.spark.sql.SaveMode.Overwrite).save"
+        "script": "import com.lucidworks.searchhub.analytics._ \n val mailData = SearchHubLoader.loadFromSolr(SearchHubLoader.Config(sqlContext)) \n val withThreads = MailThreadJob.createThreadGroups(mailData) \n withThreads.write.format(\"solr\").options(SearchHubLoader.opts()).mode(org.apache.spark.sql.SaveMode.Overwrite).save"
       },
       "headers": {}
     }

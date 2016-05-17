@@ -36,13 +36,15 @@
 
 In ~/.gradle/gradle.properties, add/set:
 
-  ```searchhubFusionHome=/PATH/TO/FUSION/INSTALL```
+```
+searchhubFusionHome=/PATH/TO/FUSION/INSTALL
+```
 
 Clone this repository and change into the directory
 
   ```bash
-  git clone https://github.com/LucidWorks/searchhub-fusion
-  cd searchhub-fusion
+  git clone https://github.com/LucidWorks/searchhub
+  cd searchhub
   ```  
 
 Run the Installer to install NPM, Bower and Python dependencies

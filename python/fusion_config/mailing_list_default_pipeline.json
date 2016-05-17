@@ -8,6 +8,32 @@
       "label": "Mail Parsing"
     },
     {
+      "type": "indexing-rpc",
+      "id": "98078ewmw468estt9",
+      "mappingRules": [
+        {
+          "path": "//result/doc/str[@name=\"threadId\"]/text()",
+          "target": "threadId",
+          "append": false,
+          "xml": false
+        }
+      ],
+      "debug": true,
+      "params": {
+        "uri": "solr://lucidfind/select",
+        "method": "GET",
+        "queryParams": {
+          "irt": "${in_reply_to}",
+          "q": "{!term f=id v=$irt}"
+        },
+        "headers": { },
+        "entity": { }
+      },
+      "skip": false,
+      "label": "Find Thread Id",
+      "condition": "true"
+    },
+    {
       "type": "solr-index",
       "id": "3d0d3dd8-771a-450c-ad7a-c1e3c108246a",
       "enforceSchema": true,

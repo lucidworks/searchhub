@@ -105,9 +105,17 @@ npm watch
 ```
 
 
+# The Client Application
+
+The Client Application is an extension of [Lucidworks View](http://www.lucidworks.com/products/view) and thus relies on similar build and layout
+mechanisms and structures.  It is an Angular app and leverages FoundationJS.  We have extended it to use the [Snowplow Javascript Tracker](https://github.com/snowplow/snowplow/wiki/javascript-tracker)
+for capturing user interactions.  All of these interactions are fed through the Flask middle tier and then on to Fusion for use by our clickstream and machine learning
+capabilities.
+
 ### Configuration
 
-In order to configure the client application you can change the settings in the FUSION_CONFIG.js.
+In order to configure the client application you can change the settings in the FUSION_CONFIG.js.  See the [View](http://www.lucidworks.com/products/view) docs
+for more details or read the comments in the config file itself.
 
 
 # Extending

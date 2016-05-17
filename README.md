@@ -74,7 +74,7 @@ source venv/bin/activate
 cd python
 cp sample-config.py config.py
 #fill in config.py as appropriate. You will need Twitter keys to make Twitter work.
-python bootstrap.py
+../venv/bin/python bootstrap.py
 ```
 
 The bootstrap.py step creates a number of objects in Fusion, including collections, pipelines, schedules and data sources.  By default, the start up 
@@ -83,7 +83,8 @@ script does not start the crawler, nor does it enable the schedules.  If you wis
  To run the data sources once, upon creation (note: this can be quite expensive, as it will start all datasources):
  
  ```bash
- python bootstrap.py --start_datasources
+ cd python
+ ../venv/bin/python bootstrap.py --start_datasources
  ```
  
  To enable the schedules, edit your config.py and set ```ENABLE_SCHEDULES=True``` and then rerun ```python bootstrap.py```
@@ -94,7 +95,8 @@ script does not start the crawler, nor does it enable the schedules.  If you wis
 Run Flask (from the python directory):
 
 ```bash
-python run.py
+cd python
+../venv/bin/python run.py
 ```
 
 

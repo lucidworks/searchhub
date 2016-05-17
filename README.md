@@ -40,7 +40,9 @@ In ~/.gradle/gradle.properties, add/set:
 searchhubFusionHome=/PATH/TO/FUSION/INSTALL
 ```
 
-Clone this repository and change into the directory
+The searchhubFusionHome variable is used by the build to know where to deploy custom plugins that the Search Hub project needs (namely, a Mail Parsing Stage)
+
+If you haven't already, clone this repository and change into the directory of the clone.
 
   ```bash
   git clone https://github.com/LucidWorks/searchhub
@@ -120,7 +122,53 @@ for more details or read the comments in the config file itself.
 
 # Extending
 
-## Adding your own Project
+Pull Requests are welcome for new projects, new configurations and other new extensions.
+
+## Project Layout
+
+The Search Hub project consists of 3 main development areas, plus build infrastructure:
+ 
+### Client
+
+Written in Javascript, using AngularJS and Foundation, the Client is located in the ```client``` directory.  It's build is a bit different than most JS builds
+in that it copies Lucidworks View from the node_modules download area into a temporary ```build``` directory and then copies in the Search Hub client code into
+the same directory and then it gets built and moved to the Flask application serving area (```python/server```).  We are working on ways to improve how View is
+extended and so this approach, while viable for now, may change.  Our goal is to have most of the Client UI be driven by View itself with very little
+extension in Search Hub.
+
+### Python
+
+The ```python``` directory contains all of the Flask application and acts as the middle tier in the application between the client and Fusion.  Most of the
+work in the application is initiated by either the ```bootstrap.py``` file or the ```run.py``` file.  The former is responsible for using the configurations
+in ```python/fusion_config``` and ```python/project_config``` to, as the name implies, bootstrap Fusion with datasources, pipeline definitions, schedules and
+whatever else is needed to make sure Fusion has the appropriate data necessary to function.  The latter file (run.py) is a Flask app that takes
+care of the serving of the Flask application.  It primarily consists of routing information as well as a thin proxy to Fusion.
+
+Most of the Python work is defined by the ```python/server``` directory.  This directory and it's children define how Flask talks to 
+ Fusion and also defines some template helpers for creating various datasources in Fusion.  A good starting place for learning more
+ is the ```fusion.py``` file in ```python/server/backends```
+ 
+### Fusion Plugins
+
+The ```searchhub-fusion-plugins``` directory contains Java and Scala code for extending and/or utilizing Fusion's backend capabilities.
+On the Java side, the two main functions are:  
+
+1. A Mail Parsing Stage that is responsible for extracting pertinent information out of Mail messages (e.g. thread ids, to/from)
+1. A Mail downloader.  Since we don't want to tax Apache Software Foundation resources directly when crawling (they have a banning mechanism), we have setup an httpd mod_mbox mirror.  
+The mail downloader is responsible for retrieving the daily mbox messages.  If you wish to have a local mirror for your own purposes, you can use this class to get your own mbox files.
+
+On the Scala side, there are a number of Spark Scala utilities that show how to leverage Lucene analysis in Spark, run common SparkML tasks like LDA and k-Means plus some 
+code for correlating email messages based on message ids.  See Grant Ingersoll's talk at the Dallas Data Science [meetup](http://www.slideshare.net/lucidworks/data-science-with-solr-and-spark) for details.
+To learn more on the Scala side, start with the ```SparkShellHelpers.scala``` file.
+
+### The Build
+
+The build is primarily driven by Gradle and Gulp.  Gradle defines tasks, per the getting started above, for all necessary tasks needed to run Search Hub.  
+However, on the client side of things, it is simply invoking npm or Gulp to do the Javascript build.  To learn more about the build, see ```build.gradle```.
+
+
+
+## Adding your own Project to Crawl
 
 To add another project, you need to do a few things:
 

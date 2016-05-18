@@ -16,20 +16,39 @@ from os.path import isfile, join
 from server import backend
 from server.backends.fusion import new_admin_session
 
+def setup_request_handlers(backend, collection_id):
+  #create search components before req handlers
+  files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_search_component.json")]
+  for file in files:
+    print ("Creating Search Components for %s" % file)
+    backend.add_search_component(collection_id, json.load(open(join("./fusion_config", file))))
+
+  files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_request_handler.json")]
+  for file in files:
+    print ("Creating Request Handler for %s" % file)
+    backend.add_request_handler(collection_id, json.load(open(join("./fusion_config", file))))
+
+def setup_field_types(backend, collection_id):
+  field_types = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_field_type.json")]
+  for file in field_types:
+    print ("Creating Field Type for %s" % file)
+    backend.add_field_type(collection_id, json.load(open(join("./fusion_config", file))))
+
 def setup_find_fields(backend, collection_id):
   backend.add_field(collection_id, "publishedOnDate", type="date", required=True)
+  backend.add_field(collection_id, "suggest", type="suggestFT")
   backend.add_field(collection_id, "content", type="text_en")
-  backend.add_field(collection_id, "project", type="string")
+  backend.add_field(collection_id, "project", type="string", copyDests=["suggest"])
   backend.add_field(collection_id, "body", type="text_en")
-  backend.add_field(collection_id, "title", type="text_en")
-  backend.add_field(collection_id, "keywords", type="text_en")
+  backend.add_field(collection_id, "title", type="text_en", copyDests=["suggest"])
+  backend.add_field(collection_id, "keywords", type="text_en", copyDests=["suggest"])
   backend.add_field(collection_id, "comments", type="text_en")
   backend.add_field(collection_id, "mimeType", type="string")
   backend.add_field(collection_id, "author_facet", type="string")
   backend.add_field(collection_id, "author", type="text_en", copyDests=["author_facet"])
   backend.add_field(collection_id, "og_description", type="text_en")
   backend.add_field(collection_id, "description", type="text_en")
-  backend.add_field(collection_id, "subject", type="text_en")
+  backend.add_field(collection_id, "subject", type="text_en", copyDests=["suggest"])
   backend.add_field(collection_id, "filename_exact", type="string")
   backend.add_field(collection_id, "filename", type="text_en", copyDests=["filename_exact"])
   backend.add_field(collection_id, "length", type="int")
@@ -48,7 +67,7 @@ def setup_thread_fields(backend, collection_id):
 
 def setup_pipelines(backend):
   pipe_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_pipeline.json")]
-  for file in pipe_files: #TODO: what's the python way here?
+  for file in pipe_files:
     print ("Creating Pipeline for %s" % file)
     if file.find("query") != -1:
       backend.create_pipeline(json.load(open(join("./fusion_config", file))), pipe_type="query-pipelines")
@@ -119,7 +138,9 @@ if cmd_args.create_collections or create_all:
   status = backend.create_collection(lucidfind_collection_id, enable_signals=True)
   if status == False:
     exit(1)
+  setup_field_types(backend, lucidfind_collection_id)
   setup_find_fields(backend, lucidfind_collection_id)
+  setup_request_handlers(backend, lucidfind_collection_id)
 
   status = backend.create_collection(threads_collection_id)
   if status == False:

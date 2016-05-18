@@ -1,0 +1,14 @@
+{
+  "name": "suggest",
+  "class": "solr.SuggestComponent",
+  "suggester": {
+    "name": "fuzzy",
+    "lookupImpl": "FuzzyLookupFactory",
+    "dictionaryImpl": "DocumentDictionaryFactory",
+    "storeDir": "suggester_fuzzy_dir",
+    "field": "suggest",
+    "suggestAnalyzerFieldType": "suggestFT",
+    "buildOnStartup": false,
+    "buildOnCommit": false
+  }
+}

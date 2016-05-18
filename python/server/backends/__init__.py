@@ -60,6 +60,9 @@ class Backend(object):
   def add_field(self, collection_name, name, type="String", required=False, multivalued=False, indexed=True, stored=True, defaultVal=None):
     raise NotImplementedError()
 
+  def add_field_type(self, collection_name, add_field_json):
+    raise NotImplementedError()
+
   def create_or_update_project(self, project):
     raise NotImplementedError()
 
@@ -74,6 +77,13 @@ class Backend(object):
     :returns: the datasource or None
     """
     raise NotImplementedError()
+
+  def add_request_handler(self, collection_name, add_req_handler_json):
+    raise NotImplementedError()
+
+  def add_search_component(self, collection_name, add_search_component_json):
+    raise NotImplementedError()
+
 
   def update_datasource(self, id, **config):
     """

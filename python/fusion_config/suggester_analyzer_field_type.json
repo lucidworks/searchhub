@@ -1,0 +1,22 @@
+{
+  "name": "suggesterFT",
+  "class": "solr.TextField",
+  "positionIncrementGap": "100",
+  "analyzer": {
+    "charFilters": [
+      {
+        "class": "solr.PatternReplaceCharFilterFactory",
+        "replacement": " ",
+        "pattern": "[^a-zA-Z0-9]"
+      }
+    ],
+    "tokenizer": {
+      "class": "solr.WhitespaceTokenizerFactory"
+    },
+    "filters": [
+      {
+        "class": "solr.LowerCaseFilterFactory"
+      }
+    ]
+  }
+}

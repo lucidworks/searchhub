@@ -1,0 +1,10 @@
+{
+  "name": "/suggest",
+  "class": "solr.SearchHandler",
+  "defaults": {
+    "suggest": true,
+    "suggest.count": 5,
+    "suggest.dictionary": "fuzzy"
+  },
+  "components": ["suggest"]
+}

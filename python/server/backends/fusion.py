@@ -2,6 +2,8 @@ import json
 import requests
 from collections import OrderedDict
 from dictdiffer import diff
+from server import app
+from server.backends import Backend, Document
 from server.backends.github_helper import create_github_datasource_configs
 from server.backends.jira_helper import create_jira_datasource_config
 from server.backends.mailbox_helper import create_mailinglist_datasource_configs
@@ -9,9 +11,6 @@ from server.backends.twitter_helper import create_twitter_datasource_configs
 from server.backends.website_helper import create_website_datasource_configs
 from server.backends.wiki_helper import create_wiki_datasource_configs
 from urlparse import urljoin
-
-from server import app
-from server.backends import Backend, Document
 
 
 class FusionSession(requests.Session):
@@ -81,6 +80,57 @@ class FusionBackend(Backend):
       data["copyDests"] = copyDests
     resp = self.admin_session.post("apollo/collections/{0}/schema/fields".format(collection_name),
                                    data=json.dumps(data))
+
+  def add_field_type(self, collection_name, add_field_json):
+    #http://localhost:8983/solr/gettingstarted/schema
+    # Need to GET first here and then
+
+    resp = self.admin_session.get("apollo/solr/{0}/fieldtypes/{1}".format(collection_name, add_field_json["name"]))
+    if resp.status_code == 200:
+      print "Doing a replace on field type {}".format(add_field_json["name"])
+      data = {"replace-field-type": add_field_json}
+      resp = self.admin_session.post("apollo/solr/{0}/schema".format(collection_name),
+                                     data=json.dumps(data))
+      if resp.status_code != 200:
+        print "Unable to create Field Type: {0}".format(resp.text)
+        return False
+    else:
+      print "Adding field type {}".format(add_field_json["name"])
+      data = {"add-field-type": add_field_json}
+      resp = self.admin_session.post("apollo/solr/{0}/schema".format(collection_name),
+                                     data=json.dumps(data))
+      if resp.status_code != 200:
+        print "Unable to create Field Type: {0}".format(resp.text)
+        return False
+    return True
+
+  def add_search_component(self, collection_name, add_search_component_json):
+    print "Adding search component {}".format(add_search_component_json["name"])
+    add = {"add-searchcomponent": add_search_component_json}
+    replace = {"replace-searchcomponent": add_search_component_json}
+    return self.add_config(collection_name, add_search_component_json, add, replace)
+
+
+  def add_request_handler(self, collection_name, add_req_handler_json):
+    print "Adding request handler {}".format(add_req_handler_json["name"])
+    add = {"add-requesthandler": add_req_handler_json}
+    replace = {"replace-requesthandler": add_req_handler_json}
+
+    return self.add_config(collection_name, add_req_handler_json, add, replace)
+
+
+  def add_config(self, collection_name, json, add, replace):
+    resp = self.admin_session.post("apollo/solr/{0}/config".format(collection_name),
+                                   data=add)
+    if resp.status_code != 200:
+      print "Couldn't create config, trying replace {}".format(json["name"])
+      resp = self.admin_session.post("apollo/solr/{0}/config".format(collection_name),
+                                   data=replace)
+      if resp.status_code != 200:
+        print "Unable to create config: {0}".format(resp.text)
+        return False
+    return True
+
 
   def send_signal(self, collection_id, payload):
     """

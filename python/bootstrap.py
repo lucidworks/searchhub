@@ -107,7 +107,6 @@ def setup_projects(backend):
 
 # TODO bootstrap admin user?
 lucidfind_collection_id = app.config.get("FUSION_COLLECTION", "lucidfind")
-threads_collection_id = app.config.get("MAIL_THREAD_COLLECTION", "lucidfind_mail_threads")
 # Create the "lucidfind" user
 if cmd_args.create_collections or create_all:
   session = new_admin_session()
@@ -121,10 +120,6 @@ if cmd_args.create_collections or create_all:
     exit(1)
   setup_find_fields(backend, lucidfind_collection_id)
 
-  status = backend.create_collection(threads_collection_id)
-  if status == False:
-    exit(1)
-  setup_thread_fields(backend, threads_collection_id)
 
 #create the pipelines
 if cmd_args.create_pipelines or create_all:
@@ -144,8 +139,3 @@ if cmd_args.create_projects or create_all:
 #create the pipelines
 if cmd_args.create_schedules or create_all:
   setup_schedules(backend)
-
-
-
-
-

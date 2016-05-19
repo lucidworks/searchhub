@@ -35,7 +35,7 @@ FUSION_HOST = "localhost"
 FUSION_PORT = 8764
 FUSION_URL = "http://" + FUSION_HOST + ":" + str(FUSION_PORT) + "/api/"
 FUSION_COLLECTION = "lucidfind"
-MAIL_THREAD_COLLECTION = "lucidfind_mail_threads"
+
 
 FUSION_ADMIN_USERNAME="admin"
 FUSION_ADMIN_PASSWORD="XXXXXX"

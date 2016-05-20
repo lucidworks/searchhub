@@ -56,14 +56,6 @@ def setup_find_fields(backend, collection_id):
   backend.add_field(collection_id, "threadId", type="string")
   #backend.add_field(collection_id, "isDocumentation", type="boolean")
 
-# Used for mail threading index
-def setup_thread_fields(backend, collection_id):
-  backend.add_field(collection_id, "hashId")
-  backend.add_field(collection_id, "mailId")
-  backend.add_field(collection_id, "parentId")
-  backend.add_field(collection_id, "threadId")
-  backend.add_field(collection_id, "simpleSubject", type="text_en")
-  backend.add_field(collection_id, "depth", type="int")
 
 def setup_pipelines(backend):
   pipe_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_pipeline.json")]
@@ -126,7 +118,6 @@ def setup_projects(backend):
 
 # TODO bootstrap admin user?
 lucidfind_collection_id = app.config.get("FUSION_COLLECTION", "lucidfind")
-threads_collection_id = app.config.get("MAIL_THREAD_COLLECTION", "lucidfind_mail_threads")
 # Create the "lucidfind" user
 if cmd_args.create_collections or create_all:
   session = new_admin_session()
@@ -142,10 +133,6 @@ if cmd_args.create_collections or create_all:
   setup_find_fields(backend, lucidfind_collection_id)
   setup_request_handlers(backend, lucidfind_collection_id)
 
-  status = backend.create_collection(threads_collection_id)
-  if status == False:
-    exit(1)
-  setup_thread_fields(backend, threads_collection_id)
 
 #create the pipelines
 if cmd_args.create_pipelines or create_all:
@@ -165,8 +152,3 @@ if cmd_args.create_projects or create_all:
 #create the pipelines
 if cmd_args.create_schedules or create_all:
   setup_schedules(backend)
-
-
-
-
-

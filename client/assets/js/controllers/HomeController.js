@@ -110,7 +110,7 @@
         // TODO better solution for turning off fq on a new query
         fq: []
       };
-
+      $log.info(query);
       URLService.setQuery(query);
     }
 

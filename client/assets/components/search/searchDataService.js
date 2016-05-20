@@ -17,7 +17,6 @@
     function getTypeaheadResults(query){
       var deferred = $q.defer();
       var fullUrl = getQueryUrl() + '?suggest.q=' + query["q"];
-      console.log(fullUrl);
       $http
         .get(fullUrl)
         .then(success)
@@ -28,7 +27,6 @@
       }
 
       function failure(err) {
-        console.log(err);
         deferred.reject(err.data);
       }
 

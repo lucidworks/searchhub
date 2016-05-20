@@ -44,8 +44,8 @@
     ConfigServiceProvider, $windowProvider) {
     'ngInject';
     $urlRouterProvider.otherwise('/search');
-    $httpProvider.interceptors.push('AuthInterceptor');
-    $httpProvider.defaults['withCredentials'] = true; //eslint-disable-line
+    //$httpProvider.interceptors.push('AuthInterceptor');
+    //$httpProvider.defaults['withCredentials'] = true; //eslint-disable-line
 
     $locationProvider.html5Mode({
       enabled: true,

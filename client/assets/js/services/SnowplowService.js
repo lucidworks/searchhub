@@ -25,7 +25,8 @@
     var service = {
       postClickSignal: postClickSignal,
       postSignalData: postSignalData,
-      postSearchSignal: postSearchSignal
+      postSearchSignal: postSearchSignal,
+      postTypeaheadSignal: postTypeaheadSignal
     };
 
     return service;
@@ -84,6 +85,21 @@
           data: the_data
         }]
       );
+    }
+
+    function postTypeaheadSignal(typeahead_query, selection, selection_index, typeahead_list){
+      var the_data = {
+        "signalType": "typeahead",
+        "typeahead_query": typeahead_query,//the characters the user typed to make a selection
+        "selection": selection,
+        "index": selection_index
+      };
+      if (typeahead_list){
+        _.each(typeahead_list, function(entry, index){
+          the_data["entry_" + index] = entry;
+        })
+      }
+      postSignalData(null, the_data);
     }
 
     /*

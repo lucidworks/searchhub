@@ -180,9 +180,9 @@ appConfig = { //eslint-disable-line
    * Typeahead or autocomplete shows you a number of suggested queries as you
    * type in the search box.
    */
-  typeahead_query_pipeline_id: 'shub-typeahead-grouped',
+  typeahead_query_pipeline_id: 'shub-typeahead',
   //typeahaed_query_profile_id: 'default',
-  typeahead_fields: ['title', 'subject', 'body'],
+  typeahead_fields: ['term'],
   // The request handler defines how typeahead gets it's results.
   // It is recommended to use suggest as it is more performant.
   // It will require some additional configuration.

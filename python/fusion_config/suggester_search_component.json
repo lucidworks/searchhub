@@ -7,8 +7,8 @@
     "dictionaryImpl": "DocumentDictionaryFactory",
     "storeDir": "suggester_fuzzy_dir",
     "field": "suggest",
-    "suggestAnalyzerFieldType": "suggestFT",
-    "buildOnStartup": false,
-    "buildOnCommit": false
+    "suggestAnalyzerFieldType": "suggesterFT",
+    "buildOnStartup": "false",
+    "buildOnCommit": "false"
   }
 }

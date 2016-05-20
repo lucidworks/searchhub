@@ -180,7 +180,6 @@ appConfig = { //eslint-disable-line
    * Typeahead or autocomplete shows you a number of suggested queries as you
    * type in the search box.
    */
-  typeahead_use_query_profile: false,
   typeahead_query_pipeline_id: 'shub-typeahead-grouped',
   //typeahaed_query_profile_id: 'default',
   typeahead_fields: ['title', 'subject', 'body'],
@@ -190,6 +189,6 @@ appConfig = { //eslint-disable-line
   // @see https://lucidworks.com/blog/2016/02/04/fusion-plus-solr-suggesters-search-less-typing/
 
   //typeahead_requesthandler: 'suggest', // recommended (requires configuration)
-  typeahead_requesthandler: 'select'
+  typeahead_requesthandler: 'suggest'
 
 };

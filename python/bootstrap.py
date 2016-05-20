@@ -36,7 +36,7 @@ def setup_field_types(backend, collection_id):
 
 def setup_find_fields(backend, collection_id):
   backend.add_field(collection_id, "publishedOnDate", type="date", required=True)
-  backend.add_field(collection_id, "suggest", type="suggestFT")
+  backend.add_field(collection_id, "suggest", type="suggesterFT", multivalued=True);
   backend.add_field(collection_id, "content", type="text_en")
   backend.add_field(collection_id, "project", type="string", copyDests=["suggest"])
   backend.add_field(collection_id, "body", type="text_en")
@@ -98,7 +98,7 @@ def setup_projects(backend):
   for file in project_files: #TODO: what's the python way here?
     print ("Creating Project for %s" % file)
     project = json.load(open(join("./project_config", file)))
-    print("Bootstraping configs for %s..." % project)
+    print("Bootstraping configs for %s..." % project["name"])
     #create the data sources
     datasources = []
     (twitter_config, jira_config, mailbox_configs, wiki_configs, website_configs, github_configs) = backend.create_or_update_datasources(project)

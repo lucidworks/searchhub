@@ -1,0 +1,62 @@
+/*
+  SEARCH BOX
+  ----------
+
+  The search box lets you search content, and see typeahead results.
+ */
+
+/// @Lucidworks-view.settings
+// Search-box
+$search-box-typeahead-border:              1px solid #ddd;
+$search-box-typeahead-background:          $body-background;
+$search-box-typeahead-text-color:          grayscale($primary-color);
+$search-box-typeahead-selected-background: $gray-light;
+$search-box-typeahead-highlight-color:     $success-color;
+$search-box-empty-content:                 '';
+
+@include exports(search-box) {
+  .search-box {
+    .angucomplete-input {
+      margin-bottom: 0px;
+    }
+
+    .angucomplete-holder {
+      position: relative;
+    }
+
+    .angucomplete-dropdown {
+      background: $search-box-typeahead-background;
+      border: $search-box-typeahead-border;
+      color: $search-box-typeahead-text-color;
+      left: 0px;
+      padding: 4px;
+      position: absolute;
+      text-align: left;
+      z-index: 1000;
+
+      .angucomplete-selected-row {
+        background: $search-box-typeahead-selected-background;
+      }
+
+      .highlight {
+        color: $search-box-typeahead-highlight-color;
+      }
+
+      .angucomplete-title{
+        padding: .5rem 1.5rem .5rem .5rem;
+        &:after {
+          content:$search-box-empty-content;
+          float: right;
+          background-image: url('../img/iconic/expand.svg');
+          transform: scaleX(-1);
+          background-repeat: no-repeat;
+          width: 1.5rem;
+          height: 1.3rem;
+          margin-top: -.2rem;
+          margin-right: -1.5rem;
+        }
+      }
+    }
+  }
+
+}

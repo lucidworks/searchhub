@@ -119,16 +119,18 @@ class FusionBackend(Backend):
     return self.add_config(collection_name, add_req_handler_json, add, replace)
 
 
-  def add_config(self, collection_name, json, add, replace):
+  def add_config(self, collection_name, original, add, replace):
     resp = self.admin_session.post("apollo/solr/{0}/config".format(collection_name),
-                                   data=add)
+                                   data=json.dumps(add))
     if resp.status_code != 200:
-      print "Couldn't create config, trying replace {}".format(json["name"])
+      print "Couldn't create config, trying replace {0}".format(original["name"])
       resp = self.admin_session.post("apollo/solr/{0}/config".format(collection_name),
-                                   data=replace)
+                                   data=json.dumps(replace))
       if resp.status_code != 200:
         print "Unable to create config: {0}".format(resp.text)
         return False
+      else:
+        print "Replaced config {0}".format(original["name"])
     return True
 
 
@@ -435,8 +437,6 @@ class FusionBackend(Backend):
                                       data=json.dumps(config),
                                       headers={"Content-type": "application/json"})
         # TODO check response
-      else:
-        print "No change in datasource, doing nothing"
 
   def start_datasource(self, id):
     datasource = self.get_datasource(id)

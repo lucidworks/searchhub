@@ -13,7 +13,7 @@ controller: HomeController as hc
     <span class="center">
       <form name="searchForm" class="show-for-medium" ng-submit="hc.search()">
         <span class="inline-label search-label">
-          <search-box query="hc.searchQuery" class="search-box-outer"></search-box>
+          <search query="hc.searchQuery" class="search-box-outer"></search>
           <a href="#" class="success button" ng-click="hc.search()"><img
             zf-iconic=""
             icon="magnifying-glass"
@@ -51,7 +51,7 @@ controller: HomeController as hc
   <nav class="primary title-bar show-for-small-only">
     <form ng-submit="hc.search()">
       <span class="inline-label search-label">
-        <search-box query="hc.searchQuery" class="search-box-outer"></search-box>
+        <search query="hc.searchQuery" class="search-box-outer"></search>
         <a href="#" class="success button" ng-click="hc.search()"><img
           zf-iconic=""
           icon="magnifying-glass"

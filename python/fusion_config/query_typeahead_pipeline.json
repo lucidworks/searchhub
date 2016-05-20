@@ -2,6 +2,7 @@
   "id": "shub-typeahead",
   "stages": [
     {
+      "type": "set-params",
       "id": "g6wdn29",
       "params": [
         {
@@ -10,38 +11,30 @@
           "policy": "default"
         },
         {
-          "key": "fl",
-          "value": "id,subject, title, body",
+          "key": "suggest",
+          "value": "true",
           "policy": "default"
         },
         {
-          "key": "defType",
-          "value": "edismax",
-          "policy": "default"
-        },
-        {
-          "key": "qf",
-          "value": "subject^10 title^10 body^3",
+          "key": "suggest.dictionary",
+          "value": "fuzzy",
           "policy": "default"
         }
       ],
       "skip": false,
-      "label": "set-params",
-      "type": "set-params"
+      "label": "set-params"
     },
     {
       "type": "solr-query",
       "id": "7gxbhuxr",
       "allowedRequestHandlers": [
-        "file",
-        "hub",
-        "browse",
-        "spell"
+        "suggest"
       ],
       "httpMethod": "GET",
+      "allowFederatedSearch": false,
       "skip": false,
-      "label": "solr-query",
-      "type": "solr-query"
+      "label": "solr-query"
     }
-  ]
+  ],
+  "properties": {}
 }

@@ -7,13 +7,13 @@
     ])
     .factory('SnowplowService', SnowplowService);
 
-  function SnowplowService(QueryService, $window, $log, $cookies) {
+  function SnowplowService(QueryService, IDService, $window, $log, $cookies) {
     'ngInject';
     var snowplow = $window.searchhub_snowplow;
     var userId = $cookies.getObject("shub_user_id");
     $log.info("User Id: " + userId);
     if (!userId) {
-      var uuid = generateUUID();
+      var uuid = IDService.generateUUID();
       var options = {
         "expires": new Date(2030, 1, 1, 0, 0, 0, 0)
       };
@@ -31,15 +31,7 @@
 
     return service;
 
-    function generateUUID() {
-      var d = new Date().getTime();
-      var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        var r = (d + Math.random() * 16) % 16 | 0;
-        d = Math.floor(d / 16);
-        return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-      });
-      return uuid;
-    };
+
 
     //Useful when doing a simple click
     function postClickSignal(element, docId, position, score) {

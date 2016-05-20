@@ -37,14 +37,6 @@ def setup_find_fields(backend, collection_id):
   backend.add_field(collection_id, "threadId", type="string")
   #backend.add_field(collection_id, "isDocumentation", type="boolean")
 
-# Used for mail threading index
-def setup_thread_fields(backend, collection_id):
-  backend.add_field(collection_id, "hashId")
-  backend.add_field(collection_id, "mailId")
-  backend.add_field(collection_id, "parentId")
-  backend.add_field(collection_id, "threadId")
-  backend.add_field(collection_id, "simpleSubject", type="text_en")
-  backend.add_field(collection_id, "depth", type="int")
 
 def setup_pipelines(backend):
   pipe_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_pipeline.json")]

@@ -24,7 +24,7 @@
 
   You'll need the following software installed to get started.
 
-- [Node.js](http://nodejs.org): Use the installer for your OS.
+- [Node.js](http://nodejs.org) 5.x: Use the installer for your OS, e.g. ```brew install homebrew/versions/node5```
 - [Git](http://git-scm.com/downloads): Use the installer for your OS.
 
 - Depending on how Node is configured on your machine, you may need to run `sudo npm install -g gulp bower` instead, if you get an error with the first command.

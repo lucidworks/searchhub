@@ -22,7 +22,7 @@
   }
 
 
-  function Controller($sce, $anchorScroll, Orwell, SnowplowService, $log) {
+  function Controller($sce, $anchorScroll, Orwell, SnowplowService, IDService, QueryService, $log) {
     'ngInject';
     var vm = this;
     vm.docs = [];
@@ -40,6 +40,12 @@
     function activate() {
       var resultsObservable = Orwell.getObservable('queryResults');
       resultsObservable.addObserver(function (data) {
+        //Every time a query is fired and results come back, this section gets called
+        var queryObject = QueryService.getQueryObject();
+        //let's make sure we can track individual query/result pairs by assigning a UUID to each unique query
+        queryObject["uuid"] = IDService.generateUUID();
+        $log.info("Query Obj:");
+        $log.info(queryObject);
         vm.docs = parseDocuments(data);
         vm.highlighting = parseHighlighting(data);
         vm.getDoctype = getDocType;
@@ -100,11 +106,11 @@
         vm.groupedResults = data.grouped;
         parseGrouping(vm.groupedResults);
       }
-      $log.info("docs: "+ docs.length);
+      //$log.info("docs: "+ docs.length);
       if (docs.length > 0){
         //we have docs, let's send over a signal of the query and all the doc ids
-
-        SnowplowService.postSearchSignal(data.responseHeader.params.q.split(" "),
+        var queryObject = QueryService.getQueryObject();
+        SnowplowService.postSearchSignal(queryObject,
             data.responseHeader.params.fq,
           data.response.numFound,
           data.response.docs

@@ -39,14 +39,5 @@
         "interval": 1
       }
     }
-  ],
-  "jira": {
-    "name": "apache-jira-accumulo",
-    "label": "Apache Accumulo JIRA Issues",
-    "url": "https://issues.apache.org/jira/browse/ACCUMULO",
-    "schedule": {
-        "repeatUnit": "HOUR",
-        "interval": 1
-      }
-  }
+  ]
 }

@@ -1,0 +1,9 @@
+Flask
+Flask-sqlalchemy
+Flask-admin
+Flask-BasicAuth
+requests
+dictdiffer
+loremipsum
+python-twitter
+snowplow-tracker

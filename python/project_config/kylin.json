@@ -39,14 +39,5 @@
         "interval": 1
       }
     }
-  ],
-  "jira": {
-    "name": "apache-jira-kylin",
-    "label": "Apache Kylin JIRA Issues",
-    "url": "https://issues.apache.org/jira/browse/KYLIN",
-    "schedule": {
-        "repeatUnit": "HOUR",
-        "interval": 1
-      }
-  }
+  ]
 }

@@ -39,14 +39,5 @@
         "interval": 1
       }
     }
-  ],
-  "jira": {
-    "name": "apache-jira-tez",
-    "label": "Apache Tez JIRA Issues",
-    "url": "https://issues.apache.org/jira/browse/TEZ",
-    "schedule": {
-        "repeatUnit": "HOUR",
-        "interval": 1
-      }
-  }
+  ]
 }

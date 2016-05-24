@@ -39,14 +39,5 @@
         "interval": 1
       }
     }
-  ],
-  "jira": {
-    "name": "apache-jira-manifoldcf",
-    "label": "Apache ManifoldCF JIRA Issues",
-    "url": "https://issues.apache.org/jira/browse/MANIFOLDCF",
-      "schedule": {
-        "repeatUnit": "HOUR",
-        "interval": 1
-      }
-  }
+  ]
 }

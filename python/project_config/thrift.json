@@ -39,14 +39,5 @@
         "interval": 1
       }
     }
-  ],
-  "jira": {
-    "name": "apache-jira-thrift",
-    "label": "Apache Thrift JIRA Issues",
-    "url": "https://issues.apache.org/jira/browse/THRIFT",
-    "schedule": {
-        "repeatUnit": "HOUR",
-        "interval": 1
-      }
-  }
+  ]
 }

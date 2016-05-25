@@ -1,3 +1,6 @@
+/*
+Some utility methods for generating unique ids
+ */
 (function(){
   'use strict';
 

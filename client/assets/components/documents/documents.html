@@ -4,8 +4,8 @@
     <span ng-switch-when="jira"><div ng-include="'/templates/jira.html'"></div></span>
     <document-mail ng-switch-when="mailing" doc="vm.decorateDocument(doc)" bind="doc"
                    highlight="vm.highlighting"></document-mail>
-    <document-web ng-switch-when="website" doc="vm.decorateDocument(doc)" bind="doc"
-                  highlight="vm.highlighting"></document-web>
+    <document-website ng-switch-when="website" doc="vm.decorateDocument(doc)" bind="doc"
+                  highlight="vm.highlighting"></document-website>
     <document-lucid-docs ng-switch-when="lucid-docs" doc="vm.decorateDocument(doc)" bind="doc"
                   highlight="vm.highlighting"></document-lucid-docs>
 
@@ -20,8 +20,8 @@
         <span ng-switch-when="jira"><div ng-include="'/templates/jira.html'"></div></span>
         <document-mail ng-switch-when="mailing" doc="vm.decorateDocument(doc)" bind="doc"
                        highlight="vm.highlighting"></document-mail>
-        <document-web ng-switch-when="website" doc="vm.decorateDocument(doc)" bind="doc"
-                      highlight="vm.highlighting"></document-web>
+        <document-website ng-switch-when="website" doc="vm.decorateDocument(doc)" bind="doc"
+                      highlight="vm.highlighting"></document-website>
         <document-lucid-docs ng-switch-when="lucid-docs" doc="vm.decorateDocument(doc)" bind="doc"
                   highlight="vm.highlighting"></document-lucid-docs>
       </div>

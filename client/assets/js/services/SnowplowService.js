@@ -1,3 +1,9 @@
+/*
+The Snowplow Service uses https://github.com/snowplow/snowplow/wiki/javascript-tracker as means for sending
+browser events to Fusion's signal service, which can then be used to drive things like recommendations and
+document boosts
+
+ */
 (function () {
   'use strict';
 
@@ -36,16 +42,21 @@
     //Useful when doing a simple click
     function postClickSignal(element, docId, position, score) {
       $log.info("Click Signal received for docId: " + docId);
-      var queryObject = QueryService.getQueryObject();
+      var queryObj = QueryService.getQueryObject();
+
       var the_data = {
         "docId": docId,
         "position": position,
-        "query": queryObject.q,
+        "query": queryObj.q,
         "score": score,
         "signalType": "click"
       };
-      if (queryObject.fq) {
-        the_data["fq"] = queryObject.fq
+      //send the UUID with the data so that we can track specific query instances
+      if (queryObj["uuid"]){
+        the_data["query_unique_id"] = queryObj["uuid"];
+      }
+      if (queryObj.fq) {
+        the_data["fq"] = queryObj.fq
       }
       $log.info("Signal Data: " + the_data);
       snowplow('trackLinkClick', docId, element.id, element.className, element.target, element.innerHTML, [{
@@ -54,10 +65,14 @@
       }]);
     }
 
-    function postSearchSignal(query, filters, numFound, displayedResults) {
+    function postSearchSignal(queryObj, filters, numFound, displayedResults) {
       var the_data = {
         "signalType": "search"
       };
+      //send the UUID with the data so that we can track specific query instances
+      if (queryObj["uuid"]){
+        the_data["query_unique_id"] = queryObj["uuid"];
+      }
       var i = 0;
       _.forEach(displayedResults, function (doc) {
         the_data["doc_" + i] = doc["id"];
@@ -66,9 +81,10 @@
       if (!filters) {
         filters = "";
       }
-      $log.info("Posting: " + query + " filters: " + filters + " numFound: " + numFound + " results length: " + displayedResults.length);
+      var queryTerms = queryObj.q.split(" ");
+      $log.info("Posting: " + queryTerms + " filters: " + filters + " numFound: " + numFound + " results length: " + displayedResults.length);
       snowplow('trackSiteSearch',
-        query,
+        queryTerms,
         filters,
         numFound,
         displayedResults.length,

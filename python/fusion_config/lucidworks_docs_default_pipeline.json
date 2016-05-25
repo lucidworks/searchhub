@@ -2,21 +2,6 @@
   "id": "lw-docs-default",
   "stages": [
     {
-      "type": "index-set-property",
-      "id": "y8sq0k9",
-      "source": [
-        "id", "name_s"
-      ],
-      "regularExpression": "asciidoc",
-      "outputType": "context",
-      "outputKey": "isDocumentation",
-      "outputValue": "true",
-      "falseOutputValue": "false",
-      "skip": false,
-      "label": "isDocumentation",
-      "whatMatchedKey": "whatMatched"
-    },
-    {
       "type": "tika-parser",
       "id": "9e86b948-9502-4d02-989d-6533c592062f",
       "includeImages": true,
@@ -31,7 +16,7 @@
       "extractOtherLinks": false,
       "csvParsing": true,
       "skip": false,
-      "condition": "ctx.getString(\"isDocumentation\") == \"true\"",
+      "condition": "",
       "label": "tika-parser"
     },
     {
@@ -61,7 +46,7 @@
       ],
       "reservedFieldsMappingAllowed": false,
       "skip": false,
-      "condition": "ctx.getString(\"isDocumentation\") == \"true\"",
+      "condition": "",
       "label": "field-mapping"
     },
     {
@@ -72,7 +57,7 @@
       "params": [],
       "bufferDocsForSolr": false,
       "skip": false,
-      "condition": "ctx.getString(\"isDocumentation\") == \"true\"",
+      "condition": "",
       "label": "solr-index"
     }
   ],

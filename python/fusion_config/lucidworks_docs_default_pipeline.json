@@ -45,7 +45,7 @@
       "enforceSchema": true,
       "dateFormats": [],
       "params": [],
-      "bufferDocsForSolr": false,
+      "bufferDocsForSolr": true,
       "skip": false,
       "condition": "",
       "label": "solr-index"

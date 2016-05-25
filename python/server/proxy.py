@@ -78,7 +78,7 @@ def proxy_request(other):
     #print r.url
     #print r.encoding
     #print r.text.encode(r.encoding)
-    flask_response = Response(response=r.text,
+    flask_response = Response(response=r.iter_content(8192),
                               status=r.status_code)
     return flask_response
 

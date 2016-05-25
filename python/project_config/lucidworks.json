@@ -27,7 +27,7 @@
       "name": "lucidworks-docs-website",
       "label":"lucidworks.com Docs Website",
       "pipeline":"lw-docs-default",
-      "url":"https://docs.lucidworks.com/index.html",
+      "url":"https://doc.lucidworks.com/index.html",
       "schedule": {
         "repeatUnit": "DAY",
         "interval": 2

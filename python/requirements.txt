@@ -3,3 +3,5 @@ requests
 dictdiffer
 loremipsum
 python-twitter
+markupsafe
+oauthlib

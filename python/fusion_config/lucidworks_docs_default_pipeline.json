@@ -32,16 +32,6 @@
           "source": "/(.*?)lon(gitude)?$/",
           "target": "$1_lat_lon",
           "operation": "move"
-        },
-        {
-          "source": "lastModified_dt",
-          "target": "publishedOnDate",
-          "operation": "copy"
-        },
-        {
-          "source": "project",
-          "target": "Lucidworks Docs",
-          "operation": "copy"
         }
       ],
       "reservedFieldsMappingAllowed": false,

@@ -92,6 +92,8 @@ script does not start the crawler, nor does it enable the schedules.  If you wis
 
 ## Running Search Hub
 
+### Local, Non-Production Mode using Werkzeug
+
 Run Flask (from the python directory):
 
 ```bash
@@ -107,6 +109,26 @@ If you make changes to the UI, you will either need to rebuild the UI part (npm 
 ```bash
 npm watch
 ```
+
+### Production
+
+#### Docker
+
+The easiest way to spin up the Search Hub Client and Python app is by using [Docker](https://www.docker.com/) and the Dockerfile in the Python directory.
+
+This container is built on httpd and [mod_wsgi](https://github.com/GrahamDumpleton/mod_wsgi-docker/)
+
+To build a container, do the following steps:
+
+1. Build the SearchHub UI (see above) so that the Client assets are properly installed in the Python ```server``` directory
+1. ```cd python```
+1. ```docker build -t searchhub .```  -- This builds the Docker container
+1. ```docker run -it --rm -p 8000:80 --name searchhub searchhub``` -- This runs the container and maps to port 8000.  See Docker help for otherways to run Docker containers
+1. Point your browser at http://host:8000/  where host is the IP for your Docker container.
+
+#### WSGI Compliant Server
+
+TODO.  SearchHub should run just fine in mod_wsgi, nginx or other servers, we just haven't tested any of them.
 
 
 # The Client Application

@@ -19,7 +19,7 @@ appConfig = { //eslint-disable-line
    * view this app from another machine.
    */
   host: 'http://localhost',
-  port:'8764',
+  port:'5000',//this should point to where your Python proxy server is running, not Fusion itself.
 
   /**
    * The name of the realm to connect with

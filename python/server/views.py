@@ -6,8 +6,6 @@ import requests
 import base64
 from server import app, backend
 import logging
-from requests.auth import HTTPBasicAuth
-from snowplow_tracker import Subject, Tracker, Emitter
 
 logging.basicConfig(level=logging.INFO)
 

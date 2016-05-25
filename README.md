@@ -120,13 +120,18 @@ This container is built on httpd and [mod_wsgi](https://github.com/GrahamDumplet
 
 To build a container, do the following steps:
 
-1. Edit your FUSION_CONFIG.js to point to the IP of your container
+1. Edit your FUSION_CONFIG.js to point to the IP of your container.  You can do also do this afterwards too, by attaching to the running container and editing it.
 1. Build the SearchHub UI (see above) so that the Client assets are properly installed in the Python ```server``` directory
 1. ```cd python```
 1. Create a ```config-docker.py``` file that contains the configuration required to connect to your Fusion instance.  Note, this Docker container we are running now does not run Fusion. 
 1. ```docker build -t searchhub .```  -- This builds the Docker container
 1. ```docker run -it --rm -p 8000:80 --name searchhub searchhub``` -- This runs the container and maps to port 8000.  See Docker help for otherways to run Docker containers
 1. Point your browser at http://host:8000/  where host is the IP for your Docker container.
+
+Some other helpful commands:
+
+1. ```docker rmi -f searchhub``` -- delete a previously built version of the container
+
 
 #### WSGI Compliant Server
 

@@ -17,13 +17,13 @@ document boosts
     'ngInject';
     var snowplow = $window.searchhub_snowplow;
     var userId = $cookies.getObject("shub_user_id");
-    $log.info("User Id: " + userId);
+    //$log.info("User Id: " + userId);
     if (!userId) {
       var uuid = IDService.generateUUID();
       var options = {
         "expires": new Date(2030, 1, 1, 0, 0, 0, 0)
       };
-      $log.info("Defining user as: " + uuid);
+      //$log.info("Defining user as: " + uuid);
       $cookies.putObject('shub_user_id', uuid, options);
     }
     //TODO: once we support registration, use that here instead of a cookie UUID

@@ -37,10 +37,10 @@
 
     function processDocument(doc) {
       //make sure we can display the info
-      $log.info(doc['subject']);
+      //$log.info(doc['subject']);
       doc['body'] = $sce.trustAsHtml(doc['body']);
       doc['subject'] = $sce.trustAsHtml(doc['subject']);
-      $log.info(doc['subject']);
+      //$log.info(doc['subject']);
       doc['id'] = $sce.trustAsHtml(doc['id']);
       doc.length_lFormatted = $filter('humanizeFilesize')(doc.length_l);
       doc.lastModified_dtFormatted = $filter('date')(doc.lastModified_dt);

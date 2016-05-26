@@ -44,8 +44,8 @@
         var queryObject = QueryService.getQueryObject();
         //let's make sure we can track individual query/result pairs by assigning a UUID to each unique query
         queryObject["uuid"] = IDService.generateUUID();
-        $log.info("Query Obj:");
-        $log.info(queryObject);
+        //$log.info("Query Obj:");
+        //$log.info(queryObject);
         vm.docs = parseDocuments(data);
         vm.highlighting = parseHighlighting(data);
         vm.getDoctype = getDocType;

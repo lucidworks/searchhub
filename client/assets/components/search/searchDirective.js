@@ -33,7 +33,7 @@
 
     function selectedTypeahead(object) {
       if (object) {
-        $log.info(object);
+        //$log.info(object);
         var newValue = object.originalObject[ta.typeaheadField];
         var selection = _.isArray(newValue)?newValue[0]:newValue;
         //signal our selection

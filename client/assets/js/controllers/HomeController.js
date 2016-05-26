@@ -88,7 +88,7 @@
 
     function updateStatus(){
       var status = '';
-      console.log(hc.numFound);
+      //console.log(hc.numFound);
       if(hc.numFound === 0){
         status = 'no-results';
         if(hc.lastQuery === ''){
@@ -110,7 +110,7 @@
         // TODO better solution for turning off fq on a new query
         fq: []
       };
-      $log.info(query);
+      //$log.info(query);
       URLService.setQuery(query);
     }
 

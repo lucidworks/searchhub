@@ -1,8 +1,11 @@
 package com.lucidworks.searchhub.analytics;
 
+import com.lucidworks.apollo.Name;
 import com.lucidworks.spark.job.SparkJob;
 import com.lucidworks.spark.job.SparkJobBuilder;
 
+
+@Name("mail-threading")
 public class MailThreadSparkJobBuilder implements SparkJobBuilder<MailThreadSparkJobConfig> {
   @Override
   public SparkJob<?, MailThreadSparkJobConfig> buildSparkJob(String jobId, MailThreadSparkJobConfig config) {

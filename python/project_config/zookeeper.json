@@ -40,6 +40,16 @@
       }
     }
   ],
+  "jira": {
+    "name": "apache-jira-zookeeper",
+    "label": "Apache Zookeeper JIRA Issues",
+    "url": "https://issues.apache.org/jira/browse/ZOOKEEPER",
+      "schedule": {
+        "repeatUnit": "DAY",
+        "interval": 2
+      }
+
+  },
   "githubs": [
     {
       "name": "zookeeper-github",

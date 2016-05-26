@@ -39,5 +39,14 @@
         "interval": 1
       }
     }
-  ]
+  ],
+  "jira": {
+    "name": "apache-jira-hbase",
+    "label": "Apache HBase JIRA Issues",
+    "url": "https://issues.apache.org/jira/browse/HBASE",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 1
+      }
+  }
 }

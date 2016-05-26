@@ -39,5 +39,14 @@
         "interval": 1
       }
     }
-  ]
+  ],
+  "jira": {
+    "name": "apache-jira-pig",
+    "label": "Apache Pig JIRA Issues",
+    "url": "https://issues.apache.org/jira/browse/PIG",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 1
+      }
+  }
 }

@@ -39,5 +39,14 @@
         "interval": 1
       }
     }
-  ]
+  ],
+  "jira": {
+    "name": "apache-jira-pdfbox",
+    "label": "Apache Pdfbox JIRA Issues",
+    "url": "https://issues.apache.org/jira/browse/PDFBOX",
+    "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 1
+      }
+  }
 }

@@ -39,5 +39,14 @@
         "interval": 1
       }
     }
-  ]
+  ],
+  "jira": {
+    "name": "apache-jira-bigtop",
+    "label": "Apache Bigtop JIRA Issues",
+    "url": "https://issues.apache.org/jira/browse/BIGTOP",
+    "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 1
+      }
+  }
 }

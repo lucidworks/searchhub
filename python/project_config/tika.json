@@ -40,6 +40,15 @@
       }
     }
   ],
+  "jira": {
+    "name": "apache-jira-tika",
+    "label": "Apache Tika JIRA Issues",
+    "url": "https://issues.apache.org/jira/browse/TIKA",
+      "schedule": {
+        "repeatUnit": "DAY",
+        "interval": 1
+      }
+  },
   "githubs": [
     {
       "name": "tika-github",

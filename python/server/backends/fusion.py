@@ -107,14 +107,14 @@ class FusionBackend(Backend):
   def add_search_component(self, collection_name, add_search_component_json):
     print "Adding search component {}".format(add_search_component_json["name"])
     add = {"add-searchcomponent": add_search_component_json}
-    replace = {"replace-searchcomponent": add_search_component_json}
+    replace = {"update-searchcomponent": add_search_component_json}
     return self.add_config(collection_name, add_search_component_json, add, replace)
 
 
   def add_request_handler(self, collection_name, add_req_handler_json):
     print "Adding request handler {}".format(add_req_handler_json["name"])
     add = {"add-requesthandler": add_req_handler_json}
-    replace = {"replace-requesthandler": add_req_handler_json}
+    replace = {"update-requesthandler": add_req_handler_json}
 
     return self.add_config(collection_name, add_req_handler_json, add, replace)
 
@@ -122,17 +122,29 @@ class FusionBackend(Backend):
   def add_config(self, collection_name, original, add, replace):
     resp = self.admin_session.post("apollo/solr/{0}/config".format(collection_name),
                                    data=json.dumps(add))
-    if resp.status_code != 200:
+    errors = self.check_bulk_api_for_errors(resp.json())
+    if resp.status_code != 200 or errors:
       print "Couldn't create config, trying replace {0}".format(original["name"])
       resp = self.admin_session.post("apollo/solr/{0}/config".format(collection_name),
                                    data=json.dumps(replace))
-      if resp.status_code != 200:
+      errors = self.check_bulk_api_for_errors(resp.json())
+      if resp.status_code != 200 or errors:
         print "Unable to create config: {0}".format(resp.text)
         return False
       else:
         print "Replaced config {0}".format(original["name"])
+    else:
+      print "Added config"
     return True
 
+  #Returns None if there are no errors, else a list of the errors
+  def check_bulk_api_for_errors(self, response_json):
+    result = None
+    #print response_json
+    if "errorMessages" in response_json:
+      #print response_json["errorMessages"]
+      result = response_json["errorMessages"]
+    return result
 
   def send_signal(self, collection_id, payload):
     """

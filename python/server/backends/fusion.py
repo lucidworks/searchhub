@@ -235,7 +235,7 @@ class FusionBackend(Backend):
       print resp.status_code, resp.json()
     return resp
 
-  def create_or_update_datasources(self, project, flag=1):#flag=1 means disregard jira
+  def create_or_update_datasources(self, project, includeJIRA=False):
     twitter_config = None
     jira_config = None
     mailbox_configs = []
@@ -248,7 +248,7 @@ class FusionBackend(Backend):
       # print twitter_config['id']
       self.update_datasource(**twitter_config)
     # JIRA
-    if flag==0:
+    if includeJIRA:
       if "jira" in project:
         jira_config, sched = create_jira_datasource_config(project)
         self.update_datasource(**jira_config)

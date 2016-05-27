@@ -247,7 +247,7 @@ class FusionBackend(Backend):
       print resp.status_code, resp.json()
     return resp
 
-  def create_or_update_datasources(self, project):
+  def create_or_update_datasources(self, project, includeJIRA=False):
     twitter_config = None
     jira_config = None
     mailbox_configs = []
@@ -260,10 +260,11 @@ class FusionBackend(Backend):
       # print twitter_config['id']
       self.update_datasource(**twitter_config)
     # JIRA
-    if "jira" in project:
-      jira_config, sched = create_jira_datasource_config(project)
-      self.update_datasource(**jira_config)
-      self.create_or_update_schedule(sched)
+    if includeJIRA:
+      if "jira" in project:
+        jira_config, sched = create_jira_datasource_config(project)
+        self.update_datasource(**jira_config)
+        self.create_or_update_schedule(sched)
     # Generate Mailboxes
     if "mailing_lists" in project:
       mailbox_configs, schedules = create_mailinglist_datasource_configs(project)

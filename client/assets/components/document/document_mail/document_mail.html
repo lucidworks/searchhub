@@ -9,10 +9,9 @@
   <h3 class="head-field" ng-if="!doc.title">
     <field value="doc.id" maxlength="200"></field>
   </h3>
-  <h6><field ng-if="doc.list" value="doc.list" highlight="::vm.highlight[doc.id]" maxlength="10" hkey="list"></field> : <field ng-if="doc.from" value="doc.from" highlight="::vm.highlight[doc.id]" maxlength="10" hkey="from"></field></h6>
+  <h6>Sent from:<br><field ng-if="doc.list" value="doc.list" highlight="::vm.highlight[doc.id]" maxlength="100" hkey="list"></field>  :  <field ng-if="doc.from" value="doc.from" highlight="::vm.highlight[doc.id]" maxlength="100" hkey="from"></field></h6>
 
   <p class="large-8 xlarge-7 xx-large-6 mail-body">
     <field ng-if="doc.body" value="doc.body" highlight="::vm.highlight[doc.id]" maxlength="10" hkey="body"></field>
   </p>
 </div>
-

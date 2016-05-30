@@ -13,7 +13,6 @@
   <div ng-if="vm.groupedResults" ng-repeat="(key, val) in vm.groupedResults">
     <div ng-repeat="group in val.groups">
       <h3 ng-if="group.groupValue" ng-click="vm.toggleGroupedResults(group.groupValue)">{{group.groupValue}}</h3>
-
       <div ng-repeat="doc in group.doclist.docs" ng-switch="::vm.getDocType(doc)"
            >
         <span ng-switch-when="github"><div ng-include="'/templates/github.html'"></div></span>

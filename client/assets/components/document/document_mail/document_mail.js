@@ -44,7 +44,14 @@
       doc['id'] = $sce.trustAsHtml(doc['id']);
       doc.length_lFormatted = $filter('humanizeFilesize')(doc.length_l);
       doc.lastModified_dtFormatted = $filter('date')(doc.lastModified_dt);
+      $log.info("see last modified");
+      $log.info(doc.lastModified_dtFormatted);
+      $log.info("see doc");
+      $log.info(doc);
       return doc;
     }
+
+
+
   }
 })();

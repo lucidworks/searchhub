@@ -2,7 +2,7 @@
   <div class="detail vertical grid-content" >
     <!-- show head field linked with a title. -->
     <h3 class="head-field" ng-if="::vm.doc.title">
-      <a ng-href="{{vm.doc.url[0]}}" ng-click="vm.postClickSignal(this, doc.id, $index, doc.score)" rel="noopener" target="_blank">
+      <a ng-href="{{vm.doc.id}}" ng-click="vm.postClickSignal(this, doc.id, $index, doc.score)" rel="noopener" target="_blank">
         <field value="::vm.doc.title" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="title"></field>
       </a>
     </h3>

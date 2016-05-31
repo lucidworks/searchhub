@@ -65,7 +65,7 @@
       // }
       var ds = doc['_lw_data_source_s'];
       if (ds){
-        if (ds.indexOf("github-lucidworks-fusion-docs") != -1){
+        if (ds.indexOf("lucidworks-docs") != -1){
           return "lucid-docs";
         }
         var idx = ds.indexOf("-");

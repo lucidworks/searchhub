@@ -32,6 +32,11 @@
           "source": "/(.*?)lon(gitude)?$/",
           "target": "$1_lat_lon",
           "operation": "move"
+        },
+        {
+          "source": "lastModified_dt",
+          "target": "publishedOnDate",
+          "operation": "copy"
         }
       ],
       "reservedFieldsMappingAllowed": false,

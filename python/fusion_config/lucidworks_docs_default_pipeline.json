@@ -45,6 +45,46 @@
       "label": "field-mapping"
     },
     {
+      "type": "regex-extractor",
+      "id": "twzrspyx4ssckgldi",
+      "rules": [
+        {
+          "source": [
+            "resourceName"
+          ],
+          "target": "productVersion",
+          "pattern": "((fusion)/(\\d+.\\d+))|((\\w+|LucidWorksSearch-Docs)-v(\\d+\\.\\d+))",
+          "group": 3
+        },
+        {
+          "source": [
+            "resourceName"
+          ],
+          "target": "productName",
+          "pattern": "((fusion)/(\\d+.\\d+))|((\\w+|LucidWorksSearch-Docs)-v(\\d+\\.\\d+))",
+          "group": 2
+        },
+        {
+          "source": [
+            "resourceName"
+          ],
+          "target": "productName",
+          "pattern": "((fusion)/(\\d+.\\d+))|((\\w+|LucidWorksSearch-Docs)-v(\\d+\\.\\d+))",
+          "group": 5
+        },
+        {
+          "source": [
+            "resourceName"
+          ],
+          "target": "productVersion",
+          "pattern": "((fusion)/(\\d+.\\d+))|((\\w+|LucidWorksSearch-Docs)-v(\\d+\\.\\d+))",
+          "group": 6
+        }
+      ],
+      "skip": false,
+      "label": "Product and Version"
+    },
+    {
       "type": "solr-index",
       "id": "7488fd3a-9926-41a1-afa9-53e8daf4598e",
       "enforceSchema": true,

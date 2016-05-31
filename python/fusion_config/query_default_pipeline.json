@@ -103,6 +103,16 @@
           "field": "isBot",
           "minCount": 1,
           "missing": false
+        },
+        {
+          "field": "productVersion",
+          "minCount": 1,
+          "missing": false
+        },
+        {
+          "field": "productName",
+          "minCount": 1,
+          "missing": false
         }
       ],
       "skip": false,

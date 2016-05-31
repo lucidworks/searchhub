@@ -36,7 +36,7 @@ def setup_field_types(backend, collection_id):
 
 def setup_find_fields(backend, collection_id):
   backend.add_field(collection_id, "publishedOnDate", type="date", required=True)
-  backend.add_field(collection_id, "suggest", type="suggesterFT", multivalued=True);
+  backend.add_field(collection_id, "suggest", type="suggesterFT", multivalued=True)
   backend.add_field(collection_id, "content", type="text_en")
   backend.add_field(collection_id, "project", type="string", copyDests=["suggest"])
   backend.add_field(collection_id, "body", type="text_en")

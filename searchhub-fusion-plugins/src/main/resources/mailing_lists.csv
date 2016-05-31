@@ -39,7 +39,7 @@ OPENNLP_USER, opennlp, user, opennlp-users, OPENNLP
 OPENNLP_DEV, opennlp, dev, opennlp-dev, OPENNLP
 OOZIE_DEV, oozie, dev, oozie-dev, OOZIE
 PDFBOX_DEV, pdfbox, dev, pdfbox-dev, PDFBOX
-PDFBOX_USER, pdfbox, users, pdfbox-users, PDFBOX
+PDFBOX_USER, pdfbox, user, pdfbox-users, PDFBOX
 PIG_USER, pig, user, pig-user, PIG
 PIG_DEV, pig, dev, pig-dev, PIG
 ZOOKEEPER_USER, zookeeper, user, zookeeper-user, ZOOKEEPER

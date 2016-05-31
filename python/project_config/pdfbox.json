@@ -22,9 +22,9 @@
   ],
   "mailing_lists": [
     {
-      "name": "pdfbox-user",
+      "name": "pdfbox-users",
       "label": "Pdfbox User",
-      "mbox": "pdfbox-user",
+      "mbox": "pdfbox-users",
       "schedule": {
         "repeatUnit": "HOUR",
         "interval": 1

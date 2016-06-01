@@ -39,6 +39,10 @@
         {
           "source": "_raw_content_",
           "operation": "delete"
+        },
+        {
+          "source": "_rpc_.*",
+          "operation": "delete"
         }
       ],
       "reservedFieldsMappingAllowed": false,

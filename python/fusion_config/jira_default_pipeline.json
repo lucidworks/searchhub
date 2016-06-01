@@ -31,8 +31,15 @@
           "target": "$1_lat_lon",
           "operation": "move"
         },
-        {"source": "created", "target": "publishedOnDate", "operation": "move"}
-
+        {
+          "source": "created",
+          "target": "publishedOnDate",
+          "operation": "move"
+        },
+        {
+          "source": "_raw_content_",
+          "operation": "delete"
+        }
       ],
       "reservedFieldsMappingAllowed": false,
       "skip": false,

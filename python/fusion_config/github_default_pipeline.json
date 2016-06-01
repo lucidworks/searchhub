@@ -54,6 +54,10 @@
           "source": "lastModified_dt",
           "target": "publishedOnDate",
           "operation": "copy"
+        },
+        {
+          "source": "_raw_content_",
+          "operation": "delete"
         }
       ],
       "reservedFieldsMappingAllowed": false,

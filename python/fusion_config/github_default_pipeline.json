@@ -2,6 +2,25 @@
   "id": "github-default",
   "stages": [
     {
+      "type": "tika-parser",
+      "id": "8ewalt2menhwnopqfr",
+      "includeImages": false,
+      "flattenCompound": false,
+      "addFailedDocs": false,
+      "addOriginalContent": true,
+      "contentField": "_raw_content_",
+      "contentEncoding": "binary",
+      "returnXml": false,
+      "keepOriginalStructure": false,
+      "extractHtmlLinks": true,
+      "extractOtherLinks": false,
+      "csvParsing": false,
+      "includeContentTypes": [],
+      "excludeContentTypes": [],
+      "skip": false,
+      "label": "tika-parser"
+    },
+    {
       "type": "regex-extractor",
       "id": "riugcik9",
       "rules": [

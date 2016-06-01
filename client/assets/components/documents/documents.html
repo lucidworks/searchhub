@@ -1,22 +1,20 @@
 <div id="documentList">
-  <div ng-repeat="doc in vm.docs" ng-switch="::vm.getDocType(doc)">
-    <span ng-switch-when="github"><div ng-include="'/templates/github.html'"></div></span>
-    <span ng-switch-when="jira"><div ng-include="'/templates/jira.html'"></div></span>
+  <div ng-repeat="doc in vm.docs" ng-switch="::vm.getDocType(doc)" class="doc-results">
     <document-mail ng-switch-when="mailing" doc="vm.decorateDocument(doc)" bind="doc"
                    highlight="vm.highlighting"></document-mail>
     <document-website ng-switch-when="website" doc="vm.decorateDocument(doc)" bind="doc"
                   highlight="vm.highlighting"></document-website>
     <document-website ng-switch-when="lucid-docs" doc="vm.decorateDocument(doc)" bind="doc"
                   highlight="vm.highlighting"></document-website>
+    <document-github ng-switch-when="github" doc="vm.decorateDocument(doc)" bind="doc"
+                  highlight="vm.highlighting"></document-github>
 
   </div>
   <div ng-if="vm.groupedResults" ng-repeat="(key, val) in vm.groupedResults">
     <div ng-repeat="group in val.groups">
       <h3 ng-if="group.groupValue" ng-click="vm.toggleGroupedResults(group.groupValue)">{{group.groupValue}}</h3>
 
-      <div ng-repeat="doc in group.doclist.docs" ng-switch="::vm.getDocType(doc)"
-           >
-        <span ng-switch-when="github"><div ng-include="'/templates/github.html'"></div></span>
+      <div ng-repeat="doc in group.doclist.docs" ng-switch="::vm.getDocType(doc)" class="doc-results">
         <span ng-switch-when="jira"><div ng-include="'/templates/jira.html'"></div></span>
         <document-mail ng-switch-when="mailing" doc="vm.decorateDocument(doc)" bind="doc"
                        highlight="vm.highlighting"></document-mail>
@@ -24,6 +22,8 @@
                       highlight="vm.highlighting"></document-website>
         <document-lucid-docs ng-switch-when="lucid-docs" doc="vm.decorateDocument(doc)" bind="doc"
                   highlight="vm.highlighting"></document-lucid-docs>
+        <document-github ng-switch-when="github" doc="vm.decorateDocument(doc)" bind="doc"
+                  highlight="vm.highlighting"></document-github>
       </div>
     </div>
   </div>

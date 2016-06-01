@@ -4,7 +4,7 @@
     {
       "type": "tika-parser",
       "id": "9e86b948-9502-4d02-989d-6533c592062f",
-      "includeImages": true,
+      "includeImages": false,
       "flattenCompound": false,
       "addFailedDocs": false,
       "addOriginalContent": false,

@@ -36,7 +36,7 @@ def setup_field_types(backend, collection_id):
 
 def setup_find_fields(backend, collection_id):
   backend.add_field(collection_id, "publishedOnDate", type="date", required=True)
-  backend.add_field(collection_id, "suggest", type="suggesterFT", multivalued=True);
+  backend.add_field(collection_id, "suggest", type="suggesterFT", multivalued=True)
   backend.add_field(collection_id, "content", type="text_en")
   backend.add_field(collection_id, "project", type="string", copyDests=["suggest"])
   backend.add_field(collection_id, "body", type="text_en")
@@ -53,9 +53,12 @@ def setup_find_fields(backend, collection_id):
   backend.add_field(collection_id, "filename", type="text_en", copyDests=["filename_exact"])
   backend.add_field(collection_id, "length", type="int")
   backend.add_field(collection_id, "isBot", type="boolean")
+  backend.add_field(collection_id, "productVersion", type="float") # If we are dealing w/ an LW product, can we determine it's version?
+  backend.add_field(collection_id, "productName", type="string")
   backend.add_field(collection_id, "threadId", type="string")
   #backend.add_field(collection_id, "isDocumentation", type="boolean")
 
+# ((fusion)/(\d+.\d+))|((\w+|LucidWorksSearch-Docs)-v(\d+\.\d+))
 
 def setup_pipelines(backend):
   pipe_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_pipeline.json")]

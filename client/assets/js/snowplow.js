@@ -15,7 +15,7 @@
   }
 }(window, document, "script", "//d1fc8wv8zag5ca.cloudfront.net/2.5.3/sp.js", "searchhub_snowplow"));
 
-searchhub_snowplow("newTracker", "searchHub", "localhost:5000/snowplow", {
+searchhub_snowplow("newTracker", "searchHub", location.hostname + ":" + location.port + "/snowplow", {
   appId: "searchHub",
   platform: "web",
 

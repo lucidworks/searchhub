@@ -3,10 +3,10 @@
   "stages": [
     {
       "type": "tika-parser",
-      "includeImages": true,
+      "includeImages": false,
       "flattenCompound": false,
       "addFailedDocs": false,
-      "addOriginalContent": true,
+      "addOriginalContent": false,
       "contentField": "_raw_content_",
       "contentEncoding": "binary",
       "returnXml": false,

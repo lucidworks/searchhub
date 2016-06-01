@@ -18,7 +18,7 @@
           "xml": false
         }
       ],
-      "debug": true,
+      "debug": false,
       "params": {
         "uri": "solr://lucidfind/select",
         "method": "GET",
@@ -34,12 +34,28 @@
       "condition": "true"
     },
     {
+      "type": "field-mapping",
+      "mappings": [
+        {
+          "source": "_raw_content_",
+          "operation": "delete"
+        },
+        {
+          "source": "_rpc_.*",
+          "operation": "delete"
+        }
+      ],
+      "reservedFieldsMappingAllowed": false,
+      "skip": false,
+      "label": "field-mapping"
+    },
+    {
       "type": "solr-index",
       "id": "3d0d3dd8-771a-450c-ad7a-c1e3c108246a",
       "enforceSchema": true,
       "dateFormats": [ ],
       "params": [ ],
-      "bufferDocsForSolr": false,
+      "bufferDocsForSolr": true,
       "skip": false,
       "label": "solr-index"
     }

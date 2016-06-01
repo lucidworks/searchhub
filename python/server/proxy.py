@@ -4,25 +4,18 @@ import urllib
 import urlparse
 import json
 
-from flask import Flask, Blueprint, request, Response, url_for
+from flask import Flask, Blueprint, request, Response, url_for, stream_with_context
 from werkzeug.datastructures import Headers
 from werkzeug.exceptions import NotFound
 from server import app
 from base64 import b64encode
-
+import requests
+# Basics From https://github.com/ziozzang/flask-as-http-proxy-server/blob/master/proxy.py
 
 proxy = Blueprint('proxy', __name__)
 app.register_blueprint(proxy)
 # You can insert Authentication here.
 #proxy.before_request(check_login)
-
-# Filters.
-HTML_REGEX = re.compile(r'((?:src|action|href)=["\'])/')
-JQUERY_REGEX = re.compile(r'(\$\.(?:get|post)\(["\'])/')
-JS_LOCATION_REGEX = re.compile(r'((?:window|document)\.location.*=.*["\'])/')
-CSS_REGEX = re.compile(r'(url\(["\']?)/')
-
-REGEXES = [HTML_REGEX, JQUERY_REGEX, JS_LOCATION_REGEX, CSS_REGEX]
 
 
 def iterform(multidict):
@@ -46,8 +39,9 @@ def parse_host_port(h):
 def proxy_request(other):
     hostname = app.config.get("FUSION_HOST")
     port = int(app.config.get("FUSION_PORT"))
+    protocol = app.config.get("FUSION_PROTOCOL", "http")
 
-    print "H: '%s' P: %d" % (hostname, port)
+    #print "H: '%s' P: %d" % (hostname, port)
     #print "F: '%s'" % (file)
     # Whitelist a few headers to pass on
     #TODO: fix authtentication.  Change to be a search only user
@@ -76,59 +70,16 @@ def proxy_request(other):
         request_headers["Content-Length"] = len(form_data)
     else:
         form_data = None
-
-    conn = httplib.HTTPConnection(hostname, port)
-    print "connecting to: %s %i %s" % (hostname, port, path)
-    conn.set_debuglevel(10)
-
-    conn.request(request.method, path, body=form_data, headers=request_headers)
-    resp = conn.getresponse()
-    print resp.status
-    # Clean up response headers for forwarding
-    d = {}
-    response_headers = Headers()
-    for key, value in resp.getheaders():
-        print "HEADER: '%s':'%s'" % (key, value)
-        d[key.lower()] = value
-        if key in ["content-length", "connection", "content-type"]:
-            continue
-
-        if key == "set-cookie":
-            cookies = value.split(",")
-            [response_headers.add(key, c) for c in cookies]
-        else:
-            response_headers.add(key, value)
-
-    # If this is a redirect, munge the Location URL
-    if "location" in response_headers:
-        redirect = response_headers["location"]
-        parsed = urlparse.urlparse(request.url)
-        redirect_parsed = urlparse.urlparse(redirect)
-
-        redirect_host = redirect_parsed.netloc
-        if not redirect_host:
-            redirect_host = "%s:%d" % (hostname, port)
-
-        redirect_path = redirect_parsed.path
-        if redirect_parsed.query:
-            redirect_path += "?" + redirect_parsed.query
-
-        munged_path = url_for(".proxy_request",
-                              host=redirect_host,
-                              file=redirect_path[1:])
-
-        url = "%s://%s%s" % (parsed.scheme, parsed.netloc, munged_path)
-        response_headers["location"] = url
-
-    # Rewrite URLs in the content to point to our URL schemt.method == " instead.
-    # Ugly, but seems to mostly work.
-    #root = url_for(".proxy_request", host=host)
-    contents = resp.read()
-    #print contents
-    flask_response = Response(response=contents,
-                              status=resp.status,
-                              headers=response_headers,
-                              content_type=resp.getheader('content-type'))
+    r = None
+    if request.method == "POST" or request.method == "PUT":
+        r = requests.post("{0}://{1}:{2}{3}".format(protocol, hostname, port, path), data=form_data, headers=request_headers)
+    else:
+        r = requests.get("{0}://{1}:{2}{3}".format(protocol, hostname, port, path), headers=request_headers)
+    #print r.url
+    #print r.encoding
+    #print r.text.encode(r.encoding)
+    flask_response = Response(response=r.iter_content(8192),
+                              status=r.status_code)
     return flask_response
 
 

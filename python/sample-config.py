@@ -31,6 +31,7 @@ SECRET_KEY = "secret"
 
 # Fusion Config
 
+FUSION_PROTOCOL = "http" # Optionally set the protocol, else defaults to http
 FUSION_HOST = "localhost"
 FUSION_PORT = 8764
 FUSION_URL = "http://" + FUSION_HOST + ":" + str(FUSION_PORT) + "/api/"

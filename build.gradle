@@ -137,7 +137,7 @@ task activatePythonVirtualEnv(type: Exec, dependsOn: [setupPythonVirtualEnv]) {
 }
 
 task installPythonReqs(type: Exec, dependsOn: [activatePythonVirtualEnv]) {
-  commandLine 'venv/bin/pip', 'install', '-r', 'reqs.txt'
+  commandLine 'venv/bin/pip', 'install', '-r', 'python/requirements.txt'
 }
 
 task installPython(dependsOn: [installPythonReqs]) {

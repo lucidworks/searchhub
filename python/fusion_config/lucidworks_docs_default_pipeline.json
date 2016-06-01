@@ -2,27 +2,12 @@
   "id": "lw-docs-default",
   "stages": [
     {
-      "type": "index-set-property",
-      "id": "y8sq0k9",
-      "source": [
-        "id", "name_s"
-      ],
-      "regularExpression": "asciidoc",
-      "outputType": "context",
-      "outputKey": "isDocumentation",
-      "outputValue": "true",
-      "falseOutputValue": "false",
-      "skip": false,
-      "label": "isDocumentation",
-      "whatMatchedKey": "whatMatched"
-    },
-    {
       "type": "tika-parser",
       "id": "9e86b948-9502-4d02-989d-6533c592062f",
-      "includeImages": true,
+      "includeImages": false,
       "flattenCompound": false,
       "addFailedDocs": false,
-      "addOriginalContent": true,
+      "addOriginalContent": false,
       "contentField": "_raw_content_",
       "contentEncoding": "binary",
       "returnXml": false,
@@ -31,7 +16,7 @@
       "extractOtherLinks": false,
       "csvParsing": true,
       "skip": false,
-      "condition": "ctx.getString(\"isDocumentation\") == \"true\"",
+      "condition": "",
       "label": "tika-parser"
     },
     {
@@ -52,17 +37,52 @@
           "source": "lastModified_dt",
           "target": "publishedOnDate",
           "operation": "copy"
-        },
-        {
-          "source": "project",
-          "target": "Lucidworks Docs",
-          "operation": "copy"
         }
       ],
       "reservedFieldsMappingAllowed": false,
       "skip": false,
-      "condition": "ctx.getString(\"isDocumentation\") == \"true\"",
+      "condition": "",
       "label": "field-mapping"
+    },
+    {
+      "type": "regex-extractor",
+      "id": "twzrspyx4ssckgldi",
+      "rules": [
+        {
+          "source": [
+            "resourceName"
+          ],
+          "target": "productVersion",
+          "pattern": "((fusion)/(\\d+.\\d+))|((\\w+|LucidWorksSearch-Docs)-v(\\d+\\.\\d+))",
+          "group": 3
+        },
+        {
+          "source": [
+            "resourceName"
+          ],
+          "target": "productName",
+          "pattern": "((fusion)/(\\d+.\\d+))|((\\w+|LucidWorksSearch-Docs)-v(\\d+\\.\\d+))",
+          "group": 2
+        },
+        {
+          "source": [
+            "resourceName"
+          ],
+          "target": "productName",
+          "pattern": "((fusion)/(\\d+.\\d+))|((\\w+|LucidWorksSearch-Docs)-v(\\d+\\.\\d+))",
+          "group": 5
+        },
+        {
+          "source": [
+            "resourceName"
+          ],
+          "target": "productVersion",
+          "pattern": "((fusion)/(\\d+.\\d+))|((\\w+|LucidWorksSearch-Docs)-v(\\d+\\.\\d+))",
+          "group": 6
+        }
+      ],
+      "skip": false,
+      "label": "Product and Version"
     },
     {
       "type": "solr-index",
@@ -70,9 +90,9 @@
       "enforceSchema": true,
       "dateFormats": [],
       "params": [],
-      "bufferDocsForSolr": false,
+      "bufferDocsForSolr": true,
       "skip": false,
-      "condition": "ctx.getString(\"isDocumentation\") == \"true\"",
+      "condition": "",
       "label": "solr-index"
     }
   ],

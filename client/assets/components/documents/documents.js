@@ -2,10 +2,10 @@
   'use strict';
 
   angular
-    .module('searchHub.components.documents', ['lucidworksView.services.config',
-      'ngOrwell', 'lucidworksView.services.landingPage'
-    ])
-    .directive('documents', documents);
+      .module('searchHub.components.documents', ['lucidworksView.services.config',
+        'ngOrwell', 'lucidworksView.services.landingPage'
+      ])
+      .directive('documents', documents);
 
   function documents() {
     'ngInject';
@@ -58,18 +58,18 @@
      * @param  {object} doc Document object
      * @return {string}     Type of document
      */
-    function getDocType(doc){
+    function getDocType(doc) {
       // Change to your collection datasource type name
       // if(doc['_lw_data_source_s'] === 'MyDatasource-default'){
       //   return doc['_lw_data_source_s'];
       // }
       var ds = doc['_lw_data_source_s'];
-      if (ds){
-        if (ds.indexOf("lucidworks-docs") != -1){
+      if (ds) {
+        if (ds.indexOf("lucidworks-docs") != -1) {
           return "lucid-docs";
         }
         var idx = ds.indexOf("-");
-        if (idx != -1){
+        if (idx != -1) {
           return ds.substring(0, idx)
         }
       }
@@ -82,57 +82,66 @@
      * @param  {object} doc Document object
      * @return {object}     Document object
      */
-    function decorateDocument(doc){
+    function decorateDocument(doc) {
       return doc;
     }
 
-    function isNotGrouped(data){
+    function isNotGrouped(data) {
       return _.has(data, 'response');
     }
-    function isGrouped(data){
+
+    function isGrouped(data) {
       return _.has(data, 'grouped');
     }
+
     /**
      * Get the documents from
      * @param  {object} data The result data.
      * @return {array}       The documents returned
      */
-    function parseDocuments(data){
+    function parseDocuments(data) {
       var docs = [];
       if (isNotGrouped(data)) {
         docs = data.response.docs;
       }
-      else if(isGrouped(data)){
+      else if (isGrouped(data)) {
         vm.groupedResults = data.grouped;
         parseGrouping(vm.groupedResults);
+        //TODO: handle signals for grouped results
+        //$log.info("docs: "+ docs.length);
       }
-      //$log.info("docs: "+ docs.length);
-      if (docs.length > 0){
+      if (docs.length > 0) {
+        var facets = null;
+        if (data.facet_counts){
+          facets = data.facet_counts;
+        }
         //we have docs, let's send over a signal of the query and all the doc ids
         var queryObject = QueryService.getQueryObject();
         SnowplowService.postSearchSignal(queryObject,
             data.responseHeader.params.fq,
-          data.response.numFound,
-          data.response.docs
-          )
+            data.response.numFound,
+            data.response.docs,
+            facets
+        )
       }
       return docs;
     }
 
 
-    function toggleGroupedResults(toggle){
+    function toggleGroupedResults(toggle) {
       vm.showGroupedResults[toggle] = !vm.showGroupedResults[toggle];
     }
 
-    function parseGrouping(results){
-      _.each(results, function(item){
-        _.each(item.groups, function(group){
-          if(_.has(group, 'groupValue') && group.groupValue !== null){
+    function parseGrouping(results) {
+      _.each(results, function (item) {
+        _.each(item.groups, function (group) {
+          if (_.has(group, 'groupValue') && group.groupValue !== null) {
             vm.showGroupedResults[group.groupValue] = false;
           }
-          else{
+          else {
             vm.showGroupedResults['noGroupedValue'] = true;
-          };
+          }
+          ;
         });
       });
     }
@@ -143,14 +152,14 @@
      * @return {object}      The highlighting results.
      */
     function parseHighlighting(data) {
-      if (data.hasOwnProperty('highlighting')){
-        _.each(data.highlighting, function(value, key){
+      if (data.hasOwnProperty('highlighting')) {
+        _.each(data.highlighting, function (value, key) {
           var vals = {};
           if (value) {
             _.each(Object.keys(value), function (key) {
               //$log.debug('highlight', value);
               var val = value[key];
-              _.each(val, function(high){
+              _.each(val, function (high) {
                 vals[key] = $sce.trustAsHtml(high);
               });
             });
@@ -158,7 +167,7 @@
           }
         });
       }
-      else{
+      else {
         vm.highlighting = {};
       }
       return vm.highlighting;

@@ -47,10 +47,15 @@
           "key": "facet.range.other",
           "value": "all",
           "policy": "append"
+        },
+        {
+          "key": "facet.limit",
+          "value": "10",
+          "policy": "append"
         }
       ],
       "skip": false,
-      "label": "Date Range Facets"
+      "label": "Other Facets"
     },
     {
       "type": "search-fields",

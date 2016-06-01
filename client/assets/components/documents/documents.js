@@ -48,8 +48,8 @@
         $log.info(queryObject);
         $log.info("see data");
         $log.info(data);
-
-        data=testFunction(data,queryObject,1,30);
+        data=addShortInDocs(data,queryObject,1,30);
+        data=addShortInHighlight(data,queryObject,1,30);
         $log.info("see data again");
         $log.info(data);
 
@@ -179,22 +179,46 @@
     }
 
 
-    function testFunction(data,q,skip,snippetLen){
+    function addShortInDocs(data,q,skip,snippetLen){
+      q=q['q'];
+      _.each(data.response.docs, function(doc){
+        if(doc['body_display']){
+          var splittedIntoArray=(doc['body_display'][0]).split(/[\s]+/);
+          $log.info(splittedIntoArray);
+          var containHighlight=splittedIntoArray.map(a=>a.toLowerCase().includes(q.toLowerCase()));
+          $log.info(containHighlight);
+          var paraLength=containHighlight.length;
+          $log.info(paraLength);
+          var max=0;
+          var maxind=0;
+          var i=0;
+          while (i+snippetLen<=paraLength){
+            //$log.info("checkpoint");
+            var tmp = containHighlight.slice(i,i+snippetLen).reduce((a, b) => a + b, 0);
+            if(tmp>max){
+              max=tmp;
+              maxind=i;
+            }
+            i=i+skip;
+          }
+          $log.info("see output obj");
+          $log.info(splittedIntoArray.slice(maxind,maxind+snippetLen).join(" "));
+          doc['shortbody']=$sce.trustAsHtml(splittedIntoArray.slice(maxind,maxind+snippetLen).join(" "));
+        }
+        else{
+          $log.info("no body_display?!");
+        }
+      });
+      return data;
+    }
+
+
+
+    function addShortInHighlight(data,q,skip,snippetLen){
       q=q['q'];
       _.each(data.highlighting, function(value,key){
         $log.info("see original");
         $log.info(value['body']+'');
-
-        if(value['body']){
-          var para=value['body'];
-        }
-        else{
-          var para=data.
-        }
-
-
-
-
         if(value['body']){
           var splittedIntoArray=(value['body'][0]).split(/[\s]+/);
           $log.info(splittedIntoArray);

@@ -23,14 +23,13 @@
 
   }
 
-  function Controller($sce, SnowplowService, $filter, $log, QueryService) {
+  function Controller($sce, SnowplowService, $filter, $log) {
     'ngInject';
     var vm = this;
 
     activate();
 
     function activate() {
-      vm.queryObject = QueryService.getQueryObject();
       vm.postSignal = SnowplowService.postSignal;
       vm.postClickSignal = SnowplowService.postClickSignal;
       vm.doc = processDocument(vm.doc);

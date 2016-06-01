@@ -44,25 +44,11 @@
         var queryObject = QueryService.getQueryObject();
         //let's make sure we can track individual query/result pairs by assigning a UUID to each unique query
         queryObject["uuid"] = IDService.generateUUID();
-
-        $log.info("Query Obj:");
-        $log.info(queryObject);
-        $log.info("see data");
-        $log.info(data);
         data=addShortInDocs(data,queryObject,1,30);
         data=addShortInHighlight(data,queryObject,1,30);
-        $log.info("see data again");
-        $log.info(data);
-
         vm.docs = parseDocuments(data);
-        $log.info("take a look at docs");
-        $log.info(vm.docs);
-
         //add transformed body
-
         vm.highlighting = parseHighlighting(data);
-        $log.info("see what's in highlighting");
-        $log.info(vm.highlighting);
         vm.getDoctype = getDocType;
         $anchorScroll('topOfMainContent');
       });
@@ -194,11 +180,8 @@
       _.each(data.response.docs, function(doc){
         if(doc['body_display']){
           var splittedIntoArray=(doc['body_display'][0]).split(/[\s]+/);
-          $log.info(splittedIntoArray);
           var containHighlight=splittedIntoArray.map(a=>a.toLowerCase().includes(q.toLowerCase()));
-          $log.info(containHighlight);
           var paraLength=containHighlight.length;
-          $log.info(paraLength);
           var max=0;
           var maxind=0;
           var i=0;
@@ -211,8 +194,6 @@
             }
             i=i+skip;
           }
-          $log.info("see output obj");
-          $log.info(splittedIntoArray.slice(maxind,maxind+snippetLen).join(" "));
           doc['shortbody']=$sce.trustAsHtml(splittedIntoArray.slice(maxind,maxind+snippetLen).join(" "));
         }
         else{
@@ -227,15 +208,10 @@
     function addShortInHighlight(data,q,skip,snippetLen){
       q=q['q'];
       _.each(data.highlighting, function(value,key){
-        $log.info("see original");
-        $log.info(value['body']+'');
         if(value['body']){
           var splittedIntoArray=(value['body'][0]).split(/[\s]+/);
-          $log.info(splittedIntoArray);
           var containHighlight=splittedIntoArray.map(a=>a.toLowerCase().includes(q.toLowerCase()));
-          $log.info(containHighlight);
           var paraLength=containHighlight.length;
-          $log.info(paraLength);
           var max=0;
           var maxind=0;
           var i=0;
@@ -248,18 +224,13 @@
             }
             i=i+skip;
           }
-          $log.info("see output");
-          $log.info(splittedIntoArray.slice(maxind,maxind+snippetLen).join(" "));
           value['shortbody']=[splittedIntoArray.slice(maxind,maxind+snippetLen).join(" ")];
         }
         else{
-          $log.info("not captured");
+          $log.info("not in highlight");
         }
       });
       return data;
     }
-
-
-
   }
 })();

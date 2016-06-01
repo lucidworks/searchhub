@@ -34,12 +34,12 @@
       vm.postClickSignal = SnowplowService.postClickSignal;
       vm.doc = processDocument(vm.doc);
       vm.shortenSubject=shortenSubject(vm.highlight);
-      $log.info("see shortenSubject");
-      $log.info(vm.shortenSubject);
     }
 
     function processDocument(doc) {
       //make sure we can display the info
+      doc['shortSub']=doc['subject'].replace(/\s*\(.*?\)\s*/g, '').replace(/\s*\[.*?\]\s*/g, '');
+      doc['shortSub']=$sce.trustAsHtml(doc['shortSub']);
       doc['body'] = $sce.trustAsHtml(doc['body']);
       doc['subject'] = $sce.trustAsHtml(doc['subject']);
       //$log.info(doc['subject']);

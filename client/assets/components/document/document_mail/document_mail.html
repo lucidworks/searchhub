@@ -2,7 +2,7 @@
   <!-- show head field linked with a url. -->
   <h3 class="head-field" ng-if="doc.subject"><a ng-href="{{vm.doc.parent_s}}" target="document"
                                                  ng-click="vm.postClickSignal(this, doc.id, $index, doc.score)">
-    <field value="doc.subject" highlight="vm.shortenSubject[doc.id]" maxlength="200" hkey="subject"></field>
+    <field value="doc.shortSub" highlight="vm.shortenSubject[doc.id]" maxlength="200" hkey="subject"></field>
   </a>
   </h3>
   <!-- show head field without a url. -->

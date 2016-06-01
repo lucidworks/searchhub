@@ -1,6 +1,6 @@
 <div class="detail vertical grid-content">
   <!-- show head field linked with a url. -->
-  <h3 class="head-field" ng-if="doc.subject"><a href="{{vm.doc.parent_s}}"
+  <h3 class="head-field" ng-if="doc.subject"><a ng-href="{{vm.doc.parent_s}}" target="document"
                                                  ng-click="vm.postClickSignal(this, doc.id, $index, doc.score)">
     <field value="doc.subject" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="subject"></field>
   </a>

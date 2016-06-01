@@ -4,7 +4,7 @@
   "stages" : [ {
     "type" : "tika-parser",
     "id" : "conn_tika",
-    "includeImages" : true,
+    "includeImages" : false,
     "flattenCompound" : false,
     "addFailedDocs" : true,
     "addOriginalContent" : false,

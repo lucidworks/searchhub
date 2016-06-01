@@ -46,8 +46,22 @@
         queryObject["uuid"] = IDService.generateUUID();
         $log.info("Query Obj:");
         $log.info(queryObject);
+        $log.info("see data");
+        $log.info(data);
+
+        data=testFunction(data,queryObject,1,30);
+        $log.info("see data again");
+        $log.info(data);
+
         vm.docs = parseDocuments(data);
+        $log.info("take a look at docs");
+        $log.info(vm.docs);
+
+        //add transformed body
+
         vm.highlighting = parseHighlighting(data);
+        $log.info("see what's in highlighting");
+        $log.info(vm.highlighting);
         vm.getDoctype = getDocType;
         $anchorScroll('topOfMainContent');
       });
@@ -163,5 +177,55 @@
       }
       return vm.highlighting;
     }
+
+
+    function testFunction(data,q,skip,snippetLen){
+      q=q['q'];
+      _.each(data.highlighting, function(value,key){
+        $log.info("see original");
+        $log.info(value['body']+'');
+
+        if(value['body']){
+          var para=value['body'];
+        }
+        else{
+          var para=data.
+        }
+
+
+
+
+        if(value['body']){
+          var splittedIntoArray=(value['body'][0]).split(/[\s]+/);
+          $log.info(splittedIntoArray);
+          var containHighlight=splittedIntoArray.map(a=>a.toLowerCase().includes(q.toLowerCase()));
+          $log.info(containHighlight);
+          var paraLength=containHighlight.length;
+          $log.info(paraLength);
+          var max=0;
+          var maxind=0;
+          var i=0;
+          while (i+snippetLen<=paraLength){
+            //$log.info("checkpoint");
+            var tmp = containHighlight.slice(i,i+snippetLen).reduce((a, b) => a + b, 0);
+            if(tmp>max){
+              max=tmp;
+              maxind=i;
+            }
+            i=i+skip;
+          }
+          $log.info("see output");
+          $log.info(splittedIntoArray.slice(maxind,maxind+snippetLen).join(" "));
+          value['shortbody']=[splittedIntoArray.slice(maxind,maxind+snippetLen).join(" ")];
+        }
+        else{
+          $log.info("not captured");
+        }
+      });
+      return data;
+    }
+
+
+
   }
 })();

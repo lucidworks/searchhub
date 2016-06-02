@@ -81,6 +81,8 @@ def setup_schedules(backend):
     print("Creating Schedule for %s" % file)
     backend.create_or_update_schedule(json.load(open(join("./fusion_config", file))))
 
+def start_schedules(backend):
+  backend.activate_schedules()
 
 def setup_projects(backend):
   project_files = [f for f in listdir("./project_config") if isfile(join("./project_config", f)) and f.endswith(".json")]
@@ -152,6 +154,9 @@ if cmd_args.create_projects or create_all:
   print("Creating Projects")
   setup_projects(backend)
 
-#create the pipelines
+#create the schedules
 if cmd_args.create_schedules or create_all:
   setup_schedules(backend)
+
+if cmd_args.start_schedules or create_all:
+  start_schedules(backend)

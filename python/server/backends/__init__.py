@@ -69,6 +69,10 @@ class Backend(object):
   def create_or_update_schedule(self, schedule):
     raise NotImplementedError()
 
+  #if schedules is none, then activate all.  If specified, only activate those schedules that match
+  def activate_schedules(self, schedules=None, searchHubOnly=True):
+    raise NotImplementedError()
+
   def get_datasource(self, id):
     """
     Retreive a datasource from the backend

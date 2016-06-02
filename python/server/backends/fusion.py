@@ -421,6 +421,34 @@ class FusionBackend(Backend):
         raise Exception("Couldn't create schedule for {0}.  Schedule: {1}".format(schedule["id"], schedule))
     return None
 
+  #if schedules is none, then activate all.  If specified, only activate those schedules that match
+  # schedules is an array of schedule names to activate
+  # if searchHubOnly is false, then activate all schedules regardless if SearchHub created them
+  def activate_schedules(self, schedules=None, searchHubOnly=True):
+    if not schedules:
+      schedules = []
+    #get the list of schedules
+    resp = self.admin_session.get("apollo/scheduler/schedules")
+    if resp.status_code == 200:
+      server_schedules = resp.json()
+      for schedule in server_schedules:
+        if schedule["active"] == False:
+          if len(schedules) > 0 and schedule["id"] not in schedules:
+            print "skipping starting {0}".format(schedule["id"])
+            continue
+          schedule["active"] = True
+          if searchHubOnly and not schedule["id"].startswith("schedule-") and not schedule["id"].startswith("suggester-"):
+            print "skipping starting {0}".format(schedule["id"])
+            continue
+          print "Activating {0}".format(schedule["id"])
+          self.create_or_update_schedule(schedule)
+
+    else:
+        print resp.status_code
+        print resp.text
+        raise Exception("Couldn't get list of schedules")
+    return None
+
   def get_datasource(self, id):
     resp = self.admin_session.get("apollo/connectors/datasources/{0}".format(id))
     if resp.status_code == 404:

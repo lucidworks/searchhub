@@ -32,7 +32,6 @@
     vm.toggleGroupedResults = toggleGroupedResults;
     vm.decorateDocument = decorateDocument;
     vm.showGroupedResults = {};
-
     activate();
 
     ////////

@@ -13,5 +13,7 @@
 
   <p class="large-8 xlarge-7 xx-large-6 mail-body">
     <field ng-if="doc.shortbody" value="doc.shortbody" highlight="::vm.highlight[doc.id]" maxlength="100" hkey="trimed"></field>
+  </br><button ng-click="seeAll = !seeAll" ng-init="seeAll=false">show full content</button>
+</br><field ng-if="seeAll" value="doc.body" maxlength="10000"></field>
   </p>
 </div>

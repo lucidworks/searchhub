@@ -30,6 +30,8 @@
 
 
      <field ng-if="vm.doc.shortbody" value="vm.doc.shortbody" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="trimed"></field>
+   </br><button ng-click="seeAll = !seeAll" ng-init="seeAll=false">show full content</button>
+ </br><field ng-if="seeAll" value="doc.body" maxlength="10000"></field>
 
              <!-- Other fields -->
 

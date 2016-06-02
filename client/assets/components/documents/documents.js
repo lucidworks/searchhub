@@ -44,8 +44,8 @@
         var queryObject = QueryService.getQueryObject();
         //let's make sure we can track individual query/result pairs by assigning a UUID to each unique query
         queryObject["uuid"] = IDService.generateUUID();
-        data=addShortInDocs(data,queryObject,1,30);
-        data=addShortInHighlight(data,queryObject,1,30);
+        data=addShortInDocs(data,queryObject['q'],1,30);//not skip, snippet length is 30
+        data=addShortInHighlight(data,queryObject['q'],1,30);//not skip, snippet length is 30
         vm.docs = parseDocuments(data);
         //add transformed body
         vm.highlighting = parseHighlighting(data);
@@ -176,7 +176,6 @@
 
 
     function addShortInDocs(data,q,skip,snippetLen){
-      q=q['q'];
       _.each(data.response.docs, function(doc){
         if(doc['body_display']){
           var splittedIntoArray=(doc['body_display'][0]).split(/[\s]+/);
@@ -206,7 +205,6 @@
 
 
     function addShortInHighlight(data,q,skip,snippetLen){
-      q=q['q'];
       _.each(data.highlighting, function(value,key){
         if(value['body']){
           var splittedIntoArray=(value['body'][0]).split(/[\s]+/);

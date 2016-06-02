@@ -45,7 +45,7 @@
         //let's make sure we can track individual query/result pairs by assigning a UUID to each unique query
         queryObject["uuid"] = IDService.generateUUID();
         data=addShortInDocs(data,queryObject['q'],1,30);//not skip, snippet length is 30
-        data=addShortInHighlight(data,queryObject['q'],1,30);//not skip, snippet length is 30
+        data=trimSpaceInHighlight(data);
         vm.docs = parseDocuments(data);
         //add transformed body
         vm.highlighting = parseHighlighting(data);
@@ -209,30 +209,11 @@
 
 
 
-    function addShortInHighlight(data,q,skip,snippetLen){
+    function trimSpaceInHighlight(data){
       _.each(data.highlighting, function(value,key){
         if(value['body']){
           var splittedIntoArray=(value['body'][0]).split(/[\s]+/);
-          var containHighlight=splittedIntoArray.map(a=>a.toLowerCase().includes(q.toLowerCase()));
-          var paraLength=containHighlight.length;
-          var max=0;
-          var maxind=0;
-          var i=0;
-          while (i+snippetLen<=paraLength){
-            //$log.info("checkpoint");
-            var tmp = containHighlight.slice(i,i+snippetLen).reduce((a, b) => a + b, 0);
-            if(tmp>max){
-              max=tmp;
-              maxind=i;
-            }
-            i=i+skip;
-          }
-          if(i==0){
-            value['shortbody']=[splittedIntoArray.slice(maxind,maxind+snippetLen).join(" ")];
-          }
-          else{
-            value['shortbody']=[splittedIntoArray.slice(maxind,maxind+snippetLen).join(" ")+'...'];
-          }
+          value['trimed']=[splittedIntoArray.join(" ")+'...'];
         }
         else{
           $log.info("not in highlight");

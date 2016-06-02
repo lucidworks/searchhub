@@ -1,0 +1,20 @@
+<article class="grid-block document row">
+  <div class="detail vertical grid-content">
+    <!-- show head field linked with a title. -->
+    <h3 class="head-field" ng-if="::vm.doc.title">
+      <a ng-href="{{vm.doc.id}}" ng-click="vm.postClickSignal(this, doc.id, $index, doc.score)" rel="noopener"
+         target="document">
+        <field value="::vm.doc.title" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="title"></field>
+      </a>
+    </h3>
+    <div ng-if="::vm.doc.type_s == 'file'">
+      <!-- show head field linked with a url. -->
+      <h5  ng-if="::vm.doc.name_s"><span class="field-header">File Name</span>: <field value="::vm.doc.name_s" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="name_s"></field></h5>
+      <div ng-if="::vm.doc.lastModified_dt"><span class="field-header">Last Modified</span>: <field value="::vm.doc.lastModified_dt|date:'medium'" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="lastModified_dt"></field></div>
+      <div ng-if="::vm.doc.sha_s"><span class="field-header">SHA</span>: <field value="::vm.doc.sha_s" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="sha_s"></field></div>
+      <div ng-if="::vm.doc.Content_Encoding"><span class="field-header">Encoding</span>: <field value="::vm.doc.Content_Encoding" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="Content_Encoding"></field></div>
+      <div ng-if="::vm.doc.body"><field value="::vm.doc.body" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="body"></field></div>
+
+    </div>
+  </div>
+</article>

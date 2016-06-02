@@ -7,6 +7,12 @@
         <field value="::vm.doc.title" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="title"></field>
       </a>
     </h3>
+    <h3 class="head-field" ng-if="!vm.doc.title">
+      <a ng-href="{{vm.doc.id}}" ng-click="vm.postClickSignal(this, doc.id, $index, doc.score)" rel="noopener"
+         target="document">
+        <field value="::vm.doc.id" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="id"></field>
+      </a>
+    </h3>
     <div ng-if="::vm.doc.type_s == 'file'">
       <!-- show head field linked with a url. -->
       <h5  ng-if="::vm.doc.name_s"><span class="field-header">File Name</span>: <field value="::vm.doc.name_s" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="name_s"></field></h5>

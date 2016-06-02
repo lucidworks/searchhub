@@ -56,6 +56,11 @@
           "operation": "copy"
         },
         {
+          "source": "github_content_type_s",
+          "target": "type_s",
+          "operation": "move"
+        },
+        {
           "source": "_raw_content_",
           "operation": "delete"
         }

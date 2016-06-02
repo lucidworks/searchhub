@@ -72,6 +72,14 @@
           "boost": 10
         },
         {
+          "field": "keywords",
+          "boost": 20
+        },
+        { 
+          "field": "suggest",
+          "boost": 10,
+        },
+        {
           "field": "body"
         },
         {

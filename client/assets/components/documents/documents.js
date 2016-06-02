@@ -193,7 +193,12 @@
             }
             i=i+skip;
           }
-          doc['shortbody']=$sce.trustAsHtml(splittedIntoArray.slice(maxind,maxind+snippetLen).join(" "));
+          if(i==0){
+            doc['shortbody']=$sce.trustAsHtml(splittedIntoArray.slice(maxind,maxind+snippetLen).join(" "));
+          }
+          else{
+            doc['shortbody']=$sce.trustAsHtml(splittedIntoArray.slice(maxind,maxind+snippetLen).join(" ")+'...');
+          }
         }
         else{
           $log.info("no body_display?!");
@@ -222,7 +227,12 @@
             }
             i=i+skip;
           }
-          value['shortbody']=[splittedIntoArray.slice(maxind,maxind+snippetLen).join(" ")];
+          if(i==0){
+            value['shortbody']=[splittedIntoArray.slice(maxind,maxind+snippetLen).join(" ")];
+          }
+          else{
+            value['shortbody']=[splittedIntoArray.slice(maxind,maxind+snippetLen).join(" ")+'...'];
+          }
         }
         else{
           $log.info("not in highlight");

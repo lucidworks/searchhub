@@ -181,7 +181,8 @@
         _.each(data.response.docs,function(doc){
           if(doc['body']){
             var splittedIntoArray=(doc['body']).split(/[\s]+/);
-            var formedString=splittedIntoArray.join(" ");
+            var re = new RegExp("\-\-\-+","g");
+            var formedString=splittedIntoArray.join(" ").replace(re,"");
             if(formedString.length<snippetLen){
               $log.info(formedString);
               doc['shortbody']=$sce.trustAsHtml(formedString);
@@ -200,7 +201,8 @@
         _.each(data.response.docs, function(doc){
           if(doc['body']){
             var splittedIntoArray=(doc['body']).split(/[\s]+/);
-            var formedString=splittedIntoArray.join(" ");
+            var re = new RegExp("\-\-\-+","g");
+            var formedString=splittedIntoArray.join(" ").replace(re,"");
             var re = new RegExp(q, "gi");
             var res = formedString.match(re);
             var max=0;
@@ -274,7 +276,8 @@
       _.each(data.highlighting, function(value,key){
         if(value['body']){
           var splittedIntoArray=(value['body'][0]).split(/[\s]+/);
-          value['trimed']=[splittedIntoArray.join(" ")+'...'];
+          var re = new RegExp("\-\-\-+","g");
+          value['trimed']=[splittedIntoArray.join(" ").replace(re,"")+'...'];
         }
         else{
           $log.info("not in highlight");

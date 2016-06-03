@@ -84,6 +84,9 @@ def setup_schedules(backend):
 def start_schedules(backend):
   backend.activate_schedules()
 
+def stop_schedules(backend):
+  backend.stop_schedules()
+
 def setup_projects(backend):
   project_files = [f for f in listdir("./project_config") if isfile(join("./project_config", f)) and f.endswith(".json")]
   if cmd_args.start_datasources:
@@ -158,5 +161,8 @@ if cmd_args.create_projects or create_all:
 if cmd_args.create_schedules or create_all:
   setup_schedules(backend)
 
-if cmd_args.start_schedules or create_all:
+if cmd_args.start_schedules:
   start_schedules(backend)
+
+if cmd_args.stop_schedules:
+  stop_schedules(backend)

@@ -73,6 +73,9 @@ class Backend(object):
   def activate_schedules(self, schedules=None, searchHubOnly=True):
     raise NotImplementedError()
 
+  def stop_schedules(self, schedules=None, searchHubOnly=True):
+    raise NotImplementedError()
+
   def get_datasource(self, id):
     """
     Retreive a datasource from the backend

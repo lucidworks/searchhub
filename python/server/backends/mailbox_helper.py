@@ -52,7 +52,7 @@ def create_config(project_name, pipeline, mailing_list):
       "retainOutlinks": True,
       "f.defaultCharSet": "UTF-8",
       "emitThreads": 5,
-      "diagnosticMode": True,
+      "diagnosticMode": False,
       "delete": True,
       "f.userAgentWebAddr": "",
       "initial_mapping": {

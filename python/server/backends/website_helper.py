@@ -59,7 +59,7 @@ def create_config(project_name, pipeline, website):
         ".bin",
         ".jar"
       ],
-      "diagnosticMode": True,
+      "diagnosticMode": False,
       "delete": True,
       "f.userAgentWebAddr": "",
       "initial_mapping": {

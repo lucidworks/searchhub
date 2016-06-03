@@ -184,11 +184,9 @@
             var re = new RegExp("\-\-\-+","g");
             var formedString=splittedIntoArray.join(" ").replace(re,"");
             if(formedString.length<snippetLen){
-              $log.info(formedString);
               doc['shortbody']=$sce.trustAsHtml(formedString);
             }
             else{
-              $log.info(formedString.slice(0,snippetLen)+'...');
               doc['shortbody']=$sce.trustAsHtml(formedString.slice(0,snippetLen)+'...');
             }
           }
@@ -233,44 +231,6 @@
   }
       return data;
     }
-
-
-
-
-/*
-    function addShortInDocs(data,q,skip,snippetLen){
-      _.each(data.response.docs, function(doc){
-        if(doc['body_display']){
-          var splittedIntoArray=(doc['body_display'][0]).split(/[\s]+/);
-          var containHighlight=splittedIntoArray.map(a=>a.toLowerCase().includes(q.toLowerCase()));
-          var paraLength=containHighlight.length;
-          var max=0;
-          var maxind=0;
-          var i=0;
-          while (i+snippetLen<=paraLength){
-            //$log.info("checkpoint");
-            var tmp = containHighlight.slice(i,i+snippetLen).reduce((a, b) => a + b, 0);
-            if(tmp>max){
-              max=tmp;
-              maxind=i;
-            }
-            i=i+skip;
-          }
-          if(i==0){
-            doc['shortbody']=$sce.trustAsHtml(splittedIntoArray.slice(maxind,maxind+snippetLen).join(" "));
-          }
-          else{
-            doc['shortbody']=$sce.trustAsHtml(splittedIntoArray.slice(maxind,maxind+snippetLen).join(" ")+'...');
-          }
-        }
-        else{
-          $log.info("no body_display?!");
-        }
-      });
-      return data;
-    }
-*/
-
 
     function trimSpaceInHighlight(data){
       _.each(data.highlighting, function(value,key){

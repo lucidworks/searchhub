@@ -77,7 +77,7 @@
         },
         { 
           "field": "suggest",
-          "boost": 10,
+          "boost": 10
         },
         {
           "field": "body"

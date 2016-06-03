@@ -43,12 +43,13 @@
         var queryObject = QueryService.getQueryObject();
         //let's make sure we can track individual query/result pairs by assigning a UUID to each unique query
         queryObject["uuid"] = IDService.generateUUID();
-        data=addShortInDocs(data,queryObject['q'],1,30);//not skip, snippet length is 30
+        data=addShortInDocs(data,queryObject['q'],1,80);//not skip, snippet length is 30
         data=trimSpaceInHighlight(data);
         vm.docs = parseDocuments(data);
         //add transformed body
         vm.highlighting = parseHighlighting(data);
         vm.getDoctype = getDocType;
+        $log.info(queryObject);
         $anchorScroll('topOfMainContent');
       });
     }
@@ -175,6 +176,67 @@
 
 
     function addShortInDocs(data,q,skip,snippetLen){
+      //var re_q=/[^a-z]/gi;
+      if(q=='*'){
+        _.each(data.response.docs,function(doc){
+          if(doc['body']){
+            var splittedIntoArray=(doc['body']).split(/[\s]+/);
+            var formedString=splittedIntoArray.join(" ");
+            if(formedString.length<snippetLen){
+              $log.info(formedString);
+              doc['shortbody']=$sce.trustAsHtml(formedString);
+            }
+            else{
+              $log.info(formedString.slice(0,snippetLen)+'...');
+              doc['shortbody']=$sce.trustAsHtml(formedString.slice(0,snippetLen)+'...');
+            }
+          }
+          else{
+            $log.info("no body!");
+          }
+        })
+      }
+      else{
+        _.each(data.response.docs, function(doc){
+          if(doc['body']){
+            var splittedIntoArray=(doc['body']).split(/[\s]+/);
+            var formedString=splittedIntoArray.join(" ");
+            var re = new RegExp(q, "gi");
+            var res = formedString.match(re);
+            var max=0;
+            var maxind=0;
+            var i=0;
+            var paraLength=formedString.length;
+            while (i+snippetLen<=paraLength){
+              //$log.info("checkpoint");
+              var tmp = formedString.slice(i,i+snippetLen).match(re);
+              if(tmp && tmp.length>max){
+                max=tmp;
+                maxind=i;
+              }
+              i=i+skip;
+            }
+            if(i==0){
+              doc['shortbody']=$sce.trustAsHtml(formedString);
+            }
+            else{
+              doc['shortbody']=$sce.trustAsHtml(formedString.slice(maxind,maxind+snippetLen)+'...');
+            }
+          }
+          else{
+            $log.info("no body!");
+          }
+        }
+    )
+  }
+      return data;
+    }
+
+
+
+
+/*
+    function addShortInDocs(data,q,skip,snippetLen){
       _.each(data.response.docs, function(doc){
         if(doc['body_display']){
           var splittedIntoArray=(doc['body_display'][0]).split(/[\s]+/);
@@ -205,7 +267,7 @@
       });
       return data;
     }
-
+*/
 
 
     function trimSpaceInHighlight(data){

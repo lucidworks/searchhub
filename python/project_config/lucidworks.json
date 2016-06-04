@@ -41,7 +41,8 @@
       "schedule": {
         "repeatUnit": "DAY",
         "interval": 2
-      }
+      },
+      "excludes":[".*signin.*"]
     }
   ]
 }

@@ -31,7 +31,7 @@ def search():
 @app.route('/snowplow/<path:path>', methods=["GET"])
 def track_event(path):
     #print path
-    print request
+    #print request
     app_id = request.args.get("aid")
     platform = request.args.get("p")
     event = request.args.get("e")

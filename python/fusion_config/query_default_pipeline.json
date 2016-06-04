@@ -50,7 +50,7 @@
         },
         {
           "key": "facet.limit",
-          "value": "10",
+          "value": "30",
           "policy": "append"
         }
       ],

@@ -146,6 +146,8 @@ def create_config(project_name, pipeline, website):
       "aliasExpiration": 1
     }
   }
+  if "excludes" in website:
+    config['properties']['excludeRegexes'] = [website["excludes"]]
   schedule = None
   if "schedule" in website:
     details = website["schedule"]

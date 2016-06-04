@@ -36,7 +36,7 @@ def track_event(path):
     platform = request.args.get("p")
     event = request.args.get("e")
     timestamp = request.args.get("dtm")
-    print "app: {0} plat: {1} event: {2} time: {3} request: {4}".format(app_id, platform, event, timestamp, request.args)
+    #print "app: {0} plat: {1} event: {2} time: {3} request: {4}".format(app_id, platform, event, timestamp, request.args)
     if app_id == "searchHub":
       coll_id = app.config.get("FUSION_COLLECTION", "lucidfind")
       result = backend.send_signal(coll_id, request.args)
@@ -58,7 +58,7 @@ def track_event(path):
 
 @app.route('/templates/<path:path>')
 def send_foundation_template(path): #TODO: we shouldn't need this in production since we shouldn't serve static content from Flask
-    print "template: " + path
+    #print "template: " + path
     return send_from_directory(os.path.join(app.root_path, 'templates'), path)
 
 

@@ -181,6 +181,12 @@ public class ApacheMailMboxGetter {
     log.debug("URLS List: " + urlsList);
     for (String mboxName : urlsList) {
       downloadList(urlStr, mboxName, list, modificationCache);
+      try {
+        //sleep so that we don't invoke the ire of the ASF failban software.
+        Thread.currentThread().sleep(1000);
+      } catch (InterruptedException e) {
+        //do nothing
+      }
     }
 
     DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");

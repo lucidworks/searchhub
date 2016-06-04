@@ -22,8 +22,10 @@ parser.add_argument('--create_all', action='store_true',
                             help='create all items, as if setting all flags.  You can also just not pass in any arguments')
 parser.add_argument('--config', action='store',
                             help='The config file to use, default is "config.py"')
-
-
+parser.add_argument('--start_schedules', action='store_true',
+                            help='Activate all schedules.  Only SearchHub schedules will be activated')
+parser.add_argument('--stop_schedules', action='store_true',
+                            help='Stop all active schedules.  Only SearchHub schedules will be de-activated')
 cmd_args = parser.parse_args()
 
 create_all = False

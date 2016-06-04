@@ -68,11 +68,11 @@ public class MimeMailParser {
       return null;
     }
     if (!idPattern.matcher(docId).matches()) {
-      logger.info("doc with ID: " + docId + " does not match raw mbox message URL format, skipping");
+      logger.debug("doc with ID: " + docId + " does not match raw mbox message URL format, skipping");
       return null;
     }
     if (!doc.hasField(RAW_CONTENT)) {
-      logger.info(RAW_CONTENT + " field empty in doc with ID: " + docId + ", skipping");
+      logger.debug(RAW_CONTENT + " field empty in doc with ID: " + docId + ", skipping");
       return null;
     }
     String rawText = new String(((byte[]) doc.getFirstFieldValue(RAW_CONTENT)));

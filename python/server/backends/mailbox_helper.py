@@ -8,13 +8,13 @@ def create_mailinglist_datasource_configs(project):
   schedules = []
   if "mailing_lists" in project:
     for ml in project["mailing_lists"]:
-      config, schedule = create_config(project["name"], pipeline, ml)
+      config, schedule = create_config(project["name"], project["label"], pipeline, ml)
       configs.append(config)
       schedules.append(schedule)
   return configs, schedules
 
 
-def create_config(project_name, pipeline, mailing_list):
+def create_config(project_name, project_label, pipeline, mailing_list):
   if "pipeline" in mailing_list:
     pipeline = mailing_list["pipeline"]  # individual mailing lists may override
   config = {
@@ -59,6 +59,8 @@ def create_config(project_name, pipeline, mailing_list):
         "id": "FromMap",
         "mappings": [
           {"source": "project", "target": project_name, "operation": "set"},
+          {"source": "project_label", "target": project_label, "operation": "set"},
+          {"source": "datasource_label", "target": mailing_list["label"], "operation": "set"},
           {"source": "fetchedDate", "target": "publishedOnDate", "operation": "copy"},
           {
             "source": "charSet",

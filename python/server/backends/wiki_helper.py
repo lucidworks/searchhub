@@ -9,13 +9,13 @@ def create_wiki_datasource_configs(project):
   schedules = []
   #TODO: should we have one crawler for all the websites under this project or one crawler per website?
   for wiki in project["wikis"]:
-    config, schedule = create_config(project["name"], pipeline, wiki)
+    config, schedule = create_config(project["name"], project["label"], pipeline, wiki)
     configs.append(config)
     schedules.append(schedule)
   return configs, schedules
 
 
-def create_config(project_name, pipeline, wiki):
+def create_config(project_name, project_label, pipeline, wiki):
   if "pipeline" in wiki:
     pipeline = wiki["pipeline"]  # individual mailing lists may override
   config = {
@@ -60,6 +60,8 @@ def create_config(project_name, pipeline, wiki):
         "id": "FromMap",
         "mappings": [
           {"source": "project", "target": project_name, "operation": "set"},
+          {"source": "project_label", "target": project_label, "operation": "set"},
+          {"source": "datasource_label", "target": wiki["label"], "operation": "set"},
           {"source": "fetchedDate", "target": "publishedOnDate", "operation": "copy"},
           {
             "source": "charSet",

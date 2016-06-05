@@ -43,6 +43,8 @@ def create_twitter_datasource_configs(project):
         'mappings': [
           # Add fields
           {"source": "project", "target": project["name"], "operation": "set"},
+          {"source": "project_label", "target": project["label"], "operation": "set"},
+          {"source": "datasource_label", "target": project["label"] + " Twitter", "operation": "set"},
           {"source": "source_s", "target": "twitter", "operation": "set"},
 
           # People names

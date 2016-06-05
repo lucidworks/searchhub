@@ -34,7 +34,7 @@
           "group": 2
         }
       ],
-      "skip": false,
+      "skip": true,
       "label": "Project Name Extractor"
     },
     {

@@ -10,13 +10,13 @@ def create_website_datasource_configs(project):
   #TODO: should we have one crawler for all the websites under this project or one crawler per website?
   if "websites" in project:
     for web in project["websites"]:
-      config, schedule = create_config(project["name"], pipeline, web)
+      config, schedule = create_config(project["name"], project["label"], pipeline, web)
       configs.append(config)
       schedules.append(schedule)
   return configs, schedules
 
 
-def create_config(project_name, pipeline, website):
+def create_config(project_name, project_label, pipeline, website):
   if "pipeline" in website:
     pipeline = website["pipeline"]  # individual mailing lists may override
   config = {
@@ -66,6 +66,8 @@ def create_config(project_name, pipeline, website):
         "id": "FromMap",
         "mappings": [
           {"source": "project", "target": project_name, "operation": "set"},
+          {"source": "project_label", "target": project_label, "operation": "set"},
+          {"source": "datasource_label", "target": website["label"], "operation": "set"},
           {"source": "fetchedDate", "target": "publishedOnDate", "operation": "copy"},
           {
             "source": "charSet",

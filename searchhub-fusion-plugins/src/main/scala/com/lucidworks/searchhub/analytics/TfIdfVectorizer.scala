@@ -30,7 +30,7 @@ object TfIdfVectorizer {
   def build(df: DataFrame, tokenizer: String => List[String], fieldName: String,
             minSupport: Int = 5, maxSupportFraction: Double = 0.75) = {
     val tokenField = fieldName + "_tokens"
-    val withWords = df.select(fieldName).explode(fieldName, tokenField)(tokenizer)
+    val withWords = df.select(fieldName).explode(fieldName, tokenField)(tokenizer.andThen(_.distinct))
     val numDocs = df.count().toDouble
     val maxSupport = maxSupportFraction * numDocs
     val tokenCountsDF =

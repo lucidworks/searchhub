@@ -3,7 +3,7 @@ package com.lucidworks.searchhub.analytics
 import com.lucidworks.spark.analysis.LuceneTextAnalyzer
 
 /**
-  * Created by jakemannix on 4/29/16.
+  * Example schema for various Lucene analyzer chains
   */
 object AnalyzerUtils {
   val whitespaceSchema =
@@ -15,6 +15,16 @@ object AnalyzerUtils {
   val stdAnalyzerSchema =
     """{ "analyzers": [
       |  { "name": "StdTokLowerStop",
+      |    "tokenizer": { "type": "standard" },
+      |    "filters": [
+      |    { "type": "lowercase" },
+      |    { "type": "stop" }] }],
+      |  "fields": [{ "regex": ".+", "analyzer": "StdTokLowerStop" } ]}
+    """.stripMargin
+  val noHTMLstdAnalyzerSchema =
+    """{ "analyzers": [
+      |  { "name": "StdTokLowerStop",
+      |    "charFilters": [ { "type": "htmlstrip" } ],
       |    "tokenizer": { "type": "standard" },
       |    "filters": [
       |    { "type": "lowercase" },

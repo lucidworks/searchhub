@@ -14,9 +14,10 @@ case class TfIdfVectorizer(tokenizer: String => List[String],
     val tokenTfs = tokenizer(s).groupBy(identity).mapValues(_.size).toList
     val tfIdfMap = tokenTfs.flatMap { case (token, tf) =>
       dictionary.get(token).map(idx => (idx, tf * idfs.getOrElse(token, 1.0))) }
-    Vectors.sparse(dictionary.size, tfIdfMap)
+    val norm = math.sqrt(tfIdfMap.toList.map(_._2).foldLeft(0d) { case (tot , w) => tot + w * w })
+    val normalizedWeights = if (norm > 0) tfIdfMap.map { case (idx, w) => (idx, w / norm)} else tfIdfMap
+    Vectors.sparse(dictionary.size, normalizedWeights)
   }
-
 }
 
 object TfIdfVectorizer {

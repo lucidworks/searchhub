@@ -28,7 +28,7 @@ object SparkShellHelpers {
 
   val textColumnName = "body"
 
-  val tokenizer = analyzerFn(stdAnalyzerSchema)
+  val tokenizer = analyzerFn(noHTMLstdAnalyzerSchema)
 
   val vectorizer = TfIdfVectorizer.build(mailDF, tokenizer, textColumnName)
 

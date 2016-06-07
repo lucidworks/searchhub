@@ -9,10 +9,35 @@ import org.apache.spark.ml.feature.{IndexToString, StringIndexer, Word2Vec}
 import org.apache.spark.ml.tuning.{CrossValidator, ParamGridBuilder}
 import org.apache.spark.mllib.evaluation.MulticlassMetrics
 import org.apache.spark.rdd.RDD
+import org.apache.spark.mllib.linalg.{Vector => SparkVector, Vectors, DenseVector, SparseVector}
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.functions._
 
 object ManyNewsgroups {
+
+  def subtract(v1: SparkVector, v2: SparkVector): SparkVector = {
+    (v1, v2) match {
+      case (d1: DenseVector, d2: DenseVector) => {
+        val (a1, a2) = (d1.toArray, d2.toArray)
+        Vectors.dense(a1.indices.toArray.map(i => a1(i) - a2(i)))
+      }
+      case (sp1: SparseVector, sp2: SparseVector) => subtract(sp1.toDense, sp2.toDense) // TODO / FIXME!!!
+      case _ => throw new IllegalArgumentException("all vectors are either dense or sparse!")
+    }
+  }
+
+  def normSquaredL2(v: SparkVector) = v.toArray.foldLeft(0.0) { case(a: Double,b: Double) => a + b*b }
+
+  def distSquaredL2(v1: SparkVector, v2: SparkVector) = normSquaredL2(subtract(v1, v2))
+
+  def distL2Matrix(a: Array[SparkVector]) = {
+    for {
+      (v1, i) <- a.zipWithIndex
+      (v2, j) <- a.zipWithIndex
+    } yield {
+      (i, j, distSquaredL2(v1, v2))
+    }
+  }
 
   def buildKmeansModel(df: DataFrame, k: Int = 5, maxIter: Int = 10, fieldName: String) = {
     val kMeans = new KMeans()

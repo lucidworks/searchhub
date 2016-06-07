@@ -105,14 +105,14 @@ def jarDir = "searchhub-fusion-plugins/build/libs"
 task deployLibsToConnectors(type: Copy) {
   from jarDir
   into "$searchhubFusionHome/apps/jetty/connectors/webapps/connectors/WEB-INF/lib/"
-  dependsOn "searchhub-fusion-plugins:compileJava"
+  dependsOn "searchhub-fusion-plugins:compileScala"
   dependsOn "jar"
 }
 
 task deployLibsToApi(type: Copy) {
   from jarDir
   into "$searchhubFusionHome/apps/jetty/api/webapps/api/WEB-INF/lib/"
-  dependsOn "searchhub-fusion-plugins:compileJava"
+  dependsOn "searchhub-fusion-plugins:compileScala"
   dependsOn "jar"
 }
 

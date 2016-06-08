@@ -1,11 +1,12 @@
 {
   "name": "suggest",
   "class": "solr.SuggestComponent",
-  "suggester": {
-    "name": "fuzzy",
-    "lookupImpl": "FuzzyLookupFactory",
+  "suggester":  {
+    "name": "blended_infix",
+    "lookupImpl": "BlendedInfixLookupFactory",
     "dictionaryImpl": "DocumentDictionaryFactory",
-    "storeDir": "suggester_fuzzy_dir",
+    "storeDir": "suggester_infix_dir",
+    "blenderType": "position_linear",
     "field": "suggest",
     "suggestAnalyzerFieldType": "suggesterFT",
     "buildOnStartup": "false",

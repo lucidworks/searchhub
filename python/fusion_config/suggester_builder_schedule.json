@@ -6,7 +6,7 @@
   "interval": 5,
   "active": true,
   "callParams": {
-    "uri": "solr:///lucidfind/suggest?suggest=true&suggest.build=true&suggest.dictionary=fuzzy&wt=json&suggest.q=hi",
+    "uri": "solr://lucidfind/suggest?suggest=true&suggest.build=true&suggest.dictionary=fuzzy&wt=json&suggest.q=hi",
     "method": "GET",
     "queryParams": {},
     "headers": {}

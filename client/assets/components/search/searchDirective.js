@@ -38,8 +38,11 @@
         var selection = _.isArray(newValue)?newValue[0]:newValue;
         //signal our selection
         SnowplowService.postTypeaheadSignal(ta.query, selection, object.originalObject["index"], currentResults);
-        ta.query = selection;
+        ta.query = htmlToPlaintext(selection);
       }
+    }
+    function htmlToPlaintext(text) {
+     return text ? String(text).replace(/<[^>]+>/gm, '') : '';
     }
 
     function updateSearchQuery(inputString) {
@@ -54,9 +57,10 @@
         var results = [];
         _.forEach(suggestions, function(suggester){
           var res = suggester[query];
-          if (res["numFound"] > 0){
+          if (res["numFound"] && res["numFound"] > 0){
             _.forEach(res["suggestions"], function(suggestion, index){
               suggestion["index"] = index;
+              suggestion["term"] = htmlToPlaintext(suggestion["term"]);
               results.push(suggestion);
             })
           }

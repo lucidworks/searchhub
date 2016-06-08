@@ -55,7 +55,7 @@
       function getResponse(query, suggestions) {
         ////{"responseHeader":{"status":0,"QTime":0},"suggest":{"fuzzy":{"hi":{"numFound":1,"suggestions":[{"term":"hive","weight":0,"payload":""}]}}}}
         var results = [];
-        $log.info(suggestions);
+        //$log.info(suggestions);
         _.forEach(suggestions, function(suggester){
           var res = suggester[query];
           if (res["numFound"] && res["numFound"] > 0){

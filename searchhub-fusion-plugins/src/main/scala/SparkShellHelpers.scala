@@ -48,7 +48,7 @@ object SparkShellHelpers {
   //Join the centroid ids back to the mail, so we can update them in Solr if we want
   val mailWithCentroids = kmeansModel.transform(vectorizedMail)
   mailWithCentroids.groupBy("kmeans_cluster_i").count().show()
-  kmeansModel.clusterCenters.foreach(v => println(f"${math.sqrt(ManyNewsgroups.normSquaredL2(v))}%.2f")
+  //kmeansModel.clusterCenters.foreach(v => println(f"${math.sqrt(ManyNewsgroups.normSquaredL2(v))}%.2f")
 
   //Save to Solr if you want
   mailWithCentroids.write.format("solr").options(Map("zkhost" -> "localhost:9983", "collection" -> "lucidfind", "batch_size" -> "1000")).mode(org.apache.spark.sql.SaveMode.Overwrite).save

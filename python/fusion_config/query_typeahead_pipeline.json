@@ -17,7 +17,7 @@
         },
         {
           "key": "suggest.dictionary",
-          "value": "fuzzy",
+          "value": "blended_infix",
           "policy": "default"
         }
       ],

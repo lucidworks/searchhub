@@ -76,6 +76,12 @@ class Backend(object):
   def stop_schedules(self, schedules=None, searchHubOnly=True):
     raise NotImplementedError()
 
+  def get_role(self, rolename):
+    raise NotImplementedError()
+
+  def update_role(self, rolename, data):
+    raise NotImplementedError()
+
   def get_datasource(self, id):
     """
     Retreive a datasource from the backend

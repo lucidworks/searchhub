@@ -158,6 +158,31 @@ class FusionBackend(Backend):
       return False
     return True
 
+  def get_role(self, rolename):
+    resp = self.admin_session.get("roles")
+    if resp.status_code == 200:
+      for role in resp.json():
+        if role["name"] == rolename:
+          return role
+    else:
+      print "Unable to find roles"
+      return None
+
+  def update_role(self, rolename, data):
+    role = self.get_role(rolename)
+    if role:
+      for key in data:
+        print "Adding/Updating {0} with {1}".format(key, data[key])
+        role[key] = data[key]
+      print role
+      resp = self.admin_session.put("roles/{0}".format(role["id"]), data=json.dumps(role), headers={'Content-Type': "application/json"})
+      if resp.status_code != 200:
+        print "Unable to send signal: {0}".format(resp.text)
+        return False
+      return True
+    return False
+
+
   def create_user(self, username, password, roles=None):
     resp = self.admin_session.get("users")
     exists = False

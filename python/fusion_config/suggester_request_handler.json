@@ -4,7 +4,7 @@
   "defaults": {
     "suggest": true,
     "suggest.count": 5,
-    "suggest.dictionary": "fuzzy"
+    "suggest.dictionary": "blended_infix"
   },
   "components": ["suggest"]
 }

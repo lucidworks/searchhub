@@ -41,20 +41,13 @@ def proxy_request(other):
     port = int(app.config.get("FUSION_PORT"))
     protocol = app.config.get("FUSION_PROTOCOL", "http")
 
-    #print "H: '%s' P: %d" % (hostname, port)
-    #print "F: '%s'" % (file)
-    # Whitelist a few headers to pass on
-    #TODO: fix authtentication.  Change to be a search only user
-    user = app.config.get("FUSION_PROXY_USERNAME")
-    password = app.config.get("FUSION_PROXY_PASSWORD")
+    user = app.config.get("FUSION_APP_USER")
+    password = app.config.get("FUSION_APP_PASSWORD")
 
     userAndPass = b64encode(user + ":" + password).decode("ascii")
     request_headers = {'Authorization' : 'Basic %s' %  userAndPass}
-    #print request.headers
-    #request_headers = {}
     for h in ["Cookie", "Referer", "X-Csrf-Token", "Accept-Language", "Accept", "User-Agent"]:
         if h in request.headers:
-        #print h
           request_headers[h] = request.headers[h]
 
     if request.query_string:
@@ -62,7 +55,6 @@ def proxy_request(other):
     else:
       path = '/api/' + other
 
-    #print "new headers"
     print request_headers
     if request.method == "POST" or request.method == "PUT":
         form_data = list(iterform(request.form))
@@ -75,9 +67,6 @@ def proxy_request(other):
         r = requests.post("{0}://{1}:{2}{3}".format(protocol, hostname, port, path), data=form_data, headers=request_headers)
     else:
         r = requests.get("{0}://{1}:{2}{3}".format(protocol, hostname, port, path), headers=request_headers)
-    #print r.url
-    #print r.encoding
-    #print r.text.encode(r.encoding)
     flask_response = Response(response=r.iter_content(8192),
                               status=r.status_code)
     return flask_response

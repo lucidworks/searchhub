@@ -158,7 +158,7 @@ class FusionBackend(Backend):
       return False
     return True
 
-  def create_user(self, username, password):
+  def create_user(self, username, password, roles=None):
     resp = self.admin_session.get("users")
     exists = False
     for user in resp.json():
@@ -167,6 +167,8 @@ class FusionBackend(Backend):
         break
     if not exists:
       # Create User
+      if not roles:
+        roles = ["search"]
       print("Creating %s user... " % username)
       resp = self.admin_session.post("users",
                                      data=json.dumps({
@@ -174,7 +176,7 @@ class FusionBackend(Backend):
                                        "password": password,
                                        "passwordConfirm": password,  # TODO: don't hardcode this
                                        "realmName": "native",
-                                       "roleNames": ["collection-admin"]  # TODO figure out correct permissions
+                                       "roleNames": roles  # TODO figure out correct permissions
                                      }),
                                      headers={'Content-Type': "application/json"})
       if resp.status_code == 201:

@@ -127,14 +127,15 @@ def setup_projects(backend):
 
 
 # TODO bootstrap admin user?
+username = app.config.get("FUSION_APP_USER", "lucidfind")
+status = backend.create_user(username, app.config.get("FUSION_APP_PASSWORD"))
+if status == False:
+  exit(1)
+
 lucidfind_collection_id = app.config.get("FUSION_COLLECTION", "lucidfind")
 # Create the "lucidfind" user
 if cmd_args.create_collections or create_all:
   session = new_admin_session()
-  username = app.config.get("FUSION_APP_USER", "lucidfind")
-  status = backend.create_user(username, app.config.get("FUSION_APP_PASSWORD"))
-  if status == False:
-    exit(1)
   # Create the "lucidfind" collection
   status = backend.create_collection(lucidfind_collection_id, enable_signals=True)
   if status == False:

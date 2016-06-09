@@ -20,7 +20,7 @@ def search():
 
 
 # Route all Signals from Snowplow accordingly
-@app.route('/snowplow/<path:path>', methods=["GET"])
+@app.route('/snowplow/<path:path>', methods=["GET, POST"])
 def track_event(path):
     # TODO: put in spam prevention
     app_id = request.args.get("aid")

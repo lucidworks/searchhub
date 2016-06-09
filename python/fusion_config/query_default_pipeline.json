@@ -98,12 +98,12 @@
       "id": "86eef67e-5dd8-4e40-9df9-f6eb9eb369d4",
       "fieldFacets": [
         {
-          "field": "_lw_data_source_s",
+          "field": "datasource_label",
           "minCount": 1,
           "missing": false
         },
         {
-          "field": "project",
+          "field": "project_label",
           "minCount": 1,
           "missing": false
         },

@@ -3,6 +3,44 @@
   "stages": [
     {
       "type": "set-params",
+      "id": "sl9m37u7xs2j5x9a4i",
+      "params": [
+        {
+          "key": "mm",
+          "value": "2<75%",
+          "policy": "append"
+        },
+        {
+          "key": "mm.autoRelax",
+          "value": "true",
+          "policy": "append"
+        },
+        {
+          "key": "pf",
+          "value": "title^10 subject^10 keywords^20 body content filename",
+          "policy": "append"
+        },
+        {
+          "key": "ps",
+          "value": "2",
+          "policy": "append"
+        },
+        {
+          "key": "qs",
+          "value": "3",
+          "policy": "append"
+        },
+        {
+          "key": "bq",
+          "value": "publishedOnDate:[NOW/DAY-1MONTH TO NOW/DAY]",
+          "policy": "append"
+        }
+      ],
+      "skip": false,
+      "label": "Search Settings"
+    },
+    {
+      "type": "set-params",
       "id": "tovo0f6r",
       "params": [
         {
@@ -75,7 +113,7 @@
           "field": "keywords",
           "boost": 20
         },
-        { 
+        {
           "field": "suggest",
           "boost": 10
         },
@@ -104,6 +142,7 @@
         },
         {
           "field": "project_label",
+          "limit": 100,
           "minCount": 1,
           "missing": false
         },

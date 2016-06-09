@@ -1,8 +1,9 @@
 import logging
 import os
 from flask import render_template, send_from_directory
-from flask import request
+from flask import request, redirect
 from server import app, backend
+import urllib
 
 logging.basicConfig(level=logging.INFO)
 
@@ -12,6 +13,14 @@ LOG = logging.getLogger("views.py")
 @app.route('/')
 def root():
     return render_template('index.html')
+
+# This route is for back compatibility reasons with the old search hub, although it is not 100% just yet, as we don't handle the passed in paths
+@app.route('/p:<path:path>')
+def apache(path):
+    query = request.args.get("q")
+    #print "path: '" + path + "' q: '" + query + "'"
+    args = {"query": "(q:'{0}',rows:10,start:0,wt:json)".format(query)}
+    return redirect("/search?{0}".format(urllib.urlencode(args)))
 
 
 @app.route('/search')

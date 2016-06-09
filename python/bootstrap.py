@@ -148,6 +148,12 @@ if cmd_args.create_collections or create_all:
           "GET"
         ],
         "path": "/collections/lucidfind/query-profiles/lucidfind-default/select"
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/collections/lucidfind/query-profiles/default/select"
       }
     ]
   }

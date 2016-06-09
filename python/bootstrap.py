@@ -128,53 +128,54 @@ def setup_projects(backend):
 
 # TODO bootstrap admin user?
 username = app.config.get("FUSION_APP_USER", "lucidfind")
-update_permissions = {
-  "permissions": [
-      {
-        "methods": [
-          "GET"
-        ],
-        "path": "/query-pipelines/*/collections/*/select"
-      },
-      {
-        "methods": [
-          "GET"
-        ],
-        "path": "/query-pipelines/*/collections/*/suggest"
-      },
-      {
-        "methods": [
-          "GET"
-        ],
-        "path": "/query-pipelines"
-      },
-      {
-        "methods": [
-          "GET"
-        ],
-        "path": "/solr/*/schema"
-      },
-      {
-        "methods": [
-          "GET"
-        ],
-        "path": "/prefs/apps/search/*"
-      },
-      {
-        "methods": [
-          "GET"
-        ],
-        "path": "/collections/**"
-      },
-      {
-        "methods": [
-          "GET"
-        ],
-        "path": "/solr/*/admin/luke"
-      }
-    ]
-}
-backend.update_role("search", update_permissions)
+if cmd_args.create_collections or create_all:
+  update_permissions = {
+    "permissions": [
+        {
+          "methods": [
+            "GET"
+          ],
+          "path": "/query-pipelines/*/collections/*/select"
+        },
+        {
+          "methods": [
+            "GET"
+          ],
+          "path": "/query-pipelines/*/collections/*/suggest"
+        },
+        {
+          "methods": [
+            "GET"
+          ],
+          "path": "/query-pipelines"
+        },
+        {
+          "methods": [
+            "GET"
+          ],
+          "path": "/solr/*/schema"
+        },
+        {
+          "methods": [
+            "GET"
+          ],
+          "path": "/prefs/apps/search/*"
+        },
+        {
+          "methods": [
+            "GET"
+          ],
+          "path": "/collections/**"
+        },
+        {
+          "methods": [
+            "GET"
+          ],
+          "path": "/solr/*/admin/luke"
+        }
+      ]
+  }
+  backend.update_role("search", update_permissions)
 status = backend.create_user(username, app.config.get("FUSION_APP_PASSWORD"))
 if status == False:
   exit(1)

@@ -17,7 +17,7 @@
       "name": "lucidworks-website",
       "label":"lucidworks.com Website",
       "pipeline":"lw-com-website-default",
-      "url":"http://www.lucidworks.com",
+      "url":"https://www.lucidworks.com",
       "schedule": {
         "repeatUnit": "WEEK",
         "interval": 1

@@ -131,50 +131,27 @@ username = app.config.get("FUSION_APP_USER", "lucidfind")
 if cmd_args.create_collections or create_all:
   update_permissions = {
     "permissions": [
-        {
-          "methods": [
-            "GET"
-          ],
-          "path": "/query-pipelines/*/collections/*/select"
-        },
-        {
-          "methods": [
-            "GET"
-          ],
-          "path": "/query-pipelines/*/collections/*/suggest"
-        },
-        {
-          "methods": [
-            "GET"
-          ],
-          "path": "/query-pipelines"
-        },
-        {
-          "methods": [
-            "GET"
-          ],
-          "path": "/solr/*/schema"
-        },
-        {
-          "methods": [
-            "GET"
-          ],
-          "path": "/prefs/apps/search/*"
-        },
-        {
-          "methods": [
-            "GET"
-          ],
-          "path": "/collections/**"
-        },
-        {
-          "methods": [
-            "GET"
-          ],
-          "path": "/solr/*/admin/luke"
-        }
-      ]
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/shub-typeahead/collections/lucidfind/suggest"
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/lucidfind-default/collections/lucidfind/select"
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/collections/lucidfind/query-profiles/lucidfind-default/select"
+      }
+    ]
   }
+
   backend.update_role("search", update_permissions)
 status = backend.create_user(username, app.config.get("FUSION_APP_PASSWORD"))
 if status == False:

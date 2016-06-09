@@ -18,7 +18,7 @@
 searchhub_snowplow("newTracker", "searchHub", location.hostname + ":" + location.port + "/snowplow", {
   appId: "searchHub",
   platform: "web",
-
+  post: true,
   contexts: {
     webPage: true,
     performanceTiming: true,

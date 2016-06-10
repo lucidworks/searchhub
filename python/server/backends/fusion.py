@@ -52,18 +52,19 @@ class FusionSession(requests.Session):
 
 class FusionBackend(Backend):
   def __init__(self):
-    # TODO: this should come from the configs.
-    self.admin_session = FusionSession(
-      app.config.get("FUSION_URL", "http://localhost:8764/api/"),
-      app.config.get("FUSION_ADMIN_USERNAME"),
-      app.config.get("FUSION_ADMIN_PASSWORD")
-    )
-    self.app_session = FusionSession(
-      app.config.get("FUSION_URL", "http://localhost:8764/api/"),
-      app.config.get("FUSION_APP_USERNAME"),  # TODO change to another user
-      app.config.get("FUSION_APP_PASSWORD"),
-      lazy=True
-    )
+    if app.config.get("FUSION_ADMIN_USERNAME"):
+      self.admin_session = FusionSession(
+        app.config.get("FUSION_URL", "http://localhost:8764/api/"),
+        app.config.get("FUSION_ADMIN_USERNAME"),
+        app.config.get("FUSION_ADMIN_PASSWORD")
+      )
+    if app.config.get("FUSION_APP_USERNAME"):
+      self.app_session = FusionSession(
+        app.config.get("FUSION_URL", "http://localhost:8764/api/"),
+        app.config.get("FUSION_APP_USERNAME"),  # TODO change to another user
+        app.config.get("FUSION_APP_PASSWORD"),
+        lazy=True
+      )
 
   def add_field(self, collection_name, name, type="string", required=False, multivalued=False, indexed=True,
                 stored=True, defaultVal=None, copyDests=None):

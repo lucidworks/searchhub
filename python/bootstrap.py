@@ -16,6 +16,7 @@ from os.path import isfile, join
 from server import backend
 from server.backends.fusion import new_admin_session
 
+# Use the Solr Config API to bootstrap search_components and request handlers
 def setup_request_handlers(backend, collection_id):
   #create search components before req handlers
   files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_search_component.json")]
@@ -28,12 +29,14 @@ def setup_request_handlers(backend, collection_id):
     print ("Creating Request Handler for %s" % file)
     backend.add_request_handler(collection_id, json.load(open(join("./fusion_config", file))))
 
+# Setup any necessary solr field types, like those used for suggestions
 def setup_field_types(backend, collection_id):
   field_types = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_field_type.json")]
   for file in field_types:
     print ("Creating Field Type for %s" % file)
     backend.add_field_type(collection_id, json.load(open(join("./fusion_config", file))))
 
+# Setup an official schema for things we know we are going to have in the data
 def setup_find_fields(backend, collection_id):
   backend.add_field(collection_id, "publishedOnDate", type="date", required=True)
   backend.add_field(collection_id, "suggest", type="suggesterFT", multivalued=True)
@@ -62,6 +65,7 @@ def setup_find_fields(backend, collection_id):
 
 # ((fusion)/(\d+.\d+))|((\w+|LucidWorksSearch-Docs)-v(\d+\.\d+))
 
+# Loop over the Fusion config and add any pipelines defined there.
 def setup_pipelines(backend):
   pipe_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_pipeline.json")]
   for file in pipe_files:
@@ -71,24 +75,28 @@ def setup_pipelines(backend):
     else:
       backend.create_pipeline(json.load(open(join("./fusion_config", file))))
 
-
+# Create the taxonomy, which can be used to alter requests based on hierarchy
 def setup_taxonomy(backend, collection_id):
   status = backend.delete_taxonomy(collection_id)
   taxonomy = json.load(open('fusion_config/taxonomy.json'))
   status = backend.create_taxonomy(collection_id, taxonomy)
 
+# Schedule all non-datasource by looking in fusion_config for schedule declarations
 def setup_schedules(backend):
   files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_schedule.json")]
   for file in files:
     print("Creating Schedule for %s" % file)
     backend.create_or_update_schedule(json.load(open(join("./fusion_config", file))))
 
+# bootstrap.py --start_schedules
 def start_schedules(backend):
   backend.activate_schedules()
 
+# bootstrap.py --stop_schedules
 def stop_schedules(backend):
   backend.stop_schedules()
 
+# Map the project_config directory into Fusion datasources and schedules.
 def setup_projects(backend):
   project_files = [f for f in listdir("./project_config") if isfile(join("./project_config", f)) and f.endswith(".json")]
   if cmd_args.start_datasources:
@@ -126,7 +134,9 @@ def setup_projects(backend):
 
 
 
-# TODO bootstrap admin user?
+lucidfind_collection_id = app.config.get("FUSION_COLLECTION", "lucidfind")
+
+# Create our main application user
 username = app.config.get("FUSION_APP_USER", "lucidfind")
 if cmd_args.create_collections or create_all:
   update_permissions = {
@@ -135,25 +145,31 @@ if cmd_args.create_collections or create_all:
         "methods": [
           "GET"
         ],
-        "path": "/query-pipelines/shub-typeahead/collections/lucidfind/suggest"
+        "path": "/query-pipelines/shub-typeahead/collections/{0}/suggest".format(lucidfind_collection_id)
       },
       {
         "methods": [
           "GET"
         ],
-        "path": "/query-pipelines/lucidfind-default/collections/lucidfind/select"
+        "path": "/query-pipelines/lucidfind-default/collections/{0}/select".format(lucidfind_collection_id)
       },
       {
         "methods": [
           "GET"
         ],
-        "path": "/collections/lucidfind/query-profiles/lucidfind-default/select"
+        "path": "/collections/{0}/query-profiles/lucidfind-default/select".format(lucidfind_collection_id)
       },
       {
         "methods": [
           "GET"
         ],
-        "path": "/collections/lucidfind/query-profiles/default/select"
+        "path": "/collections/{0}/query-profiles/default/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/signals/{0}/i".format(lucidfind_collection_id)
       }
     ]
   }
@@ -163,8 +179,8 @@ status = backend.create_user(username, app.config.get("FUSION_APP_PASSWORD"))
 if status == False:
   exit(1)
 
-lucidfind_collection_id = app.config.get("FUSION_COLLECTION", "lucidfind")
-# Create the "lucidfind" user
+
+# Create the collection, setup fields and other solr pieces
 if cmd_args.create_collections or create_all:
   session = new_admin_session()
   # Create the "lucidfind" collection
@@ -185,8 +201,7 @@ if cmd_args.create_pipelines or create_all:
 if cmd_args.create_taxonomy or create_all:
   setup_taxonomy(backend, lucidfind_collection_id)
 
-# Configure each Project
-
+# Configure each Project.
 if cmd_args.create_projects or create_all:
   print("Creating Projects")
   setup_projects(backend)

@@ -150,7 +150,7 @@ class FusionBackend(Backend):
     """
     Send a signal
     """
-    resp = self.admin_session.get("apollo/signals/{0}/i".format(collection_id),
+    resp = self.app_session.get("apollo/signals/{0}/i".format(collection_id),
                                   # tack on the i so that we invoke the snowplow endpoint
                                   params=payload)
     if resp.status_code != 200:

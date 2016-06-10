@@ -135,7 +135,7 @@ Some other helpful commands:
 
 #### WSGI Compliant Server
 
-TODO.  SearchHub should run just fine in mod_wsgi, nginx or other servers, we just haven't tested any of them.
+See docker.sh in the Home directory for how to build and run mod_wsgi_express in a Docker container.
 
 
 # The Client Application

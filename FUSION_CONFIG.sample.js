@@ -124,6 +124,8 @@ appConfig = { //eslint-disable-line
   field_display_labels: {
     'name': 'Document Name',
     '_lw_data_source_s': 'Source',
+    'project_label': 'Project',
+    'datasource_label': 'Source',
     'project': 'Project',
     'author_facet': 'Author'
     //'id': 'Identification Number'

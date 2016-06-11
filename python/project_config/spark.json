@@ -61,16 +61,5 @@
         "interval": 2
       }
     }
-  ],
-  "wikis": [
-    {
-      "name": "spark-wiki",
-      "label": "Spark Wiki",
-      "url": "http://wiki.apache.org/spark/",
-      "schedule": {
-        "repeatUnit": "DAY",
-        "interval": 2
-      }
-    }
   ]
 }

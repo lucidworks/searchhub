@@ -32,7 +32,6 @@
     vm.toggleGroupedResults = toggleGroupedResults;
     vm.decorateDocument = decorateDocument;
     vm.showGroupedResults = {};
-
     activate();
 
     ////////
@@ -44,11 +43,13 @@
         var queryObject = QueryService.getQueryObject();
         //let's make sure we can track individual query/result pairs by assigning a UUID to each unique query
         queryObject["uuid"] = IDService.generateUUID();
-        //$log.info("Query Obj:");
-        //$log.info(queryObject);
+        data=addShortInDocs(data,queryObject['q'],1,80);//not skip, snippet length is 30
+        data=trimSpaceInHighlight(data);
         vm.docs = parseDocuments(data);
+        //add transformed body
         vm.highlighting = parseHighlighting(data);
         vm.getDoctype = getDocType;
+        $log.info(queryObject);
         $anchorScroll('topOfMainContent');
       });
     }
@@ -171,6 +172,78 @@
         vm.highlighting = {};
       }
       return vm.highlighting;
+    }
+
+
+    function addShortInDocs(data,q,skip,snippetLen){
+      //var re_q=/[^a-z]/gi;
+      if(q=='*'){
+        _.each(data.response.docs,function(doc){
+          if(doc['body']){
+            var splittedIntoArray=(doc['body']).split(/[\s]+/);
+            var re = new RegExp("\-\-\-+","g");
+            var formedString=splittedIntoArray.join(" ").replace(re,"");
+            if(formedString.length<snippetLen){
+              doc['shortbody']=$sce.trustAsHtml(formedString);
+            }
+            else{
+              doc['shortbody']=$sce.trustAsHtml(formedString.slice(0,snippetLen)+'...');
+            }
+          }
+          else{
+            $log.info("no body!");
+          }
+        })
+      }
+      else{
+        _.each(data.response.docs, function(doc){
+          if(doc['body']){
+            var splittedIntoArray=(doc['body']).split(/[\s]+/);
+            var re = new RegExp("\-\-\-+","g");
+            var formedString=splittedIntoArray.join(" ").replace(re,"");
+            var re = new RegExp(q, "gi");
+            var res = formedString.match(re);
+            var max=0;
+            var maxind=0;
+            var i=0;
+            var paraLength=formedString.length;
+            while (i+snippetLen<=paraLength){
+              //$log.info("checkpoint");
+              var tmp = formedString.slice(i,i+snippetLen).match(re);
+              if(tmp && tmp.length>max){
+                max=tmp;
+                maxind=i;
+              }
+              i=i+skip;
+            }
+            if(i==0){
+              doc['shortbody']=$sce.trustAsHtml(formedString);
+            }
+            else{
+              doc['shortbody']=$sce.trustAsHtml(formedString.slice(maxind,maxind+snippetLen)+'...');
+            }
+          }
+          else{
+            $log.info("no body!");
+          }
+        }
+    )
+  }
+      return data;
+    }
+
+    function trimSpaceInHighlight(data){
+      _.each(data.highlighting, function(value,key){
+        if(value['body']){
+          var splittedIntoArray=(value['body'][0]).split(/[\s]+/);
+          var re = new RegExp("\-\-\-+","g");
+          value['trimed']=[splittedIntoArray.join(" ").replace(re,"")+'...'];
+        }
+        else{
+          $log.info("not in highlight");
+        }
+      });
+      return data;
     }
   }
 })();

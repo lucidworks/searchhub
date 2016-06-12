@@ -26,18 +26,20 @@
   function Controller($sce, SnowplowService, $filter, $log) {
     'ngInject';
     var vm = this;
-
+    vm.shortenSubject={};
     activate();
 
     function activate() {
       vm.postSignal = SnowplowService.postSignal;
       vm.postClickSignal = SnowplowService.postClickSignal;
       vm.doc = processDocument(vm.doc);
+      vm.shortenSubject=shortenSubject(vm.highlight);
     }
 
     function processDocument(doc) {
       //make sure we can display the info
-      //$log.info(doc['subject']);
+      doc['shortSub']=doc['subject'].replace(/\s*\(.*?\)\s*/g, '').replace(/\s*\[.*?\]\s*/g, '');
+      doc['shortSub']=$sce.trustAsHtml(doc['shortSub']);
       doc['body'] = $sce.trustAsHtml(doc['body']);
       doc['subject'] = $sce.trustAsHtml(doc['subject']);
       //$log.info(doc['subject']);
@@ -46,5 +48,20 @@
       doc.lastModified_dtFormatted = $filter('date')(doc.lastModified_dt);
       return doc;
     }
+
+    function shortenSubject(highlight){
+      _.each(highlight, function(value,key){
+        if(value['subject']){
+          vm.shortenSubject[key]={'subject':(value['subject']+'').replace(/\s*\(.*?\)\s*/g, '').replace(/\s*\[.*?\]\s*/g, '')};
+        }
+        else{
+          $log.info("no subject in highlight");
+        }
+      });
+      return vm.shortenSubject;
+    }
+
+
+
   }
 })();

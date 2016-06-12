@@ -1,0 +1,135 @@
+{
+  "id": "lucidfind_logs-default",
+  "stages": [
+    {
+      "type": "facet",
+      "fieldFacets": [
+        {
+          "field": "q_s",
+          "minCount": 1,
+          "missing": false
+        },
+        {
+          "field": "req_fq_ss",
+          "minCount": 1,
+          "missing": false
+        },
+        {
+          "field": "httpmethod_s",
+          "minCount": 1,
+          "missing": false
+        }
+      ],
+      "skip": false,
+      "label": "facet"
+    },
+    {
+      "type": "set-params",
+      "params": [
+        {
+          "key": "facet.range",
+          "value": "totaltime_l",
+          "policy": "append"
+        },
+        {
+          "key": "f.totaltime_l.facet.range.start",
+          "value": "0",
+          "policy": "append"
+        },
+        {
+          "key": "f.totaltime_l.facet.range.end",
+          "value": "3000",
+          "policy": "append"
+        },
+        {
+          "key": "f.totaltime_l.facet.range.gap",
+          "value": "50",
+          "policy": "append"
+        },
+        {
+          "key": "f.totaltime_l.facet.range.other",
+          "value": "all",
+          "policy": "append"
+        },
+        {
+          "key": "f.totaltime_l.facet.limit",
+          "value": "30",
+          "policy": "append"
+        },
+        {
+          "key": "facet.range",
+          "value": "numdocs_l",
+          "policy": "append"
+        },
+        {
+          "key": "f.numdocs_l.facet.range.start",
+          "value": "0",
+          "policy": "append"
+        },
+        {
+          "key": "f.numdocs_l.facet.range.end",
+          "value": "3000",
+          "policy": "append"
+        },
+        {
+          "key": "f.numdocs_l.facet.range.gap",
+          "value": "500",
+          "policy": "append"
+        },
+        {
+          "key": "f.numdocs_l.facet.range.other",
+          "value": "all",
+          "policy": "append"
+        },
+        {
+          "key": "f.numdocs_l.facet.limit",
+          "value": "30",
+          "policy": "append"
+        },
+        {
+          "key": "facet.range",
+          "value": "timestamp_tdt",
+          "policy": "append"
+        },
+        {
+          "key": "f.timestamp_tdt.facet.range.start",
+          "value": "NOW/DAY-7DAYS",
+          "policy": "append"
+        },
+        {
+          "key": "f.timestamp_tdt.facet.range.end",
+          "value": "NOW/DAY+1DAY",
+          "policy": "append"
+        },
+        {
+          "key": "f.timestamp_tdt.facet.range.gap",
+          "value": "+1DAY",
+          "policy": "append"
+        },
+        {
+          "key": "f.timestamp_tdt.facet.range.other",
+          "value": "all",
+          "policy": "append"
+        },
+        {
+          "key": "f.timestamp_tdt.facet.limit",
+          "value": "30",
+          "policy": "append"
+        }
+
+      ],
+      "skip": false,
+      "label": "Range Facets"
+    },
+    {
+      "type": "solr-query",
+      "id": "x4lqwzwx9axbyy14i",
+      "allowedRequestHandlers": [],
+      "httpMethod": "GET",
+      "allowFederatedSearch": false,
+      "skip": false,
+      "label": "solr-query"
+    }
+  ],
+  "properties": {}
+}

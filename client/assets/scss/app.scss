@@ -94,3 +94,59 @@ blockquote.twitter-tweet a:hover,
 blockquote.twitter-tweet a:focus {
   text-decoration: underline;
 }
+
+.footer{
+  background-color: #0d1834;
+  color: #e7e7e7;
+  //height: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 50px;
+  padding-bottom: 25px;
+}
+
+.footer a {
+  color: #16a0b7;
+}
+
+.footer ul {
+  margin: 0;
+  padding: 0;
+}
+
+.footer ul li {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.footer nav.nav-social li {
+  display: inline-block;
+  margin: 0 1rem 0 0;
+  font-size: 2rem;
+}
+
+.footer .nav-footer {
+  padding: 20px 0 0 40px;
+}
+
+.footer .nav-social {
+  padding: 20px 0 0 40px;
+}
+
+.footer .copyright {
+  padding: 20px 0 0 40px;
+}
+
+.footer h5 {
+  color: #fff;
+}
+
+.footer .floating-footer-column {
+  padding-right: 20px;
+  float: left;
+}
+
+.footer .floating-footer-column:last-child {
+  padding-right: 0;
+}

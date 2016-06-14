@@ -1,0 +1,124 @@
+From user-return-52173-apmail-cassandra-user-archive=cassandra.apache.org@cassandra.apache.org  Sat May 28 19:25:15 2016
+Return-Path: <user-return-52173-apmail-cassandra-user-archive=cassandra.apache.org@cassandra.apache.org>
+X-Original-To: apmail-cassandra-user-archive@www.apache.org
+Delivered-To: apmail-cassandra-user-archive@www.apache.org
+Received: from mail.apache.org (hermes.apache.org [140.211.11.3])
+	by minotaur.apache.org (Postfix) with SMTP id 7F855194EA
+	for <apmail-cassandra-user-archive@www.apache.org>; Sat, 28 May 2016 19:25:15 +0000 (UTC)
+Received: (qmail 77992 invoked by uid 500); 28 May 2016 19:25:11 -0000
+Delivered-To: apmail-cassandra-user-archive@cassandra.apache.org
+Received: (qmail 77946 invoked by uid 500); 28 May 2016 19:25:11 -0000
+Mailing-List: contact user-help@cassandra.apache.org; run by ezmlm
+Precedence: bulk
+List-Help: <mailto:user-help@cassandra.apache.org>
+List-Unsubscribe: <mailto:user-unsubscribe@cassandra.apache.org>
+List-Post: <mailto:user@cassandra.apache.org>
+List-Id: <user.cassandra.apache.org>
+Reply-To: user@cassandra.apache.org
+Delivered-To: mailing list user@cassandra.apache.org
+Received: (qmail 77936 invoked by uid 99); 28 May 2016 19:25:11 -0000
+Received: from pnap-us-west-generic-nat.apache.org (HELO spamd1-us-west.apache.org) (209.188.14.142)
+    by apache.org (qpsmtpd/0.29) with ESMTP; Sat, 28 May 2016 19:25:11 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by spamd1-us-west.apache.org (ASF Mail Server at spamd1-us-west.apache.org) with ESMTP id A5BDAC1EBD
+	for <user@cassandra.apache.org>; Sat, 28 May 2016 19:25:10 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at spamd1-us-west.apache.org
+X-Spam-Flag: NO
+X-Spam-Score: 2.063
+X-Spam-Level: **
+X-Spam-Status: No, score=2.063 tagged_above=-999 required=6.31
+	tests=[DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+	FREEMAIL_ENVFROM_END_DIGIT=0.25, HTML_MESSAGE=2,
+	RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_SORBS_WEB=0.614, SPF_PASS=-0.001]
+	autolearn=disabled
+Authentication-Results: spamd1-us-west.apache.org (amavisd-new);
+	dkim=pass (2048-bit key) header.d=yahoo.co.in
+Received: from mx2-lw-us.apache.org ([10.40.0.8])
+	by localhost (spamd1-us-west.apache.org [10.40.0.7]) (amavisd-new, port 10024)
+	with ESMTP id kltfYl6RSllr for <user@cassandra.apache.org>;
+	Sat, 28 May 2016 19:25:07 +0000 (UTC)
+Received: from nm32-vm2.bullet.mail.sg3.yahoo.com (nm32-vm2.bullet.mail.sg3.yahoo.com [106.10.151.209])
+	by mx2-lw-us.apache.org (ASF Mail Server at mx2-lw-us.apache.org) with ESMTPS id E267D5F307
+	for <user@cassandra.apache.org>; Sat, 28 May 2016 19:25:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.co.in; s=s2048; t=1464463498; bh=rgs96M6Zn4yea89X6dlf1juMTcQM5Ad26SGTF3Z7iT4=; h=Date:From:To:Subject:References:From:Subject; b=WSW8K82bzY2sOl2JwvH/MLE/uMi8N94csJ1PiysczD1smCryw/toqVuDBJHpvJ8XtWRrIHSR73qUyisddMhBY4OdzFrBIUp3XzuLD5neVJoDNdLO0PpCpEpUSmoZ9xawTPmWjhYxj57XSSok08ZXr062nSYM2qVwAxkkaLIHnBIKin2PpYs8xUipaPXzGI0GzLjjb3b13FmuOHJJ7fLaWK595Oxz7u+PUcp+kNvoCIM+MWVSlM7BuHP1kcRIjoF1I7aSvVDXVbs1unj+YMuOQrzLSmGK3oI0MDh0qPPPQ00j9fEVVsOYngQYAaPYgIVHkfH6tNes9J0HtJkdQWEBgA==
+Received: from [106.10.166.118] by nm32.bullet.mail.sg3.yahoo.com with NNFMP; 28 May 2016 19:24:58 -0000
+Received: from [106.10.150.23] by tm7.bullet.mail.sg3.yahoo.com with NNFMP; 28 May 2016 19:24:58 -0000
+Received: from [127.0.0.1] by omp1024.mail.sg3.yahoo.com with NNFMP; 28 May 2016 19:24:58 -0000
+X-Yahoo-Newman-Property: ymail-3
+X-Yahoo-Newman-Id: 516186.15809.bm@omp1024.mail.sg3.yahoo.com
+Received: from jws10989.mail.sg3.yahoo.com by sendmailws114.mail.sg3.yahoo.com; Sat, 28 May 2016 19:24:58 +0000; 1464463498.070
+Date: Sat, 28 May 2016 19:24:56 +0000 (UTC)
+From: Anuj Wadehra <anujw_2003@yahoo.co.in>
+To: User <user@cassandra.apache.org>
+Message-ID: <284482193.749659.1464463496825.JavaMail.yahoo@mail.yahoo.com>
+Subject:  Evict Tombstones with STCS
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="----=_Part_749658_735936180.1464463496819"
+References: <284482193.749659.1464463496825.JavaMail.yahoo.ref@mail.yahoo.com>
+
+------=_Part_749658_735936180.1464463496819
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+Hi,
+We are using C* 2.0.x . What options are available if disk space is too full to do compaction on huge sstables formed by STCS (created around long ago but not getting compacted due to min_compaction_threshold being 4).
+We suspect that huge space will be released when 2 largest sstables get compacted together such that tombstone eviction is possible. But there is not enough space for compacting them together assuming that compaction would need at least free disk=size of sstable1 + size of sstable 2 ??
+I read STCS code and if no sstables are available for compactions, it should pick individual sstable for compaction. But somehow, huge sstables are not participating in individual compaction.. is it due to default 20% tombstone threshold?? And if it so, forceUserdefinedcompaction or setting unchecked_tombstone_compactions to true wont help either as tombstones are less than 20% and not much disk would be recovered.
+It is not possible to add additional disks too.
+We see huge difference in disk utilization of different nodes. May be some nodes were able to get away with tombstones while others didnt manage to evict tombstones.
+
+Would be good to know more alternatives from community.
+
+ThanksAnuj
+
+
+
+
+
+
+Sent from Yahoo Mail on Android
+------=_Part_749658_735936180.1464463496819
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div id=3D"yMail_cursorElementTracker_0.3621429721824825">Hi,</div><div id=
+=3D"yMail_cursorElementTracker_0.3621429721824825"><br></div><div id=3D"yMa=
+il_cursorElementTracker_0.3621429721824825">We are using C* 2.0.x . What op=
+tions are available if disk space is too full to do compaction on huge ssta=
+bles formed by STCS (created around long ago but not getting compacted due =
+to min_compaction_threshold being 4).</div><div id=3D"yMail_cursorElementTr=
+acker_0.3621429721824825"><br></div><div id=3D"yMail_cursorElementTracker_0=
+.3621429721824825">We suspect that huge space will be released when 2 large=
+st sstables get compacted together such that tombstone eviction is possible=
+. But there is not enough space for compacting them together assuming that =
+compaction would need at least free disk=3Dsize of sstable1 + size of sstab=
+le 2 ??</div><div id=3D"yMail_cursorElementTracker_0.3621429721824825"><br>=
+</div><div id=3D"yMail_cursorElementTracker_0.3621429721824825">I read STCS=
+ code and if no sstables are available for compactions, it should pick indi=
+vidual sstable for compaction. But somehow, huge sstables are not participa=
+ting in individual compaction.. is it due to default 20% tombstone threshol=
+d?? And if it so, forceUserdefinedcompaction or setting unchecked_tombstone=
+_compactions to true wont help either as tombstones are less than 20% and n=
+ot much disk would be recovered.</div><div id=3D"yMail_cursorElementTracker=
+_0.3621429721824825"><br></div><div id=3D"yMail_cursorElementTracker_0.3621=
+429721824825">It is not possible to add additional disks too.</div><div id=
+=3D"yMail_cursorElementTracker_0.3621429721824825"><br></div><div id=3D"yMa=
+il_cursorElementTracker_0.3621429721824825">We see huge difference in disk =
+utilization of different nodes. May be some nodes were able to get away wit=
+h tombstones while others didnt manage to evict tombstones.</div><div id=3D=
+"yMail_cursorElementTracker_0.3621429721824825"><br></div><div id=3D"yMail_=
+cursorElementTracker_0.3621429721824825"><br></div><div id=3D"yMail_cursorE=
+lementTracker_0.3621429721824825">Would be good to know more alternatives f=
+rom community.</div><div id=3D"yMail_cursorElementTracker_0.362142972182482=
+5"><br></div><div id=3D"yMail_cursorElementTracker_0.3621429721824825"><br>=
+</div><div id=3D"yMail_cursorElementTracker_0.3621429721824825">Thanks</div=
+><div id=3D"yMail_cursorElementTracker_0.3621429721824825">Anuj</div><div i=
+d=3D"yMail_cursorElementTracker_0.3621429721824825"><br></div><div id=3D"yM=
+ail_cursorElementTracker_0.3621429721824825"><br></div><div id=3D"yMail_cur=
+sorElementTracker_0.3621429721824825"><br></div><div id=3D"yMail_cursorElem=
+entTracker_0.3621429721824825"><br></div><div id=3D"yMail_cursorElementTrac=
+ker_0.49945723987184465"><br></div><br><br><div><a href=3D"https://overview=
+.mail.yahoo.com/mobile/?.src=3DAndroid">Sent from Yahoo Mail on Android</a>=
+</div>
+------=_Part_749658_735936180.1464463496819--

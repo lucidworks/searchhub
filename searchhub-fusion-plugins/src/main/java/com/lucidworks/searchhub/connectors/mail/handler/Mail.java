@@ -18,10 +18,13 @@ import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class Mail {
@@ -102,51 +105,40 @@ public class Mail {
   }
 
 
-  private String getText(Part p) throws MessagingException, IOException {
+  private void getText(Part p, Map<String, List<String>> results) throws MessagingException, IOException {
     if (p.isMimeType("text/*")) {
       Object txt = p.getContent();
-
-      if (txt instanceof String) {
-        return (String) txt;
-      } else {
-        throw new MessagingException("unexpected type of content, expecting string but got " + txt.getClass().toString());
+      String contentType = p.getContentType();
+      //strip off character encoding if it is on there
+      int i = contentType.indexOf(";");
+      if (i != -1){
+        contentType = contentType.substring(0, i).trim();
       }
-    }
-
-    if (p.isMimeType("multipart/alternative")) {
+      List<String> vals = results.get(contentType);
+      if (vals == null) {
+        vals = new ArrayList<>();
+        results.put(contentType, vals);
+      }
+      vals.add(txt.toString());
+    } else if (p.isMimeType("multipart/*")){
       Multipart mp = (Multipart) p.getContent();
-      String text = null;
-      for (int i = 0; i < mp.getCount(); i++) {
+      for (int i = 0; i < mp.getCount(); i++){
         Part bp = mp.getBodyPart(i);
-        if (bp.isMimeType("text/plain")) {
-          if (text == null)
-            text = getText(bp);
-          continue;
-        } else if (bp.isMimeType("text/html")) {
-          String s = getText(bp);
-          if (s != null)
-            return s;
-        } else {
-          return getText(bp);
-        }
-      }
-      return text;
-    } else if (p.isMimeType("multipart/*")) {
-      Multipart mp = (Multipart) p.getContent();
-      for (int i = 0; i < mp.getCount(); i++) {
-        String s = getText(mp.getBodyPart(i));
-        if (s != null)
-          return s;
+        getText(bp, results);
       }
     }
-
-    return null;
   }
 
-
-  public String getText() throws MailException {
+  /**
+   *
+   * @return A map where the key is the mime type and the value is the text associated with that mime type
+   * @throws MailException
+   */
+  public Map<String, List<String>> getText() throws MailException {
     try {
-      return getText(message);
+      Map<String, List<String>> results = new HashMap<>();
+      getText(message, results);
+      return results;
     } catch (MessagingException e) {
       throw new MailException("cant get contents of mail", e);
     } catch (IOException e) {
@@ -371,8 +363,11 @@ public class Mail {
   }
 
   public String getDisplayContent() throws MailException {
-    String contents = this.getText();
-
+    Map<String, List<String>> mimeMap = this.getText();
+    if (mimeMap == null) {
+        return "";
+    }
+    String contents = getJoinedText(mimeMap);
     if (contents == null) {
       return "";
     }
@@ -409,12 +404,43 @@ public class Mail {
     return getAsString(lines);
   }
 
+  private String getJoinedText(Map<String, List<String>> mimeMap) {
+    StringBuilder result = new StringBuilder();
+    //try to get plain text first, then html and then whatever remains.  Merge the lists together within a mime type
+    List<String> list = mimeMap.get("text/plain");
+    if (list != null && list.isEmpty() == false) {
+      //merge the list
+      result.append(getAsString(list));
+    } else {
+      //TODO: perhaps an alternate strategy is to append it all?
+      //we couldn't find plain text, so let's see what else we have
+      list = mimeMap.get("text/html");//html is a good second choice
+      if (list != null && list.isEmpty() == false) {
+        result.append(getAsString(list));
+      } else {
+        //not sure what else we've got, loop over all of it and try to get strings
+        for (Map.Entry<String, List<String>> entry : mimeMap.entrySet()) {
+          log.warn("adding unknown content type: {}", entry.getKey() );
+          List<String> value = entry.getValue();
+          if (value != null && value.isEmpty() == false) {
+            result.append(getAsString(value));
+          }
+        }
+      }
+    }
+    return result.toString();
+  }
+
   /**
    * This content will be used for search purposes. "getDisplayContent" should be used for display
    */
 
   public String getNewContent() throws MailException {
-    String contents = this.getText();
+    Map<String, List<String>> mimeMap = this.getText();
+    if (mimeMap == null) {
+        return "";
+    }
+    String contents = getJoinedText(mimeMap);
 
     if (contents == null) {
       return "";

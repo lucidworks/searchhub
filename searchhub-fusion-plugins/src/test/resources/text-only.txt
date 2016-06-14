@@ -1,0 +1,71 @@
+From dev-return-249177-apmail-lucene-dev-archive=lucene.apache.org@lucene.apache.org  Wed Jun  1 09:30:00 2016
+Return-Path: <dev-return-249177-apmail-lucene-dev-archive=lucene.apache.org@lucene.apache.org>
+X-Original-To: apmail-lucene-dev-archive@www.apache.org
+Delivered-To: apmail-lucene-dev-archive@www.apache.org
+Received: from mail.apache.org (hermes.apache.org [140.211.11.3])
+	by minotaur.apache.org (Postfix) with SMTP id B5FD0194FF
+	for <apmail-lucene-dev-archive@www.apache.org>; Wed,  1 Jun 2016 09:30:00 +0000 (UTC)
+Received: (qmail 37867 invoked by uid 500); 1 Jun 2016 09:29:59 -0000
+Delivered-To: apmail-lucene-dev-archive@lucene.apache.org
+Received: (qmail 37729 invoked by uid 500); 1 Jun 2016 09:29:59 -0000
+Mailing-List: contact dev-help@lucene.apache.org; run by ezmlm
+Precedence: bulk
+List-Help: <mailto:dev-help@lucene.apache.org>
+List-Unsubscribe: <mailto:dev-unsubscribe@lucene.apache.org>
+List-Post: <mailto:dev@lucene.apache.org>
+List-Id: <dev.lucene.apache.org>
+Reply-To: dev@lucene.apache.org
+Delivered-To: mailing list dev@lucene.apache.org
+Received: (qmail 37641 invoked by uid 99); 1 Jun 2016 09:29:59 -0000
+Received: from arcas.apache.org (HELO arcas) (140.211.11.28)
+    by apache.org (qpsmtpd/0.29) with ESMTP; Wed, 01 Jun 2016 09:29:59 +0000
+Received: from arcas.apache.org (localhost [127.0.0.1])
+	by arcas (Postfix) with ESMTP id 87D352C1F60
+	for <dev@lucene.apache.org>; Wed,  1 Jun 2016 09:29:59 +0000 (UTC)
+Date: Wed, 1 Jun 2016 09:29:59 +0000 (UTC)
+From: "Martijn van Groningen (JIRA)" <jira@apache.org>
+To: dev@lucene.apache.org
+Message-ID: <JIRA.12974273.1464711795000.820.1464773399553@Atlassian.JIRA>
+In-Reply-To: <JIRA.12974273.1464711795000@Atlassian.JIRA>
+References: <JIRA.12974273.1464711795000@Atlassian.JIRA> <JIRA.12974273.1464711795542@arcas>
+Subject: [jira] [Updated] (LUCENE-7307) Add getters to PointInSetQuery and
+ PointRangeQuery classes
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-JIRA-FingerPrint: 30527f35849b9dde25b450d4833f0394
+
+
+     [ https://issues.apache.org/jira/browse/LUCENE-7307?page=com.atlassian.jira.plugin.system.issuetabpanels:all-tabpanel ]
+
+Martijn van Groningen updated LUCENE-7307:
+------------------------------------------
+    Attachment: LUCENE_7307.patch
+
+I've updated the patch and the returned collection is now a view.
+Also I changed the return type from Collection<byte[]> to Collection<BytesRef> because the sortedPackedPoints iterator already makes a copy and returns that as BytesRef.
+
+> Add getters to PointInSetQuery and PointRangeQuery classes
+> ----------------------------------------------------------
+>
+>                 Key: LUCENE-7307
+>                 URL: https://issues.apache.org/jira/browse/LUCENE-7307
+>             Project: Lucene - Core
+>          Issue Type: Improvement
+>            Reporter: Martijn van Groningen
+>            Priority: Trivial
+>         Attachments: LUCENE_7307.patch, LUCENE_7307.patch, LUCENE_7307.patch
+>
+>
+
+
+
+
+--
+This message was sent by Atlassian JIRA
+(v6.3.4#6332)
+
+---------------------------------------------------------------------
+To unsubscribe, e-mail: dev-unsubscribe@lucene.apache.org
+For additional commands, e-mail: dev-help@lucene.apache.org
+

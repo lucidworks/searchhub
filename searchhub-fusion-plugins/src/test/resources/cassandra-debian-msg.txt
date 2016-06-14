@@ -1,0 +1,129 @@
+From user-return-52031-apmail-cassandra-user-archive=cassandra.apache.org@cassandra.apache.org  Tue May 17 19:16:49 2016
+Return-Path: <user-return-52031-apmail-cassandra-user-archive=cassandra.apache.org@cassandra.apache.org>
+X-Original-To: apmail-cassandra-user-archive@www.apache.org
+Delivered-To: apmail-cassandra-user-archive@www.apache.org
+Received: from mail.apache.org (hermes.apache.org [140.211.11.3])
+	by minotaur.apache.org (Postfix) with SMTP id 2AB7318EF0
+	for <apmail-cassandra-user-archive@www.apache.org>; Tue, 17 May 2016 19:16:49 +0000 (UTC)
+Received: (qmail 78307 invoked by uid 500); 17 May 2016 19:16:47 -0000
+Delivered-To: apmail-cassandra-user-archive@cassandra.apache.org
+Received: (qmail 78268 invoked by uid 500); 17 May 2016 19:16:46 -0000
+Mailing-List: contact user-help@cassandra.apache.org; run by ezmlm
+Precedence: bulk
+List-Help: <mailto:user-help@cassandra.apache.org>
+List-Unsubscribe: <mailto:user-unsubscribe@cassandra.apache.org>
+List-Post: <mailto:user@cassandra.apache.org>
+List-Id: <user.cassandra.apache.org>
+Reply-To: user@cassandra.apache.org
+Delivered-To: mailing list user@cassandra.apache.org
+Received: (qmail 78258 invoked by uid 99); 17 May 2016 19:16:46 -0000
+Received: from pnap-us-west-generic-nat.apache.org (HELO spamd3-us-west.apache.org) (209.188.14.142)
+    by apache.org (qpsmtpd/0.29) with ESMTP; Tue, 17 May 2016 19:16:46 +0000
+Received: from localhost (localhost [127.0.0.1])
+	by spamd3-us-west.apache.org (ASF Mail Server at spamd3-us-west.apache.org) with ESMTP id 59A781804AF
+	for <user@cassandra.apache.org>; Tue, 17 May 2016 19:16:46 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at spamd3-us-west.apache.org
+X-Spam-Flag: NO
+X-Spam-Score: -0.82
+X-Spam-Level:
+X-Spam-Status: No, score=-0.82 tagged_above=-999 required=6.31
+	tests=[DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+	RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+	RCVD_IN_MSPIKE_WL=-0.01] autolearn=disabled
+Authentication-Results: spamd3-us-west.apache.org (amavisd-new);
+	dkim=pass (1024-bit key) header.d=venarc.com header.b=dN8uvZDn;
+	dkim=pass (1024-bit key) header.d=messagingengine.com
+	header.b=hx3DBRAg
+Received: from mx2-lw-us.apache.org ([10.40.0.8])
+	by localhost (spamd3-us-west.apache.org [10.40.0.10]) (amavisd-new, port 10024)
+	with ESMTP id 9k2ozJ-Nh6rI for <user@cassandra.apache.org>;
+	Tue, 17 May 2016 19:16:43 +0000 (UTC)
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+	by mx2-lw-us.apache.org (ASF Mail Server at mx2-lw-us.apache.org) with ESMTPS id CFB935F24C
+	for <user@cassandra.apache.org>; Tue, 17 May 2016 19:16:42 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 56E812011E
+	for <user@cassandra.apache.org>; Tue, 17 May 2016 15:16:42 -0400 (EDT)
+Received: from frontend2 ([10.202.2.161])
+  by compute3.internal (MEProxy); Tue, 17 May 2016 15:16:42 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=venarc.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-sasl-enc
+	:x-sasl-enc; s=mesmtp; bh=DUqC6LGXB9hgWmWFP8UwrGdx1tY=; b=dN8uvZ
+	DnqVyMcW5yZQceOm4tVsQSEQR19ElNq3nSsT1YuMygGD+fy0XPk75tyF87sBjWxH
+	If/fWi/bY2JWs+MJJbAUx0lzs5y+8jUZHDVXGiNYMppz8xVzg4chVLizl/dzgQJ0
+	Qm2quG0uBvWxJAIS0hFNOeuXQaoiGZUUtAA1g=
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-sasl-enc:x-sasl-enc; s=smtpout; bh=DUqC6LGXB9hgWmW
+	FP8UwrGdx1tY=; b=hx3DBRAgPVC676nRcUE9RAq+8+SkkTQGCVa3p8UHZj1mLa3
+	D1yPhBBJBrXA3OmeMHxUt77eh+4KrtHcxNk2Pc/NvGq3EjviH9JJiznEepdTbjjC
+	sLHwk3P8vLpvavzwMtbuU1pCwi0H+KMl2h/J/TwXu2sffZjuxBjpFNuXkSAc=
+X-Sasl-enc: 96g08zGtfFOr4GB1T1lLvcp+yPnUkP9acAuRfuzD6/X/ 1463512602
+Received: from [192.168.1.205] (97-93-39-34.static.mtpk.ca.charter.com [97.93.39.34])
+	by mail.messagingengine.com (Postfix) with ESMTPA id E4C8C680230
+	for <user@cassandra.apache.org>; Tue, 17 May 2016 15:16:41 -0400 (EDT)
+Content-Type: text/plain; charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+Subject: Re: Cassandra Debian repos (Apache vs DataStax)
+From: Drew Kutcharian <drew@venarc.com>
+In-Reply-To: <44897F7C-6F6E-415D-9C3E-1BEA9F9C81E9@venarc.com>
+Date: Tue, 17 May 2016 12:16:40 -0700
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <4924E32E-FCDC-4F7B-9EC9-C454F9E12F2A@venarc.com>
+References: <A9D422F7-7E40-4DB0-A2B6-1FCEF9854DA5@venarc.com> <CAEHpzv8rzx8bb3gTF9Qkh=wN=TwpGe_WjxeqviOaze03J3DF1Q@mail.gmail.com> <5873F29F-1B81-4E6D-8D37-4FFE8552B06C@venarc.com> <44897F7C-6F6E-415D-9C3E-1BEA9F9C81E9@venarc.com>
+To: user@cassandra.apache.org
+X-Mailer: Apple Mail (2.3124)
+
+OK to make things even more confusing, the =E2=80=9CRelease=E2=80=9D =
+files in the Apache Repo say "Origin: Unofficial Cassandra Packages=E2=80=9D=
+!!
+
+i.e. http://dl.bintray.com/apache/cassandra/dists/35x/:Release
+
+
+> On May 17, 2016, at 12:11 PM, Drew Kutcharian <drew@venarc.com> wrote:
+>=20
+> BTW, the language on this page should probably change since it =
+currently sounds like the official repo is the DataStax one and Apache =
+is only an =E2=80=9Calternative"
+>=20
+> http://wiki.apache.org/cassandra/DebianPackaging
+>=20
+> - Drew
+>=20
+>> On May 17, 2016, at 11:35 AM, Drew Kutcharian <drew@venarc.com> =
+wrote:
+>>=20
+>> Thanks Eric.
+>>=20
+>>=20
+>>> On May 17, 2016, at 7:50 AM, Eric Evans <john.eric.evans@gmail.com> =
+wrote:
+>>>=20
+>>> On Mon, May 16, 2016 at 5:19 PM, Drew Kutcharian <drew@venarc.com> =
+wrote:
+>>>>=20
+>>>> What=E2=80=99s the difference between the two =E2=80=9CCommunity=E2=80=
+=9D repositories Apache (http://www.apache.org/dist/cassandra/debian) =
+and DataStax (http://debian.datastax.com/community/)?
+>>>=20
+>>> Good question.  All I can tell you is that the Apache repository is
+>>> the official one (the only official one).
+>>>=20
+>>>> If they are just mirrors, then it seems like the DataStax one is a =
+bit behind (version 3.0.6 is available on Apache but not on DataStax).
+>>>>=20
+>>>> I=E2=80=99ve been using the DataStax community repo and wanted to =
+see if I still should continue using it or switch to the Apache repo.
+>>>=20
+>>> If it is your intention to run Apache Cassandra, from the Apache
+>>> Cassandra project, then you should be using the Apache repo.
+>>>=20
+>>> --=20
+>>> Eric Evans
+>>> eevans@apache.org
+>>=20
+>=20
+

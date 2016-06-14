@@ -13,7 +13,7 @@
         <field value="::vm.doc.id" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="id"></field>
       </a>
     </h3>
-    <h5  ng-if="::vm.doc.name_s"><span class="field-header">Project</span>: <field value="::vm.doc.project_label" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="project_label"></field></h5>
+    <div ng-include="'/templates/document-common.html'"></div>
     <div ng-if="::vm.doc.type_s == 'file'">
       <!-- show head field linked with a url. -->
       <div  ng-if="::vm.doc.name_s"><span class="field-header">File Name</span>: <field value="::vm.doc.name_s" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="name_s"></field></div>

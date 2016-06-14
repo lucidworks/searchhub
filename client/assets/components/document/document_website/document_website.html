@@ -18,7 +18,7 @@
       </a>
     </h3>
     <h4 class="subheader" ng-if="::vm.doc.keywords"><field value="::vm.doc.keywords" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="keywords"></field></h4>
-
+    <div ng-include="'/templates/document-common.html'"></div>
     <p class="large-8 xlarge-7 xx-large-6">
       <field ng-if="::vm.doc.description" value="::vm.doc.description" highlight="::vm.highlight[doc.id]" maxlength="200"
              hkey="description"></field>

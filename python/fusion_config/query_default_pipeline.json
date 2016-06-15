@@ -137,6 +137,7 @@
       "fieldFacets": [
         {
           "field": "datasource_label",
+          "limit": 100,
           "minCount": 1,
           "missing": false
         },

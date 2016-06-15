@@ -142,6 +142,8 @@ def create_config(project_name, project_label, pipeline, wiki):
       "aliasExpiration": 1
     }
   }
+  if "excludes" in wiki:
+    config['properties']['excludeRegexes'] = [wiki["excludes"]]
   schedule = None
   if "schedule" in wiki:
     details = wiki["schedule"]

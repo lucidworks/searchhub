@@ -90,7 +90,7 @@ document boosts
         //console.log("Key: " + key + " val: " );
         //console.log(value);
         if (key === "facet_queries"){
-          $log.debug("No signals sent for facet queries");//since View doesn't support displaying them yet
+          //$log.debug("No signals sent for facet queries");//since View doesn't support displaying them yet
           /*_.forEach(value, function(facet_value, facet_name){
             console.log("fv: " + facet_value + " fn: " + facet_name);
             the_data["facet_query_" + facet_name]
@@ -121,9 +121,9 @@ document boosts
             the_data["facet_ranges_" + facet_name] = facets;
           });
         } else if (key === "facet_intervals"){
-          $log.debug("No signals sent for facet intervals");
+          //$log.debug("No signals sent for facet intervals");
         } else if (key === "facet_heatmaps"){
-          $log.debug("No signals sent for facet heatmaps");
+          //$log.debug("No signals sent for facet heatmaps");
         }
       });
 

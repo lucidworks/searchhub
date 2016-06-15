@@ -122,11 +122,14 @@ appConfig = { //eslint-disable-line
   //    your_project_directory/client/assets/components/document/document.html
   fields_to_display:['title','id','name', '*'],
   field_display_labels: {
-    'name': 'Document Name',
+     'name': 'Document Name',
     '_lw_data_source_s': 'Source',
-    'project_label': 'Project',
     'datasource_label': 'Source',
     'project': 'Project',
+    'project_label': 'Project',
+    'publishedOndate': 'Published Date',
+    'productName': 'Product Name',
+    'productVersion': 'Product Version',
     'author_facet': 'Author'
     //'id': 'Identification Number'
     // you can add as many lines of labels as you want

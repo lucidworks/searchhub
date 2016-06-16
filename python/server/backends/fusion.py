@@ -58,10 +58,10 @@ class FusionBackend(Backend):
         app.config.get("FUSION_ADMIN_USERNAME"),
         app.config.get("FUSION_ADMIN_PASSWORD")
       )
-    if app.config.get("FUSION_APP_USERNAME"):
+    if app.config.get("FUSION_APP_USER"):
       self.app_session = FusionSession(
         app.config.get("FUSION_URL", "http://localhost:8764/api/"),
-        app.config.get("FUSION_APP_USERNAME"),  # TODO change to another user
+        app.config.get("FUSION_APP_USER"),  # TODO change to another user
         app.config.get("FUSION_APP_PASSWORD"),
         lazy=True
       )
@@ -544,7 +544,7 @@ def new_admin_session():
 def new_user_session():
   return _new_session(
     app.config.get("FUSION_URL", "http://localhost:8764/api/"),
-    app.config.get("FUSION_APP_USERNAME"),
+    app.config.get("FUSION_APP_USER"),
     app.config.get("FUSION_APP_PASSWORD")
   )
 

@@ -27,7 +27,7 @@
       "mbox": "spark-user",
       "schedule": {
         "repeatUnit": "HOUR",
-        "interval": 1
+        "interval": 2
       }
     },
     {
@@ -36,7 +36,7 @@
       "mbox": "spark-dev",
       "schedule": {
         "repeatUnit": "HOUR",
-        "interval": 1
+        "interval": 2
       }
     }
   ],

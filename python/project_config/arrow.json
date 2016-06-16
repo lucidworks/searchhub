@@ -27,7 +27,7 @@
       "mbox": "arrow-dev",
       "schedule": {
         "repeatUnit": "HOUR",
-        "interval": 1
+        "interval": 2
       }
     }
   ],
@@ -37,7 +37,7 @@
     "url": "https://issues.apache.org/jira/browse/ARROW",
     "schedule": {
         "repeatUnit": "HOUR",
-        "interval": 1
+        "interval": 2
       }
   }
 }

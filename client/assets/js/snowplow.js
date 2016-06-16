@@ -15,10 +15,11 @@
   }
 }(window, document, "script", "//d1fc8wv8zag5ca.cloudfront.net/2.5.3/sp.js", "searchhub_snowplow"));
 
-searchhub_snowplow("newTracker", "searchHub", location.hostname + ":" + location.port + "/snowplow", {
+searchhub_snowplow("newTracker", "searchHub", location.hostname + ":" + location.port + "/snowplow_post", {
   appId: "searchHub",
   platform: "web",
   post: true,
+  bufferSize: 1,
   contexts: {
     webPage: true,
     performanceTiming: true,

@@ -27,7 +27,7 @@
       "mbox": "uima-user",
       "schedule": {
         "repeatUnit": "HOUR",
-        "interval": 1
+        "interval": 2
       }
     },
     {
@@ -36,7 +36,7 @@
       "mbox": "uima-dev",
       "schedule": {
         "repeatUnit": "HOUR",
-        "interval": 1
+        "interval": 2
       }
     }
   ],

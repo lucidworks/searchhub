@@ -3,6 +3,7 @@ import os
 from flask import render_template, send_from_directory
 from flask import request, redirect
 from server import app, backend
+import werkzeug
 import urllib
 
 logging.basicConfig(level=logging.INFO)
@@ -29,20 +30,46 @@ def search():
 
 
 # Route all Signals from Snowplow accordingly
-@app.route('/snowplow/<path:path>', methods=["GET", "POST"])
+@app.route('/snowplow/<path:path>', methods=["GET"])
 def track_event(path):
     # TODO: put in spam prevention
     app_id = request.args.get("aid")
-    platform = request.args.get("p")
-    event = request.args.get("e")
-    timestamp = request.args.get("dtm")
-    # print "app: {0} plat: {1} event: {2} time: {3} request: {4}".format(app_id, platform, event, timestamp, request.args)
-    if app_id == "searchHub":
+    signal = request.args
+
+    print "Request"
+    print request
+    print "app_id:"
+    print app_id
+    if app_id == "searchHub" and signal:
         coll_id = app.config.get("FUSION_COLLECTION", "lucidfind")
-        result = backend.send_signal(coll_id, request.args)
+        result = backend.send_signal(coll_id, signal)
+    else:
+        print "Unable to send signal: app_id: {0}, signal: {1}".format(app_id, signal)
     #Snowplow requires you respond with a 1x1 pixel
     return send_from_directory(os.path.join(app.root_path, 'assets/img/'), 'onebyone.png')
 
+@app.route('/snowplow_post/<path:foo>', methods=["POST"])
+def track_post_event(foo):
+    # TODO: put in spam prevention
+    # NOTE: when POSTing, we can have multiple events per POST
+    json_payload = request.get_json()
+    data = json_payload["data"]
+    for item in data:
+        app_id = item["aid"]
+        if app_id == "searchHub":
+            coll_id = app.config.get("FUSION_COLLECTION", "lucidfind")
+            result = backend.send_signal(coll_id, item)
+        else:
+            print "Unable to send signal: app_id: {0}, signal: {1}".format(app_id, item)
+    #Snowplow requires you respond with a 1x1 pixel
+    return ""#send_from_directory(os.path.join(app.root_path, 'assets/img/'), 'onebyone.png')
+
+
+#@app.errorhandler(werkzeug.exceptions.BadRequest)
+#def handle_bad_request(e):
+#    print "foo"
+#    print e
+#    return 'bad request!'
 
 @app.route('/templates/<path:path>')
 def send_foundation_template(

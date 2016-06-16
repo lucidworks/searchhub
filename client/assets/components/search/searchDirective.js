@@ -58,7 +58,7 @@
         //$log.info(suggestions);
         _.forEach(suggestions, function(suggester){
           var res = suggester[query];
-          if (res["numFound"] && res["numFound"] > 0){
+          if (res && res["numFound"] && res["numFound"] > 0){
             _.forEach(res["suggestions"], function(suggestion, index){
               suggestion["index"] = index;
               suggestion["term"] = htmlToPlaintext(suggestion["term"]);

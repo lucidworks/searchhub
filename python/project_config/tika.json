@@ -27,7 +27,7 @@
       "mbox": "tika-user",
       "schedule": {
         "repeatUnit": "HOUR",
-        "interval": 1
+        "interval": 2
       }
     },
     {
@@ -36,7 +36,7 @@
       "mbox": "tika-dev",
       "schedule": {
         "repeatUnit": "HOUR",
-        "interval": 1
+        "interval": 2
       }
     }
   ],

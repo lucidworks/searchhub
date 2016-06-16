@@ -27,7 +27,7 @@
       "mbox": "kafka-users",
       "schedule": {
         "repeatUnit": "HOUR",
-        "interval": 1
+        "interval": 2
       }
     },
     {
@@ -36,7 +36,7 @@
       "mbox": "kafka-dev",
       "schedule": {
         "repeatUnit": "HOUR",
-        "interval": 1
+        "interval": 2
       }
     }
   ],
@@ -46,7 +46,7 @@
     "url": "https://issues.apache.org/jira/browse/KAFKA",
       "schedule": {
         "repeatUnit": "HOUR",
-        "interval": 1
+        "interval": 2
       }
   }
 }

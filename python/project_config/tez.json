@@ -27,7 +27,7 @@
       "mbox": "tez-user",
       "schedule": {
         "repeatUnit": "HOUR",
-        "interval": 1
+        "interval": 2
       }
     },
     {
@@ -36,7 +36,7 @@
       "mbox": "tez-dev",
       "schedule": {
         "repeatUnit": "HOUR",
-        "interval": 1
+        "interval": 2
       }
     }
   ],
@@ -46,7 +46,7 @@
     "url": "https://issues.apache.org/jira/browse/TEZ",
     "schedule": {
         "repeatUnit": "HOUR",
-        "interval": 1
+        "interval": 2
       }
   }
 }

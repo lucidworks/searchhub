@@ -96,6 +96,9 @@ def start_schedules(backend):
 def stop_schedules(backend):
   backend.stop_schedules()
 
+def stop_datasources(backend):
+  backend.stop_datasources()
+
 # Map the project_config directory into Fusion datasources and schedules.
 def setup_projects(backend):
   project_files = [f for f in listdir("./project_config") if isfile(join("./project_config", f)) and f.endswith(".json")]
@@ -215,3 +218,6 @@ if cmd_args.start_schedules:
 
 if cmd_args.stop_schedules:
   stop_schedules(backend)
+
+if cmd_args.stop_datasources:
+  stop_datasources(backend)

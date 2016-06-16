@@ -520,6 +520,18 @@ class FusionBackend(Backend):
     else:
       raise Exception("Could not start Datasource %s" % (id))
 
+  #Stop all datasources
+  def stop_datasources(self):
+    #get a list of all the datasources
+    resp = self.admin_session.get("apollo/connectors/datasources")
+    if resp.status_code == 200:
+      json = resp.json()
+      for ds in json:
+        print "Stopping {0}".format(ds["id"])
+        self.stop_datasource(ds["id"])
+    else:
+        raise Exception("Unable to retrieve datasource list")
+
   def stop_datasource(self, id, abort=False):
     datasource = self.get_datasource(id)
     if datasource is not None:

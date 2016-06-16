@@ -8,6 +8,8 @@ from flask import Flask
 parser = argparse.ArgumentParser(description='Setup Search Hub')
 parser.add_argument('--start_datasources', action='store_true',
                             help='start the datasources when bootstrapping')
+parser.add_argument('--stop_datasources', action='store_true',
+                            help='stop all datasources')
 parser.add_argument('--create_collections', action='store_true',
                             help='create the collections')
 parser.add_argument('--create_projects', action='store_true',

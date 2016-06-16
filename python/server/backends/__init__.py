@@ -98,6 +98,12 @@ class Backend(object):
     raise NotImplementedError()
 
 
+  def stop_datasource(self, id, abort=False):
+    raise NotImplementedError()
+
+  def stop_datasources(self):
+    raise NotImplementedError()
+
   def update_datasource(self, id, **config):
     """
     Update a datasource in the backend

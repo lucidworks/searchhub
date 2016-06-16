@@ -66,6 +66,21 @@ class FusionBackend(Backend):
         lazy=True
       )
 
+  def toggle_system_metrics(self, enabled=True):
+    print "Setting System Metrics indexing to {0}".format(enabled)
+    resp = self.admin_session.put("apollo/configurations/com.lucidworks.apollo.metrics.enabled", data=json.dumps(enabled))
+    if resp.status_code != 204:
+      print "Unable to set system metrics collection to {0}".format(enabled)
+      print resp
+
+
+  def set_log_level(self, log_level="WARN"):
+    print "Setting Log Level to {0}".format(log_level)
+    resp = self.admin_session.put("apollo/configurations/com.lucidworks.apollo.log.level", data=json.dumps(log_level))
+    if resp.status_code != 204:
+      print "Unable to set log_level collection to {0}".format(log_level)
+      print resp
+
   def add_field(self, collection_name, name, type="string", required=False, multivalued=False, indexed=True,
                 stored=True, defaultVal=None, copyDests=None):
     data = {

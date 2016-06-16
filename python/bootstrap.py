@@ -136,6 +136,8 @@ def setup_projects(backend):
 
 
 
+backend.toggle_system_metrics(False)
+backend.set_log_level("WARN")
 
 lucidfind_collection_id = app.config.get("FUSION_COLLECTION", "lucidfind")
 

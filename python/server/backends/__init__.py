@@ -10,6 +10,12 @@ class Backend(object):
   def __init__(self):
     pass
 
+  def toggle_system_metrics(self, enabled=True):
+    raise NotImplementedError()
+
+  def set_log_level(self, logLevel="ERROR"):
+    raise NotImplementedError()
+
   def send_signal(self, collection_id, payload):
     """
     Send a signal

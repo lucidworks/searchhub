@@ -61,16 +61,6 @@
         "interval": 1
       }
     }
-  ],
-  "wikis": [
-    {
-      "name": "mahout-wiki",
-      "label": "Mahout Wiki",
-      "url": "http://wiki.apache.org/mahout/",
-      "schedule": {
-        "repeatUnit": "WEEK",
-        "interval": 1
-      }
-    }
+  ]
   ]
 }

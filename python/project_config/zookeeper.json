@@ -67,7 +67,7 @@
     {
       "name": "zookeeper-wiki",
       "label": "Zookeeper Wiki",
-      "url": "http://wiki.apache.org/zookeeper/",
+      "url": "https://cwiki.apache.org/confluence/display/ZOOKEEPER/",
       "schedule": {
         "repeatUnit": "WEEK",
         "interval": 1

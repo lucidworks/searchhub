@@ -35,7 +35,7 @@ def create_config(project_name, project_label, pipeline, website):
       "crawlDBType": "in-memory",
       "f.discardLinkURLQueries": False,
       "f.respectMetaEquivRedirects": False,
-      "fetchDelayMS": 0,
+      "fetchDelayMS": 50,
       "splitArchives": True,
       "refreshAll": True,
       "f.defaultMIMEType": "application/octet-stream",
@@ -49,11 +49,11 @@ def create_config(project_name, project_label, pipeline, website):
       "f.obeyRobots": True,
       "fetchDelayMSPerHost": True,
       "indexCrawlDBToSolr": False,
-      "fetchThreads": 5,
+      "fetchThreads": 1,
       "restrictToTree": True,
       "retainOutlinks": True,
       "f.defaultCharSet": "UTF-8",
-      "emitThreads": 5,
+      "emitThreads": 1,
       "excludeExtensions": [
         ".class",
         ".bin",
@@ -136,7 +136,7 @@ def create_config(project_name, project_label, pipeline, website):
       "startLinks": [
         website["url"]
       ],
-      "chunkSize": 50,
+      "chunkSize": 100,
       "includeRegexes": [],
       "f.obeyRobotsDelay": True,
       "deleteErrorsAfter": -1,

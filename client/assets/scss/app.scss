@@ -61,6 +61,23 @@
 
   }
 
+.card-section{
+  display:flex;
+  justify-content:stretch-between;
+  padding-bottom: 0;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.card-section > select{
+  margin-left: 20px;
+  width: 150px;
+  position: relative;
+  top: -10px;
+}
+
+
 blockquote.twitter-tweet {
   display: inline-block;
   font-family: "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;

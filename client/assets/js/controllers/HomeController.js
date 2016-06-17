@@ -25,14 +25,17 @@
     function activate() {
       hc.search = doSearch;
       hc.logout = logout;
+      hc.onChangeSort = onChangeSort;
       hc.appName = ConfigService.config.search_app_title;
       hc.logoLocation = ConfigService.config.logo_location;
       hc.status = 'loading';
       hc.lastQuery = '';
       hc.sorting = {};
       hc.grouped = false;
-
       query = URLService.getQueryFromUrl();
+
+
+      hc.sort = getSortFromQuery(query);
       //Setting the query object... also populating the the view model
       hc.searchQuery = _.get(query,'q','*');
       // Use an observable to get the contents of a queryResults after it is updated.
@@ -54,6 +57,22 @@
       $timeout(function(){
         URLService.setQuery(query);
       });
+    }
+
+    function getSortFromQuery(query){
+      var tmp = query.sort;
+      if (tmp){
+        hc.sort = tmp.replace(" desc", "").trim();
+      } else {
+        hc.sort = "score";
+      }
+    }
+
+    function onChangeSort(){
+      console.log(hc.sort);
+      var query = QueryService.getQueryObject();
+      query.sort = hc.sort + " desc";
+      QueryService.setQuery(query);
     }
 
     function checkResultsType(data){

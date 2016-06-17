@@ -10,7 +10,7 @@
     <field value="doc.id" maxlength="200"></field>
   </h3>
   <div ng-include="'/templates/document-common.html'"></div>
-  <h6><span class="field-header">From</span>: <field ng-if="doc.from" value="doc.from" highlight="::vm.highlight[doc.id]" maxlength="100" hkey="from"></field></h6>
+  <h6><span class="field-header">From</span>: <field ng-if="doc.from" value="doc.from" highlight="::vm.highlight[doc.id]" maxlength="150" hkey="from"></field></h6>
 
   <p class="large-8 xlarge-7 xx-large-6 mail-body">
     <field ng-if="doc.body" value="doc.body" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="body"></field>

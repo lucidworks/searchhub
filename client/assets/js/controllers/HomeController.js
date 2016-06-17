@@ -14,7 +14,7 @@
     var sorting;
 
     hc.searchQuery = '*';
-
+    hc.sort = "score";
     activate();
 
     ////////////////
@@ -66,6 +66,7 @@
       } else {
         hc.sort = "score";
       }
+      //console.log("sort: " + hc.sort + "::");
     }
 
     function onChangeSort(){

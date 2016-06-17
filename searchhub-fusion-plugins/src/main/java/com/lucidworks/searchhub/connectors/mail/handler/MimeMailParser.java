@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 public class MimeMailParser {
   private final Logger logger = LoggerFactory.getLogger(MimeMailParser.class);
 
-  private static final String RAW_CONTENT = "_raw_content_";
+  public static final String RAW_CONTENT = "_raw_content_";
 
   public static final String FIELD_PROJECT = "project";
   public static final String FIELD_FROM = "from";

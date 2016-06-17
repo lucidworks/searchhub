@@ -58,44 +58,6 @@
       "label": "Highlighting"
     },
     {
-      "type": "set-params",
-      "id": "e65666f6-0054-4f42-9b45-0492a251d39d",
-      "params": [
-        {
-          "key": "facet.range",
-          "value": "publishedOnDate",
-          "policy": "append"
-        },
-        {
-          "key": "facet.range.start",
-          "value": "NOW/DAY-4MONTHS",
-          "policy": "append"
-        },
-        {
-          "key": "facet.range.end",
-          "value": "NOW/DAY+1DAY",
-          "policy": "append"
-        },
-        {
-          "key": "facet.range.gap",
-          "value": "+1MONTH",
-          "policy": "append"
-        },
-        {
-          "key": "facet.range.other",
-          "value": "all",
-          "policy": "append"
-        },
-        {
-          "key": "facet.limit",
-          "value": "30",
-          "policy": "append"
-        }
-      ],
-      "skip": false,
-      "label": "Other Facets"
-    },
-    {
       "type": "search-fields",
       "id": "d6875c2c-d2af-432d-89b9-9999cc685aaa",
       "rows": 10,
@@ -136,19 +98,19 @@
       "id": "86eef67e-5dd8-4e40-9df9-f6eb9eb369d4",
       "fieldFacets": [
         {
-          "field": "datasource_label",
+          "field": "{!ex=ds}datasource_label",
           "limit": 100,
-          "minCount": 1,
+          "minCount": 0,
           "missing": false
         },
         {
-          "field": "project_label",
+          "field": "{!ex=prj}project_label",
           "limit": 100,
-          "minCount": 1,
+          "minCount": 0,
           "missing": false
         },
         {
-          "field": "author_facet",
+          "field": "{!ex=auth}author_facet",
           "minCount": 1,
           "missing": false
         },
@@ -170,6 +132,49 @@
       ],
       "skip": false,
       "label": "facet"
+    },
+    {
+      "type": "set-params",
+      "id": "e65666f6-0054-4f42-9b45-0492a251d39d",
+      "params": [
+        {
+          "key": "facet.range",
+          "value": "publishedOnDate",
+          "policy": "append"
+        },
+        {
+          "key": "facet.range.start",
+          "value": "NOW/DAY-4MONTHS",
+          "policy": "append"
+        },
+        {
+          "key": "facet.range.end",
+          "value": "NOW/DAY+1DAY",
+          "policy": "append"
+        },
+        {
+          "key": "facet.range.gap",
+          "value": "+1MONTH",
+          "policy": "append"
+        },
+        {
+          "key": "facet.range.other",
+          "value": "all",
+          "policy": "append"
+        },
+        {
+          "key": "facet.limit",
+          "value": "30",
+          "policy": "append"
+        },
+        {
+          "key": "facet.mincount",
+          "value": "1",
+          "policy": "append"
+        }
+      ],
+      "skip": false,
+      "label": "Other Facets"
     },
     {
       "type": "solr-query",

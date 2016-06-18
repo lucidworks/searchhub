@@ -49,7 +49,7 @@
         vm.docs = parseDocuments(data);
         vm.highlighting = parseHighlighting(data);
         vm.getDoctype = getDocType;
-        $anchorScroll('topOfMainContent');
+        //$anchorScroll('topOfMainContent');
       });
     }
 

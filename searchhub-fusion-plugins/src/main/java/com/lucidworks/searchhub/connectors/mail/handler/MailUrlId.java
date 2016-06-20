@@ -21,7 +21,6 @@ import java.util.List;
  * full messageId: <F9210543-78B0-47ED-BD6B-0E850CC08774@apache.org>
  */
 public class MailUrlId {
-  private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
 
   private final String url;
   private final String messageId;
@@ -45,6 +44,7 @@ public class MailUrlId {
     Date tempDate;
     approxDateStr = parts.get(numParts - 3);
     try {
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
       tempDate = sdf.parse(approxDateStr);
     } catch (ParseException e) {
       tempDate = new Date();

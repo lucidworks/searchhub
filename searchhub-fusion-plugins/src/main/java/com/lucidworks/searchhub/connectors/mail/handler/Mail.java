@@ -28,29 +28,29 @@ import java.util.Map;
 import java.util.TimeZone;
 
 public class Mail {
-  public static final DateFormat solrDateFmt = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-
   private final MailUrlId mailUrlId;
+
   private MimeMessage message;
   private String hash;
   private String messageId;
   private String list;
-
   private String threadId = "";
+
   private String parentId;
   private int depth;
-
   private Date sentDate;
-  private String sentDateStr;
 
+  private String sentDateStr;
   private MailHash hashBuilder;
 
-  public static final SimpleDateFormat possibleFormats[] = new SimpleDateFormat[]{
-    new SimpleDateFormat("d MMM yy HH:mm z"),
-    new SimpleDateFormat("d MMM yy HH:mm:ss z"),
-    new SimpleDateFormat("d MMM yyyy HH:mm z"),
-    new SimpleDateFormat("d MMM yyyy HH:mm:ss z"),
-    new SimpleDateFormat("yy/mm/dd HH:mm:ss"),};
+  private static final ThreadLocal<DateFormat> solrDateFormatTl = new ThreadLocal<DateFormat>() {
+    @Override
+    protected DateFormat initialValue() {
+      SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");//TODO: Locale here?
+      format.setTimeZone(TimeZone.getTimeZone("UTC"));
+      return format;
+    }
+  };
 
   public static Logger log = LoggerFactory.getLogger(Mail.class);
 
@@ -62,7 +62,7 @@ public class Mail {
     this.message = m;
     this.hashBuilder = hashBuilder;
     this.mailUrlId = new MailUrlId(mailUrl);
-    solrDateFmt.setTimeZone(TimeZone.getTimeZone("UTC"));
+
   }
 
 
@@ -76,7 +76,7 @@ public class Mail {
       betterDate = approximateDate;
     }
     sentDate = betterDate;
-    sentDateStr = solrDateFmt.format(betterDate);
+    sentDateStr = solrDateFormatTl.get().format(betterDate);
     return sentDateStr;
   }
 
@@ -111,7 +111,7 @@ public class Mail {
       String contentType = p.getContentType();
       //strip off character encoding if it is on there
       int i = contentType.indexOf(";");
-      if (i != -1){
+      if (i != -1) {
         contentType = contentType.substring(0, i).trim();
       }
       List<String> vals = results.get(contentType);
@@ -120,9 +120,9 @@ public class Mail {
         results.put(contentType, vals);
       }
       vals.add(txt.toString());
-    } else if (p.isMimeType("multipart/*")){
+    } else if (p.isMimeType("multipart/*")) {
       Multipart mp = (Multipart) p.getContent();
-      for (int i = 0; i < mp.getCount(); i++){
+      for (int i = 0; i < mp.getCount(); i++) {
         Part bp = mp.getBodyPart(i);
         getText(bp, results);
       }
@@ -130,7 +130,6 @@ public class Mail {
   }
 
   /**
-   *
    * @return A map where the key is the mime type and the value is the text associated with that mime type
    * @throws MailException
    */
@@ -183,13 +182,13 @@ public class Mail {
 
     } catch (ParseException e) {
       String mess = "From header parse exception (" + e.getMessage()
-        + ") msgid=" + this.getId() + " from=" + add.toString()
-        + " from type=" + add.getType();
+              + ") msgid=" + this.getId() + " from=" + add.toString()
+              + " from type=" + add.getType();
       log.info(mess);
     } catch (UnsupportedEncodingException e) {
       String mess = "From header unsupported encoding exception ("
-        + e.getMessage() + ") msgid=" + this.getId() + " from="
-        + add.toString() + " from type=" + add.getType();
+              + e.getMessage() + ") msgid=" + this.getId() + " from="
+              + add.toString() + " from type=" + add.getType();
       log.info(mess);
     }
 
@@ -289,7 +288,6 @@ public class Mail {
   }
 
 
-
   public String getBaseSubject() throws MailException {
 
     String subject = getSubject();
@@ -338,7 +336,7 @@ public class Mail {
     }
 
     String[] ID_HEADERS = new String[]{"Message-Id", "List-Id",
-      "Subject", "Date"};
+            "Subject", "Date"};
 
     try {
       StringBuilder hashtext = new StringBuilder();
@@ -365,7 +363,7 @@ public class Mail {
   public String getDisplayContent() throws MailException {
     Map<String, List<String>> mimeMap = this.getText();
     if (mimeMap == null) {
-        return "";
+      return "";
     }
     String contents = getJoinedText(mimeMap);
     if (contents == null) {
@@ -420,7 +418,7 @@ public class Mail {
       } else {
         //not sure what else we've got, loop over all of it and try to get strings
         for (Map.Entry<String, List<String>> entry : mimeMap.entrySet()) {
-          log.warn("adding unknown content type: {}", entry.getKey() );
+          log.warn("adding unknown content type: {}", entry.getKey());
           List<String> value = entry.getValue();
           if (value != null && value.isEmpty() == false) {
             result.append(getAsString(value));
@@ -438,7 +436,7 @@ public class Mail {
   public String getNewContent() throws MailException {
     Map<String, List<String>> mimeMap = this.getText();
     if (mimeMap == null) {
-        return "";
+      return "";
     }
     String contents = getJoinedText(mimeMap);
 
@@ -562,6 +560,12 @@ public class Mail {
     if (date != null && date.after(min) && date.before(max)) {
       return date;
     }
+    SimpleDateFormat possibleFormats[] = {
+            new SimpleDateFormat("d MMM yy HH:mm z"),
+            new SimpleDateFormat("d MMM yy HH:mm:ss z"),
+            new SimpleDateFormat("d MMM yyyy HH:mm z"),
+            new SimpleDateFormat("d MMM yyyy HH:mm:ss z"),
+            new SimpleDateFormat("yy/mm/dd HH:mm:ss"),};
 
     // 3. Try various formats for the "Date" header
     try {

@@ -77,6 +77,84 @@ public class MailTest {
     Assert.assertEquals("2014-06-25T08:42:36Z", dateStr);
   }
 
+  @Test
+  public void testDates2() throws Exception {
+    MimeMailParser parser = new MimeMailParser();
+    PipelineDocument doc = new PipelineDocument("http://asfmail.lucidworks.io/mail_files/ignite-dev/201411.mbox/raw/%3CCA+0=VoWBdyOM+rPeFYUNT-HxPE8FhimaP6BkfnaK2VnhyEzPTA@mail.gmail.com%3E");
+    doc.addField(MimeMailParser.RAW_CONTENT, JIRA_ACCOUNTS.getBytes());
+    PipelineDocument newDoc = parser.parse(doc);
+    String dateStr = (String) newDoc.getFieldValues(MimeMailParser.FIELD_SENT_DATE).get(0);
+    Assert.assertEquals("2014-11-14T17:53:00Z", dateStr);
+  }
+
+  public static final String JIRA_ACCOUNTS = "From dev-return-63-apmail-ignite-dev-archive=ignite.apache.org@ignite.incubator.apache.org  Fri Nov 14 17:54:53 2014\n" +
+          "Return-Path: <dev-return-63-apmail-ignite-dev-archive=ignite.apache.org@ignite.incubator.apache.org>\n" +
+          "X-Original-To: apmail-ignite-dev-archive@minotaur.apache.org\n" +
+          "Delivered-To: apmail-ignite-dev-archive@minotaur.apache.org\n" +
+          "Received: from mail.apache.org (hermes.apache.org [140.211.11.3])\n" +
+          "\tby minotaur.apache.org (Postfix) with SMTP id 5E8E1F7DB\n" +
+          "\tfor <apmail-ignite-dev-archive@minotaur.apache.org>; Fri, 14 Nov 2014 17:54:53 +0000 (UTC)\n" +
+          "Received: (qmail 15502 invoked by uid 500); 14 Nov 2014 17:54:53 -0000\n" +
+          "Delivered-To: apmail-ignite-dev-archive@ignite.apache.org\n" +
+          "Received: (qmail 15472 invoked by uid 500); 14 Nov 2014 17:54:53 -0000\n" +
+          "Mailing-List: contact dev-help@ignite.incubator.apache.org; run by ezmlm\n" +
+          "Precedence: bulk\n" +
+          "List-Help: <mailto:dev-help@ignite.incubator.apache.org>\n" +
+          "List-Unsubscribe: <mailto:dev-unsubscribe@ignite.incubator.apache.org>\n" +
+          "List-Post: <mailto:dev@ignite.incubator.apache.org>\n" +
+          "List-Id: <dev.ignite.incubator.apache.org>\n" +
+          "Reply-To: dev@ignite.incubator.apache.org\n" +
+          "Delivered-To: mailing list dev@ignite.incubator.apache.org\n" +
+          "Received: (qmail 15461 invoked by uid 99); 14 Nov 2014 17:54:52 -0000\n" +
+          "Received: from athena.apache.org (HELO athena.apache.org) (140.211.11.136)\n" +
+          "    by apache.org (qpsmtpd/0.29) with ESMTP; Fri, 14 Nov 2014 17:54:52 +0000\n" +
+          "X-ASF-Spam-Status: No, hits=1.5 required=5.0\n" +
+          "\ttests=HTML_MESSAGE,RCVD_IN_DNSWL_LOW,SPF_PASS\n" +
+          "X-Spam-Check-By: apache.org\n" +
+          "Received-SPF: pass (athena.apache.org: domain of dsetrakyan@gridgain.com designates 74.125.82.54 as permitted sender)\n" +
+          "Received: from [74.125.82.54] (HELO mail-wg0-f54.google.com) (74.125.82.54)\n" +
+          "    by apache.org (qpsmtpd/0.29) with ESMTP; Fri, 14 Nov 2014 17:54:47 +0000\n" +
+          "Received: by mail-wg0-f54.google.com with SMTP id n12so19981496wgh.13\n" +
+          "        for <dev@ignite.incubator.apache.org>; Fri, 14 Nov 2014 09:53:41 -0800 (PST)\n" +
+          "X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;\n" +
+          "        d=1e100.net; s=20130820;\n" +
+          "        h=x-gm-message-state:mime-version:from:date:message-id:subject:to\n" +
+          "         :content-type;\n" +
+          "        bh=UiHus75Dfnr4FKo1gKpFuUyh4zBt8HP0Oo/ytk+ZdV8=;\n" +
+          "        b=aqWEqk+DXkNrYPddUcXRSXxGqPtzcwtFHpDTnNcsG5fT/KaHkrm2psHo91seWn0ANY\n" +
+          "         iF6zk3gOY3By+5x6XaXkNkHLaSJBsD9Kvp593rMNgcKeLvzCbNYI4OS/YDS/qrNyvarT\n" +
+          "         eBOMB6cw9zWvdpiS3qJkGfaeRk8J7PcEYlo/o1mI64zhkNyRmGVPQr1LHVyM6vo0+dXR\n" +
+          "         zeLLljV15Vq3hvLtdAnbl3PedDUGJz2ABOWQmOf/SOq3ZXhN+zkEvIM59ZARiqqq4ZCh\n" +
+          "         uILr4cdQdowiyn2BUGJao4u+4kC8Q4Zyunn/goNsKorRggPWjgFpehsJrjo0FSNDaEGN\n" +
+          "         3MqQ==\n" +
+          "X-Gm-Message-State: ALoCoQkqn6vnXrnRCmJlAE7fsT79Y2MgeKgu7YIfwBDFIi6ZirpHCvICQcCKntHoqOmk1cgzuoTh\n" +
+          "X-Received: by 10.180.150.138 with SMTP id ui10mr9813288wib.32.1415987621526;\n" +
+          " Fri, 14 Nov 2014 09:53:41 -0800 (PST)\n" +
+          "MIME-Version: 1.0\n" +
+          "Received: by 10.194.51.69 with HTTP; Fri, 14 Nov 2014 09:53:00 -0800 (PST)\n" +
+          "From: Dmitriy Setrakyan <dsetrakyan@gridgain.com>\n" +
+          "Date: Fri, 14 Nov 2014 09:53:00 -0800\n" +
+          "Message-ID: <CA+0=VoWBdyOM+rPeFYUNT-HxPE8FhimaP6BkfnaK2VnhyEzPTA@mail.gmail.com>\n" +
+          "Subject: Jira accounts\n" +
+          "To: dev@ignite.incubator.apache.org\n" +
+          "Content-Type: multipart/alternative; boundary=001a11c3fb20301b140507d54fd9\n" +
+          "X-Virus-Checked: Checked by ClamAV on apache.org\n" +
+          "\n" +
+          "--001a11c3fb20301b140507d54fd9\n" +
+          "Content-Type: text/plain; charset=UTF-8\n" +
+          "\n" +
+          "Hi,\n" +
+          "\n" +
+          "I would like to ask everyone on the committer list to create a Jira account:\n" +
+          "https://issues.apache.org/jira/browse/IGNITE\n" +
+          "\n" +
+          "I am beginning to file tickets and will be assigning them within the main\n" +
+          "committers.\n" +
+          "\n" +
+          "Thanks,\n" +
+          "\n" +
+          "--001a11c3fb20301b140507d54fd9--\n";
+
   public static final String SPARK = "From user-return-10156-apmail-spark-user-archive=spark.apache.org@spark.apache.org  Wed Jun 25 08:43:03 2014\n" +
           "Return-Path: <user-return-10156-apmail-spark-user-archive=spark.apache.org@spark.apache.org>\n" +
           "X-Original-To: apmail-spark-user-archive@minotaur.apache.org\n" +

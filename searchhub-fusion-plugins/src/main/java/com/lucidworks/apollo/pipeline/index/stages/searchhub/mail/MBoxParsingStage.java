@@ -37,7 +37,8 @@ public class MBoxParsingStage extends IndexStage<MBoxParsingStageConfig> {
     logger.info("running MBoxParsingStage on " + doc.getId() + " (which has " + doc.getAllFieldNames().size() + " fields )");
 
     // TODO: should be cached for better throughput
-    MimeMailParser parser = new MimeMailParser();
+    MBoxParsingStageConfig config = getConfiguration();
+    MimeMailParser parser = new MimeMailParser(config.getIdPattern(), config.getBotEmailPatterns());
     PipelineDocument newDoc = parser.parse(doc);
     if (newDoc == null) {
       return;

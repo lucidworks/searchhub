@@ -10,7 +10,8 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 import java.io.ByteArrayInputStream;
-import java.util.*;
+import java.util.List;
+import java.util.Properties;
 import java.util.regex.Pattern;
 
 public class MimeMailParser {
@@ -42,24 +43,33 @@ public class MimeMailParser {
   public static final String FIELD_THREAD_ID = "threadId";
   public static final String FIELD_SENT_DATE = "publishedOnDate";
 
-  public static final List<Pattern> botEmailPatterns = Lists.newArrayList(
-    Pattern.compile(".*buildbot@.*"),
-    Pattern.compile(".*git@.*"),
-    Pattern.compile(".*hudson@.*"),
-    // way of filtering code reviews too?
-    Pattern.compile(".*jenkins@.*"),
-    Pattern.compile(".*jira@.*"),
-    Pattern.compile(".*subversion@.*"),
-    Pattern.compile(".*svn@.*")
-  );
-
+  private final List<Pattern> botEmailPatterns;
+  private final Pattern idPattern;
   private final Session session;
 
   public MimeMailParser() {
+    idPattern = Pattern.compile(".*/\\d{6}\\.mbox/raw/%3[Cc].*%3[eE]$");
+    botEmailPatterns = Lists.newArrayList(
+            Pattern.compile(".*buildbot@.*"),
+            Pattern.compile(".*git@.*"),
+            Pattern.compile(".*hudson@.*"),
+            // way of filtering code reviews too?
+            Pattern.compile(".*jenkins@.*"),
+            Pattern.compile(".*jira@.*"),
+            Pattern.compile(".*subversion@.*"),
+            Pattern.compile(".*svn@.*")
+    );
+
+
     session = Session.getDefaultInstance(new Properties());
   }
 
-  private static final Pattern idPattern = Pattern.compile(".*/\\d{6}\\.mbox/raw/%3[Cc].*%3[eE]$");
+  //Used by the stage
+  public MimeMailParser(Pattern idPattern, List<Pattern> botEmailPatterns) {
+    this.idPattern = idPattern;
+    this.botEmailPatterns = botEmailPatterns;
+    session = Session.getDefaultInstance(new Properties());
+  }
 
   public PipelineDocument parse(PipelineDocument doc) throws MessagingException, MailException {
     String docId = doc.getId();
@@ -95,11 +105,13 @@ public class MimeMailParser {
   }
 
   private void setBotField(PipelineDocument doc, String fromEmail) {
-    String email = fromEmail.toLowerCase();
-    for (Pattern pattern: botEmailPatterns) {
-      if (pattern.matcher(email).matches()) {
-        doc.setField("isBot", true);
-        return;
+    if (fromEmail != null) {
+      String email = fromEmail.toLowerCase();
+      for (Pattern pattern : botEmailPatterns) {
+        if (pattern.matcher(email).matches()) {
+          doc.setField("isBot", true);
+          return;
+        }
       }
     }
     doc.setField("isBot", false);
@@ -119,7 +131,7 @@ public class MimeMailParser {
     String fromEmail = mail.getFromEmail();
     String from = mail.getFrom();
     if (from != null) {
-      from = from.replaceAll(fromEmail, "").replaceAll("[<>]", "").replaceAll("\"","").trim();
+      from = from.replaceAll(fromEmail, "").replaceAll("[<>]", "").replaceAll("\"", "").trim();
     }
     doc.setField(BaseDocument.FIELD_CREATOR, from);
     doc.setField(FIELD_FROM, from);

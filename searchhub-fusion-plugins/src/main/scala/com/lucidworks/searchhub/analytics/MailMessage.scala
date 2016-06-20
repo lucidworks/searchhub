@@ -22,7 +22,7 @@ case class MailMessage(id: String, project: String, list: String, listType: Stri
 object MailMessage {
 
   def fromRawString(id: String, contents: String): Option[MailMessage] = {
-    val mailParser = new MimeMailParser
+    val mailParser = new MimeMailParser//TODO: fix this to take in configurable patterns like the real stage does
     val doc = new PipelineDocument(id)
     doc.setField("_raw_content_", contents.getBytes)
     val parsedDocOpt = try {

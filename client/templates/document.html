@@ -1,0 +1,31 @@
+---
+name: document
+url: /document?doc_id
+animationIn: slideInRight
+animationOut: slideOutLeft
+controller: DocumentController as dc
+---
+<zf-offcanvas position="left"></zf-offcanvas>
+
+<div class="grid-frame vertical">
+  <div ng-include="'/templates/header.html'"></div>
+  <!-- Main Content Frame -->
+  <div class="grid-block">
+
+    <!-- Left Panel -->
+    <div class="medium-4 large-3 medium-grid-block">
+      Left Nav
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="grid-block small-12" class="large-12 medium-12">
+      <div class="grid-content">
+        <a name="topOfMainContent"></a>
+        Doc Id: {{dc.doc_id}}
+      </div>
+    </div>
+
+  </div>
+
+
+</div>

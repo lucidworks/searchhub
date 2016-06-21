@@ -8,63 +8,7 @@ controller: HomeController as hc
 <zf-offcanvas position="left"></zf-offcanvas>
 
 <div class="grid-frame vertical">
-<a href="https://github.com/lucidworks/searchhub"><img style="position: absolute; top: 0; right: 0; border: 0;" src="/assets/img/github_forkme.png" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
-  <!-- Top Bar -->
-  <nav class="primary title-bar">
-    <span class="center">
-      <form name="searchForm" class="show-for-medium" ng-submit="hc.search()">
-        <span class="inline-label search-label">
-          <search query="hc.searchQuery" class="search-box-outer"></search>
-          <a href="#" class="success button" ng-click="hc.search()"><img
-            zf-iconic=""
-            icon="magnifying-glass"
-            data-direction="top"
-            size="small"
-            class="iconic-color-secondary"></a>
-        </span>
-      </form>
-      <span class="show-for-small-only">
-        <a class="title" href="/#"><img ng-if="::hc.logoLocation" ng-src="{{::hc.logoLocation}}"/><span
-          ng-if="::(!hc.logoLocation)">{{::hc.appName}}</span></a>
-      </span>
-    </span>
-    <!-- Mobile Search bar -->
-    <ul class="left menu-bar primary condense">
-      <li ng-show="hc.showFacets" class="show-for-small-only">
-        <a zf-toggle="sidebar"><img
-          zf-iconic=""
-          icon="menu"
-          data-direction="top"
-          size="small"
-          class="iconic-color-secondary"></a></a>
-      </li>
-      <li class="show-for-medium"><span class="navLogo"><img
-            zf-iconic=""
-            icon="logo"
-            data-direction="top"
-            size="small"
-            class="iconic-color-secondary"></a></span>
-        <a class="title">{{hc.appName}}</a>
-      </li>
-    </ul>
-
-  </nav>
-  <nav class="primary title-bar show-for-small-only">
-    <form ng-submit="hc.search()">
-      <span class="inline-label search-label">
-        <search query="hc.searchQuery" class="search-box-outer"></search>
-        <a href="#" class="success button" ng-click="hc.search()"><img
-          zf-iconic=""
-          icon="magnifying-glass"
-          data-direction="top"
-          size="small"
-          class="iconic-color-secondary"></a>
-      </span>
-    </form>
-  </nav>
-
-
-
+  <div ng-include="'/templates/header.html'"></div>
   <!-- Main Content Frame -->
   <div class="grid-block">
 

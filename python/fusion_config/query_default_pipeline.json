@@ -3,6 +3,25 @@
   "stages": [
     {
       "type": "set-params",
+      "id": "ov5lbjp6tcbf8yqfr",
+      "params": [
+        {
+          "key": "fq",
+          "value": "isBot:false",
+          "policy": "append"
+        },
+        {
+          "key": "sort",
+          "value": "publishedOnDate desc",
+          "policy": "default"
+        }
+      ],
+      "skip": false,
+      "label": "MatchAllRanker",
+      "condition": "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\""
+    },
+    {
+      "type": "set-params",
       "id": "sl9m37u7xs2j5x9a4i",
       "params": [
         {

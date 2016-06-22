@@ -14,8 +14,9 @@
       controller: Controller,
       controllerAs: 'vm',
       bindToController: {
-        doc: '=bind',
-        highlight: '='
+        doc: '=',
+        highlight: '=',
+        expanded: "="
       }
     };
 
@@ -23,16 +24,25 @@
 
   }
 
-  function Controller($sce, SnowplowService, $filter, $log) {
+  function Controller($sce, SnowplowService, $filter, Orwell, $log) {
     'ngInject';
     var vm = this;
-
+    var perDocumentObservable = Orwell.getObservable('perDocument');
     activate();
 
     function activate() {
       vm.postSignal = SnowplowService.postSignal;
-      vm.postClickSignal = SnowplowService.postClickSignal;
+      vm.postClickSignal = processClick;
       vm.doc = processDocument(vm.doc);
+    }
+
+    function processClick(element, docId, position, score){
+      SnowplowService.postClickSignal(element, docId, position, score);
+      $log.info("Clicked", docId, position, score);
+      var payload = {
+        "docId": docId
+      };
+      perDocumentObservable.setContent(payload);
     }
 
     function processDocument(doc) {

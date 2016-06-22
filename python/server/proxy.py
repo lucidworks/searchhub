@@ -63,6 +63,7 @@ def proxy_request(other):
     else:
         form_data = None
     r = None
+    #print path
     if request.method == "POST" or request.method == "PUT":
         r = requests.post("{0}://{1}:{2}{3}".format(protocol, hostname, port, path), data=form_data, headers=request_headers)
     else:

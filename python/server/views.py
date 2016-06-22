@@ -29,10 +29,6 @@ def search():
     return render_template('index.html')
 
 
-@app.route('/document')
-def document():
-    return render_template('index.html')
-
 
 # Route all Signals from Snowplow accordingly
 @app.route('/snowplow/<path:path>', methods=["GET"])

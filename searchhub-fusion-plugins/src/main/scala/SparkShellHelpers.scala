@@ -78,4 +78,27 @@ object SparkShellHelpers {
   //Do some classification on the projects.  This is like 20 Newsgroups (http://kdd.ics.uci.edu/databases/20newsgroups/20newsgroups.data.html) on steriods
   val (randomForestModel, randomForestMetrics) =
     ManyNewsgroups.trainRandomForestClassifier(trainingData, testData, labelColumnName, textColumnName)
+
+  //code for w2v by Xiaoye
+  //output schema look like this
+  /*
+  root
+ |-- id: string (nullable = false)
+ |-- body: string (nullable = true)
+ |-- title: string (nullable = true)
+ |-- subject: string (nullable = true)
+ |-- publishedOnDate: timestamp (nullable = false)
+ |-- project: string (nullable = true)
+ |-- content: string (nullable = true)
+ |-- body_vect: vector (nullable = true)
+ |-- topSyns: array (nullable = true)
+ |    |-- element: struct (containsNull = true)
+ |    |    |-- _1: string (nullable = true)
+ |    |    |-- _2: array (nullable = true)
+ |    |    |    |-- element: string (containsNull = true)
+ */
+  def findSyn=(a:String)=>w2vModel.findSynonyms(a,2).map(_._1)
+  def getTopSyns=(t:SparkVector)=>t.toArray.zipWithIndex.sortWith(_._1>_._1).take(5).map(_._2).flatMap(vectorizer.dictionary.map(_.swap).get).map(a=>(a,findSyn(a)))
+  def getTopSynsUdf=udf(getTopSyns)
+  vectorizedMail.withColumn("topSyns",getTopSynsUdf(vectorizedMail("body_vect"))).take(5).show
 }

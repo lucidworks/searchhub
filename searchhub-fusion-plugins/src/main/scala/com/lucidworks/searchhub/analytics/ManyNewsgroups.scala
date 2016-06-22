@@ -5,7 +5,8 @@ import org.apache.spark.ml.{PipelineModel, Model, Pipeline}
 import org.apache.spark.ml.classification.RandomForestClassifier
 import org.apache.spark.ml.clustering.{LDAModel, LDA, KMeans}
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
-import org.apache.spark.ml.feature.{IndexToString, StringIndexer, Word2Vec}
+import org.apache.spark.ml.feature.{IndexToString, StringIndexer}
+import org.apache.spark.mllib.feature.{Word2Vec, Word2VecModel}
 import org.apache.spark.ml.tuning.{CrossValidator, ParamGridBuilder}
 import org.apache.spark.mllib.evaluation.MulticlassMetrics
 import org.apache.spark.rdd.RDD
@@ -69,13 +70,18 @@ object ManyNewsgroups {
   }
 
 
-  def buildWord2VecModel(df: DataFrame, tokenzier: String => List[String], fieldName: String) = {
+  def buildWord2VecModel(df: DataFrame, tokenizer: String => List[String], fieldName: String) = {
+    val input=df.select(fieldName).rdd.map(r=>r(0).asInstanceOf[String]).map(tokenizer).map(a=>a.toSeq)
+    val word2Vec = new Word2Vec()
+    word2Vec.fit(input)
+    /*
     val tokenize = udf(tokenzier)
     val withTokens = df.withColumn(fieldName + "_tokens", tokenize(col(fieldName)))
     val word2Vec = new Word2Vec()
       .setInputCol(fieldName + "_tokens")
       .setOutputCol(fieldName + "_w2v")
     word2Vec.fit(withTokens)
+    */
   }
 
   def trainRandomForestClassifier(trainingData: DataFrame,

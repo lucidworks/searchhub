@@ -30,12 +30,11 @@
       hc.logoLocation = ConfigService.config.logo_location;
       hc.status = 'loading';
       hc.lastQuery = '';
-      hc.sorting = {};
       hc.grouped = false;
       query = URLService.getQueryFromUrl();
+      console.log(QueryService.getQueryObject());
 
 
-      hc.sort = getSortFromQuery(query);
       //Setting the query object... also populating the the view model
       hc.searchQuery = _.get(query,'q','*');
       // Use an observable to get the contents of a queryResults after it is updated.
@@ -45,9 +44,12 @@
         checkResultsType(data);
         updateStatus();
         // Initializing sorting
-        sorting = hc.sorting;
-        sorting.switchSort = switchSort;
-        createSortList();
+        hc.sort = "score";
+        var rspSort;
+        if (data.responseHeader && data.responseHeader.params && data.responseHeader.params.sort){
+          rspSort = data.responseHeader.params.sort;
+        }
+        getSortFromQuery(query, rspSort);
 
       });
 
@@ -59,19 +61,29 @@
       });
     }
 
-    function getSortFromQuery(query){
-      var tmp = query.sort;
-      if (tmp){
-        hc.sort = tmp.replace(" desc", "").trim();
+    function getSortFromQuery(query, rspSort){
+      //first check to see if sorting is in the response object
+      console.log("gsfq");
+      console.log(rspSort);
+      if (rspSort) {
+        hc.sort = rspSort.replace(" desc", "").trim();
       } else {
-        hc.sort = "score";
+        //check rison
+        var tmp = query.sort;
+        if (tmp) {
+          hc.sort = tmp.replace(" desc", "").trim();
+        } else {
+          hc.sort = "score";
+        }
       }
-      //console.log("sort: " + hc.sort + "::");
+      console.log("sort: " + hc.sort + "::");
     }
 
     function onChangeSort(){
+      console.log("onChangeSort");
       console.log(hc.sort);
       var query = QueryService.getQueryObject();
+      console.log(query.sort);
       query.sort = hc.sort + " desc";
       QueryService.setQuery(query);
     }
@@ -134,35 +146,6 @@
       URLService.setQuery(query);
     }
 
-    /**
-     * Creates a sorting list from ConfigService
-     */
-    function createSortList(){
-      var sortOptions = [{label:'default sort', type:'default', order:'', active: true}];
-      _.forEach(ConfigService.config.sort_fields, function(value){
-        sortOptions.push({label: value, type: 'text', order: 'asc', active: false});
-        sortOptions.push({label: value, type: 'text', order: 'desc', active: false});
-      });
-      sorting.sortOptions = sortOptions;
-      sorting.selectedSort = sorting.sortOptions[0];
-    }
-
-    /**
-     * Switches sort parameter in the page
-     */
-    function switchSort(sort){
-      sorting.selectedSort = sort;
-      var query = QueryService.getQueryObject();
-      switch(sort.type) {
-      case 'text':
-        query.sort = sort.label+' '+sort.order;
-        URLService.setQuery(query);
-        break;
-      default:
-        delete query.sort;
-        URLService.setQuery(query);
-      }
-    }
 
     /**
      * Logs a user out of a session.

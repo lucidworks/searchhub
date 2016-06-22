@@ -154,18 +154,6 @@ appConfig = { //eslint-disable-line
   landing_page_redirect: true,
 
   /**
-   * Sorts
-   *
-   * A list of field names to make available for users to sort their results.
-   *
-   * NOTE: Only non multi-valued fields are able to be sortable.
-   *
-   * In order to sort on a multi-valued field you will have to fix the schema
-   * for that field and recrawl the data
-   */
-  //sort_fields: ['title'],
-
-  /**
    * Signals
    *
    * Allow the collection of data regarding search results. The most typical use

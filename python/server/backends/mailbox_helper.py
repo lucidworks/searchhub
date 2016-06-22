@@ -1,4 +1,5 @@
 from schedule_helper import create_schedule
+from server import app
 
 def create_mailinglist_datasource_configs(project):
   pipeline = project["mailing_list_pipeline"]
@@ -127,7 +128,7 @@ def create_config(project_name, project_label, pipeline, mailing_list):
       "f.timeoutMS": 10000,
       "failFastOnStartLinkFailure": True,
       "startLinks": [
-        "http://asfmail.lucidworks.io/mail_files/" + mailing_list["mbox"]
+        app.config.get("ASF_MAIL_ARCHIVE_BASE_URL", "http://asfmail.lucidworks.io/mail_files/") + mailing_list["mbox"]
       ],
       "chunkSize": 100,
       "includeRegexes": [],

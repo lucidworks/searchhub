@@ -89,7 +89,6 @@ controller: HomeController as hc
           <div class="card-section center card-normal" ng-switch-when="normal">
             Showing Results for "{{hc.lastQuery}}". {{hc.numFoundFormatted}} results found.
             <select ng-model="hc.sort" ng-change="hc.onChangeSort()">
-              <option value="">-- Select --</option>
               <option value="author">Author</option>
               <option value="publishedOnDate">Publish Date</option>
               <option value="score">Relevance</option>

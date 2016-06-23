@@ -48,6 +48,11 @@ FUSION_APP_PASSWORD = "XXXXX"
 APPROVED_HOSTS = set(["localhost:8764"])
 CHUNK_SIZE = 1024
 
+# Mail archives location.  Lucidworks offers a mirror of the Apache archives available at "http://asfmail.lucidworks.io/mail_files/"
+# The ASF also offers the authoritative version, but it is very easy to get banned from it
+ASF_MAIL_ARCHIVE_BASE_URL = "http://asfmail.lucidworks.io/mail_files/"
+
+
 # For project datasource that require passwords per instance (i.e. a JIRA password or Github), the helper classes look for a key in this file that contains the password
 # instead of putting it unencrypted in the DB.  Eventually this will be replaced by a keystore
 #

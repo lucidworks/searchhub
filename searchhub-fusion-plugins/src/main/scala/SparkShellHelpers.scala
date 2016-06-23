@@ -79,8 +79,8 @@ object SparkShellHelpers {
   val (randomForestModel, randomForestMetrics) =
     ManyNewsgroups.trainRandomForestClassifier(trainingData, testData, labelColumnName, textColumnName)
 
-  //code for w2v by Xiaoye
-  //output schema look like this
+  //For each document, find 5 top terms(by tfidf) and 2 of their synonyms(by w2v model), store them in 'topSyns'
+  //output schema looks like following
   /*
   root
  |-- id: string (nullable = false)
@@ -97,8 +97,8 @@ object SparkShellHelpers {
  |    |    |-- _2: array (nullable = true)
  |    |    |    |-- element: string (containsNull = true)
  */
-  def findSyn=(a:String)=>w2vModel.findSynonyms(a,2).map(_._1)
-  def getTopSyns=(t:SparkVector)=>t.toArray.zipWithIndex.sortWith(_._1>_._1).take(5).map(_._2).flatMap(vectorizer.dictionary.map(_.swap).get).map(a=>(a,findSyn(a)))
-  def getTopSynsUdf=udf(getTopSyns)
-  vectorizedMail.withColumn("topSyns",getTopSynsUdf(vectorizedMail("body_vect"))).take(5).show
+  def findSyn = (a: String) => w2vModel.findSynonyms(a,2).map(_._1)
+  def getTopSyns = (t: SparkVector) => t.toArray.zipWithIndex.sortBy(-_._1).take(5).map(_._2).flatMap(vectorizer.dictionary.map(_.swap).get).map(a => (a, findSyn(a)))
+  def getTopSynsUdf = udf(getTopSyns)
+  vectorizedMail.withColumn("topSyns", getTopSynsUdf(vectorizedMail("body_vect"))).take(5)
 }

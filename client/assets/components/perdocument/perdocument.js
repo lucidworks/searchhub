@@ -29,6 +29,7 @@
     var perDocumentObservable = Orwell.getObservable('perDocument');
     dc.decorateDocument = decorateDocument;
     dc.getDocType = getDocType;
+    dc.backToSearchResults = backToSearchResults;
     dc.docs = [];//TODO: hack so that we can reuse the document template directives
     dc.docType = "";
     activate();
@@ -74,6 +75,10 @@
         })
       });
 
+    }
+
+    function backToSearchResults(){
+      perDocumentObservable.setContent({});
     }
 
     function getQueryUrl(isProfiles) {

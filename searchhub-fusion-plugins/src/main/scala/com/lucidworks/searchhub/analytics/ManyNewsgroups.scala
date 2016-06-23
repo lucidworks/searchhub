@@ -6,7 +6,7 @@ import org.apache.spark.ml.classification.RandomForestClassifier
 import org.apache.spark.ml.clustering.{LDAModel, LDA, KMeans}
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
 import org.apache.spark.ml.feature.{IndexToString, StringIndexer}
-import org.apache.spark.mllib.feature.{Word2Vec}
+import org.apache.spark.mllib.feature.Word2Vec
 import org.apache.spark.ml.tuning.{CrossValidator, ParamGridBuilder}
 import org.apache.spark.mllib.evaluation.MulticlassMetrics
 import org.apache.spark.rdd.RDD

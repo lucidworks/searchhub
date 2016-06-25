@@ -1,0 +1,15 @@
+{
+  "id": "lucidfind-recommendations",
+  "stages": [
+    {
+      "type": "solr-query",
+      "id": "3742f43a-9e33-4968-957b-dc5182f1393c",
+      "allowedRequestHandlers": [],
+      "httpMethod": "POST",
+      "allowFederatedSearch": false,
+      "skip": false,
+      "label": "solr-query"
+    }
+  ],
+  "properties": {}
+}

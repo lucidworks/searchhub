@@ -21,8 +21,8 @@
   }
 
 
-  function DocumentController($filter, $http, $timeout, ConfigService, QueryDataService, QueryBuilder,
-                              Orwell, $q, _, $log) {
+  function DocumentController(QueryPipelineService, SnowplowService,
+                              Orwell, $log, $cookies) {
     'ngInject';
     $log.info("DC init");
     var dc = this; //eslint-disable-line
@@ -50,44 +50,22 @@
           "wt": "json",
           "rows": 1
         };
-        var deferred = $q.defer();
-        var queryString = QueryBuilder.objectToURLString(query);
-
-        var fullUrl = getQueryUrl(ConfigService.getIfQueryProfile()) + '?' + queryString;
-        $http
-            .get(fullUrl)
-            .then(success)
-            .catch(failure);
-
-        function success(response) {
-          // Set the content to populate the rest of the ui.
-          deferred.resolve(response.data);
-        }
-
-        function failure(err) {
-          $log.warn("Unabled to fetch the document", err);
-          perDocumentObservable.setContent({});
-          deferred.reject(err.data);
-        }
-        deferred.promise.then(function(data){
+        var thePromise = QueryPipelineService.query(query);
+        thePromise.then(function(data){
           parseDocument(data);
           $log.info("resolved", data, dc.docs);
-        })
+        }, function(reason){
+          $log.warn("Unabled to fetch the document", reason);
+          perDocumentObservable.setContent({});
+        });
       });
 
     }
 
     function backToSearchResults(){
+      //TODO: send a signal
       perDocumentObservable.setContent({});
     }
-
-    function getQueryUrl(isProfiles) {
-      var profilesEndpoint = QueryDataService.getProfileEndpoint(ConfigService.getQueryProfile(), 'select');
-      var pipelinesEndpoint = QueryDataService.getPipelineEndpoint(ConfigService.getQueryPipeline(), 'select');
-
-      return isProfiles ? profilesEndpoint : pipelinesEndpoint;
-    }
-
 
     /**
      * Decorates the document object before sending to the document directive.

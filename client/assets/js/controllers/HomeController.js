@@ -39,6 +39,7 @@
       hc.lastQuery = '';
       hc.grouped = false;
       hc.perDocument = false;
+      hc.showRecommendations = false;
       query = URLService.getQueryFromUrl();
       console.log(QueryService.getQueryObject());
 
@@ -60,16 +61,17 @@
         getSortFromQuery(query, rspSort);
 
       });
-      console.log("hei");
       perDocumentObservable = Orwell.getObservable('perDocument');
       perDocumentObservable.addObserver(function(data){
         $log.info("HC perD", data);
         if (data.docId){
           hc.perDocument = true;
           hc.showFacets = false;
+          hc.showRecommendations = true;
         } else {
           hc.perDocument = false;
           hc.showFacets = true;
+          hc.showRecommendations = false;
         }
 
       });

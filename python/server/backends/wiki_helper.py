@@ -34,7 +34,7 @@ def create_config(project_name, project_label, pipeline, wiki):
       "crawlDBType": "in-memory",
       "f.discardLinkURLQueries": False,
       "f.respectMetaEquivRedirects": False,
-      "fetchDelayMS": 50,
+      "fetchDelayMS": 2000,
       "splitArchives": True,
       "refreshAll": True,
       "f.defaultMIMEType": "application/octet-stream",

@@ -20,16 +20,24 @@
   }
 
 
-  function Controller(QueryPipelineService, Orwell, $log, $cookies) {
+  function Controller(QueryPipelineService, SnowplowService, Orwell, $log, $cookies) {
     'ngInject';
     $log.info("Rec init");
     var perDocumentObservable;
     var rc = this; //eslint-disable-line
-
+    rc.mltDocs = [];
+    rc.postClickRecommendation = processClick;
     activate();
 
     ////////////////
-
+    function processClick(element, docId, position, score, recType){
+      SnowplowService.postClickRecommendation(element, docId, position, score, recType);
+      $log.info("Clicked on Rec", docId, position, score);
+      var payload = {
+        "docId": docId
+      };
+      perDocumentObservable.setContent(payload);
+    }
     /**
      * Initializes a search from the URL object
      */
@@ -43,13 +51,18 @@
           //We have a doc id, let's also get recommendations
           var userId = $cookies.getObject("shub_user_id");
           var recQuery = {
-            "docIs":  encodeURIComponent(data.docId),
+            "docId":  encodeURIComponent(data.docId),
             "userId": encodeURIComponent(userId),//TODO: should we also send in the session id and the fromEmail for the doc id?
             "wt": "json"
           };
           var thePromise = QueryPipelineService.queryPipeline(recQuery, "lucidfind-recommendations");
           thePromise.then(function (data) {
             $log.info("Recs:", data);
+            if (data && data.response && data.response.numFound > 0){
+              rc.mltDocs = data.response.docs;
+            } else {
+              $log.warn("Unable to get recommendations, no docs found", data);
+            }
           }, function (reason) {
             $log.warn("Unable to get recommendations", reason);
           })

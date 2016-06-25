@@ -1,11 +1,17 @@
 {
-  "id": "lucidfind-recommendations",
+  "id": "lucidfind_signals-default",
   "stages": [
     {
-      "type": "javascript-query",
-      "script": "var docId = request.getFirstParam(\"docId\");\nvar q = \"{!mlt qf=body,suggest,subject,title}\" + docId\nrequest.putSingleParam(\"q\", q);",
+      "type": "facet",
+      "fieldFacets": [
+        {
+          "field": "type_s",
+          "minCount": 1,
+          "missing": false
+        }
+      ],
       "skip": false,
-      "label": "javascript-query"
+      "label": "facet"
     },
     {
       "type": "solr-query",

@@ -1,0 +1,6 @@
+{
+  "id": "mail_threading_scheduled",
+  "type": "script",
+  "maxRows": 1,
+  "script": "import com.lucidworks.searchhub.analytics._\nval mailData = SearchHubLoader.loadFromSolr(SearchHubLoader.Config(sqlContext))\nval withThreads = MailThreadJob.createThreadGroups(mailData)\n withThreads.write.format(\"solr\").options(SearchHubLoader.opts()).mode(org.apache.spark.sql.SaveMode.Overwrite).save"
+}

@@ -2,18 +2,18 @@
   <div class="detail vertical grid-content" >
     <!-- show head field linked with a title. -->
     <h3 class="head-field" ng-if="::vm.doc.title">
-      <a ng-href="/document?doc_id={{vm.doc.id}}" ng-click="vm.postClickSignal(this, doc.id, $index, doc.score)" rel="noopener" target="document">
+      <a ng-href="/document?doc_id={{vm.doc.id}}" ng-click="vm.postClickSignal(this, doc.id, $index, doc.score, doc.threadId, doc.subject_simple)" rel="noopener" target="document">
         <field value="::vm.doc.title" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="title"></field>
       </a>
     </h3>
     <!-- show head field without a title. -->
     <h3 class="head-field" ng-if="::(!vm.doc.title && !!vm.doc.url)">
-      <a ng-href="/document?doc_id={{::vm.doc.id}}" ng-click="vm.postClickSignal(this, doc.id, $index, doc.score)" rel="noopener" target="_blank">
+      <a ng-href="/document?doc_id={{::vm.doc.id}}" ng-click="vm.postClickSignal(this, doc.id, $index, doc.score, doc.threadId, doc.subject_simple)" rel="noopener" target="_blank">
         <field value="::vm.doc.url" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="url"></field>
       </a>
     </h3>
     <h3 class="subheader" ng-if="::(!vm.doc.title && !vm.doc.url)">
-      <a ng-href="/document?doc_id={{::vm.doc.id}}" ng-click="vm.postClickSignal(this, doc.id, $index, doc.score)" rel="noopener" target="_blank">
+      <a ng-href="/document?doc_id={{::vm.doc.id}}" ng-click="vm.postClickSignal(this, doc.id, $index, doc.score, doc.threadId, doc.subject_simple)" rel="noopener" target="_blank">
         <field value="::vm.doc.id" highlight="::vm.highlight[doc.id]" khey="id" maxlength="200"></field>
       </a>
     </h3>

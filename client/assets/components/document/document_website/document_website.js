@@ -36,11 +36,13 @@
       vm.doc = processDocument(vm.doc);
     }
 
-    function processClick(element, docId, position, score){
+    function processClick(element, docId, position, score, threadId, subjectSimple){
       SnowplowService.postClickSignal(element, docId, position, score);
       $log.info("Clicked", docId, position, score);
       var payload = {
-        "docId": docId
+        "docId": docId,
+        "threadId": threadId,
+        "subjectSimple": subjectSimple
       };
       perDocumentObservable.setContent(payload);
     }

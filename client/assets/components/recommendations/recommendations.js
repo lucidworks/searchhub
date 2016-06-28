@@ -22,7 +22,6 @@
 
   function Controller(QueryPipelineService, SnowplowService, Orwell, $log, $cookies) {
     'ngInject';
-    $log.info("Rec init");
     var perDocumentObservable;
     var rc = this; //eslint-disable-line
     rc.mltDocs = [];
@@ -30,11 +29,13 @@
     activate();
 
     ////////////////
-    function processClick(element, docId, position, score, recType){
+    function processClick(element, docId, position, score, recType, threadId, subjectSimple){
       SnowplowService.postClickRecommendation(element, docId, position, score, recType);
       $log.info("Clicked on Rec", docId, position, score);
       var payload = {
-        "docId": docId
+        "docId": docId,
+        "threadId": threadId,
+        "subjectSimple": subjectSimple
       };
       perDocumentObservable.setContent(payload);
     }
@@ -42,10 +43,10 @@
      * Initializes a search from the URL object
      */
     function activate() {
-      $log.info("rec here");
       perDocumentObservable = Orwell.getObservable('perDocument');
       perDocumentObservable.addObserver(function (data) {
         if (data.docId) {
+
           //use the ID to hit the recommendation pipeline
           //QueryPipelineService.query()
           //We have a doc id, let's also get recommendations
@@ -53,8 +54,17 @@
           var recQuery = {
             "docId":  encodeURIComponent(data.docId),
             "userId": encodeURIComponent(userId),//TODO: should we also send in the session id and the fromEmail for the doc id?
+            "threadId": data.threadId,
             "wt": "json"
           };
+          if (data.subjectSimple){
+            var subj = data.subjectSimple;
+            if (subj.constructor === Array && subj.length > 0){
+              subj = subj[0];
+            }
+            $log.info(subj);
+            recQuery["subjectSimple"] = encodeURIComponent(subj);
+          }
           var thePromise = QueryPipelineService.queryPipeline(recQuery, "lucidfind-recommendations");
           thePromise.then(function (data) {
             $log.info("Recs:", data);

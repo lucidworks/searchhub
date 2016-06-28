@@ -162,6 +162,12 @@ if cmd_args.create_collections or create_all:
         "methods": [
           "GET"
         ],
+        "path": "/query-pipelines/lucidfind-recommendations/collections/{0}/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
         "path": "/collections/{0}/query-profiles/lucidfind-default/select".format(lucidfind_collection_id)
       },
       {

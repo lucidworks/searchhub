@@ -10,17 +10,17 @@
       "method": "GET",
       "parentParams": [
         "threadId",
-        "subject_simple"
+        "subjectSimple"
       ],
       "rollupKeys": [],
       "params": [
         {
           "key": "fl",
-          "value": "from_email,weight_d"
+          "value": "from_email_s,weight_d"
         },
         {
           "key": "qf",
-          "value": "threadId,subjectSimple"
+          "value": "threadId_s,subject_simple_s"
         },
         {
           "key": "defType",
@@ -33,6 +33,10 @@
         {
           "key": "sort",
           "value": "weight_d desc"
+        },
+        {
+          "key": "q",
+          "value": "{!lucene q.op=OR}{!edismax qf='threadId_s' v=$threadId} {!edismax qf='subject_simple_s' v=$subjectSimple}"
         }
       ],
       "headers": [],
@@ -43,7 +47,7 @@
       "type": "query-logging",
       "id": "o45qm2t9",
       "detailed": true,
-      "skip": true,
+      "skip": false,
       "label": "query-logging"
     },
     {
@@ -51,12 +55,12 @@
       "id": "6l1pp66r",
       "key": "topusers",
       "resultKey": "userrollup",
-      "rollupField": "from_email",
+      "rollupField": "from_email_s",
       "weightField": "weight_d",
       "weightFunction": "sum",
       "maxRows": 100,
       "sort": true,
-      "skip": false,
+      "skip": true,
       "label": "Rollup on the user ids from sub-query"
     },
     {
@@ -67,11 +71,13 @@
       "handler": "select",
       "method": "GET",
       "parentParams": [],
-      "rollupKeys": [ "userrollup" ],
+      "rollupKeys": [
+        "userrollup"
+      ],
       "params": [
         {
           "key": "q",
-          "value": "{!type=edismax qf=from_email v=$userrollup}"
+          "value": "{!type=edismax qf=from_email_s v=$userrollup}"
         },
         {
           "key": "rows",
@@ -83,12 +89,28 @@
         },
         {
           "key": "fl",
-          "value": "query_s,aggr_count_i,weight_d"
+          "value": "*,score"
         }
       ],
       "headers": [],
-      "skip": false,
+      "skip": true,
       "label": "sub-query"
+    },
+    {
+      "type": "query-logging",
+      "id": "z02rqu8gx8wyd5cdi",
+      "detailed": true,
+      "skip": true,
+      "label": "query-logging"
+    },
+    {
+      "type": "solr-query",
+      "id": "7gdkd19lrk7r5dn29",
+      "allowedRequestHandlers": [],
+      "httpMethod": "POST",
+      "allowFederatedSearch": false,
+      "skip": true,
+      "label": "solr-query"
     }
   ],
   "properties": {}

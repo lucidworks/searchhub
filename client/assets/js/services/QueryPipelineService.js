@@ -15,13 +15,14 @@
       ])
       .factory('QueryPipelineService', QueryPipelineService);
 
-  function QueryPipelineService(QueryDataService, ConfigService, QueryBuilder, $http, $q) {
+  function QueryPipelineService(QueryDataService, ConfigService, QueryBuilder, $http, $q, ApiBase) {
     'ngInject';
 
     var service = {
       query: query,
       queryProfile: queryProfile,
-      queryPipeline: queryPipeline
+      queryPipeline: queryPipeline,
+      queryPipelineWithCollection: queryPipelineWithCollection
     };
     return service;
 
@@ -60,6 +61,14 @@
     function queryProfile(queryObject, profileName) {
       var queryString = QueryBuilder.objectToURLString(queryObject);
       return doQuery(getQueryUrl(profileName, null) + '?' + queryString);
+    }
+
+    function queryPipelineWithCollection(collection, queryObject, pipelineName){
+      var queryString = QueryBuilder.objectToURLString(queryObject);
+      var theUrl = ApiBase.getEndpoint() + 'api/apollo/query-pipelines/' +
+          pipelineName + '/collections/' + collection +
+          '/select?' + queryString;
+      return doQuery(theUrl);
     }
 
     /**

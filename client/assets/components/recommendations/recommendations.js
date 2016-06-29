@@ -25,6 +25,7 @@
     var perDocumentObservable;
     var rc = this; //eslint-disable-line
     rc.mltDocs = [];
+    rc.cfDocs = [];
     rc.postClickRecommendation = processClick;
     activate();
 
@@ -65,11 +66,23 @@
             $log.info(subj);
             recQuery["subjectSimple"] = encodeURIComponent(subj);
           }
-          var thePromise = QueryPipelineService.queryPipeline(recQuery, "lucidfind-recommendations");
-          thePromise.then(function (data) {
+          var mltPromise = QueryPipelineService.queryPipeline(recQuery, "lucidfind-recommendations");
+          mltPromise.then(function (data) {
             $log.info("Recs:", data);
             if (data && data.response && data.response.numFound > 0){
               rc.mltDocs = data.response.docs;
+            } else {
+              $log.warn("Unable to get recommendations, no docs found", data);
+            }
+          }, function (reason) {
+            $log.warn("Unable to get recommendations", reason);
+          });
+          //Now call the collab filtering pipeline
+          var cfPromise = QueryPipelineService.queryPipeline(recQuery, "cf-similar-items-rec");
+          cfPromise.then(function (data) {
+            $log.info("Recs:", data);
+            if (data && data.response && data.response.numFound > 0){
+              rc.cfDocs = data.response.docs;
             } else {
               $log.warn("Unable to get recommendations, no docs found", data);
             }

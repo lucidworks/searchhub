@@ -9,7 +9,7 @@
     "active": true,
     "callParams": {
       "uri": "service://spark/jobs/mail_threading_scheduled",
-      "method": "POST",
+      "method": "POST"
     }
 }
 

@@ -80,11 +80,11 @@
           //Now call the collab filtering pipeline
           var cfPromise = QueryPipelineService.queryPipeline(recQuery, "cf-similar-items-rec");
           cfPromise.then(function (data) {
-            $log.info("Recs:", data);
+            $log.info("CF Recs:", data);
             if (data && data.response && data.response.numFound > 0){
               rc.cfDocs = data.response.docs;
             } else {
-              $log.warn("Unable to get recommendations, no docs found", data);
+              $log.warn("Unable to get CF recommendations, no docs found", data);
             }
           }, function (reason) {
             $log.warn("Unable to get recommendations", reason);

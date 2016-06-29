@@ -20,7 +20,7 @@
         },
         {
           "key": "qf",
-          "value": "threadId,subject_simple"
+          "value": "threadId,subjectSimple"
         },
         {
           "key": "defType",

@@ -89,40 +89,6 @@
       "headers": [],
       "skip": false,
       "label": "sub-query"
-    },
-    {
-      "type": "javascript-query",
-      "id": "u9nvzpvi",
-      "script": "load(\"nashorn:mozilla_compat.js\");\n\nimportClass(com.lucidworks.apollo.common.jackson.ObjectMapperFactory);\nvar objectMapper = ObjectMapperFactory.create();\n\nvar rollup_key = \"rollup-docId-results\";\n\nif (ctx.hasProperty(rollup_key)) {\n  var resultsString = objectMapper.writeValueAsString(ctx.getProperty(rollup_key));\n  var resultsJson = JSON.parse(resultsString);\n\n  // Now build the query string by reading the docId's in JSON\n  var query = '';\n  for(var i=0; i<resultsJson.length; i++) {\n    var payload = resultsJson[i];\n    var docId = payload[\"docId\"];\n    if (i != resultsJson.length-1) {\n      query = query + docId + \" OR \";      \n    } else {\n      query = query + docId\n    }\n  }\n//  logger.info(query);\n  ctx.removeProperty(rollup_key);\n  ctx.removeProperty(\"subquery-results\");\n  request.putSingleParam(\"rollupquery\", query);\n}",
-      "skip": false,
-      "label": "javascript-query"
-    },
-    {
-      "type": "rollup-rec-aggr",
-      "id": "ekbotj4i",
-      "key": "subquery-results2",
-      "resultKey": "rollup-results2",
-      "rollupField": "query_s",
-      "weightField": "aggr_count_i",
-      "weightFunction": "sum",
-      "maxRows": 20,
-      "sort": true,
-      "skip": false,
-      "label": "rollup-rec-aggr"
-    },
-    {
-      "type": "query-logging",
-      "id": "o45qm2t9",
-      "detailed": true,
-      "skip": true,
-      "label": "query-logging"
-    },
-    {
-      "type": "javascript-query",
-      "id": "dwvcxr",
-      "script": "load(\"nashorn:mozilla_compat.js\");\nimportClass(com.lucidworks.apollo.pipeline.query.Response);\nimportClass(com.lucidworks.apollo.solr.response.JSONResponse);\nimportClass(com.lucidworks.apollo.common.jackson.ObjectMapperFactory);\nimportClass(com.google.common.base.Optional);\nimportClass(java.util.LinkedHashMap);\n\nvar objectMapper = ObjectMapperFactory.create();\n\nif (ctx.hasProperty(\"rollup-results2\")) {\n  var rollupObject = ctx.getProperty(\"rollup-results2\");\n  var rollupQueries = objectMapper.writeValueAsString(rollupObject);\n  \n  var rollupJson = JSON.parse(rollupQueries);\n  \n   var rollupMap = {};\n   rollupMap[\"results\"] = [];\n   \n  for(var i=0; i<rollupJson.length;i++) {\n    var payload = rollupJson[i];\n    var query = payload[\"docId\"];\n    var weight = payload[\"weight\"];\n    rollupMap[\"results\"].push({\"query\": query, \"weight\": weight})\n  }\n\n  var jResponse = new Response(null, JSONResponse.create(JSON.stringify(rollupMap)));\n  message.response = Optional.of(jResponse);\n}\n",
-      "skip": false,
-      "label": "javascript-query"
     }
   ],
   "properties": {}

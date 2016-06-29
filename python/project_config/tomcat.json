@@ -1,0 +1,52 @@
+{
+  "name": "tomcat",
+    "description": "The Apache Tomcat project, tweets, wiki, github, et. al",
+  "label": "Apache Tomcat",
+  "query_pipeline": "lucidfind-default",
+  "github_pipeline": "github-default",
+  "jira_pipeline": "jira-default",
+  "mailing_list_pipeline": "mailing-list-default",
+  "twitter_pipeline": "twitter-default",
+  "website_pipeline": "website-default",
+  "wiki_pipeline": "wiki-default",
+  "websites": [
+    {
+      "name": "tomcat-website",
+      "label": "Apache Tomcat Website",
+      "url": "http://tomcat.apache.org/",
+      "schedule": {
+        "repeatUnit": "WEEK",
+        "interval": 1
+      }
+    }
+  ],
+  "mailing_lists": [
+    {
+      "name": "tomcat-users",
+      "label": "Tomcat Users",
+      "mbox": "tomcat-users",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 2
+      }
+    },
+    {
+      "name": "tomcat-dev",
+      "label": "Tomcat Dev",
+      "mbox": "tomcat-dev",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 2
+      }
+    }
+  ],
+  "jira": {
+    "name": "apache-jira-tomcat",
+    "label": "Apache Tomcat JIRA Issues",
+    "url": "https://issues.apache.org/jira/browse/TOMCAT",
+    "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 2
+      }
+  }
+}

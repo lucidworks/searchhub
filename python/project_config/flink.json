@@ -1,0 +1,52 @@
+{
+  "name": "flink",
+    "description": "The Apache Flink project, tweets, wiki, github, et. al",
+  "label": "Apache Flink",
+  "query_pipeline": "lucidfind-default",
+  "github_pipeline": "github-default",
+  "jira_pipeline": "jira-default",
+  "mailing_list_pipeline": "mailing-list-default",
+  "twitter_pipeline": "twitter-default",
+  "website_pipeline": "website-default",
+  "wiki_pipeline": "wiki-default",
+  "websites": [
+    {
+      "name": "flink-website",
+      "label": "Apache Flink Website",
+      "url": "http://flink.apache.org/",
+      "schedule": {
+        "repeatUnit": "WEEK",
+        "interval": 1
+      }
+    }
+  ],
+  "mailing_lists": [
+    {
+      "name": "flink-user",
+      "label": "Flink User",
+      "mbox": "flink-user",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 2
+      }
+    },
+    {
+      "name": "flink-dev",
+      "label": "Flink Dev",
+      "mbox": "flink-dev",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 2
+      }
+    }
+  ],
+  "jira": {
+    "name": "apache-jira-flink",
+    "label": "Apache Flink JIRA Issues",
+    "url": "https://issues.apache.org/jira/browse/FLINK",
+    "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 2
+      }
+  }
+}

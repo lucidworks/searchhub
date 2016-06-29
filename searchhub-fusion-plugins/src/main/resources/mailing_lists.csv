@@ -8,6 +8,8 @@ CASSANDRA_USER, cassandra, user, cassandra-user, CASSANDRA
 CURATOR_DEV, curator, dev, curator-dev, CURATOR
 CURATOR_USER, curator, user, curator-user, CURATOR
 C_DEV, lucene_c, dev, lucene-c-dev, LUCENE
+DRILL_DEV, drill, dev, drill-dev, DRILL
+DRILL_USER, drill, user, drill-user, DRILL
 LUCY_DEV, lucy, dev, lucy-dev, LUCENE
 LUCY_USER, lucy, user, lucy-user, LUCENE
 FLINK_DEV, flink, user, flink-dev, FLINK

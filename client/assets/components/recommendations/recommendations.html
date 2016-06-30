@@ -16,8 +16,23 @@
     </div>
   </div>
   <div>
-    <h4>Collaborative Filtering</h4>
+    <h4>Online Collaborative Filtering</h4>
     <div ng-repeat="doc in rc.cfDocs" class="recHeader">
+      <div class="head-field" ng-if="doc.subject"><a
+          ng-click="rc.postClickRecommendation(this, doc.id, $index, doc.score, 'mltRecommendation')">
+        <field value="doc.subject" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="subject"></field>
+      </a>
+      </div>
+      <!-- show head field without a url. -->
+      <div class="head-field" ng-if="!doc.subject"
+           ng-click="rc.postClickRecommendation(this, doc.id, $index, doc.score, 'mltRecommendation')">
+        <field value="doc.title" maxlength="200"></field>
+      </div>
+    </div>
+  </div>
+  <div ng-if="rc.preCFDocs">
+    <h4>Precomupted Collaborative Filtering</h4>
+    <div ng-repeat="doc in rc.preCFDocs" class="recHeader">
       <div class="head-field" ng-if="doc.subject"><a
           ng-click="rc.postClickRecommendation(this, doc.id, $index, doc.score, 'mltRecommendation')">
         <field value="doc.subject" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="subject"></field>

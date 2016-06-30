@@ -7,6 +7,16 @@ case class Pref(userId: UserId, itemId: ItemId, weight: Double)
 
 case class ItemSim(itemId1: ItemId, itemId2: ItemId, weight: Double)
 case class UnStructSim(itemId1: String, itemId2: String, weight_d: Double)
+/*
+HOWTO use:
+
+in spark-shell:
+cut and paste line 2 (not including the first line starting with "package") all the way up to the comments at the bottom
+then
+cut and paste the lines inside of the comments at the bottom
+when it completes, check solr: http://localhost:8983/solr/#/lucidfind_thread_recs_shard1_replica1/query
+
+ */
 object SimpleTwoHopRecommender extends Serializable {
 
   def itemRecs(userItemMatrix: DataFrame, userIdCol: String, itemIdCol: String, weightCol: String,

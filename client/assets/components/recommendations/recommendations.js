@@ -78,7 +78,7 @@
             $log.warn("Unable to get recommendations", reason);
           });
           //Now call the collab filtering pipeline
-          var cfPromise = QueryPipelineService.queryPipelineWithCollection("lucidfind_signals_aggr", recQuery, "cf-similar-items-rec");
+          var cfPromise = QueryPipelineService.queryPipeline(recQuery, "cf-similar-items-rec");
           cfPromise.then(function (data) {
             $log.info("CF Recs:", data);
             if (data && data.response && data.response.numFound > 0){

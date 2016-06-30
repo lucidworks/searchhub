@@ -19,14 +19,6 @@
           "value": "from_email_s,weight_d"
         },
         {
-          "key": "qf",
-          "value": "threadId_s,subject_simple_s"
-        },
-        {
-          "key": "defType",
-          "value": "edismax"
-        },
-        {
           "key": "rows",
           "value": "100"
         },
@@ -36,7 +28,7 @@
         },
         {
           "key": "q",
-          "value": "{!lucene q.op=OR}{!edismax qf='threadId_s' v=$threadId} {!edismax qf='subject_simple_s' v=$subjectSimple}"
+          "value": "{!lucene q.op=OR}{!term f='threadId_s' v=$threadId} {!term f='subject_simple_s' v=$subjectSimple}"
         }
       ],
       "headers": [],
@@ -60,13 +52,13 @@
       "weightFunction": "sum",
       "maxRows": 100,
       "sort": true,
-      "skip": true,
+      "skip": false,
       "label": "Rollup on the user ids from sub-query"
     },
     {
       "type": "sub-query",
       "id": "ozrdlsor",
-      "key": "subquery-results2",
+      "key": "topRelatedSignalsDocs",
       "collection": "lucidfind_signals_aggr",
       "handler": "select",
       "method": "GET",
@@ -81,7 +73,7 @@
         },
         {
           "key": "rows",
-          "value": "1000"
+          "value": "5"
         },
         {
           "key": "sort",
@@ -93,14 +85,21 @@
         }
       ],
       "headers": [],
-      "skip": true,
-      "label": "sub-query"
+      "skip": false,
+      "label": "Get the documents most associated with these user ids"
+    },
+    {
+      "type": "javascript-query",
+      "id": "xb2x9ey8urp5jyvi",
+      "script": "//given the last sub query, which gets us the top docs for the top\n// users from the signals index, go get the full docs from the main\n// collection.\nvar topRecSignalDocsRsp = ctx.getProperty('topRelatedSignalsDocs');\nvar theQuery = \"*:*\";\n\nif (topRecSignalDocsRsp && topRecSignalDocsRsp.response && topRecSignalDocsRsp.response.numFound > 0){\n  print(topRecSignalDocsRsp.response.numFound);\n  var docs = topRecSignalDocsRsp.response.docs;\n  //print(docs);\n  theQuery = \"{!lucene q.op=OR}(\";\n  //for each document, or it\n  for (i = 0; i < docs.size(); i++){\n    var doc = docs[i];\n    print(doc.id);\n    //since we are doing exact match, we only need one or the other\n    if (doc.threadId_s && doc.threadId_s != \"unknown\"){\n      theQuery += \"(threadId:\" + doc.threadId_s + \") \"; \n    } else if (doc.subject_simple_s){\n      theQuery += \"(subject_simple:\" + doc.subject_simple_s + \") \";\n    } else{\n      //we can't do anything, can we?\n    }\n  }\n  theQuery += \")\";\n} else{\n  //We don't have a response, so let's just get the most popular documents overall or some other sorting of the main content\n}\nprint(theQuery);\nrequest.putSingleParam(\"collection\", \"lucidfind\");\nrequest.putSingleParam(\"q\", theQuery);",
+      "skip": false,
+      "label": "Create main collection Query"
     },
     {
       "type": "query-logging",
       "id": "z02rqu8gx8wyd5cdi",
       "detailed": true,
-      "skip": true,
+      "skip": false,
       "label": "query-logging"
     },
     {
@@ -108,8 +107,8 @@
       "id": "7gdkd19lrk7r5dn29",
       "allowedRequestHandlers": [],
       "httpMethod": "POST",
-      "allowFederatedSearch": false,
-      "skip": true,
+      "allowFederatedSearch": true,
+      "skip": false,
       "label": "solr-query"
     }
   ],

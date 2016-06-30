@@ -168,6 +168,12 @@ if cmd_args.create_collections or create_all:
         "methods": [
           "GET"
         ],
+        "path": "/query-pipelines/cf-similar-items-rec/collections/{0}/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
         "path": "/collections/{0}/query-profiles/lucidfind-default/select".format(lucidfind_collection_id)
       },
       {
@@ -201,6 +207,9 @@ if cmd_args.create_collections or create_all:
   setup_field_types(backend, lucidfind_collection_id)
   setup_find_fields(backend, lucidfind_collection_id)
   setup_request_handlers(backend, lucidfind_collection_id)
+  status = backend.create_collection("lucidfind_thread_recs")
+  if status == False:
+    exit(1)
 
 
 #create the pipelines

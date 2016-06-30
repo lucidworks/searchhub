@@ -73,7 +73,7 @@
         },
         {
           "key": "rows",
-          "value": "100"
+          "value": "10"
         },
         {
           "key": "sort",
@@ -91,7 +91,7 @@
     {
       "type": "javascript-query",
       "id": "xb2x9ey8urp5jyvi",
-      "script": "//given the last sub query, which gets us the top docs for the top\n// users from the signals index, go get the full docs from the main\n// collection.\nvar topRecSignalDocsRsp = ctx.getProperty('topRelatedSignalsDocs');\nvar theQuery = \"*:*\";\n\nif (topRecSignalDocsRsp && topRecSignalDocsRsp.response && topRecSignalDocsRsp.response.numFound > 0){\n  print(topRecSignalDocsRsp.response.numFound);\n  var docs = topRecSignalDocsRsp.response.docs;\n  //print(docs);\n  theQuery = \"{!lucene q.op=OR}(\";\n  //for each document, or it\n  var open = new RegExp(\"\\\\[\", 'g');\n  var closed = new RegExp(\"\\\\]\", 'g')\n  var colon = new RegExp(\"\\\\:\", 'g')\n  for (i = 0; i < docs.size(); i++){\n    var doc = docs[i];\n    print(doc.id);\n    //since we are doing exact match, we only need one or the other\n    if (doc.threadId_s && doc.threadId_s != \"unknown\"){\n      theQuery += \"(threadId:\"\" + doc.threadId_s + \"\") \"; \n    } else if (doc.subject_simple_s){\n      \n      var subj = doc.subject_simple_s.replace(\"\"\", \"\\\\\"\");\n      subj = subj.replace(open, \"\\\\[\");\n      subj = subj.replace(closed, \"\\\\]\");\n      subj = subj.replace(colon, \"\\\\:\");\n      theQuery += \"(subject_simple:\"\" + subj + \"\") \";\n    } else{\n      //we can't do anything, can we?\n    }\n  }\n  theQuery += \")\";\n} else{\n  //We don't have a response, so let's just get the most popular documents overall or some other sorting of the main content\n  print(\"No response to work with\");\n}\nprint(\"The Query: \");\nprint(theQuery);\nrequest.putSingleParam(\"q\", theQuery);",
+      "script": "//given the last sub query, which gets us the top docs for the top\n// users from the signals index, go get the full docs from the main\n// collection.\nvar topRecSignalDocsRsp = ctx.getProperty('topRelatedSignalsDocs');\nvar theQuery = \"*:*\";\n\nif (topRecSignalDocsRsp && topRecSignalDocsRsp.response && topRecSignalDocsRsp.response.numFound > 0){\n  print(topRecSignalDocsRsp.response.numFound);\n  var docs = topRecSignalDocsRsp.response.docs;\n  //print(docs);\n  theQuery = \"{!lucene q.op=OR}(\";\n  //for each document, or it\n\n  for (i = 0; i < docs.size(); i++){\n    var doc = docs[i];\n    print(doc.id);\n    //since we are doing exact match, we only need one or the other\n    request.putSingleParam(\"ss_\" + i, doc.subject_simple_s);\n    request.putSingleParam(\"tid_\" + i, doc.threadId_s);\n    theQuery += \"({!term f=subject_simple v=$ss_\" + i + \"} AND {!term f=threadId v=$tid_\" + i + \"}) \";\n  }\n  theQuery += \")\";\n} else{\n  //We don't have a response, so let's just get the most popular documents overall or some other sorting of the main content\n  print(\"No response to work with\");\n}\nprint(\"The Query: \");\nprint(theQuery);\nrequest.putSingleParam(\"q\", theQuery);",
       "skip": false,
       "label": "Create main collection Query"
     },

@@ -1,0 +1,52 @@
+{
+  "name": "drill",
+    "description": "The Apache Drill project, tweets, wiki, github, et. al",
+  "label": "Apache Drill",
+  "query_pipeline": "lucidfind-default",
+  "github_pipeline": "github-default",
+  "jira_pipeline": "jira-default",
+  "mailing_list_pipeline": "mailing-list-default",
+  "twitter_pipeline": "twitter-default",
+  "website_pipeline": "website-default",
+  "wiki_pipeline": "wiki-default",
+  "websites": [
+    {
+      "name": "drill-website",
+      "label": "Apache Drill Website",
+      "url": "http://drill.apache.org/",
+      "schedule": {
+        "repeatUnit": "WEEK",
+        "interval": 1
+      }
+    }
+  ],
+  "mailing_lists": [
+    {
+      "name": "drill-user",
+      "label": "Drill User",
+      "mbox": "drill-user",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 2
+      }
+    },
+    {
+      "name": "drill-dev",
+      "label": "Drill Dev",
+      "mbox": "drill-dev",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 1
+      }
+    }
+  ],
+  "jira": {
+    "name": "apache-jira-drill",
+    "label": "Apache Drill JIRA Issues",
+    "url": "https://issues.apache.org/jira/browse/DRILL",
+    "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 2
+      }
+  }
+}

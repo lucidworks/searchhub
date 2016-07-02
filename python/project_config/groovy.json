@@ -1,0 +1,52 @@
+{
+  "name": "groovy",
+    "description": "The Apache Groovy project, tweets, wiki, github, et. al",
+  "label": "Apache Groovy",
+  "query_pipeline": "lucidfind-default",
+  "github_pipeline": "github-default",
+  "jira_pipeline": "jira-default",
+  "mailing_list_pipeline": "mailing-list-default",
+  "twitter_pipeline": "twitter-default",
+  "website_pipeline": "website-default",
+  "wiki_pipeline": "wiki-default",
+  "websites": [
+    {
+      "name": "groovy-website",
+      "label": "Apache Groovy Website",
+      "url": "http://groovy-lang.org/",
+      "schedule": {
+        "repeatUnit": "WEEK",
+        "interval": 1
+      }
+    }
+  ],
+  "mailing_lists": [
+    {
+      "name": "groovy-users",
+      "label": "Groovy Users",
+      "mbox": "groovy-users",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 2
+      }
+    },
+    {
+      "name": "groovy-dev",
+      "label": "Groovy Dev",
+      "mbox": "groovy-dev",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 2
+      }
+    }
+  ],
+  "jira": {
+    "name": "apache-jira-groovy",
+    "label": "Apache Groovy JIRA Issues",
+    "url": "https://issues.apache.org/jira/browse/GROOVY",
+    "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 2
+      }
+  }
+}

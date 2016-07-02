@@ -5,10 +5,21 @@ from flask import request, redirect
 from server import app, backend
 import werkzeug
 import urllib
+import json
+from os import listdir
+from os.path import isfile, join
+
 
 logging.basicConfig(level=logging.INFO)
 
 LOG = logging.getLogger("views.py")
+
+project_label_map = {}
+project_files = [f for f in listdir("./project_config") if isfile(join("./project_config", f)) and f.endswith(".json")]
+for file in project_files:
+    project = json.load(open(join("./project_config", file)))
+    print ("Loading name: %s" % project["name"] )
+    project_label_map[project["name"]] = project["label"]
 
 
 @app.route('/')
@@ -19,8 +30,24 @@ def root():
 @app.route('/p:<path:path>')
 def apache(path):
     query = request.args.get("q")
+    splits = path.split(",")
+    fq = ""
+    if splits:
+        fq = ",fq:('0':(key:'{!!tag=prj}project_label',tag:prj,transformer:localParams,values:(" #format this into the args
+        i = 0
+        for split in splits:
+            split = split.strip()
+            if split in project_label_map:
+                print(split)
+                # '0':'Apache Lucene','1':'Apache HBase')))
+                if i > 0:
+                    fq += ","
+                fq += "'" + str(i) + "':'" + project_label_map[split] + "'"
+                i += 1
+        fq += ")))"
     #print "path: '" + path + "' q: '" + query + "'"
-    args = {"query": "(q:'{0}',rows:10,start:0,wt:json)".format(query)}
+    print fq
+    args = {"query": "(q:'{0}',rows:10,start:0,wt:json{1})".format(query, fq)}
     return redirect("/search?{0}".format(urllib.urlencode(args)))
 
 

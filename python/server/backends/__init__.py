@@ -45,7 +45,7 @@ class Backend(object):
     """
     raise NotImplementedError()
 
-  def create_collection(self, collection_id, enable_signals=False, enable_search_logs=True, enable_dynamic_schema=True):
+  def create_collection(self, collection_id, enable_signals=False, enable_search_logs=True, enable_dynamic_schema=True, solr_params=None):
     raise NotImplementedError()
 
   def create_user(self, user, password):

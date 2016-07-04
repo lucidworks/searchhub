@@ -189,7 +189,8 @@ if status == False:
 if cmd_args.create_collections or create_all:
   session = new_admin_session()
   # Create the "lucidfind" collection
-  status = backend.create_collection(lucidfind_collection_id, enable_signals=True)
+  solr_params = {"replicationFactor":2,"numShards":1}
+  status = backend.create_collection(lucidfind_collection_id, enable_signals=True, solr_params=solr_params)
   if status == False:
     exit(1)
   setup_field_types(backend, lucidfind_collection_id)

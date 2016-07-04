@@ -1,7 +1,7 @@
 {
   "name": "uima",
-    "description": "The Apache Uima project, tweets, wiki, github, et. al",
-  "label": "Apache Uima",
+  "description": "The Apache UIMA project, tweets, wiki, github, et. al",
+  "label": "Apache UIMA",
   "query_pipeline": "lucidfind-default",
   "github_pipeline": "github-default",
   "jira_pipeline": "jira-default",
@@ -12,7 +12,7 @@
   "websites": [
     {
       "name": "uima-website",
-      "label": "Apache Uima Website",
+      "label": "Apache UIMA Website",
       "url": "http://uima.apache.org/",
       "schedule": {
         "repeatUnit": "WEEK",
@@ -23,7 +23,7 @@
   "mailing_lists": [
     {
       "name": "uima-user",
-      "label": "Uima User",
+      "label": "UIMA User",
       "mbox": "uima-user",
       "schedule": {
         "repeatUnit": "HOUR",
@@ -32,7 +32,7 @@
     },
     {
       "name": "uima-dev",
-      "label": "Uima Dev",
+      "label": "UIMA Dev",
       "mbox": "uima-dev",
       "schedule": {
         "repeatUnit": "HOUR",
@@ -42,7 +42,7 @@
   ],
   "jira": {
     "name": "apache-jira-uima",
-    "label": "Apache Uima JIRA Issues",
+    "label": "Apache UIMA JIRA Issues",
     "url": "https://issues.apache.org/jira/browse/UIMA",
       "schedule": {
         "repeatUnit": "DAY",

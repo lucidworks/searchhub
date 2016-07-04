@@ -75,6 +75,9 @@ MRUNIT_DEV, mrunit, dev, incubator-mrunit-dev, INCUBATOR
 MRUNIT_USER, mrunit, user, incubator-mrunit-user, INCUBATOR
 TEZ_DEV, tez, dev, tez-dev, TEZ
 TEZ_USER, tez, user, tez-user, TEZ
+TINKERPOP_DEV, tinkerpop, dev, tinkerpop-dev, TINKERPOP
+TRAFFIC_SERVER_DEV, traffic-server, dev, trafficserver-dev, TRAFFIC_SERVER
+TRAFFIC_SERVER_USERS, traffic-server, dev, trafficserver-users, TRAFFIC_SERVER
 TOMCAT_DEV, tomcat, dev, tomcat-dev, TOMCAT
 TOMCAT_USER, tomcat, user, tomcat-users, TOMCAT
 THRIFT_DEV, thrift, dev, thrift-dev, THIRFT

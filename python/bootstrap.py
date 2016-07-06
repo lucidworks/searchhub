@@ -140,6 +140,7 @@ backend.toggle_system_metrics(False)
 backend.set_log_level("WARN")
 
 lucidfind_collection_id = app.config.get("FUSION_COLLECTION", "lucidfind")
+lucidfind_batch_recs_collection_id = app.config.get("FUSION_BATCH_RECS_COLLECTION", "lucidfind_thread_recs")
 
 # Create our main application user
 username = app.config.get("FUSION_APP_USER", "lucidfind")
@@ -169,6 +170,12 @@ if cmd_args.create_collections or create_all:
           "GET"
         ],
         "path": "/query-pipelines/cf-similar-items-rec/collections/{0}/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/cf-similar-items-batch-rec/collections/{0}/select".format(lucidfind_batch_recs_collection_id)
       },
       {
         "methods": [

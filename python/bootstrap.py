@@ -75,6 +75,12 @@ def setup_pipelines(backend):
     else:
       backend.create_pipeline(json.load(open(join("./fusion_config", file))))
 
+def setup_batch_jobs(backend):
+  job_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_job.json")]
+  for file in job_files:
+    print ("Creating Batch Job for %s" % file)
+    backend.create_batch_job(json.load(open(join("./fusion_config", file))))
+
 # Create the taxonomy, which can be used to alter requests based on hierarchy
 def setup_taxonomy(backend, collection_id):
   status = backend.delete_taxonomy(collection_id)
@@ -232,6 +238,9 @@ if cmd_args.create_taxonomy or create_all:
 if cmd_args.create_projects or create_all:
   print("Creating Projects")
   setup_projects(backend)
+
+if cmd_args.create_batch_jobs or create_all:
+  setup_batch_jobs(backend)
 
 #create the schedules
 if cmd_args.create_schedules or create_all:

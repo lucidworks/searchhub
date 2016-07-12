@@ -75,16 +75,16 @@ public class TfIdfTopTerms implements MLModel{
             }
 
             long var12 = System.currentTimeMillis();//check to this point, TODO:check this.loadClassificationModel
-            this.mllibModel = this.loadClassificationModel(modelDir, modelSpecJson);//TODO:not quite understand this part
+            this.mllibModel = this.loadClassificationModel(modelDir, modelSpecJson);//TODO:all the work here is to get the mllibModel(this is an instance, already has a state)
 
             try {
                 this.predictionMethod = this.mllibModel.getClass().getMethod("predict", new Class[]{Vector.class});
-                //TODO:看上去好像例子的意思是，路径的位置有一个可以借用的类。这个例子就借用这个类包了一层，实现了接口。
-                //TODO:如果找不到可以借用的类，那就要从头到尾自己实现。prediction应该不是问题。关键是mllibModel那部分怎么处理。
+                //TODO:prediction应该不是问题。关键是mllibModel那部分怎么处理。
                 //TODO:应该的流程是，我先创建了这个类，把他包成jar，放到Fusion的path。至此，Fusion可以知道有这个类了。
-                //TODO:这个类的state是idf的map。这个类的操作包括一个predict函数，吃进去一个doc，输出tfidf最大的一串term。
-                //TODO:然后，我在scala里面，pull出solr里面的数据，train一个这个类的instance。
-                //TODO:至此，即使没有放到pipeline里面也可以进行测试：train一个这个类，然后看能不能输出应该的term串。
+                //TODO:这个类的state是idf的map。这个类的操作包括一个predict方法，吃进去一个doc，输出tfidf最大的一串term。
+                //TODO:这个类还有一个init方法，可以把所有state（尤其是mllibModel）初始化。
+                //TODO:然后，我在scala里面，pull出solr里面的数据，train一个这个类的instance（其实关键是把这个instance的state存好）。
+                //TODO:至此，即使没有放到pipeline里面也可以进行测试：用init获得一个instance，然后看能不能利用prediction输出应该的term串。
                 //到此为止已经成功一大半了。剩下的就是打包zip文件，放到BLOB里面。再去fusion UI里设置一下MLStage，就差不多了。
                 //所以modelDir到底是数据来源，还是数据出口？？我觉得是数据来源！
                 //本model关键只要一个map，所以存在modelDir就是这个map数据。本model还要能够以这个map数据为参数construct，
@@ -113,8 +113,8 @@ public class TfIdfTopTerms implements MLModel{
         log.info("Loading model class: " + modelClassName);
 
         Class modelClass;
-        try {
-            modelClass = this.getClass().getClassLoader().loadClass(modelClassName);//check to this point
+        try {//check to this point
+            modelClass = this.getClass().getClassLoader().loadClass(modelClassName);//TODO:what does this line do?
         } catch (ClassNotFoundException var10) {
             log.error("Failed to load Spark ML Transformer class {} due to: {}", modelClassName, String.valueOf(var10));
             throw var10;
@@ -123,7 +123,9 @@ public class TfIdfTopTerms implements MLModel{
         Method loadMethod;
         try {
             loadMethod = modelClass.getMethod("load", new Class[]{SparkContext.class, String.class});
-            //so this class must have a method 'load'
+            //modelClassName decides which class's method we are using
+            //And that class must have a method 'load'
+            //so actually I can just define a method here, which gets the data from modelDir and makes an instance
         } catch (NoSuchMethodException var9) {
             log.error("Spark model impl {} does provide a static \'load(sc:SparkContext, path:String)\' method!", modelClassName);
             throw var9;
@@ -133,6 +135,19 @@ public class TfIdfTopTerms implements MLModel{
         //modelDir直到这里才被用到。前面只为了得到一个loadMethod-_-
         try {
             Object mllibModel = loadMethod.invoke((Object)null, new Object[]{this.sparkContext, modelDir.getAbsolutePath()});
+            //read load function of Word2Vec.scala
+            /*
+            def load(sc: SparkContext, path: String): Word2VecModel = {
+                val dataPath = Loader.dataPath(path)
+                val sqlContext = SQLContext.getOrCreate(sc)
+                val dataFrame = sqlContext.read.parquet(dataPath)
+                // Check schema explicitly since erasure makes it hard to use match-case for checking.
+                Loader.checkSchema[Data](dataFrame.schema)
+                val dataArray = dataFrame.select("word", "vector").collect()
+                val word2VecMap = dataArray.map(i => (i.getString(0), i.getSeq[Float](1).toArray)).toMap
+                new Word2VecModel(word2VecMap)
+                }
+            */
             //modelDir.getAbsolutePath() is path
             //let's see what we do with path
             //Loader.loadMetadata(sc, path)

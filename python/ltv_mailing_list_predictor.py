@@ -451,6 +451,7 @@ fig = plt.figure()
 plt.plot(y_test,ridge_int_test_pred,'kx')
 plt.plot(plt.xlim(), plt.ylim(), ls="--")
 # Compute mean squared error
+from sklearn.metrics import mean_squared_error
 MSE_ridge_int = mean_squared_error(y_test,ridge_int_test_pred)
 
 # Ridge Regression with no intercept

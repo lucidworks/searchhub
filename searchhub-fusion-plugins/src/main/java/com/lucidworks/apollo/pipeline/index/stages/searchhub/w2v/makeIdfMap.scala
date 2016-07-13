@@ -5,6 +5,7 @@ import org.apache.spark.mllib.linalg.{Vector => SparkVector}
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.functions._
 import scala.collection.JavaConverters._
+import java.io._
 
 
 /***
@@ -14,8 +15,8 @@ import scala.collection.JavaConverters._
   * this file, bit by bit.  It's encapsulated in an object so that it compiles, and if code changes that makes this
   * file not compile, it shows that this example code needs updating.
   */
-object SparkShellHelpers {
-  val sqlContext: SQLContext = ???
+object MakeIdfMap {
+  val sqlContext=SQLContext(sc)
   //Setup our Solr connection
   val opts = Map("zkhost" -> "localhost:9983", "collection" -> "lucidfind", "query" -> "*:*",
     "fields" -> "id,body,title,subject,publishedOnDate,project,content")
@@ -43,5 +44,9 @@ object SparkShellHelpers {
   val vectorizer = TfIdfVectorizer.build(mailDF, tokenizer, textColumnName)//from dataframe 'mailDF', find the column
   //'textColumnName', and pass it to tokenizer. vectorizer is a TfIdfVectorizer
 
-  val outputMap=vectorizer.idfs.asJava
-  //save the map to some place, in the form of Java's HashMap
+  val df=sc.parallelize(vectorizer.idfs.toSeq).toDF
+  val seqOfMap=vectorizer.idfs.toSeq.map(line=>line._1+','+line._2)//assume no ',' would appear in a term
+  val pw=new PrintWriter((new File("tryToAddIdfMap")))
+  seqOfMap.foreach(a=>pw.write(a+'\n'))
+  pw.close
+}

@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.io.*;
+
 class TestClassTestDrive{
     public static void main(String[] args){
         /*
@@ -16,12 +17,17 @@ class TestClassTestDrive{
         }
         */
         //get the hashmap back from the file
+
         try{
-            FileInputStream fileStream=new FileInputStream("out");
-            ObjectInputStream ois=new ObjectInputStream(fileStream);
-            HashMap<Integer,String> outputMap=(HashMap<Integer,String>) ois.readObject();//TODO:need to check here, if cannot find such object
-            TestClass t=new TestClass(outputMap);
-            t.checkMap();
+            HashMap<String, Double> testMap=new HashMap<String, Double>();
+            BufferedReader br=new BufferedReader(new FileReader("tryToAddIdfMap"));
+            String line=null;
+            while ((line=br.readLine())!=null){
+                String[] splittedLine=line.split(",");
+                testMap.put(splittedLine[0],Double.parseDouble(splittedLine[1]));
+            }
+            System.out.println(testMap);
+
         } catch(Exception ex){
             ex.printStackTrace();
         }

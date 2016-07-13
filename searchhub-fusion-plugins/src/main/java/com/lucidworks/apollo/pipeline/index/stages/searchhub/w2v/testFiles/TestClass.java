@@ -1,7 +1,7 @@
 import java.util.HashMap;
 class TestClass{
-    private HashMap<Integer,String> idf;
-    public TestClass(HashMap<Integer,String> mapIdf){
+    private HashMap<String,Double> idf;
+    public TestClass(HashMap<String,Double> mapIdf){
         idf=mapIdf;
     }
     void checkMap(){

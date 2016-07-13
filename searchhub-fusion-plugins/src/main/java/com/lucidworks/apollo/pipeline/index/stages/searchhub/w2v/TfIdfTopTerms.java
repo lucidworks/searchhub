@@ -3,8 +3,7 @@ package com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v;
 import com.lucidworks.spark.analysis.LuceneTextAnalyzer;
 import com.lucidworks.spark.ml.MLModel;
 import com.lucidworks.spark.ml.SparkContextAware;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 import org.apache.spark.SparkContext;
 import org.apache.spark.mllib.feature.ChiSqSelectorModel;
 import org.apache.spark.mllib.feature.HashingTF;
@@ -31,14 +31,14 @@ public class TfIdfTopTerms implements MLModel{
     protected String modelId;
     protected String featureFields;
     protected String[] labels;
-    protected Object mllibModel;
+    protected HashMap<String,Double> idfMap;
 
     public String getId(){
         return this.modelId;
     }
 
     public String getType(){
-        return "spark-mllib";//TODO:is this a reasonable return value??
+        return "spark-mllib";//TODO:is this a reasonable return value??check at what place used it
     }
 
     public String[] getFeatureFields(){
@@ -51,6 +51,7 @@ public class TfIdfTopTerms implements MLModel{
         //modelSpecJson.labels exists. And it should be able to be casted to "String". Each label should
         //be separated by ','.
         //modelSpecJson.modelClassName exists. And it should be able to be casted to "String".
+        //TODO:check how the example supplies modelSpecJson
 
         this.modelId = modelId;
         List fields = (List)modelSpecJson.get("featureFields");
@@ -74,24 +75,14 @@ public class TfIdfTopTerms implements MLModel{
                 this.labels = null;
             }
 
-            long var12 = System.currentTimeMillis();//check to this point, TODO:check this.loadClassificationModel
-            this.mllibModel = this.loadClassificationModel(modelDir, modelSpecJson);//TODO:all the work here is to get the mllibModel(this is an instance, already has a state)
+            long var12 = System.currentTimeMillis();//check to this point
 
             try {
-                this.predictionMethod = this.mllibModel.getClass().getMethod("predict", new Class[]{Vector.class});
-                //TODO:prediction应该不是问题。关键是mllibModel那部分怎么处理。
-                //TODO:应该的流程是，我先创建了这个类，把他包成jar，放到Fusion的path。至此，Fusion可以知道有这个类了。
-                //TODO:这个类的state是idf的map。这个类的操作包括一个predict方法，吃进去一个doc，输出tfidf最大的一串term。
-                //TODO:这个类还有一个init方法，可以把所有state（尤其是mllibModel）初始化。
-                //TODO:然后，我在scala里面，pull出solr里面的数据，train一个这个类的instance（其实关键是把这个instance的state存好）。
-                //TODO:至此，即使没有放到pipeline里面也可以进行测试：用init获得一个instance，然后看能不能利用prediction输出应该的term串。
-                //到此为止已经成功一大半了。剩下的就是打包zip文件，放到BLOB里面。再去fusion UI里设置一下MLStage，就差不多了。
-                //所以modelDir到底是数据来源，还是数据出口？？我觉得是数据来源！
-                //本model关键只要一个map，所以存在modelDir就是这个map数据。本model还要能够以这个map数据为参数construct，
-                //那么load的过程很简单，就是把map数据提取出来，构造好这个model的一个instance，然后返回！
+                FileInputStream fileStream=new FileInputStream(modelDir);
+                ObjectInputStream ois=new ObjectInputStream(fileStream);
+                idfMap=(HashMap<String,Double>) ois.readObject();//TODO:need to check here, if cannot find such object
             } catch (Exception var10) {
-                log.error("Invalid mllib model object " + this.mllibModel.getClass().getName() + " due to: " + var10.getMessage() + ". The model class must provide a predict(Vector) method.", var10);
-                throw var10;
+                var10.printStackTrace();
             }
 
             long diffMs = System.currentTimeMillis() - var12;
@@ -101,6 +92,10 @@ public class TfIdfTopTerms implements MLModel{
     }
 
     public List<String> prediction(Object[] tuple) throws Exception {
+        //1.transform tuple into a good input Vector
+        //2.make a predict function
+        //3.feed the input vector into the predict function
+
     }
 
 
@@ -136,7 +131,7 @@ public class TfIdfTopTerms implements MLModel{
         try {
             Object mllibModel = loadMethod.invoke((Object)null, new Object[]{this.sparkContext, modelDir.getAbsolutePath()});
             //read load function of Word2Vec.scala
-            /*
+
             def load(sc: SparkContext, path: String): Word2VecModel = {
                 val dataPath = Loader.dataPath(path)
                 val sqlContext = SQLContext.getOrCreate(sc)
@@ -147,7 +142,7 @@ public class TfIdfTopTerms implements MLModel{
                 val word2VecMap = dataArray.map(i => (i.getString(0), i.getSeq[Float](1).toArray)).toMap
                 new Word2VecModel(word2VecMap)
                 }
-            */
+
             //modelDir.getAbsolutePath() is path
             //let's see what we do with path
             //Loader.loadMetadata(sc, path)
@@ -168,6 +163,7 @@ public class TfIdfTopTerms implements MLModel{
             throw var12;
         }
     }
+    
 
 
 

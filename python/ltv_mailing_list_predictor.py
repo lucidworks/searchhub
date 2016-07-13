@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
+from __future__ import division
 import pysolr
 import requests
 import itertools
-from __future__ import division
 from pandas import Series, DataFrame
 import pandas as pd
 import numpy as np

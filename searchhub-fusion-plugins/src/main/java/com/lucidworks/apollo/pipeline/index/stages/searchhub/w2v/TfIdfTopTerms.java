@@ -32,6 +32,8 @@ public class TfIdfTopTerms implements MLModel{
     protected String featureFields;
     protected String[] labels;
     protected HashMap<String,Double> idfMap;
+    protected LuceneTextAnalyzer textAnalyzer;
+
 
     public String getId(){
         return this.modelId;
@@ -90,7 +92,7 @@ public class TfIdfTopTerms implements MLModel{
 
             long diffMs = System.currentTimeMillis() - var12;
             log.info("Took {} ms to load Spark mllib ClassificationModel of type {}", Long.valueOf(diffMs), this.mllibModel.getClass().getName());//check to this point
-            this.textAnalyzer = new LuceneTextAnalyzer(analyzerJson);
+            this.textAnalyzer = new LuceneTextAnalyzer(noHTMLstdAnalyzerSchema);
         }
     }
 

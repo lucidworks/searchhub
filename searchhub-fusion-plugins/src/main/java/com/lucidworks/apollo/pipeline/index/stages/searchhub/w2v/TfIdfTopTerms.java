@@ -2,37 +2,22 @@ package com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v;
 
 import com.lucidworks.spark.analysis.LuceneTextAnalyzer;
 import com.lucidworks.spark.ml.MLModel;
-import com.lucidworks.spark.ml.SparkContextAware;
-import java.io.*;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-import org.apache.spark.SparkContext;
-import org.apache.spark.mllib.feature.ChiSqSelectorModel;
-import org.apache.spark.mllib.feature.HashingTF;
-import org.apache.spark.mllib.feature.Normalizer;
-import org.apache.spark.mllib.feature.StandardScalerModel;
-import org.apache.spark.mllib.feature.VectorTransformer;
-import org.apache.spark.mllib.linalg.Vector;
-import org.apache.spark.mllib.linalg.Vectors;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.lucidworks.spark.ml.SparkMLLibClassificationModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.*;
+import java.util.*;
 
 
 public class TfIdfTopTerms implements MLModel{
+    private static final Logger log = LoggerFactory.getLogger(TfIdfTopTerms.class);
     protected String modelId;
-    protected String featureFields;
+    protected String[] featureFields;
     protected String[] labels;
     protected HashMap<String,Double> idfMap;
     protected LuceneTextAnalyzer textAnalyzer;
+    private static final String noHTMLstdAnalyzerSchema = "{ \'analyzers\': [{ \'name\': \'std_tok_lower\', \'tokenizer\': { \'type\': \'standard\' },\'filters\': [{ \'type\': \'lowercase\' }]}],  \'fields\': [{ \'regex\': \'.+\', \'analyzer\': \'std_tok_lower\' }]}".replaceAll("\'", "\"").replaceAll("\\s+", " ");
 
 
     public String getId(){
@@ -90,8 +75,6 @@ public class TfIdfTopTerms implements MLModel{
                 var10.printStackTrace();
             }
 
-            long diffMs = System.currentTimeMillis() - var12;
-            log.info("Took {} ms to load Spark mllib ClassificationModel of type {}", Long.valueOf(diffMs), this.mllibModel.getClass().getName());//check to this point
             this.textAnalyzer = new LuceneTextAnalyzer(noHTMLstdAnalyzerSchema);
         }
     }
@@ -109,6 +92,8 @@ public class TfIdfTopTerms implements MLModel{
         //2.make a predict function
 
         //3.feed the input vector into the predict function
-
+        ArrayList<String> out=new ArrayList<String>();
+        out.add("test");
+        return out;
     }
 }

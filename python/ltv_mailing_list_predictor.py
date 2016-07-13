@@ -439,6 +439,7 @@ X_full_test = X_full.ix[train_select[int(round(len(active_contribs.keys())*0.75)
 # well when all of the true coefficients are moderately large; however, in this case it can still outperform linear regression over a pretty
 # narrow range of (small) λ values
 
+from sklearn import linear_model
 from sklearn.linear_model import Ridge
 
 # Ridge Regression with intercept

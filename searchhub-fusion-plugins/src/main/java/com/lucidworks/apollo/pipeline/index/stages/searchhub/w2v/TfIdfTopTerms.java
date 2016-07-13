@@ -75,97 +75,38 @@ public class TfIdfTopTerms implements MLModel{
                 this.labels = null;
             }
 
-            long var12 = System.currentTimeMillis();//check to this point
+            long var12 = System.currentTimeMillis();
 
             try {
-                FileInputStream fileStream=new FileInputStream(modelDir);
-                ObjectInputStream ois=new ObjectInputStream(fileStream);
-                idfMap=(HashMap<String,Double>) ois.readObject();//TODO:need to check here, if cannot find such object
+                BufferedReader br=new BufferedReader(new FileReader(modelDir));
+                String line=null;
+                while ((line=br.readLine())!=null){
+                    String[] splittedLine=line.split(",");
+                    idfMap.put(splittedLine[0],Double.parseDouble(splittedLine[1]));
+                }
             } catch (Exception var10) {
                 var10.printStackTrace();
             }
 
             long diffMs = System.currentTimeMillis() - var12;
-            log.info("Took {} ms to load Spark mllib ClassificationModel of type {}", Long.valueOf(diffMs), this.mllibModel.getClass().getName());
-            this.initVectorizationSteps(modelSpecJson);
+            log.info("Took {} ms to load Spark mllib ClassificationModel of type {}", Long.valueOf(diffMs), this.mllibModel.getClass().getName());//check to this point
+            this.textAnalyzer = new LuceneTextAnalyzer(analyzerJson);
         }
     }
 
     public List<String> prediction(Object[] tuple) throws Exception {
         //1.transform tuple into a good input Vector
+        LinkedList terms = new LinkedList();
+        Object prediction;
+        for(int vector = 0; vector < tuple.length; ++vector) {
+            prediction = tuple[vector];
+            if(prediction != null) {
+                terms.addAll(this.textAnalyzer.analyzeJava(this.featureFields[vector], prediction.toString()));
+            }
+        }
         //2.make a predict function
+
         //3.feed the input vector into the predict function
 
     }
-
-
-    protected Object loadClassificationModel(File modelDir, Map<String, Object> modelSpecJson) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        String modelClassName = (String)modelSpecJson.get("modelClassName");
-        if(modelClassName.startsWith("mllib.")) {
-            modelClassName = "org.apache.spark." + modelClassName;
-        }
-
-        log.info("Loading model class: " + modelClassName);
-
-        Class modelClass;
-        try {//check to this point
-            modelClass = this.getClass().getClassLoader().loadClass(modelClassName);//TODO:what does this line do?
-        } catch (ClassNotFoundException var10) {
-            log.error("Failed to load Spark ML Transformer class {} due to: {}", modelClassName, String.valueOf(var10));
-            throw var10;
-        }
-        //to this point, 'modelClass' refers to this class we defined:TfIdfTopTerms TODO
-        Method loadMethod;
-        try {
-            loadMethod = modelClass.getMethod("load", new Class[]{SparkContext.class, String.class});
-            //modelClassName decides which class's method we are using
-            //And that class must have a method 'load'
-            //so actually I can just define a method here, which gets the data from modelDir and makes an instance
-        } catch (NoSuchMethodException var9) {
-            log.error("Spark model impl {} does provide a static \'load(sc:SparkContext, path:String)\' method!", modelClassName);
-            throw var9;
-        }
-        //to this point, 'loadMethod' refers to method 'loadMethod' of this class. TODO
-        log.info("Loading Spark ML Transformer from: " + modelDir.getAbsolutePath());
-        //modelDir直到这里才被用到。前面只为了得到一个loadMethod-_-
-        try {
-            Object mllibModel = loadMethod.invoke((Object)null, new Object[]{this.sparkContext, modelDir.getAbsolutePath()});
-            //read load function of Word2Vec.scala
-
-            def load(sc: SparkContext, path: String): Word2VecModel = {
-                val dataPath = Loader.dataPath(path)
-                val sqlContext = SQLContext.getOrCreate(sc)
-                val dataFrame = sqlContext.read.parquet(dataPath)
-                // Check schema explicitly since erasure makes it hard to use match-case for checking.
-                Loader.checkSchema[Data](dataFrame.schema)
-                val dataArray = dataFrame.select("word", "vector").collect()
-                val word2VecMap = dataArray.map(i => (i.getString(0), i.getSeq[Float](1).toArray)).toMap
-                new Word2VecModel(word2VecMap)
-                }
-
-            //modelDir.getAbsolutePath() is path
-            //let's see what we do with path
-            //Loader.loadMetadata(sc, path)
-            //^^^go to the path and find the metadata, return (clazz, version, metadata)
-            //val model = SaveLoadV1_0.load(sc, path)
-            //^^^
-            return mllibModel;
-        } catch (IllegalAccessException var11) {
-            log.error("Cannot load Spark mllib model {} because the load(sc:SparkContext, path:String) method on {} is not accessible!", this.modelId, modelClassName);
-            throw var11;
-        } catch (InvocationTargetException var12) {
-            Object targetException = var12.getTargetException();
-            if(targetException == null) {
-                targetException = var12;
-            }
-
-            log.error("Cannot load Spark mllib model {} because the load(sc:SparkContext, path:String) method on {} failed due to: {}", new Object[]{this.modelId, modelClassName, String.valueOf(targetException)});
-            throw var12;
-        }
-    }
-    
-
-
-
-
 }

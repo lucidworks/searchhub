@@ -2,7 +2,6 @@ package com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v;
 
 import com.lucidworks.spark.analysis.LuceneTextAnalyzer;
 import com.lucidworks.spark.ml.MLModel;
-import com.lucidworks.spark.ml.SparkMLLibClassificationModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +16,7 @@ public class TfIdfTopTerms implements MLModel{
     protected String[] labels;
     protected HashMap<String,Double> idfMap;
     protected LuceneTextAnalyzer textAnalyzer;
-    private static final String noHTMLstdAnalyzerSchema = "{ \'analyzers\': [{ \'name\': \'std_tok_lower\', \'tokenizer\': { \'type\': \'standard\' },\'filters\': [{ \'type\': \'lowercase\' }]}],  \'fields\': [{ \'regex\': \'.+\', \'analyzer\': \'std_tok_lower\' }]}".replaceAll("\'", "\"").replaceAll("\\s+", " ");
+    private static final String noHTMLstdAnalyzerSchema = "{ \'analyzers\': [{ \'name\': \'std_tok_lower\','charFilters': [{ 'type': 'htmlstrip' }] ,\'tokenizer\': { \'type\': \'standard\' },\'filters\': [{ \'type\': \'lowercase\' }]}],  \'fields\': [{ \'regex\': \'.+\', \'analyzer\': \'std_tok_lower\' }]}".replaceAll("\'", "\"").replaceAll("\\s+", " ");
 
 
     public String getId(){
@@ -35,9 +34,6 @@ public class TfIdfTopTerms implements MLModel{
     public void init(String modelId, File modelDir, Map<String, Object> modelSpecJson) throws Exception {
         //requirements for the arguments:
         //modelSpecJson.featureFields exists. And it should be able to be casted to "List"
-        //modelSpecJson.labels exists. And it should be able to be casted to "String". Each label should
-        //be separated by ','.
-        //modelSpecJson.modelClassName exists. And it should be able to be casted to "String".
         //TODO:check how the example supplies modelSpecJson
 
         this.modelId = modelId;
@@ -51,22 +47,10 @@ public class TfIdfTopTerms implements MLModel{
                 this.featureFields[labelsProp] = this.featureFields[labelsProp].trim();
             }
 
-            String var11 = (String)modelSpecJson.get("labels");
-            if(var11 != null && !var11.isEmpty()) {
-                this.labels = var11.split(",");
-
-                for(int startMs = 0; startMs < this.labels.length; ++startMs) {
-                    this.labels[startMs] = this.labels[startMs].trim();
-                }
-            } else {
-                this.labels = null;
-            }
-
-            long var12 = System.currentTimeMillis();
 
             try {
                 BufferedReader br=new BufferedReader(new FileReader(modelDir));
-                String line=null;
+                String line;
                 while ((line=br.readLine())!=null){
                     String[] splittedLine=line.split(",");
                     idfMap.put(splittedLine[0],Double.parseDouble(splittedLine[1]));

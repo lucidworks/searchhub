@@ -34,13 +34,14 @@ public class TfIdfTopTerms implements MLModel{
     public void init(String modelId, File modelDir, Map<String, Object> modelSpecJson) throws Exception {
         //requirements for the arguments:
         //modelSpecJson.featureFields exists. And it should be able to be casted to "List"
-        //TODO:check how the example supplies modelSpecJson
-
+        this.idfMap=new HashMap();
         this.modelId = modelId;
         List fields = (List)modelSpecJson.get("featureFields");
+        System.out.println(fields);
         if(fields == null) {
             throw new IllegalArgumentException("featureFields is required metadata for spark-mllib based models!");
         } else {
+
             this.featureFields = (String[])fields.toArray(new String[0]);
 
             for(int labelsProp = 0; labelsProp < this.featureFields.length; ++labelsProp) {
@@ -53,14 +54,21 @@ public class TfIdfTopTerms implements MLModel{
                 String line;
                 while ((line=br.readLine())!=null){
                     String[] splittedLine=line.split(",");
-                    idfMap.put(splittedLine[0],Double.parseDouble(splittedLine[1]));
+                    if(splittedLine.length==2){
+                        this.idfMap.put(splittedLine[0],Double.parseDouble(splittedLine[1]));
+                    }
+                    else{
+                        System.out.println(line);
+                    }
                 }
             } catch (Exception var10) {
                 var10.printStackTrace();
             }
-
+            /*
             this.textAnalyzer = new LuceneTextAnalyzer(noHTMLstdAnalyzerSchema);
+            */
         }
+
     }
 
     public List<String> prediction(Object[] tuple) throws Exception {

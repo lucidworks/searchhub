@@ -50,7 +50,7 @@ public class TfIdfTopTerms implements MLModel{
 
 
             try {
-                BufferedReader br=new BufferedReader(new FileReader(modelDir));
+                BufferedReader br=new BufferedReader(new FileReader(modelDir.getAbsolutePath()+"/tryToAddIdfMap"));
                 String line;
                 while ((line=br.readLine())!=null){
                     String[] splittedLine=line.split(",");

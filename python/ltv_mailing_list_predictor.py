@@ -21,11 +21,11 @@ solr = pysolr.Solr('http://localhost:8983/solr/lucidfind_shard1_replica1/',timeo
 
 # Specify Mailing List of interest
 # e.g let's look at the Hadoop common dev mailing list            
-mailing_list = "mailing-list-hbase-hbase-dev"
+mailing_list = "mailing-list-hadoop-hadoop-common-dev"
 
 # We want to see how well the model performs for predicting the number of mails for a specific contributor.
 # For example, let's look at 'Doug Cutting (JIRA)'
-contributor = 'Andrew Purtell' 
+contributor = 'Doug Cutting (JIRA)' 
 
 #########################################################################################################################################################
 

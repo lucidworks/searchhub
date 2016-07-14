@@ -29,7 +29,7 @@ public class MailThreadSparkJob extends SparkJob<Long, MailThreadSparkJobConfig>
     Boolean overrideThreadIds = true;
 
     DataFrame mailDataFrame = sqlContext.read().format("solr").options(options).load();
-    mailDataFrame = MailThreadJob.createThreadGroups(mailDataFrame, overrideThreadIds);
+    mailDataFrame = MailThreadJob.createThreadGroups(mailDataFrame, MailThreadJob.accumulators(ctx), overrideThreadIds);
     long numDocs = MailThreadJob.countThreads(mailDataFrame);
     mailDataFrame.write().format("solr").options(options).mode(SaveMode.Overwrite).save();
     return numDocs;

@@ -58,34 +58,53 @@ public class TfIdfTopTerms implements MLModel{
                         this.idfMap.put(splittedLine[0],Double.parseDouble(splittedLine[1]));
                     }
                     else{
-                        System.out.println(line);
+                        int length=splittedLine.length;
+                        String tmp=String.join(",", Arrays.copyOfRange(splittedLine, 0, length-1));
+                        this.idfMap.put(tmp,Double.parseDouble(splittedLine[length-1]));
                     }
                 }
             } catch (Exception var10) {
                 var10.printStackTrace();
             }
-            /*
+
             this.textAnalyzer = new LuceneTextAnalyzer(noHTMLstdAnalyzerSchema);
-            */
+
         }
 
     }
 
     public List<String> prediction(Object[] tuple) throws Exception {
         //1.transform tuple into a good input Vector
-        LinkedList terms = new LinkedList();
-        Object prediction;
-        for(int vector = 0; vector < tuple.length; ++vector) {
-            prediction = tuple[vector];
-            if(prediction != null) {
-                terms.addAll(this.textAnalyzer.analyzeJava(this.featureFields[vector], prediction.toString()));
-            }
+        LinkedList<String> terms = new LinkedList();
+        if(tuple[0] != null) {
+            terms.addAll(this.textAnalyzer.analyzeJava(this.featureFields[0], tuple[0].toString()));
         }
         //2.make a predict function
+        HashMap<String,Integer> tf=new HashMap();
+        for(int i=0;i<terms.size();i++){
+            tf.put(terms.get(i),tf.getOrDefault(terms.get(i),0)+1);
+        }
+        HashMap<String,Double> tfidf=new HashMap();
+        for(String key:tf.keySet()){
+            tfidf.put(key,tf.get(key)*this.idfMap.getOrDefault(key,1.0));
+        }
+        //TODO:find k largest values, may need to optimize
+        List<Map.Entry<String, Double>> tfidfList =
+                new LinkedList<Map.Entry<String, Double>>(tfidf.entrySet());
+        // Sort list with comparator, to compare the Map values
+
+        Collections.sort(tfidfList, new Comparator<Map.Entry<String, Double>>() {
+            public int compare(Map.Entry<String, Double> o1,
+                               Map.Entry<String, Double> o2) {
+                return -(o1.getValue()).compareTo(o2.getValue());
+            }
+        });
 
         //3.feed the input vector into the predict function
         ArrayList<String> out=new ArrayList<String>();
-        out.add("test");
+        for(int i=0;i<Math.min(5,tfidfList.size());i++){
+            out.add(tfidfList.get(i).getKey());
+        }
         return out;
     }
 }

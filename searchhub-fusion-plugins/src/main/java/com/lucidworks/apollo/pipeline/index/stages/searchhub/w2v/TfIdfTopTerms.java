@@ -99,9 +99,21 @@ public class TfIdfTopTerms implements MLModel{
         });
 
         //3.feed the input vector into the predict function
+        /*
         ArrayList<String> out=new ArrayList<String>();
         for(int i=0;i<Math.min(5,tfidfList.size());i++){
             out.add(tfidfList.get(i).getKey());
+        }
+        */
+        ArrayList<String> out=new ArrayList<String>();
+        out.add("");
+        for (int i=0;i<Math.min(5,tfidfList.size());i++){
+            if(i==0){
+                out.set(0,tfidfList.get(i).getKey());
+            }
+            else{
+                out.set(0,out.get(0)+","+tfidfList.get(i).getKey());
+            }
         }
         return out;
     }

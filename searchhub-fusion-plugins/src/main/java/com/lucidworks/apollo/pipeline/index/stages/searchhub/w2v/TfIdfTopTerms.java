@@ -4,7 +4,6 @@ import com.lucidworks.spark.analysis.LuceneTextAnalyzer;
 import com.lucidworks.spark.ml.MLModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.*;
 import java.util.*;
 
@@ -23,7 +22,7 @@ public class TfIdfTopTerms implements MLModel{
     }
 
     public String getType(){
-        return "spark-mllib";//TODO:is this a reasonable return value??check at what place used it
+        return "spark-mllib";//seems this info is redundant and not used.
     }
 
     public String[] getFeatureFields(){
@@ -33,21 +32,21 @@ public class TfIdfTopTerms implements MLModel{
     public void init(String modelId, File modelDir, Map<String, Object> modelSpecJson) throws Exception {
         //requirements for the arguments:
         //modelSpecJson.featureFields exists. And it should be able to be casted to "List"
+        //the object for init is to provide everything needed for prediction method and other methods
         this.idfMap=new HashMap();
         this.modelId = modelId;
+        //get this.featureFields from modelSpecJson
         List fields = (List)modelSpecJson.get("featureFields");
-        System.out.println(fields);
         if(fields == null) {
-            throw new IllegalArgumentException("featureFields is required metadata for spark-mllib based models!");
+            throw new IllegalArgumentException("featureFields is required metadata");
         } else {
-
             this.featureFields = (String[])fields.toArray(new String[0]);
 
             for(int labelsProp = 0; labelsProp < this.featureFields.length; ++labelsProp) {
                 this.featureFields[labelsProp] = this.featureFields[labelsProp].trim();
             }
 
-
+            //get this.idfMap. It is used to regenerate the idfMap(used to calculate tfidf)
             try {
                 BufferedReader br=new BufferedReader(new FileReader(modelDir.getAbsolutePath()+"/tryToAddIdfMap"));
                 String line;
@@ -73,7 +72,7 @@ public class TfIdfTopTerms implements MLModel{
     }
 
     public List<String> prediction(Object[] tuple) throws Exception {
-        //1.transform tuple into a good input Vector
+        //1.transform the input tuple to input vector(tokenized terms)
         LinkedList<String> terms = new LinkedList();
         if(tuple[0] != null) {
             terms.addAll(this.textAnalyzer.analyzeJava(this.featureFields[0], tuple[0].toString()));

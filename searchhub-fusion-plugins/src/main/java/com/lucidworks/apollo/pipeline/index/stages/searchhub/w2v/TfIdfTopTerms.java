@@ -13,7 +13,6 @@ public class TfIdfTopTerms implements MLModel{
     private static final Logger log = LoggerFactory.getLogger(TfIdfTopTerms.class);
     protected String modelId;
     protected String[] featureFields;
-    protected String[] labels;
     protected HashMap<String,Double> idfMap;
     protected LuceneTextAnalyzer textAnalyzer;
     private static final String noHTMLstdAnalyzerSchema = "{ \'analyzers\': [{ \'name\': \'std_tok_lower\','charFilters': [{ 'type': 'htmlstrip' }] ,\'tokenizer\': { \'type\': \'standard\' },\'filters\': [{ \'type\': \'lowercase\' }]}],  \'fields\': [{ \'regex\': \'.+\', \'analyzer\': \'std_tok_lower\' }]}".replaceAll("\'", "\"").replaceAll("\\s+", " ");

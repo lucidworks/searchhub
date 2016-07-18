@@ -1,22 +1,24 @@
 package com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.testFiles;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.io.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.TfIdfTopTerms;
 import com.lucidworks.spark.fusion.FusionMLModelSupport;
+import com.lucidworks.spark.fusion.FusionPipelineClient;
 import org.apache.commons.compress.archivers.ArchiveException;
 import org.apache.commons.compress.archivers.ArchiveOutputStream;
 import org.apache.commons.compress.archivers.ArchiveStreamFactory;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.utils.IOUtils;
 import org.apache.commons.io.FileUtils;
+import org.apache.http.client.methods.HttpPut;
 
 class TestClassTestDrive{
     public static void main(String[] args){
         try{
+
             TfIdfTopTerms tfidf=new TfIdfTopTerms();
             HashMap<String,Object> modelSpecJson=new HashMap<String,Object>();
             List<String> featureList = Arrays.asList("body");
@@ -28,23 +30,24 @@ class TestClassTestDrive{
             input[0]=testString;
             System.out.println(tfidf.prediction(input));
 
-            //File modelDir = new File("modelId");
-            //System.out.println(modelDir.isDirectory());
-            //System.out.println(modelDir.getAbsolutePath());
-
             File modelDir = new File("modelId");
 
             LinkedHashMap modelJson = new LinkedHashMap();
             modelJson.put("featureFields", featureList);
-            File modelJsonFile1 = new File(modelDir, "mllib" + ".json");//TODO:to check whether mllib is a good name
-            OutputStreamWriter osw1 = null;
+            modelJson.put("modelClassName","com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.TfIdfTopTerms");
+            modelJson.put("className","com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.TfIdfTopTerms");
 
+            File modelJsonFile1 = new File(modelDir, "spark-ml" + ".json");//TODO:to check whether mllib is a good name
+            File modelJsonFile2 = new File(modelDir, "com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.TfIdfTopTerms" + ".json");//TODO:to check whether mllib is a good name
+            OutputStreamWriter osw1 = null;
+            OutputStreamWriter osw2 = null;
             try {
                 ObjectMapper om = new ObjectMapper();
-
-
                 osw1 = new OutputStreamWriter(new FileOutputStream(modelJsonFile1), StandardCharsets.UTF_8);
                 om.writeValue(osw1, modelJson);
+                osw2 = new OutputStreamWriter(new FileOutputStream(modelJsonFile2), StandardCharsets.UTF_8);
+                om.writeValue(osw2, modelJson);
+
             } finally {
                 if(osw1 != null) {
                     try {
@@ -59,20 +62,41 @@ class TestClassTestDrive{
                         ;
                     }
                 }
+                if(osw2 != null) {
+                    try {
+                        osw2.flush();
+                    } catch (IOException var25) {
+                        ;
+                    }
+
+                    try {
+                        osw2.close();
+                    } catch (IOException var24) {
+                        ;
+                    }
+                }
 
             }
 
             File zipFile1 = new File("modelId" + ".zip");
-            if(zipFile1.isFile()) {
-                zipFile1.delete();
-            }
 
             addFilesToZip(modelDir, zipFile1);
+
+
+            HashMap<String, String> mutableMetadata=new HashMap();
+            mutableMetadata.put("abc","def");
+            HttpPut putRequest = FusionMLModelSupport.buildPutRequestToFusion("modelId", "localhost:8764", mutableMetadata, zipFile1, "/api/apollo");
+            System.out.println(putRequest.getRequestLine());
+            System.out.println(putRequest.getURI());
+            //FusionPipelineClient fusionClient = new FusionPipelineClient(putRequest.getRequestLine().getUri(), "admin", "password123", "native");
+            //fusionClient.sendRequestToFusion(putRequest);
 
 
         } catch(Exception ex){
             ex.printStackTrace();
         }
+
+
     }
 
 
@@ -102,5 +126,8 @@ class TestClassTestDrive{
         String path = file.getCanonicalPath();
         return path.substring(index);
     }
+
+
+
 
 }

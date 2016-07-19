@@ -25,7 +25,7 @@ mailing_list = "mailing-list-lucene-lucene-dev"
 
 # We want to see how well the model performs for predicting the number of mails for a specific contributor.
 # For example, let's look at 'Grant Ingersoll (JIRA)'
-contributor = 'Robert Muir (JIRA)' 
+contributor = 'Grant Ingersoll (JIRA)' 
 
 #########################################################################################################################################################
 

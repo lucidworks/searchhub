@@ -2,8 +2,13 @@ package com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v;
 
 import com.lucidworks.spark.analysis.LuceneTextAnalyzer;
 import com.lucidworks.spark.ml.MLModel;
+import org.apache.spark.SparkConf;
+import org.apache.spark.SparkContext;
+import org.apache.spark.mllib.feature.Word2VecModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import scala.Tuple2;
+
 import java.io.*;
 import java.util.*;
 
@@ -14,6 +19,7 @@ public class TfIdfTopTerms implements MLModel{
     protected String[] featureFields;
     protected HashMap<String,Double> idfMap;
     protected LuceneTextAnalyzer textAnalyzer;
+    protected Word2VecModel w2vModel;
     private static final String noHTMLstdAnalyzerSchema = "{ \'analyzers\': [{ \'name\': \'std_tok_lower\','charFilters': [{ 'type': 'htmlstrip' }] ,\'tokenizer\': { \'type\': \'standard\' },\'filters\': [{ \'type\': \'lowercase\' }]}],  \'fields\': [{ \'regex\': \'.+\', \'analyzer\': \'std_tok_lower\' }]}".replaceAll("\'", "\"").replaceAll("\\s+", " ");
 
 
@@ -67,6 +73,13 @@ public class TfIdfTopTerms implements MLModel{
 
             this.textAnalyzer = new LuceneTextAnalyzer(noHTMLstdAnalyzerSchema);
 
+
+            //begin w2v part
+            SparkConf sconf=new SparkConf();
+            sconf.setMaster("8766").setAppName("GetW2vModel");
+            SparkContext sc=SparkContext.getOrCreate(sconf);
+            this.w2vModel=Word2VecModel.load(sc,"w2vModelData");
+
         }
 
     }
@@ -105,16 +118,25 @@ public class TfIdfTopTerms implements MLModel{
             out.add(tfidfList.get(i).getKey());
         }
         */
-        ArrayList<String> out=new ArrayList<String>();
-        out.add("");
+        ArrayList<String> topWords=new ArrayList();
         for (int i=0;i<Math.min(5,tfidfList.size());i++){
-            if(i==0){
-                out.set(0,tfidfList.get(i).getKey());
-            }
-            else{
-                out.set(0,out.get(0)+","+tfidfList.get(i).getKey());
+            topWords.add(tfidfList.get(i).getKey());
+        }
+
+        //begin w2v part
+        ArrayList<String> out=new ArrayList();
+        out.add("");
+        for(String word:topWords){
+            if(this.w2vModel.wordIndex().contains(word)){//elif words not in data, do nothing
+                Tuple2<String,Object>[] synonyms=w2vModel.findSynonyms(word,2);//find 2 synonyms for each top word
+                for(Tuple2 tuples: synonyms){
+                    out.set(0,out.get(0)+tuples._1+",");
+                }
             }
         }
+        out.set(0,out.get(0).substring(0,out.get(0).length()-1));
         return out;
+
+
     }
 }

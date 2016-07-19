@@ -4,6 +4,8 @@ import com.lucidworks.spark.util.SolrSupport
 import org.apache.spark.mllib.linalg.{Vector => SparkVector}
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.functions._
+import java.io._
+import org.apache.spark.mllib.feature.Word2VecModel
 
 
 /***
@@ -15,17 +17,10 @@ import org.apache.spark.sql.functions._
   */
 object generateModelData {
   val sqlContext: SQLContext = ???
+  val sc: org.apache.spark.SparkContext = ???
   //Setup our Solr connection
   val opts = Map("zkhost" -> "localhost:9983", "collection" -> "lucidfind", "query" -> "*:*",
     "fields" -> "id,body,title,subject,publishedOnDate,project,content")
-
-  //Try this if you want to get rid of the JIRA bot noise in the index, this tends to lead to better
-  //clusters, since the Jenkins/JIRA file handling is pretty primitive so far and thus skews the clusters
-
-  /*
-  val opts = Map("zkhost" -> "localhost:9983", "collection" -> "lucidfind", "query" -> "isBot:false",
-   "fields" -> "id,body,title,subject,publishedOnDate,project,content”)
-   */
 
   val tmpDF = sqlContext.read.format("solr").options(opts).load//this is a dataframe of orignal data
   //Change this depending on how many mail messages you have loaded.  The current settings
@@ -45,62 +40,24 @@ object generateModelData {
   val vectorizedMail = TfIdfVectorizer.vectorize(mailDF, vectorizer, textColumnName)
   //vectorizedMail is a dataframe, with an additional column body_vect
   vectorizedMail.cache()
-  //Build a k-means model of size 20
-  val kmeansModel = ManyNewsgroups.buildKmeansModel(vectorizedMail, k = 20, maxIter = 10, textColumnName)
-  //Join the centroid ids back to the mail, so we can update them in Solr if we want
-  val mailWithCentroids = kmeansModel.transform(vectorizedMail)
-  mailWithCentroids.groupBy("kmeans_cluster_i").count().show()
-  //kmeansModel.clusterCenters.foreach(v => println(f"${math.sqrt(ManyNewsgroups.normSquaredL2(v))}%.2f")
-
-  //Save to Solr if you want
-  mailWithCentroids.write.format("solr").options(Map("zkhost" -> "localhost:9983", "collection" -> "lucidfind", "batch_size" -> "1000")).mode(org.apache.spark.sql.SaveMode.Overwrite).save
-  // If you want to commit, run these
-  SolrSupport.getCachedCloudClient("localhost:9983").commit("lucidfind")
-
-  //Do some cluster analysis to get a feel for what the clusters look like.
-  val lenFn = (v: SparkVector) => v.numNonzeros
-  val lenUdf = udf(lenFn)
-  val withVectLength = mailWithCentroids.withColumn("vect_len", lenUdf(mailWithCentroids("body_vect")))
-  withVectLength.groupBy("kmeans_cluster_i").avg("vect_len").show()
 
 
-  //Build a topic model using Latent Dirichlet Allocation
-  val ldaModel = ManyNewsgroups.buildLDAModel(vectorizedMail, k = 5, textColumnName)
-  //Get the actual topics
-  val topicTerms = ManyNewsgroups.tokensForTopics(ldaModel, vectorizer)
-  topicTerms.foreach { case(topicId, list) => println(s"$topicId : ${list.map(_._1).take(10).mkString(",")}") }
 
-  //Enrich our terms by building a Word2Vec model
+
+  //serialization for idf Map, the data is at the directory bin
+  val file=new File("idfMapData")
+  val bw=new BufferedWriter(new FileWriter(file))
+  vectorizer.idfs.foreach(line=>bw.write(line._1+","+line._2+"\n"))
+  bw.close()
+
+  //make w2v model
   val w2vModel = ManyNewsgroups.buildWord2VecModel(vectorizedMail, tokenizer, textColumnName)
   w2vModel.findSynonyms("query", 5).take(5)
+  //serialization w2v model
+  w2vModel.save(sc, "w2vModelData")
+  //deserialize w2v model and run it
+  val newW2vModel=Word2VecModel.load(sc,"w2vModelData")
 
-  val Array(trainingData, testData) = vectorizedMail.randomSplit(Array(0.8, 0.2), 123L)
+  //deserialize w2v model and run it in Java
 
-  val labelColumnName = "project"
-  //Do some classification on the projects.  This is like 20 Newsgroups (http://kdd.ics.uci.edu/databases/20newsgroups/20newsgroups.data.html) on steriods
-  val (randomForestModel, randomForestMetrics) =
-    ManyNewsgroups.trainRandomForestClassifier(trainingData, testData, labelColumnName, textColumnName)
-
-  //For each document, find 5 top terms(by tfidf) and 2 of their synonyms(by w2v model), store them in 'topSyns'
-  //output schema looks like following
-  /*
-  root
- |-- id: string (nullable = false)
- |-- body: string (nullable = true)
- |-- title: string (nullable = true)
- |-- subject: string (nullable = true)
- |-- publishedOnDate: timestamp (nullable = false)
- |-- project: string (nullable = true)
- |-- content: string (nullable = true)
- |-- body_vect: vector (nullable = true)
- |-- topSyns: array (nullable = true)
- |    |-- element: struct (containsNull = true)
- |    |    |-- _1: string (nullable = true)
- |    |    |-- _2: array (nullable = true)
- |    |    |    |-- element: string (containsNull = true)
- */
-  def findSyn = (a: String) => w2vModel.findSynonyms(a,2).map(_._1)
-  def getTopSyns = (t: SparkVector) => t.toArray.zipWithIndex.sortBy(-_._1).take(5).map(_._2).flatMap(vectorizer.dictionary.map(_.swap).get).map(a => (a, findSyn(a)))
-  def getTopSynsUdf = udf(getTopSyns)
-  vectorizedMail.withColumn("topSyns", getTopSynsUdf(vectorizedMail("body_vect"))).take(5)
 }

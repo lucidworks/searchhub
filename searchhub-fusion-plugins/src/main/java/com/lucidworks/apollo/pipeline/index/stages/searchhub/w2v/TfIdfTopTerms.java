@@ -10,7 +10,9 @@ import org.slf4j.LoggerFactory;
 import scala.Tuple2;
 
 import java.io.*;
+import java.net.UnknownHostException;
 import java.util.*;
+import java.net.InetAddress;
 
 
 public class TfIdfTopTerms implements MLModel{
@@ -76,9 +78,13 @@ public class TfIdfTopTerms implements MLModel{
 
             //begin w2v part
             SparkConf sconf=new SparkConf();
-            sconf.setMaster("8766").setAppName("GetW2vModel");
+            try {
+                sconf.setMaster("spark://" + InetAddress.getLocalHost().getHostAddress() + ":8766").setAppName("GetW2vModel");//TODO:MAKE SURE THIS IS A REASONABLE TREATMENT
+            } catch (UnknownHostException e){
+                System.out.println("cannot get ip");
+            }
             SparkContext sc=SparkContext.getOrCreate(sconf);
-            this.w2vModel=Word2VecModel.load(sc,"w2vModelData");
+            this.w2vModel=Word2VecModel.load(sc,modelDir.getAbsolutePath()+"/w2vModelData");
 
         }
 

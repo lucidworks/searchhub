@@ -75,6 +75,12 @@ def setup_pipelines(backend):
     else:
       backend.create_pipeline(json.load(open(join("./fusion_config", file))))
 
+def setup_batch_jobs(backend):
+  job_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_job.json")]
+  for file in job_files:
+    print ("Creating Batch Job for %s" % file)
+    backend.create_batch_job(json.load(open(join("./fusion_config", file))))
+
 # Create the taxonomy, which can be used to alter requests based on hierarchy
 def setup_taxonomy(backend, collection_id):
   status = backend.delete_taxonomy(collection_id)
@@ -140,6 +146,7 @@ backend.toggle_system_metrics(False)
 backend.set_log_level("WARN")
 
 lucidfind_collection_id = app.config.get("FUSION_COLLECTION", "lucidfind")
+lucidfind_batch_recs_collection_id = app.config.get("FUSION_BATCH_RECS_COLLECTION", "lucidfind_thread_recs")
 
 # Create our main application user
 username = app.config.get("FUSION_APP_USER", "lucidfind")
@@ -169,6 +176,12 @@ if cmd_args.create_collections or create_all:
           "GET"
         ],
         "path": "/query-pipelines/cf-similar-items-rec/collections/{0}/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/cf-similar-items-batch-rec/collections/{0}/select".format(lucidfind_batch_recs_collection_id)
       },
       {
         "methods": [
@@ -225,6 +238,9 @@ if cmd_args.create_taxonomy or create_all:
 if cmd_args.create_projects or create_all:
   print("Creating Projects")
   setup_projects(backend)
+
+if cmd_args.create_batch_jobs or create_all:
+  setup_batch_jobs(backend)
 
 #create the schedules
 if cmd_args.create_schedules or create_all:

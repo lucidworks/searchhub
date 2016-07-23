@@ -290,6 +290,15 @@ class FusionBackend(Backend):
       print resp.status_code, resp.json()
     return resp
 
+  def create_batch_job(self, batch_job_config):
+    id = batch_job_config["id"]
+    print "create batch job: " + id
+    resp = self.admin_session.put("apollo/spark/configurations/{0}".format(id), data=json.dumps(batch_job_config),
+                                  headers={"Content-type": "application/json"})
+    if resp.status_code != 200:
+      print resp.status_code, resp.json()
+    return resp
+
   def create_or_update_datasources(self, project, includeJIRA=False):
     twitter_config = None
     jira_config = None

@@ -31,7 +31,7 @@
     </div>
   </div>
   <div ng-if="rc.preCFDocs">
-    <h4>Precomupted Collaborative Filtering</h4>
+    <h4>Precomputed Collaborative Filtering</h4>
     <div ng-repeat="doc in rc.preCFDocs" class="recHeader">
       <div class="head-field" ng-if="doc.subject"><a
           ng-click="rc.postClickRecommendation(this, doc.id, $index, doc.score, 'mltRecommendation')">

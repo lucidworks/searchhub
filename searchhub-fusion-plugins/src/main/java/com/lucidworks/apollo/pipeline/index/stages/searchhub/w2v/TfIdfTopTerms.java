@@ -2,7 +2,7 @@ package com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v;
 
 import com.lucidworks.spark.analysis.LuceneTextAnalyzer;
 import com.lucidworks.spark.ml.MLModel;
-import org.apache.spark.SparkConf;
+import com.lucidworks.spark.ml.SparkContextAware;
 import org.apache.spark.SparkContext;
 import org.apache.spark.mllib.feature.Word2VecModel;
 import org.slf4j.Logger;
@@ -10,18 +10,17 @@ import org.slf4j.LoggerFactory;
 import scala.Tuple2;
 
 import java.io.*;
-import java.net.UnknownHostException;
 import java.util.*;
-import java.net.InetAddress;
 
 
-public class TfIdfTopTerms implements MLModel{
+public class TfIdfTopTerms implements MLModel, SparkContextAware {
     private static final Logger log = LoggerFactory.getLogger(TfIdfTopTerms.class);
     protected String modelId;
     protected String[] featureFields;
     protected HashMap<String,Double> idfMap;
     protected LuceneTextAnalyzer textAnalyzer;
     protected Word2VecModel w2vModel;
+    protected SparkContext sparkContext;
     private static final String noHTMLstdAnalyzerSchema = "{ \'analyzers\': [{ \'name\': \'std_tok_lower\','charFilters': [{ 'type': 'htmlstrip' }] ,\'tokenizer\': { \'type\': \'standard\' },\'filters\': [{ \'type\': \'lowercase\' }]}],  \'fields\': [{ \'regex\': \'.+\', \'analyzer\': \'std_tok_lower\' }]}".replaceAll("\'", "\"").replaceAll("\\s+", " ");
 
 
@@ -77,17 +76,18 @@ public class TfIdfTopTerms implements MLModel{
 
 
             //begin w2v part
-            SparkConf sconf=new SparkConf();
             try {
-                sconf.setMaster("spark://" + InetAddress.getLocalHost().getHostAddress() + ":8766").setAppName("GetW2vModel");//TODO:MAKE SURE THIS IS A REASONABLE TREATMENT
-            } catch (UnknownHostException e){
-                System.out.println("cannot get ip");
+                this.w2vModel = Word2VecModel.load(this.sparkContext, modelDir.getAbsolutePath() + "/w2vModelData");
+            } catch (Exception e){
+                log.error("error when loading model");
+                throw e;
             }
-            SparkContext sc=SparkContext.getOrCreate(sconf);
-            this.w2vModel=Word2VecModel.load(sc,modelDir.getAbsolutePath()+"/w2vModelData");
-
         }
 
+    }
+
+    public void initSparkContext(SparkContext sparkContext) {
+        this.sparkContext = sparkContext;
     }
 
     public List<String> prediction(Object[] tuple) throws Exception {
@@ -133,14 +133,16 @@ public class TfIdfTopTerms implements MLModel{
         ArrayList<String> out=new ArrayList();
         out.add("");
         for(String word:topWords){
+            out.set(0,out.get(0)+word+":");
             if(this.w2vModel.wordIndex().contains(word)){//elif words not in data, do nothing
                 Tuple2<String,Object>[] synonyms=w2vModel.findSynonyms(word,2);//find 2 synonyms for each top word
                 for(Tuple2 tuples: synonyms){
                     out.set(0,out.get(0)+tuples._1+",");
                 }
+                out.set(0,out.get(0).substring(0,out.get(0).length()-1));
             }
+            out.set(0,out.get(0)+";");
         }
-        out.set(0,out.get(0).substring(0,out.get(0).length()-1));
         return out;
 
 

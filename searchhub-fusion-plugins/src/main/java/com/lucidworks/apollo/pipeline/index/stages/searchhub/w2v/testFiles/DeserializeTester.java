@@ -3,6 +3,7 @@ package com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.testFiles;
 import org.apache.spark.mllib.feature.Word2VecModel;
 import org.apache.spark.SparkContext;
 import org.apache.spark.SparkConf;
+import com.lucidworks.spark.ml.SparkContextAware;
 
 import scala.Tuple2;
 

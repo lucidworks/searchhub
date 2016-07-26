@@ -142,6 +142,12 @@ def create_config(project_name, project_label, pipeline, mailing_list):
       "aliasExpiration": 1
     }
   }
+  #automatically exclude date/author sorted links and atom:
+  # http://asfmail.lucidworks.io/mail_files/ambari-dev/201412.mbox/date and http://asfmail.lucidworks.io/mail_files/ambari-dev/201412.mbox/author
+  # http://asfmail.lucidworks.io/mail_files/ambari-dev/?format=atom
+  config['properties']['excludeRegexes'] = [".*/date.*", ".*/author.*", ".*format=atom.*"]
+  if "excludes" in mailing_list:
+    config['properties']['excludeRegexes'].append(mailing_list["excludes"])
   schedule = None
   if "schedule" in mailing_list:
     details = mailing_list["schedule"]

@@ -46,6 +46,7 @@ def create_twitter_datasource_configs(project):
           {"source": "project_label", "target": project["label"], "operation": "set"},
           {"source": "datasource_label", "target": project["label"] + " Twitter", "operation": "set"},
           {"source": "source_s", "target": "twitter", "operation": "set"},
+          {"source": "isBot", "target": "false", "operation": "set"},
 
           # People names
           {"source": "userName", "target": "person_ss", "operation": "copy"},

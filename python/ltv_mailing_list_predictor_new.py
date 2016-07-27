@@ -29,23 +29,33 @@ contributor = 'Grant Ingersoll (JIRA)'
 
 #########################################################################################################################################################
 
+# Using filter query on hash_id's to filter out those docs without body or subject fields
+
+hash_ids_to_remove = []
+
 # Need to find those docs without body field and delete them
 missing_body_docs = solr.search('_lw_data_source_s:{ml} AND -body:[* TO *]'.format(ml=mailing_list),rows=100000)
 
 for i in range(len(missing_body_docs.docs)):
     
     hash_id = str(missing_body_docs.docs[i]['hash_id'])
-    hash_del = hash_id[3:][:-2] #removing square brackets
-    requests.get('http://localhost:8983/solr/lucidfind_shard1_replica1/update?stream.body=%3Cdelete%3E%3Cquery%3Ehash_id%3A{HASH}%3C/query%3E%3C/delete%3E&commit=true'.format(HASH = hash_del))
-
+    hash_del1 = hash_id[3:][:-2] #removing square brackets
+    hash_ids_to_remove.append(hash_del1)
+            
 # Need to find those docs without subject field and delete them
 missing_subject_docs = solr.search('_lw_data_source_s:{ml} AND -subject:[* TO *]'.format(ml=mailing_list),rows=100000)
 
 for i in range(len(missing_subject_docs.docs)):
     
     hash_id = str(missing_subject_docs.docs[i]['hash_id'])
-    hash_del = hash_id[3:][:-2] #removing square brackets
-    requests.get('http://localhost:8983/solr/lucidfind_shard1_replica1/update?stream.body=%3Cdelete%3E%3Cquery%3Ehash_id%3A{HASH}%3C/query%3E%3C/delete%3E&commit=true'.format(HASH = hash_del))
+    hash_del2 = hash_id[3:][:-2] #removing square brackets
+    hash_ids_to_remove.append(hash_del2)
+
+hash_ids_to_remove = str(hash_ids_to_remove)[2:][:-2]
+for ch in ["', '"]:
+   if ch in hash_ids_to_remove:
+      hash_ids_to_remove = hash_ids_to_remove.replace(ch," ")
+
 
 params = {
   'facet': 'on',
@@ -73,7 +83,7 @@ y = active_contribs.values()
 #########################################################################################################################################################
 
 average_length_l = [] 
-isbot = []
+isbot = [] 
 num_questions = [] 
 num_subject_qs = [] 
 num_thanks = [] 
@@ -81,9 +91,9 @@ num_fixed = []
 num_commit= [] 
 num_resolved = [] 
 num_commented = [] 
-num_reopen= []  
+num_reopen = []
 
-for i in range(len(active_contribs.keys())): #looping through the list of authors 
+for i in range(len(active_contribs.keys())): #looping through the list of (7618) authors 
     
     """as there are some non-english characters in 
     certain contributors names we must change the 
@@ -91,10 +101,18 @@ for i in range(len(active_contribs.keys())): #looping through the list of author
     
     if isinstance(active_contribs.keys()[i], str):
         active_contribs.keys()[i] = unicode(active_contribs.keys()[i], "utf-8")
-    
-    s = '_lw_data_source_s:{ml} AND author:"{author}"'
-    solr_results = solr.search(s.format(ml=mailing_list,author=active_contribs.keys()[i]),rows=active_contribs.values()[i])
-    author_docs = solr_results.docs
+        
+    if len(hash_ids_to_remove)==0:
+            
+        s = '_lw_data_source_s:{ml} AND author:"{author}"'
+        solr_results = solr.search(s.format(ml=mailing_list,author=active_contribs.keys()[i]),rows=active_contribs.values()[i])
+        author_docs = solr_results.docs
+
+    else:
+            
+        s = '_lw_data_source_s:{ml} AND author:"{author}"'
+        solr_results = solr.search(s.format(ml=mailing_list,author=active_contribs.keys()[i]),rows=active_contribs.values()[i],fq='-hash_id:({HASH})'.format(HASH=hash_ids_to_remove))
+        author_docs = solr_results.docs    
     
     a = []
     questions = []
@@ -107,30 +125,29 @@ for i in range(len(active_contribs.keys())): #looping through the list of author
     body_commit = []
     body_committed = []
     subject_commit = []
-    subject_committed = [] 
+    subject_committed = []
+    body_resolved = []
     body_commented = []
     body_reopen1 = []
     body_reopen2 = []
     body_reopen3 = []
-    body_reopen4 = []   
-            
+    body_reopen4 = []
+
     for j in range(len(author_docs)): #looping through the docs of each author
          
         length = author_docs[j]['length_l']
-        body = author_docs[j]['body']
-        subject = author_docs[j]['subject']
-        body_resolved = []
-
         a.append(length)
-        
-        torf = '?' in body
-        if torf == True: 
-            questions.append(1)  
 
+        body = author_docs[j]['body']
+        torf1 = '?' in body
+        if torf1 == True: 
+            questions.append(1)
+
+        subject = author_docs[j]['subject']
         torf2 = '?' in subject
         if torf2 == True: 
-            subject_questions.append(1)  
-        
+            subject_questions.append(1)
+
         torf3 = 'thanks' in body.lower()
         if torf3 == True: 
             var_1.append(1)
@@ -143,8 +160,9 @@ for i in range(len(active_contribs.keys())): #looping through the list of author
         if torf5 == True: 
             var_3.append(1)
             
-        tot1 = var_1 + var_2 + var_3            
+        tot1 = var_1 + var_2 + var_3                    
 
+        body = author_docs[j]['body']
         torf6 = 'fixed' in body.lower()
         if torf6 == True: 
             body_fixed.append(1)
@@ -154,7 +172,7 @@ for i in range(len(active_contribs.keys())): #looping through the list of author
             subject_fixed.append(1)
 
         tot2 = subject_fixed + body_fixed           
-
+ 
         torf8 = 'commit' in body.lower()
         if torf8 == True: 
             body_commit.append(1)
@@ -171,15 +189,15 @@ for i in range(len(active_contribs.keys())): #looping through the list of author
         if torf11 == True: 
             subject_committed.append(1)
 
-        tot3 =  body_commit+body_committed+subject_commit+subject_committed         
-                                                
+        tot3 =  body_commit+body_committed+subject_commit+subject_committed 
+
         torf12 = 'resolved' in body.lower()
         if torf12 == True: 
             body_resolved.append(1)
 
         torf13 = 'commented' in body.lower()
         if torf13 == True: 
-            body_commented.append(1)                                                                                                                                                 
+            body_commented.append(1)
 
         torf14 = 'reopened' in body.lower()
         if torf14 == True: 
@@ -196,54 +214,54 @@ for i in range(len(active_contribs.keys())): #looping through the list of author
         torf17 = 're-opening' in subject.lower()
         if torf17 == True: 
             body_reopen4.append(1)
-            
-        tot4 =  body_reopen1+body_reopen2+body_reopen3+body_reopen4         
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-# x1 - Average length of Mail
-    av_length = sum(a) / len(solr_results.docs) 
-    average_length_l.append(av_length) 
+
+        tot4 = body_reopen1+body_reopen2+body_reopen3+body_reopen4                          
+
+# x1 - Average length of Mail    
+    av_length = sum(a) / len(solr_results.docs)    
+    average_length_l.append(av_length)
 
 # x2 - IsBot
     if author_docs[0]['isBot'] == True:
         isbot.append(1)
     elif author_docs[0]['isBot'] == False:
         isbot.append(0)
-              
+    
 # x3 - Number of mails containing a question mark in the body field
-    num_questions.append(sum(questions))        
+    num_questions.append(sum(questions))
 
 # x4 - Number of mails containing a question mark in the subject field
     num_subject_qs.append(sum(subject_questions))        
-
+    
 # x5 - Number of mails with variation of 'thanks' in body field
     num_thanks.append(sum(tot1))        
-
+        
 # x6 - Number of mails with 'fixed' in the body or subject field
     num_fixed.append(sum(tot2))        
 
 # x7 - Number of mails with 'commit' or 'committed' in the body or subject fields
-    num_commit.append(sum(tot3))        
+    num_commit.append(sum(tot3))
 
 # x8 - Number of mails with 'resolved' in the body field
-    num_resolved.append(sum(body_resolved))        
- 
- # x9 - Number of mails with 'commented' in the body field
-    num_commented.append(sum(body_commented))        
-    
+    num_resolved.append(sum(body_resolved))
+
+# x9 - Number of mails with 'commented' in the body field
+    num_commented.append(sum(body_commented))
+
 # x10 - Number of mails with 'reopened'/'re-opened'/'reopening'/'re-opening' in the body field 
-    num_reopen.append(sum(tot4))        
-          
+    num_reopen.append(sum(tot4))         
+
 x1 = average_length_l
-x2 = isbot
+x2 = isbot 
 x3 = num_questions
-x4 = num_subject_qs
+x4 = num_subject_qs    
 x5 = num_thanks
 x6 = num_fixed
 x7 = num_commit
 x8 = num_resolved
-x9 = num_commented
+x9 = num_commented         
 x10 = num_reopen
-                                                                                                                                                                                                                  
+
 #########################################################################################################################################################  
 
 # Dataframe of dependent and independent variables 
@@ -2492,4 +2510,3 @@ elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_ful
         - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
         - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
         - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}""".format(MSE=MSE_abr_full, contrib=contributor, mail_list=mailing_list, r2=abr_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr))
-     

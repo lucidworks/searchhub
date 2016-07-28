@@ -231,12 +231,16 @@ class FusionBackend(Backend):
       print("User %s exists, doing nothing" % username)
     return True
 
-  def create_collection(self, collection_id, enable_signals=False, enable_search_logs=True, enable_dynamic_schema=True):
+  def create_collection(self, collection_id, enable_signals=False, enable_search_logs=True, enable_dynamic_schema=True, solr_params=None):
     resp = self.admin_session.get("apollo/collections/{0}".format(collection_id))
     if resp.status_code == 404:
       # Create
       print("Creating Collection {0}... ".format(collection_id))
-      resp = self.admin_session.post("apollo/collections", data=json.dumps({'id': collection_id}),
+      config_data = {'id': collection_id}
+      if solr_params:
+        config_data["solrParams"] = solr_params
+      print(config_data)
+      resp = self.admin_session.post("apollo/collections", data=json.dumps(config_data),
                                      headers={'Content-Type': "application/json"})
       if resp.status_code == 200:
         print("ok")

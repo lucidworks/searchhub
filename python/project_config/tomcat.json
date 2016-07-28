@@ -1,7 +1,7 @@
 {
-  "name": "uima",
-  "description": "The Apache UIMA project, tweets, wiki, github, et. al",
-  "label": "Apache UIMA",
+  "name": "tomcat",
+    "description": "The Apache Tomcat project, tweets, wiki, github, et. al",
+  "label": "Apache Tomcat",
   "query_pipeline": "lucidfind-default",
   "github_pipeline": "github-default",
   "jira_pipeline": "jira-default",
@@ -11,9 +11,9 @@
   "wiki_pipeline": "wiki-default",
   "websites": [
     {
-      "name": "uima-website",
-      "label": "Apache UIMA Website",
-      "url": "http://uima.apache.org/",
+      "name": "tomcat-website",
+      "label": "Apache Tomcat Website",
+      "url": "http://tomcat.apache.org/",
       "schedule": {
         "repeatUnit": "WEEK",
         "interval": 1
@@ -22,18 +22,18 @@
   ],
   "mailing_lists": [
     {
-      "name": "uima-user",
-      "label": "UIMA User",
-      "mbox": "uima-user",
+      "name": "tomcat-users",
+      "label": "Tomcat Users",
+      "mbox": "tomcat-users",
       "schedule": {
         "repeatUnit": "HOUR",
         "interval": 2
       }
     },
     {
-      "name": "uima-dev",
-      "label": "UIMA Dev",
-      "mbox": "uima-dev",
+      "name": "tomcat-dev",
+      "label": "Tomcat Dev",
+      "mbox": "tomcat-dev",
       "schedule": {
         "repeatUnit": "HOUR",
         "interval": 2
@@ -41,11 +41,11 @@
     }
   ],
   "jira": {
-    "name": "apache-jira-uima",
-    "label": "Apache UIMA JIRA Issues",
-    "url": "https://issues.apache.org/jira/browse/UIMA",
-      "schedule": {
-        "repeatUnit": "DAY",
+    "name": "apache-jira-tomcat",
+    "label": "Apache Tomcat JIRA Issues",
+    "url": "https://issues.apache.org/jira/browse/TOMCAT",
+    "schedule": {
+        "repeatUnit": "HOUR",
         "interval": 2
       }
   }

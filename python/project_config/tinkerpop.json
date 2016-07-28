@@ -1,0 +1,43 @@
+{
+  "name": "tinkerpop",
+    "description": "The Apache Tinkerpop project, tweets, wiki, github, et. al",
+  "label": "Apache Tinkerpop",
+  "query_pipeline": "lucidfind-default",
+  "github_pipeline": "github-default",
+  "jira_pipeline": "jira-default",
+  "mailing_list_pipeline": "mailing-list-default",
+  "twitter_pipeline": "twitter-default",
+  "website_pipeline": "website-default",
+  "wiki_pipeline": "wiki-default",
+  "websites": [
+    {
+      "name": "tinkerpop-website",
+      "label": "Apache Tinkerpop Website",
+      "url": "http://tinkerpop.apache.org/",
+      "schedule": {
+        "repeatUnit": "WEEK",
+        "interval": 1
+      }
+    }
+  ],
+  "mailing_lists": [
+    {
+      "name": "tinkerpop-dev",
+      "label": "Tinkerpop Dev",
+      "mbox": "tinkerpop-dev",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 2
+      }
+    }
+  ],
+  "jira": {
+    "name": "apache-jira-tinkerpop",
+    "label": "Apache Tinkerpop JIRA Issues",
+    "url": "https://issues.apache.org/jira/browse/TINKERPOP",
+    "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 2
+      }
+  }
+}

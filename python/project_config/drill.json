@@ -1,7 +1,7 @@
 {
-  "name": "uima",
-  "description": "The Apache UIMA project, tweets, wiki, github, et. al",
-  "label": "Apache UIMA",
+  "name": "drill",
+    "description": "The Apache Drill project, tweets, wiki, github, et. al",
+  "label": "Apache Drill",
   "query_pipeline": "lucidfind-default",
   "github_pipeline": "github-default",
   "jira_pipeline": "jira-default",
@@ -11,9 +11,9 @@
   "wiki_pipeline": "wiki-default",
   "websites": [
     {
-      "name": "uima-website",
-      "label": "Apache UIMA Website",
-      "url": "http://uima.apache.org/",
+      "name": "drill-website",
+      "label": "Apache Drill Website",
+      "url": "http://drill.apache.org/",
       "schedule": {
         "repeatUnit": "WEEK",
         "interval": 1
@@ -22,30 +22,30 @@
   ],
   "mailing_lists": [
     {
-      "name": "uima-user",
-      "label": "UIMA User",
-      "mbox": "uima-user",
+      "name": "drill-user",
+      "label": "Drill User",
+      "mbox": "drill-user",
       "schedule": {
         "repeatUnit": "HOUR",
         "interval": 2
       }
     },
     {
-      "name": "uima-dev",
-      "label": "UIMA Dev",
-      "mbox": "uima-dev",
+      "name": "drill-dev",
+      "label": "Drill Dev",
+      "mbox": "drill-dev",
       "schedule": {
         "repeatUnit": "HOUR",
-        "interval": 2
+        "interval": 1
       }
     }
   ],
   "jira": {
-    "name": "apache-jira-uima",
-    "label": "Apache UIMA JIRA Issues",
-    "url": "https://issues.apache.org/jira/browse/UIMA",
-      "schedule": {
-        "repeatUnit": "DAY",
+    "name": "apache-jira-drill",
+    "label": "Apache Drill JIRA Issues",
+    "url": "https://issues.apache.org/jira/browse/DRILL",
+    "schedule": {
+        "repeatUnit": "HOUR",
         "interval": 2
       }
   }

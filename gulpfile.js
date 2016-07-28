@@ -37,6 +37,7 @@ global.paths = {
     '!./node_modules/lucidworks-view/client/templates/home.html',
     '!./node_modules/lucidworks-view/client/assets/js/controllers/Home*',
     '!./node_modules/lucidworks-view/client/assets/scss/app.scss',
+    '!./node_modules/lucidworks-view/client/assets/img/iconic/logo.svg',
     '!./node_modules/lucidworks-view/client/assets/scss/_settings.scss'
 
   ],

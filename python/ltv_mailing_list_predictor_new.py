@@ -142,79 +142,113 @@ for i in range(len(active_contribs.keys())): #looping through the list of (7618)
         torf1 = '?' in body
         if torf1 == True: 
             questions.append(1)
+        else:
+            questions.append(0)
 
         subject = author_docs[j]['subject']
         torf2 = '?' in subject
         if torf2 == True: 
             subject_questions.append(1)
+        else:
+            subject_questions.append(0)
 
         torf3 = 'thanks' in body.lower()
         if torf3 == True: 
             var_1.append(1)
-            
+        else:
+            var_1.append(0)
+                        
         torf4 = 'thank' in body.lower()
         if torf4 == True: 
             var_2.append(1)
+        else:
+            var_2.append(0)
 
         torf5 = 'thx' in body.lower()
         if torf5 == True: 
             var_3.append(1)
-            
+        else:
+            var_3.append(0)
+                        
         tot1 = var_1 + var_2 + var_3                    
 
         body = author_docs[j]['body']
         torf6 = 'fixed' in body.lower()
         if torf6 == True: 
             body_fixed.append(1)
-        
+        else:
+            body_fixed.append(0)
+                    
         torf7 = 'fixed' in subject.lower()
         if torf7 == True: 
             subject_fixed.append(1)
-
+        else:
+            subject_fixed.append(0)
+            
         tot2 = subject_fixed + body_fixed           
  
         torf8 = 'commit' in body.lower()
         if torf8 == True: 
             body_commit.append(1)
-            
+        else:
+            body_commit.append(0)
+                        
         torf9 = 'committed' in body.lower()
         if torf9 == True: 
             body_committed.append(1)
-        
+        else:
+            body_committed.append(0)
+                    
         torf10 = 'commit' in subject.lower()
         if torf10 == True: 
             subject_commit.append(1)
-            
+        else:
+            subject_commit.append(0)
+                        
         torf11 = 'committed' in subject.lower()
         if torf11 == True: 
             subject_committed.append(1)
-
+        else:
+            subject_committed.append(0)
+            
         tot3 =  body_commit+body_committed+subject_commit+subject_committed 
 
         torf12 = 'resolved' in body.lower()
         if torf12 == True: 
             body_resolved.append(1)
-
+        else:
+            body_resolved.append(0)
+            
         torf13 = 'commented' in body.lower()
         if torf13 == True: 
             body_commented.append(1)
-
+        else:
+            body_commented.append(0)
+            
         torf14 = 'reopened' in body.lower()
         if torf14 == True: 
             body_reopen1.append(1)
-            
+        else:
+            body_reopen1.append(0)
+                        
         torf15 = 're-opened' in body.lower()
         if torf15 == True: 
             body_reopen2.append(1)
-            
+        else:
+            body_reopen2.append(0)
+                        
         torf16 = 'reopening' in body.lower()
         if torf16 == True: 
             body_reopen3.append(1)
-        
+        else:
+            body_reopen1.append(0)
+                    
         torf17 = 're-opening' in subject.lower()
         if torf17 == True: 
             body_reopen4.append(1)
-
+        else:
+            body_reopen4.append(0)
+            
         tot4 = body_reopen1+body_reopen2+body_reopen3+body_reopen4                          
 
 # x1 - Average length of Mail    

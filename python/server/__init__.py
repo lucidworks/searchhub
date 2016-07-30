@@ -51,7 +51,7 @@ app.config.from_envvar("CONFIG_PY", silent=True)
 assets = Environment(app)
 js = Bundle('js/snowplow.js', 'js/foundation.js', 'js/templates.js',
             'js/templates-shub.js', 'js/routes.js', 'js/FUSION_CONFIG.js', 'js/app.js',
-            filters='rjsmin', output='gen/packed.js')
+            filters='closure_js', output='gen/packed.js')
 assets.register('js_all', js)
 #app.basic_auth = BasicAuth(app)
 Compress(app)

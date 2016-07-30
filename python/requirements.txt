@@ -1,6 +1,7 @@
 Flask
 Flask-Assets
 flask-compress
+closure
 requests
 dictdiffer
 loremipsum

@@ -13,7 +13,7 @@
     n.src = w;
     g.parentNode.insertBefore(n, g)
   }
-}(window, document, "script", "//d1fc8wv8zag5ca.cloudfront.net/2.5.3/sp.js", "searchhub_snowplow"));
+}(window, document, "script", "/assets/js/snowplow-local.js", "searchhub_snowplow"));
 
 searchhub_snowplow("newTracker", "searchHub", location.hostname + ":" + location.port + "/snowplow_post", {
   appId: "searchHub",

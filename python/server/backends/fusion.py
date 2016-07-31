@@ -305,7 +305,8 @@ class FusionBackend(Backend):
     if "twitter" in project and app.config.get('TWITTER_CONSUMER_KEY'):
       twitter_config = create_twitter_datasource_configs(project)
       # print twitter_config['id']
-      self.update_datasource(**twitter_config)
+      if twitter_config:
+        self.update_datasource(**twitter_config)
     # JIRA
     if includeJIRA:
       if "jira" in project:

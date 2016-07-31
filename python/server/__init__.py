@@ -49,7 +49,7 @@ print "Using config: " + config
 app.config.from_object(config)
 app.config.from_envvar("CONFIG_PY", silent=True)
 assets = Environment(app)
-js = Bundle('js/snowplow.js', 'js/foundation.js', 'js/templates.js',
+js = Bundle('js/snowplow.js', 'js/templates.js',
             'js/templates-shub.js', 'js/routes.js', 'js/FUSION_CONFIG.js', 'js/app.js',
             filters='jsmin', output='gen/packed.js')
 assets.register('js_all', js)

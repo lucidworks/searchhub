@@ -2,7 +2,7 @@
 import sys
 import argparse
 from flask import Flask
-from flask_compress import Compress
+from flask_compress2 import Compress2
 from flask_assets import Environment, Bundle
 
 #from flask.ext.basicauth import BasicAuth
@@ -63,4 +63,4 @@ backend = get_backend()
 from server.views import *
 
 import proxy
-Compress(app)
+Compress2(app)

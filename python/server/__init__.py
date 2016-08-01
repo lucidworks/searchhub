@@ -54,7 +54,7 @@ js = Bundle('js/snowplow.js', 'js/templates.js',
             filters='jsmin', output='gen/packed.js')
 assets.register('js_all', js)
 #app.basic_auth = BasicAuth(app)
-Compress(app)
+
 # Import and initialize the backend
 from server.backends import get_backend
 backend = get_backend()
@@ -63,4 +63,4 @@ backend = get_backend()
 from server.views import *
 
 import proxy
-
+Compress(app)

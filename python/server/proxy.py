@@ -68,7 +68,7 @@ def proxy_request(other):
     else:
         r = requests.get("{0}://{1}:{2}{3}".format(protocol, hostname, port, path), headers=request_headers)
     the_content_type = r.headers['content-type']
-    print "CT: " + the_content_type
+    #print "CT: " + the_content_type
     flask_response = Response(response=r.iter_content(8192), content_type=the_content_type,
                               status=r.status_code)
     return flask_response

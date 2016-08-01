@@ -2,7 +2,7 @@
 import sys
 import argparse
 from flask import Flask
-from flask.ext.compress import Compress
+from flask_compress import Compress
 from flask_assets import Environment, Bundle
 
 #from flask.ext.basicauth import BasicAuth

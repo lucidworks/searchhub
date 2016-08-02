@@ -1,6 +1,4 @@
 Flask
-Flask-Assets
-flask-compress
 jsmin
 requests
 dictdiffer

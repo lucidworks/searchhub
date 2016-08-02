@@ -2,10 +2,6 @@
 import sys
 import argparse
 from flask import Flask
-from flask_compress import Compress
-from flask_assets import Environment, Bundle
-
-#from flask.ext.basicauth import BasicAuth
 
 
 parser = argparse.ArgumentParser(description='Setup Search Hub')
@@ -48,11 +44,7 @@ app = Flask(__name__, static_folder="assets", template_folder="flask_templates")
 print "Using config: " + config
 app.config.from_object(config)
 app.config.from_envvar("CONFIG_PY", silent=True)
-assets = Environment(app)
-js = Bundle('js/snowplow.js', 'js/templates.js',
-            'js/templates-shub.js', 'js/routes.js', 'js/FUSION_CONFIG.js', 'js/app.js',
-            filters='jsmin', output='gen/packed.js')
-assets.register('js_all', js)
+
 #app.basic_auth = BasicAuth(app)
 
 # Import and initialize the backend
@@ -63,4 +55,3 @@ backend = get_backend()
 from server.views import *
 
 import proxy
-Compress(app)

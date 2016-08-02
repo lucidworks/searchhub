@@ -2,6 +2,7 @@
 import sys
 import argparse
 from flask import Flask
+from flask_compress import Compress
 
 
 parser = argparse.ArgumentParser(description='Setup Search Hub')
@@ -55,3 +56,4 @@ backend = get_backend()
 from server.views import *
 
 import proxy
+Compress(app)

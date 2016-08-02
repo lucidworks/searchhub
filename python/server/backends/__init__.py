@@ -103,6 +103,11 @@ class Backend(object):
   def add_search_component(self, collection_name, add_search_component_json):
     raise NotImplementedError()
 
+  def set_property(self, collection_name, data):
+    raise NotImplementedError()
+
+  def unset_property(self, collection_name, data):
+    raise NotImplementedError()
 
   def stop_datasource(self, id, abort=False):
     raise NotImplementedError()

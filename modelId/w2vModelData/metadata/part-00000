@@ -1,1 +1,1 @@
-{"class":"org.apache.spark.mllib.feature.Word2VecModel","version":"1.0","vectorSize":100,"numWords":15334}
+{"class":"org.apache.spark.mllib.feature.Word2VecModel","version":"1.0","vectorSize":100,"numWords":25057}

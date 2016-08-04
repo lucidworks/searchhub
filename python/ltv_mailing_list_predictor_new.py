@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+
+# Filtered on isBot = True
+# i.e JIRA accounts only
+
 from __future__ import division
 import pysolr
 import requests
@@ -11,6 +15,10 @@ import sys
 import matplotlib.pyplot as plt
 reload(sys)
 sys.setdefaultencoding('utf8')
+from sklearn.linear_model import Ridge, RidgeCV, Lasso, LassoCV, ElasticNet, ElasticNetCV 
+from sklearn.svm import SVR
+from sklearn.ensemble import RandomForestRegressor, BaggingRegressor, GradientBoostingRegressor, AdaBoostRegressor
+from sklearn.metrics import mean_squared_error
 
 # Specify Solr shard - We want to take our data from the lucidfind collection - lucidfind_shard1_replica1
 solr = pysolr.Solr('http://localhost:8983/solr/lucidfind_shard1_replica1/',timeout=10)
@@ -63,7 +71,7 @@ params = {
   'facet.limit':  -1
 }
 
-results = solr.search('_lw_data_source_s:{ml}'.format(ml=mailing_list),**params)
+results = solr.search('_lw_data_source_s:{ml} AND isBot:true'.format(ml=mailing_list),**params)
 
 D = results.facets['facet_fields']['author_facet']
 
@@ -83,7 +91,7 @@ y = active_contribs.values()
 #########################################################################################################################################################
 
 average_length_l = [] 
-isbot = [] 
+#isbot = [] 
 num_questions = [] 
 num_subject_qs = [] 
 num_thanks = [] 
@@ -252,76 +260,41 @@ for i in range(len(active_contribs.keys())): #looping through the list of (7618)
         tot4 = body_reopen1+body_reopen2+body_reopen3+body_reopen4                          
 
 # x1 - Average length of Mail    
-    av_length = sum(a) / len(solr_results.docs)    
-    average_length_l.append(av_length)
+    average_length_l.append(sum(a)/len(solr_results.docs))
 
-# x2 - IsBot
-    if author_docs[0]['isBot'] == True:
-        isbot.append(1)
-    elif author_docs[0]['isBot'] == False:
-        isbot.append(0)
-    
-# x3 - Number of mails containing a question mark in the body field
-    num_questions.append(sum(questions))
+# x2 - Number of mails containing a question mark in the body field
+    num_questions.append(sum(questions)/len(solr_results.docs))
 
-# x4 - Number of mails containing a question mark in the subject field
-    num_subject_qs.append(sum(subject_questions))        
+# x3 - Number of mails containing a question mark in the subject field
+    num_subject_qs.append(sum(subject_questions)/len(solr_results.docs))        
     
-# x5 - Number of mails with variation of 'thanks' in body field
-    num_thanks.append(sum(tot1))        
+# x4 - Number of mails with variation of 'thanks' in body field
+    num_thanks.append(sum(tot1)/len(solr_results.docs))        
         
-# x6 - Number of mails with 'fixed' in the body or subject field
-    num_fixed.append(sum(tot2))        
+# x5 - Number of mails with 'fixed' in the body or subject field
+    num_fixed.append(sum(tot2)/len(solr_results.docs))        
 
-# x7 - Number of mails with 'commit' or 'committed' in the body or subject fields
-    num_commit.append(sum(tot3))
+# x6 - Number of mails with 'commit' or 'committed' in the body or subject fields
+    num_commit.append(sum(tot3)/len(solr_results.docs))
 
-# x8 - Number of mails with 'resolved' in the body field
-    num_resolved.append(sum(body_resolved))
+# x7 - Number of mails with 'resolved' in the body field
+    num_resolved.append(sum(body_resolved)/len(solr_results.docs))
 
-# x9 - Number of mails with 'commented' in the body field
-    num_commented.append(sum(body_commented))
+# x8 - Number of mails with 'commented' in the body field
+    num_commented.append(sum(body_commented)/len(solr_results.docs))
 
-# x10 - Number of mails with 'reopened'/'re-opened'/'reopening'/'re-opening' in the body field 
-    num_reopen.append(sum(tot4))         
+# x9 - Number of mails with 'reopened'/'re-opened'/'reopening'/'re-opening' in the body field 
+    num_reopen.append(sum(tot4)/len(solr_results.docs))         
 
 x1 = average_length_l
-x2 = isbot 
-x3 = num_questions
-x4 = num_subject_qs    
-x5 = num_thanks
-x6 = num_fixed
-x7 = num_commit
-x8 = num_resolved
-x9 = num_commented         
-x10 = num_reopen
-
-#########################################################################################################################################################  
-
-# Dataframe of dependent and independent variables 
-
-# Dataframe containing all variables
-#d = {'y' : pd.Series(y,index = active_contribs.keys()),
-#'x1':pd.Series(x1,index = active_contribs.keys()),
-#'x2':pd.Series(x2,index = active_contribs.keys()),
-#'x3':pd.Series(x3,index = active_contribs.keys()),
-#'x4':pd.Series(x4,index = active_contribs.keys()),
-#'x5':pd.Series(x5,index = active_contribs.keys()),
-#'x6':pd.Series(x6,index = active_contribs.keys()),
-#'x7':pd.Series(x7,index = active_contribs.keys()),
-#'x8':pd.Series(x8,index = active_contribs.keys()),
-#'x9':pd.Series(x9,index = active_contribs.keys()),
-#'x10':pd.Series(x10,index = active_contribs.keys())}
-#df = pd.DataFrame(d)
-
-#df.corr()
-# Variables x1 and x2 displaying v little correlation with y
-# Examine models without including them in it
-
-# High degree of multicollinearity present - becomes particularly problematic when we come to look at regression methods
-# Unable to satisfactorily separate out the individual effects that highly correlated variables have on the dependent variable. 
-# Two highly correlated variables will generally increase or decrease together 
-# resultantly difficult to correctly deduce how each of these variables individually affect the response variable.
+x2 = num_questions
+x3 = num_subject_qs    
+x4 = num_thanks
+x5 = num_fixed
+x6 = num_commit
+x7 = num_resolved
+x8 = num_commented         
+x9 = num_reopen
 
 #########################################################################################################################################################                                                     
 
@@ -333,8 +306,7 @@ X_full = {'x1':pd.Series(x1,index = active_contribs.keys()),
 'x6':pd.Series(x6,index = active_contribs.keys()),
 'x7':pd.Series(x7,index = active_contribs.keys()),
 'x8':pd.Series(x8,index = active_contribs.keys()),
-'x9':pd.Series(x9,index = active_contribs.keys()),
-'x10':pd.Series(x10,index = active_contribs.keys())}
+'x9':pd.Series(x9,index = active_contribs.keys())}
 X_full = pd.DataFrame(X_full)
 
 # divide the data set up into a training and test set 
@@ -346,28 +318,32 @@ npr.seed(123)
 train_select = npr.permutation(range(len(active_contribs.keys())))
 
 # Training and test set - all variables
-
 X_full_train = X_full.ix[train_select[:int(round(len(active_contribs.keys())*0.75))],:].reset_index(drop=True)
 X_full_test = X_full.ix[train_select[int(round(len(active_contribs.keys())*0.75)):],:].reset_index(drop=True)
 
-#########################################################################################################################################################
-
-# Training and test set - variables x3,x4,x5,x6,x8,x9
-
-X = {'x3':pd.Series(x3,index = active_contribs.keys()),
-'x4':pd.Series(x4,index = active_contribs.keys()),
-'x5':pd.Series(x5,index = active_contribs.keys()),
-'x6':pd.Series(x6,index = active_contribs.keys()),
-'x8':pd.Series(x8,index = active_contribs.keys()),
-'x9':pd.Series(x9,index = active_contribs.keys())}
-X = pd.DataFrame(X)
-
+# Training and test set - target variable
 y = pd.DataFrame({'y':pd.Series(active_contribs.values(),index = active_contribs.keys())})
-
-X_train = X.ix[train_select[:int(round(len(active_contribs.keys())*0.75))],:].reset_index(drop=True)
-X_test = X.ix[train_select[int(round(len(active_contribs.keys())*0.75)):],:].reset_index(drop=True)
 y_train = y.ix[train_select[:int(round(len(active_contribs.keys())*0.75))]].reset_index().y
 y_test = y.ix[train_select[int(round(len(active_contribs.keys())*0.75)):]].reset_index().y      
+
+#########################################################################################################################################################
+
+# L1-based feature selection
+
+from sklearn.feature_selection import SelectFromModel
+
+X_full_train.shape
+lasso_cv = LassoCV(cv=10,normalize=True).fit(X_full_train,y_train)
+model = SelectFromModel(lasso_cv, prefit=True)
+
+# Create dataframe of only those variables non-zero variables selected by Lasso
+X = model.transform(X_full)
+X = pd.DataFrame(X,index = active_contribs.keys())
+
+# Training and test set - subset as chosen by Lasso regularization
+X_train = model.transform(X_full_train)
+X_test = model.transform(X_full_test)
+
 
 #########################################################################################################################################################
 
@@ -378,9 +354,10 @@ y_test = y.ix[train_select[int(round(len(active_contribs.keys())*0.75)):]].reset
 # Building the most accurate statistical model
 # We shall use Mean Squared Error to make a judgement of the most accurate model - looking for model with lowest MSE
 
-#########################################################################################################################################################
+# Try full models and subset models as chosen by L1 
 
-# Ridge Regression
+#########################################################################################################################################################
+# Ridge Regression 
 
 # tackles the problem of unstable regression coefficients when predictors are highly correlated
 
@@ -388,276 +365,108 @@ y_test = y.ix[train_select[int(round(len(active_contribs.keys())*0.75)):]].reset
 # well when all of the true coefficients are moderately large; however, in this case it can still outperform linear regression over a pretty
 # narrow range of (small) λ values
 
-from sklearn import linear_model
-from sklearn.linear_model import Ridge
-
-# Ridge Regression with intercept
-ridge_int = Ridge(fit_intercept=True)
-ridge_int.fit(X_train, y_train) 
-#Predict
-ridge_int_test_pred = ridge_int.predict(X_test)
-from sklearn.metrics import mean_squared_error
-# Compute mean squared error
-MSE_ridge_int = mean_squared_error(y_test,ridge_int_test_pred)
-# Compute r^2 - coefficient of determination
-ridge_int_r2 = ridge_int.score(X_test, y_test)
-
-# Ridge Regression with intercept / all variables
-ridge_int_full = Ridge(fit_intercept=True)
-ridge_int_full.fit(X_full_train, y_train) 
-ridge_int_full_test_pred = ridge_int_full.predict(X_full_test)
-from sklearn.metrics import mean_squared_error
-MSE_ridge_int_full = mean_squared_error(y_test,ridge_int_full_test_pred)
-ridge_int_full_r2 = ridge_int_full.score(X_full_test, y_test)
-
-# Ridge Regression with no intercept
-ridge_noint = Ridge(fit_intercept=False, normalize=True)
-ridge_noint.fit(X_train, y_train) 
-ridge_noint_test_pred = ridge_noint.predict(X_test)
-MSE_ridge_noint = mean_squared_error(y_test,ridge_noint_test_pred)
-ridge_noint_r2 = ridge_noint.score(X_test, y_test)
-
-# Ridge Regression with no intercept
-ridge_noint_full = Ridge(fit_intercept=False)
-ridge_noint_full.fit(X_full_train, y_train)
-ridge_noint_full_test_pred = ridge_noint_full.predict(X_full_test)
-MSE_ridge_noint_full = mean_squared_error(y_test,ridge_noint_full_test_pred)
-ridge_noint_full_r2 = ridge_noint_full.score(X_full_test, y_test)
-
-# RidgeCV implements ridge regression with built-in cross-validation of the alpha parameter. 
-# The object works in the same way as GridSearchCV except that it defaults to Generalized Cross-Validation (GCV), an efficient form of leave-one-out cross-validation.
-# We utilise 10-fold Cross-validation
-
-from sklearn.linear_model import RidgeCV
-
-# Ridge Regression with intercept - using 10-fold cross-validation to get optimal alpha parameter
-ridgecv_int = linear_model.RidgeCV(cv=10,normalize=True,fit_intercept=True)
-ridgecv_int.fit(X_train, y_train)
-ridgecv_int_test_pred = ridgecv_int.predict(X_test)
-MSE_ridgecv_int = mean_squared_error(y_test,ridgecv_int_test_pred)
-ridgecv_int_r2 = ridgecv_int.score(X_test, y_test)
-
-# Ridge Regression with intercept / all variables - using 10-fold cross-validation to get optimal alpha parameter
-ridgecv_int_full = linear_model.RidgeCV(cv=10,normalize=True,fit_intercept=True)
-ridgecv_int_full.fit(X_full_train, y_train)
-ridgecv_int_full_test_pred = ridgecv_int_full.predict(X_full_test)
-MSE_ridgecv_int_full = mean_squared_error(y_test,ridgecv_int_full_test_pred)
-ridgecv_int_full_r2 = ridgecv_int_full.score(X_full_test, y_test)
-
-# Ridge Regression without intercept - using 10-fold cross-validation to get optimal alpha parameter
-ridgecv_noint = linear_model.RidgeCV(cv=10,normalize=True,fit_intercept=False)
-ridgecv_noint.fit(X_train, y_train)
+# Ridge Regression without intercept - using 10-fold cross-validation to get optimal alpha parameter (L1 selected subset)
+ridgecv_noint = RidgeCV(cv=10,normalize=True,fit_intercept=False).fit(X_train, y_train)
 ridgecv_noint_test_pred = ridgecv_noint.predict(X_test)
 MSE_ridgecv_noint = mean_squared_error(y_test,ridgecv_noint_test_pred)
 ridgecv_noint_r2 = ridgecv_noint.score(X_test, y_test)
 
-# Ridge Regression without intercept - using 10-fold cross-validation to get optimal alpha parameter
-ridgecv_noint_full = linear_model.RidgeCV(cv=10,normalize=True,fit_intercept=False)
-ridgecv_noint_full.fit(X_full_train, y_train)
+# Ridge Regression without intercept - using 10-fold cross-validation to get optimal alpha parameter (all variables)
+ridgecv_noint_full = RidgeCV(cv=10,normalize=True,fit_intercept=False).fit(X_full_train, y_train)
 ridgecv_noint_full_test_pred = ridgecv_noint_full.predict(X_full_test)
 MSE_ridgecv_noint_full = mean_squared_error(y_test,ridgecv_noint_full_test_pred)
 ridgecv_noint_full_r2 = ridgecv_noint_full.score(X_full_test, y_test)
 
 ######################################################################################################################
-
-# Lasso
-
-# Lasso - with intercept
-from sklearn.linear_model import Lasso
-lasso = linear_model.Lasso(fit_intercept=True)
-lasso.fit(X_train, y_train)
-# Predict
-lasso_test_pred = lasso.predict(X_test)
-# Compute mean squared error
-MSE_lasso = mean_squared_error(y_test,lasso.predict(X_test))
-# Compute r^2 - coefficient of determination
-lasso_r2 = lasso.score(X_test, y_test)
-
-# Lasso - with intercept / all variables
-lasso_full = linear_model.Lasso(fit_intercept=True)
-lasso_full.fit(X_full_train, y_train)
-lasso_full_test_pred = lasso_full.predict(X_full_test)
-MSE_lasso_full = mean_squared_error(y_test,lasso_full_test_pred)
-lasso_full_r2 = lasso_full.score(X_full_test, y_test)
-
-# Lasso - without intercept
-lasso_noint = linear_model.Lasso(fit_intercept=False)
-lasso_noint.fit(X_train, y_train)
-lasso_noint_test_pred = lasso_noint.predict(X_test)
-MSE_lasso_noint = mean_squared_error(y_test,lasso_noint.predict(X_test))
-lasso_noint_r2 = lasso_noint.score(X_test, y_test)
-
-# Lasso - without intercept / all variables
-lasso_noint_full = linear_model.Lasso(fit_intercept=False)
-lasso_noint_full.fit(X_full_train, y_train)
-lasso_noint_full_test_pred = lasso_noint_full.predict(X_full_test)
-MSE_lasso_noint_full = mean_squared_error(y_test,lasso_noint_full_test_pred)
-lasso_noint_full_r2 = lasso_noint_full.score(X_full_test, y_test)
-
-# Using LassoCV function - with intercept
-from sklearn.linear_model import LassoCV
-lasso_cv = linear_model.LassoCV(cv=10,fit_intercept=True)
-lasso_cv.fit(X_train, y_train)
-lasso_cv_test_pred = lasso_cv.predict(X_test)
-MSE_lasso_cv = mean_squared_error(y_test,lasso_cv.predict(X_test))
-lasso_cv_r2 = lasso_cv.score(X_test, y_test)
-
-# LassoCV function - with intercept / all variables
-lasso_cv_full = linear_model.LassoCV(cv=10,fit_intercept=True)
-lasso_cv_full.fit(X_full_train, y_train)
-lasso_cv_full_test_pred = lasso_cv_full.predict(X_full_test)
-MSE_lasso_cv_full = mean_squared_error(y_test,lasso_cv_full_test_pred)
-lasso_cv_full_r2 = lasso_cv_full.score(X_full_test, y_test)
-
-# Using LassoCV function - without intercept
-lasso_cv_noint = linear_model.LassoCV(cv=10,fit_intercept=False)
-lasso_cv_noint.fit(X_train, y_train)
+# LassoCV (L1 selected subset)
+lasso_cv_noint = LassoCV(cv=10,fit_intercept=False,normalize=True).fit(X_train, y_train)
 lasso_cv_noint_test_pred = lasso_cv_noint.predict(X_test)
 MSE_lasso_cv_noint = mean_squared_error(y_test,lasso_cv_noint.predict(X_test))
 lasso_cv_noint_r2 = lasso_cv_noint.score(X_test, y_test)
 
 # LassoCV function - with no intercept / all variables
-lasso_cv_noint_full = linear_model.LassoCV(cv=10,fit_intercept=False)
-lasso_cv_noint_full.fit(X_full_train, y_train)
+lasso_cv_noint_full = LassoCV(cv=20,fit_intercept=False,normalize=True).fit(X_full_train, y_train)
 lasso_cv_noint_full_test_pred = lasso_cv_noint_full.predict(X_full_test)
 MSE_lasso_cv_noint_full = mean_squared_error(y_test,lasso_cv_noint_full_test_pred)
 lasso_cv_noint_full_r2 = lasso_cv_noint_full.score(X_full_test, y_test)
 
 ########################################################################################################################
-
-# Elastic Net
-
-from sklearn.linear_model import ElasticNet
-
-enet = ElasticNet()
-enet.fit(X_train, y_train) 
-# Predict
-enet_pred = enet.predict(X_test)
-# Compute mean squared error
-MSE_enet = mean_squared_error(y_test,enet.predict(X_test)) 
-# Compute r^2 - coefficient of determination
-enet_r2 = enet.score(X_test, y_test)  
-
-enet_full = ElasticNet(alpha=1)
-enet_full.fit(X_full_train, y_train) 
-enet_full_test_pred = enet_full.predict(X_full_test)
-MSE_enet_full = mean_squared_error(y_test,enet_full_test_pred)
-enet_full_r2 = enet_full.score(X_full_test, y_test) 
-
-from sklearn.linear_model import ElasticNetCV
-
-enet_cv = ElasticNetCV()
-enet_cv.fit(X_train, y_train) 
+# Elastic Net (L1 selected subset)
+enet_cv = ElasticNetCV(fit_intercept=False,normalize=True).fit(X_train, y_train) 
 enet_cv_pred = enet_cv.predict(X_test)
 MSE_enet_cv = mean_squared_error(y_test,enet_cv.predict(X_test)) 
 enet_cv_r2 = enet_cv.score(X_test, y_test)  
 
-enet_cv_full = ElasticNetCV()
-enet_cv_full.fit(X_full_train, y_train) 
+# Elastic Net (all variables)
+enet_cv_full = ElasticNetCV(fit_intercept=False,normalize=True).fit(X_full_train, y_train) 
 enet_cv_full_test_pred = enet_cv_full.predict(X_full_test)
 MSE_enet_cv_full = mean_squared_error(y_test,enet_cv_full_test_pred)
 enet_cv_full_r2 = enet_cv_full.score(X_full_test, y_test) 
 
 #######################################################################################################################
-
-# Support Vector Regression
-
-from sklearn import svm
-svr = svm.SVR()
-svr.fit(X_train, y_train) 
-# Predict
+# Support Vector Regression (L1 selected subset)
+svr = SVR().fit(X_train, y_train) 
 svr_test_pred = svr.predict(X_test)
-# Performance 
 MSE_svr = mean_squared_error(y_test,svr.predict(X_test))
-# Compute r^2 - coefficient of determination
 svr_r2 = svr.score(X_test, y_test) 
 
-# Using all variables
-svr_full = svm.SVR()
-svr_full.fit(X_full_train, y_train) 
+# Support Vector Regression (all variables)
+svr_full = SVR().fit(X_full_train, y_train) 
 svr_full_test_pred = svr_full.predict(X_full_test)
 MSE_svr_full = mean_squared_error(y_test,svr_full_test_pred)
 svr_full_r2 = svr_full.score(X_full_test, y_test) 
 
 #######################################################################################################################
-
-# Random Forest Regression
-
-from sklearn.ensemble import RandomForestRegressor
-rf = RandomForestRegressor()
-rf.fit(X_train, y_train) 
-# Predict
-rf_test_pred = rf.predict(X_test)
-# Performance 
+# Random Forest Regression (L1 selected subset)
+rf = RandomForestRegressor().fit(X_train, y_train) 
+rf_test_pred = rf.predict(X_test) 
 MSE_rf = mean_squared_error(y_test,rf.predict(X_test))
-# Compute r^2 - coefficient of determination
 rf_r2 = rf.score(X_test, y_test)  
 
-rf_full = RandomForestRegressor()
-rf_full.fit(X_full_train, y_train) 
+# Random Forest Regression (all variables)
+rf_full = RandomForestRegressor().fit(X_full_train, y_train) 
 rf_full_test_pred = rf_full.predict(X_full_test)
 MSE_rf_full = mean_squared_error(y_test,rf_full_test_pred)
 rf_full_r2 = rf_full.score(X_full_test, y_test)   
 
 ########################################################################################################################
-
-# Bagging
-
-from sklearn.ensemble import BaggingRegressor
-bagg = BaggingRegressor()
-bagg.fit(X_train, y_train) 
-# Predict
+# Bagging (L1 selected subset)
+bagg = BaggingRegressor().fit(X_train, y_train) 
 bagg_test_pred = bagg.predict(X_test)
-# Performance 
 MSE_bagg = mean_squared_error(y_test,bagg.predict(X_test))
-# Compute r^2 - coefficient of determination
 bagg_r2 = bagg.score(X_test, y_test)   
 
-bagg_full = BaggingRegressor()
-bagg_full.fit(X_full_train, y_train) 
+# Bagging (all variables)
+bagg_full = BaggingRegressor().fit(X_full_train, y_train) 
 bagg_full_test_pred = bagg_full.predict(X_full_test)
 MSE_bagg_full = mean_squared_error(y_test,bagg_full_test_pred)
 bagg_full_r2 = bagg_full.score(X_full_test, y_test)  
 
 ########################################################################################################################
-
-# Gradient Boosting Regressor
-
-from sklearn.ensemble import GradientBoostingRegressor
-gbr = GradientBoostingRegressor()
-gbr.fit(X_train, y_train) 
-# Predict
+# Gradient Boosting Regressor (L1 selected subset)
+gbr = GradientBoostingRegressor().fit(X_train, y_train) 
 gbr_test_pred = gbr.predict(X_test)
-# Performance
 MSE_gbr = mean_squared_error(y_test,gbr_test_pred)
-# Compute r^2 - coefficient of determination
 gbr_r2 = gbr.score(X_test, y_test)  
 
-gbr_full = GradientBoostingRegressor()
-gbr_full.fit(X_full_train, y_train) 
+# Gradient Boosting Regressor (all variables)
+gbr_full = GradientBoostingRegressor().fit(X_full_train, y_train) 
 gbr_full_test_pred = gbr_full.predict(X_full_test)
 MSE_gbr_full = mean_squared_error(y_test,gbr_full_test_pred)
 gbr_full_r2 = gbr_full.score(X_full_test, y_test)  
 
 ########################################################################################################################
-
-# AdaBoost Regressor
-
-from sklearn.ensemble import AdaBoostRegressor
-abr = AdaBoostRegressor()
-abr.fit(X_train, y_train) 
+# AdaBoost Regressor (L1 selected subset)
+abr = AdaBoostRegressor().fit(X_train, y_train) 
 abr_test_pred = abr.predict(X_test)
-# Performance 
 MSE_abr = mean_squared_error(y_test,abr_test_pred)
-# Compute r^2 - coefficient of determination
 abr_r2 = abr.score(X_test, y_test)  
 
-abr_full = AdaBoostRegressor()
-abr_full.fit(X_full_train, y_train) 
+# AdaBoost Regressor (all variables)
+abr_full = AdaBoostRegressor().fit(X_full_train, y_train) 
 abr_full_test_pred = abr_full.predict(X_full_test)
 MSE_abr_full = mean_squared_error(y_test,abr_full_test_pred)
 abr_full_r2 = abr_full.score(X_full_test, y_test) 
- 
 ########################################################################################################################
 
 # MODEL PERFORMANCE
@@ -671,398 +480,21 @@ abr_full_r2 = abr_full.score(X_full_test, y_test)
 # Specify the contributor who you wish to predict for.
 
 # Actual number of mails sent by Contributor
-y_value = y.ix[contributor][0]   
-    
-# MSE_ridge_int
+y_value = y.ix[contributor][0]
 
-if min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_ridge_int:
-    y_prediction = ridge_int.predict((X.ix[contributor]).reshape(1,-1))
-    squared_error = pow((y_prediction-y_value),2)
+# Creating stribg of those variables selected by L1-regularization
+string = ""
+for i in range(X_train.shape[1]):
+    if lasso_cv.coef_[i] != 0:
+        string+=("""x{num}, """.format(num=i+1))   
 
-    print ("""The chosen model is a ridge regression model with an intercept; built with variables x3, x4, x5, x6, x8 and x9. 
-    
-    Where:
-    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the bocdy field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-          
-    The MSE for this model is {MSE}.
-    
-    The associated coefficient of determination (R^2) of the prediction is {r2}.
-    
-    The predicted number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_1} mails.
-    The actual number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_2} mails.
-    
-    The squared error for this prediction is {se}.
-    
-    ===================================================================================================================================
-    
-    Other models taken into consideration, and their respective MSE values were:
-        
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
-        - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
-        - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
-        - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
-        - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
-        - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
-        - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
-        - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_ridge_int, contrib=contributor, mail_list=mailing_list, r2=ridge_int_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))
-
-# MSE_ridge_int_full
-
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_ridge_int_full:
-    y_prediction = ridge_int_full.predict((X_full.ix[contributor]).reshape(1,-1))
-    squared_error = pow((y_prediction-y_value),2)
-
-    print ("""The chosen model is a ridge regression model with an intercept; built with all 10 variables. 
-    
-    Where:
-    
-    x1: Average length of mail sent by contributor
-    x2: IsBot - Indicator variable on whether the author is a Bot or not    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x7: Number of mails containing a variation of 'commit'/'committer'/'comitted' in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-    x10: number of mails with 'reopened' in the body field          
-    The MSE for this model is {MSE}.
-    
-    The associated coefficient of determination (R^2) of the prediction is {r2}.
-    
-    The predicted number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_1} mails.
-    The actual number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_2} mails.
-    
-    The squared error for this prediction is {se}.
-    
-    ===================================================================================================================================
-    
-    Other models taken into consideration, and their respective MSE values were:
-        
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
-        - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
-        - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
-        - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
-        - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
-        - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
-        - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
-        - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_ridge_int_full, contrib=contributor, mail_list=mailing_list, r2=ridge_int_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridge_int1=MSE_ridge_int,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
-
-# MSE_ridge_noint
-
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_ridge_noint:
-    y_prediction = ridge_noint.predict((X.ix[contributor]).reshape(1,-1))
-    squared_error = pow((y_prediction-y_value),2)
-
-    print ("""The chosen model is a ridge regression model without an intercept; built with variables x3, x4, x5, x6, x8 and x9. 
-    
-    Where:
-    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the bocdy field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-          
-    The MSE for this model is {MSE}.
-    
-    The associated coefficient of determination (R^2) of the prediction is {r2}.
-    
-    The predicted number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_1} mails.
-    The actual number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_2} mails.
-    
-    The squared error for this prediction is {se}.
-    
-    ===================================================================================================================================
-    
-    Other models taken into consideration, and their respective MSE values were:
-        
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
-        - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
-        - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
-        - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
-        - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
-        - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
-        - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
-        - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_ridge_noint, contrib=contributor, mail_list=mailing_list, r2=ridge_noint_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
-
-
-#MSE_ridge_noint_full
-
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_ridge_noint_full:
-    y_prediction = ridge_noint_full.predict((X_full.ix[contributor]).reshape(1,-1))
-    squared_error = pow((y_prediction-y_value),2)
-
-    print ("""The chosen model is a ridge regression model without an intercept; built with all 10 variables. 
-    
-    Where:
-    
-    x1: Average length of mail sent by contributor
-    x2: IsBot - Indicator variable on whether the author is a Bot or not    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x7: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-    x10: number of mails with 'reopened' in the body field
-          
-    The MSE for this model is {MSE}.
-    
-    The associated coefficient of determination (R^2) of the prediction is {r2}.
-    
-    The predicted number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_1} mails.
-    The actual number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_2} mails.
-    
-    The squared error for this prediction is {se}.
-    
-    ===================================================================================================================================
-    
-    Other models taken into consideration, and their respective MSE values were:
-        
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
-        - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
-        - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
-        - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
-        - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
-        - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
-        - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
-        - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_ridge_noint_full, contrib=contributor, mail_list=mailing_list, r2=ridge_noint_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
-
-# MSE_ridgecv_int
-
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_ridgecv_int:
-    y_prediction = ridgecv_int.predict((X.ix[contributor]).reshape(1,-1))
-    squared_error = pow((y_prediction-y_value),2)
-
-    print ("""The chosen model is a ridge regression model with an intercept, where the optimal alpha value has been selected by 10-fold cross-validation, built with variables x3, x4, x5, x6, x8 and x9.
-    
-    Where:
-        
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-
-    The MSE for this model is {MSE}.
-    
-    The associated coefficient of determination (R^2) of the prediction is {r2}.
-    
-    The predicted number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_1} mails.
-    The actual number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_2} mails.
-    
-    The squared error for this prediction is {se}.
-    
-    ===================================================================================================================================
-    
-    Other models taken into consideration, and their respective MSE values were:
-        
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
-        - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
-        - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
-        - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
-        - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
-        - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
-        - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
-        - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_ridgecv_int, contrib=contributor, mail_list=mailing_list, r2=ridgecv_int_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1], MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
-
-
-# MSE_ridgecv_int_full
-
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_ridgecv_int_full:
-    y_prediction = ridgecv_int_full.predict((X_full.ix[contributor]).reshape(1,-1))
-    squared_error = pow((y_prediction-y_value),2)
-
-    print ("""The chosen model is a ridge regression model with an intercept, where the optimal alpha value has been selected by 10-fold cross-validation, built with all the variables.
-    
-    Where:
-      
-    x1: Average length of mail sent by contributor
-    x2: IsBot - Indicator variable on whether the author is a Bot or not    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x7: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-    x10: number of mails with 'reopened' in the body field
-    
-    The MSE for this model is {MSE}.
-    
-    The associated coefficient of determination (R^2) of the prediction is {r2}.
-    
-    The predicted number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_1} mails.
-    The actual number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_2} mails.
-    
-    The squared error for this prediction is {se}.
-    
-    ===================================================================================================================================
-    
-    Other models taken into consideration, and their respective MSE values were:
-        
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
-        - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
-        - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
-        - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
-        - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
-        - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
-        - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
-        - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_ridgecv_int_full, contrib=contributor, mail_list=mailing_list, r2=ridgecv_int_full, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1], MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
-
-#MSE_ridgecv_noint
-
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_ridgecv_noint:
+                                                                                                                                                                                                                                                                                          
+# ridgecv_noint
+if min(MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_ridgecv_noint:
     y_prediction = ridgecv_noint.predict((X.ix[contributor]).reshape(1,-1))
     squared_error = pow((y_prediction-y_value),2)
 
-    print ("""The chosen model is a ridge regression model without an intercept, where the optimal alpha value has been selected by 10-fold cross-validation, built with variables x3, x4, x5, x6, x8 and x9.
-    
-    Where:
-      
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
+    print ("""The chosen model is a ridge regression model without an intercept, where the optimal alpha value has been selected by 10-fold cross-validation, built with variables {insert_string}.
     
     The MSE for this model is {MSE}.
     
@@ -1077,58 +509,42 @@ elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_ful
     
     Other models taken into consideration, and their respective MSE values were:
         
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
         - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
+        - Lasso model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
         - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
+        - Elastic net regression model (variables {insert_string}optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
         - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
+        - Support Vector Regression model (variables {insert_string}) : MSE = {MSE_svr1}
         - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
+        - Random forest model (variables {insert_string}) : MSE = {MSE_rf1}
         - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
+        - Bagging model (variables {insert_string}) : MSE = {MSE_bagg1}
         - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
+        - Gradient boosting regressor model (variables {insert_string}) : MSE = {MSE_gbr1} 
         - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_ridgecv_noint, contrib=contributor, mail_list=mailing_list, r2=ridgecv_noint_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1], MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
+        - AdaBoost regressor model (variables {insert_string}) : MSE = {MSE_abr1}
+        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(insert_string=string,MSE=MSE_ridgecv_noint, contrib=contributor, mail_list=mailing_list, r2=ridgecv_noint_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
     
     
-# MSE_ridgecv_noint_full
-
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_ridgecv_noint_full:
+# ridgecv_noint_full
+elif min(MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_ridgecv_noint_full:
     y_prediction = ridgecv_noint_full.predict((X_full.ix[contributor]).reshape(1,-1))
     squared_error = pow((y_prediction-y_value),2)
 
-    print ("""The chosen model is a ridge regression model without an intercept, where the optimal alpha value has been selected by 10-fold cross-validation, built with all 10 variables.
+    print ("""The chosen model is a ridge regression model without an intercept, where the optimal alpha value has been selected by 10-fold cross-validation, built with all 9 variables.
     
     Where:
-      
+    
     x1: Average length of mail sent by contributor
-    x2: IsBot - Indicator variable on whether the author is a Bot or not    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x7: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-    x10: number of mails with 'reopened' in the body field
-
+    x2: Number of mails containing a question in the body field
+    x3: Number of mails containing a question in the subject field
+    x4: Number of mails containing some form of "thanks" in the body field
+    x5: Number of mails containing "fixed" in the body or subject fields
+    x6: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
+    x7: Number of mails that mention 'resolved' in the body field
+    x8: number of mails that mention 'commented' in the body field
+    x9: number of mails with 'reopened' in the body field
+          
     The MSE for this model is {MSE}.
     
     The associated coefficient of determination (R^2) of the prediction is {r2}.
@@ -1142,431 +558,28 @@ elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_ful
     
     Other models taken into consideration, and their respective MSE values were:
         
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
+        - Ridge regression model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
+        - Lasso model w/o intercept (variables {insert_string}; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
         - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
+        - Elastic net regression model (variables {insert_string}optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
         - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
+        - Support Vector Regression model (variables {insert_string}) : MSE = {MSE_svr1}
         - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
+        - Random forest model (variables {insert_string}) : MSE = {MSE_rf1}
         - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
+        - Bagging model (variables {insert_string}) : MSE = {MSE_bagg1}
         - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
+        - Gradient boosting regressor model (variables {insert_string}) : MSE = {MSE_gbr1} 
         - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_ridgecv_noint_full, contrib=contributor, mail_list=mailing_list, r2=ridgecv_noint_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1], MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
+        - AdaBoost regressor model (variables {insert_string}) : MSE = {MSE_abr1}
+        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(insert_string=string,MSE=MSE_ridgecv_noint_full, contrib=contributor, mail_list=mailing_list, r2=ridgecv_noint_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
 
-# MSE_lasso
-
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_lasso:
-    y_prediction = lasso.predict((X.ix[contributor]).reshape(1,-1))
-    squared_error = pow((y_prediction-y_value),2)
-
-    print ("""The chosen model is a lasso model with an intercept, built with variables x3, x4, x5, x6, x8 and x9.
-    
-    Where:
-      
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-
-    The MSE for this model is {MSE}.
-    
-    The associated coefficient of determination (R^2) of the prediction is {r2}.
-    
-    The predicted number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_1} mails.
-    The actual number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_2} mails.
-    
-    The squared error for this prediction is {se}.
-    
-    ===================================================================================================================================
-    
-    Other models taken into consideration, and their respective MSE values were:
-        
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
-        - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
-        - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
-        - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
-        - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
-        - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
-        - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
-        - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_lasso, contrib=contributor, mail_list=mailing_list, r2=lasso_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
-
-
-# MSE_lasso_full
-
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_lasso_full:
-    y_prediction = lasso_full.predict((X_full.ix[contributor]).reshape(1,-1))
-    squared_error = pow((y_prediction-y_value),2)
-
-    print ("""The chosen model is a lasso model with an intercept, built with all 10 variables.
-    
-    Where:
-      
-    x1: Average length of mail sent by contributor
-    x2: IsBot - Indicator variable on whether the author is a Bot or not    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x7: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-    x10: number of mails with 'reopened' in the body field
-
-    The MSE for this model is {MSE}.
-    
-    The associated coefficient of determination (R^2) of the prediction is {r2}.
-    
-    The predicted number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_1} mails.
-    The actual number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_2} mails.
-    
-    The squared error for this prediction is {se}.
-    
-    ===================================================================================================================================
-    
-    Other models taken into consideration, and their respective MSE values were:
-        
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
-        - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
-        - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
-        - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
-        - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
-        - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
-        - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
-        - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_lasso_full, contrib=contributor, mail_list=mailing_list, r2=lasso_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1], MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
-
-# MSE_lasso_noint
-
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_lasso_noint:
-    y_prediction = lasso_noint.predict((X.ix[contributor]).reshape(1,-1))
-    squared_error = pow((y_prediction-y_value),2)
-
-    print ("""The chosen model is a Lasso model with no intercept, built with variables x3, x4, x5, x6, x8 and x9.
-    
-    Where:
-    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-
-    The MSE for this model is {MSE}.
-    
-    The associated coefficient of determination (R^2) of the prediction is {r2}.
-    
-    The predicted number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_1} mails.
-    The actual number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_2} mails.
-    
-    The squared error for this prediction is {se}.
-    
-    ===================================================================================================================================
-    
-    Other models taken into consideration, and their respective MSE values were:
-        
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
-        - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
-        - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
-        - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
-        - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
-        - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
-        - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
-        - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_lasso_noint, contrib=contributor, mail_list=mailing_list, r2=lasso_noint_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1], MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
-
-
-# MSE_lasso_noint_full
-
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_lasso_noint_full:
-    y_prediction = lasso_noint_full.predict((X_full.ix[contributor]).reshape(1,-1))
-    squared_error = pow((y_prediction-y_value),2)
-
-    print ("""The chosen model is a lasso model, without an intercept, built with all 10 variables.
-    
-    Where:
-      
-    x1: Average length of mail sent by contributor
-    x2: IsBot - Indicator variable on whether the author is a Bot or not    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x7: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-    x10: number of mails with 'reopened' in the body field
-
-    The MSE for this model is {MSE}.
-    
-    The associated coefficient of determination (R^2) of the prediction is {r2}.
-    
-    The predicted number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_1} mails.
-    The actual number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_2} mails.
-    
-    The squared error for this prediction is {se}.
-    
-    ===================================================================================================================================
-    
-    Other models taken into consideration, and their respective MSE values were:
-        
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
-        - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
-        - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
-        - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
-        - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
-        - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
-        - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
-        - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_lasso_noint_full, contrib=contributor, mail_list=mailing_list, r2=lasso_noint_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1], MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
-
-
-# MSE_lasso_cv
-
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_lasso_cv:
-    y_prediction = lasso_cv.predict((X.ix[contributor]).reshape(1,-1))
-    squared_error = pow((y_prediction-y_value),2)
-
-    print ("""The chosen model ia a lasso model with an intercept, where the optimal alpha value is selcted by 10-fold CV. Built with variables x3, x4, x5, x6, x8 and x9. 
-    
-    Where:
-     
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-
-    The MSE for this model is {MSE}.
-    
-    The associated coefficient of determination (R^2) of the prediction is {r2}.
-    
-    The predicted number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_1} mails.
-    The actual number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_2} mails.
-    
-    The squared error for this prediction is {se}.
-    
-    ===================================================================================================================================
-    
-    Other models taken into consideration, and their respective MSE values were:
-        
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
-        - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
-        - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
-        - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
-        - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
-        - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
-        - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
-        - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_lasso_cv, contrib=contributor, mail_list=mailing_list, r2=lasso_cv_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1], MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
-
-
-# MSE_lasso_cv_full
-
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_lasso_cv_full:
-    y_prediction = lasso_cv_full.predict((X_full.ix[contributor]).reshape(1,-1))
-    squared_error = pow((y_prediction-y_value),2)
-
-    print ("""The chosen model ia a lasso model with an intercept, where the optimal alpha value is selcted by 10-fold CV. Built with all 10 variables. 
-    
-    Where:
-     
-    x1: Average length of mail sent by contributor
-    x2: IsBot - Indicator variable on whether the author is a Bot or not    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x7: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-    x10: number of mails with 'reopened' in the body field
-
-    The MSE for this model is {MSE}.
-    
-    The associated coefficient of determination (R^2) of the prediction is {r2}.
-    
-    The predicted number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_1} mails.
-    The actual number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_2} mails.
-    
-    The squared error for this prediction is {se}.
-    
-    ===================================================================================================================================
-    
-    Other models taken into consideration, and their respective MSE values were:
-        
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
-        - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
-        - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
-        - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
-        - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
-        - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
-        - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
-        - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_lasso_cv_full, contrib=contributor, mail_list=mailing_list, r2=lasso_cv_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
-
-
-# MSE_lasso_cv_noint
-
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_lasso_cv_noint:
+# lasso_cv_noint
+elif min(MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_lasso_cv_noint:
     y_prediction = lasso_cv_noint.predict((X.ix[contributor]).reshape(1,-1))
     squared_error = pow((y_prediction-y_value),2)
 
-    print ("""The chosen model ia a lasso model without an intercept, where the optimal alpha value is selcted by 10-fold CV. Built with variables x3, x4, x5, x6, x8 and x9. 
-    
-    Where:
-       
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
+    print ("""The chosen model ia a lasso model without an intercept, where the optimal alpha value is selcted by 10-fold CV, built with variables {insert_string}.
 
     The MSE for this model is {MSE}.
     
@@ -1581,180 +594,42 @@ elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_ful
     
     Other models taken into consideration, and their respective MSE values were:
         
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
+        - Ridge regression model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
         - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
         - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
+        - Elastic net regression model (variables {insert_string}optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
         - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
+        - Support Vector Regression model (variables {insert_string}) : MSE = {MSE_svr1}
         - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
+        - Random forest model (variables {insert_string}) : MSE = {MSE_rf1}
         - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
+        - Bagging model (variables {insert_string}) : MSE = {MSE_bagg1}
         - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
+        - Gradient boosting regressor model (variables {insert_string}) : MSE = {MSE_gbr1} 
         - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_lasso_cv_noint, contrib=contributor, mail_list=mailing_list, r2=lasso_cv_noint_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1], MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
+        - AdaBoost regressor model (variables {insert_string}) : MSE = {MSE_abr1}
+        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(insert_string=string, MSE=MSE_lasso_cv_noint, contrib=contributor, mail_list=mailing_list, r2=lasso_cv_noint_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
 
 
-# MSE_lasso_cv_noint_full
-
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_lasso_cv_noint_full:
+# lasso_cv_noint_full
+elif min(MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_lasso_cv_noint_full:
     y_prediction = lasso_cv_noint_full.predict((X_full.ix[contributor]).reshape(1,-1))
     squared_error = pow((y_prediction-y_value),2)
 
-    print ("""The chosen model ia a lasso model without an intercept, where the optimal alpha value is selcted by 10-fold CV. Built using all 10 variables. 
+    print ("""The chosen model ia a lasso model without an intercept, where the optimal alpha value is selcted by 10-fold CV. Built using all 9 variables. 
     
     Where:
-       
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x7: Number of mails containing a variation of 'commit'/'committer'/'comitted' in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-
-    The MSE for this model is {MSE}.
     
-    The associated coefficient of determination (R^2) of the prediction is {r2}.
-    
-    The predicted number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_1} mails.
-    The actual number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_2} mails.
-    
-    The squared error for this prediction is {se}.
-    
-    ===================================================================================================================================
-    
-    Other models taken into consideration, and their respective MSE values were:
-        
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
-        - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
-        - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
-        - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
-        - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
-        - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
-        - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_lasso_cv_noint_full, contrib=contributor, mail_list=mailing_list, r2=lasso_cv_noint_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1], MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
-
-
-# MSE_enet
-
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_enet:
-    y_prediction = enet.predict((X.ix[contributor]).reshape(1,-1))
-    squared_error = pow((y_prediction-y_value),2)
-
-    print ("""The chosen model is an elastic net regression model, built with variables x3, x4, x5, x6, x8 and x9.
-    
-    Where:
-      
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-
-    The MSE for this model is {MSE}.
-    
-    The associated coefficient of determination (R^2) of the prediction is {r2}.
-    
-    The predicted number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_1} mails.
-    The actual number of mails sent by {contrib} over the course of his/her lifetime to the {mail_list} is {num_of_mails_2} mails.
-    
-    The squared error for this prediction is {se}.
-    
-    ===================================================================================================================================
-    
-    Other models taken into consideration, and their respective MSE values were:
-        
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
-        - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
-        - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
-        - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
-        - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
-        - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
-        - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
-        - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_enet, contrib=contributor, mail_list=mailing_list, r2=enet_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1], MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
-
-# MSE_enet_full
-
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_enet_full:
-    y_prediction = enet_full.predict((X_full.ix[contributor]).reshape(1,-1))
-    squared_error = pow((y_prediction-y_value),2)
-
-    print ("""The chosen model is an elastic net regression model, built with variables all 10 variables.
-    
-    Where:
-        
     x1: Average length of mail sent by contributor
-    x2: IsBot - Indicator variable on whether the author is a Bot or not    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x7: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-    x10: number of mails with 'reopened' in the body field
-    
+    x2: Number of mails containing a question in the body field
+    x3: Number of mails containing a question in the subject field
+    x4: Number of mails containing some form of "thanks" in the body field
+    x5: Number of mails containing "fixed" in the body or subject fields
+    x6: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
+    x7: Number of mails that mention 'resolved' in the body field
+    x8: number of mails that mention 'commented' in the body field
+    x9: number of mails with 'reopened' in the body field
+          
     The MSE for this model is {MSE}.
     
     The associated coefficient of determination (R^2) of the prediction is {r2}.
@@ -1768,52 +643,29 @@ elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_ful
     
     Other models taken into consideration, and their respective MSE values were:
         
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
+        - Ridge regression model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
         - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
-        - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
+        - Lasso model w/o intercept (variables {insert_string} alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
+        - Elastic net regression model (variables {insert_string}optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
         - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
+        - Support Vector Regression model (variables {insert_string}) : MSE = {MSE_svr1}
         - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
+        - Random forest model (variables {insert_string}) : MSE = {MSE_rf1}
         - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
+        - Bagging model (variables {insert_string}) : MSE = {MSE_bagg1}
         - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
+        - Gradient boosting regressor model (variables {insert_string}) : MSE = {MSE_gbr1} 
         - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_enet_full, contrib=contributor, mail_list=mailing_list, r2=enet_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1], MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
+        - AdaBoost regressor model (variables {insert_string}) : MSE = {MSE_abr1}
+        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(insert_string=string,MSE=MSE_lasso_cv_noint_full, contrib=contributor, mail_list=mailing_list, r2=lasso_cv_noint_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
 
-# MSE_enet_cv
 
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_enet_cv:
+# enet_cv
+elif min(MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_enet_cv:
     y_prediction = enet_cv.predict((X.ix[contributor]).reshape(1,-1))
     squared_error = pow((y_prediction-y_value),2)
 
-    print ("""The chosen model is an elatic net regression model, where the optimal values for alpha and the L1-ratio are selected by 10-fold CV. Built with variables x3, x4, x5, x6, x8 and x9.
-    
-    Where:
-       
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
+    print ("""The chosen model is an elatic net regression model, where the optimal values for alpha and the L1-ratio are selected by 10-fold CV. Built with variables {insert_string}.
 
     The MSE for this model is {MSE}.
     
@@ -1828,40 +680,26 @@ elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_ful
     
     Other models taken into consideration, and their respective MSE values were:
         
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
+        - Ridge regression model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
         - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
+        - Lasso model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
         - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
         - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
+        - Support Vector Regression model (variables {insert_string}) : MSE = {MSE_svr1}
         - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
+        - Random forest model (variables {insert_string}) : MSE = {MSE_rf1}
         - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
+        - Bagging model (variables {insert_string}) : MSE = {MSE_bagg1}
         - Bagging model (all variables) : MSE = {MSE_bagg_full1}
         - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
         - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x7,x8,x9) : MSE = {MSE_abr1}""".format(MSE=MSE_enet_cv, contrib=contributor, mail_list=mailing_list, r2=enet_cv_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1], MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
+        - AdaBoost regressor model (variables {insert_string}) : MSE = {MSE_abr1}
+        - AdaBoost regressor model (variables {insert_string}) : MSE = {MSE_abr1}""".format(insert_string=string, MSE=MSE_enet_cv, contrib=contributor, mail_list=mailing_list, r2=enet_cv_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
         
 
-# MSE_enet_cv_full
+# enet_cv_full
 
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_enet_cv_full:
+elif min(MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_enet_cv_full:
     y_prediction = enet_cv_full.predict((X_full.ix[contributor]).reshape(1,-1))
     squared_error = pow((y_prediction-y_value),2)
 
@@ -1870,15 +708,14 @@ elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_ful
     Where:
     
     x1: Average length of mail sent by contributor
-    x2: IsBot - Indicator variable on whether the author is a Bot or not    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x7: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-    x10: number of mails with 'reopened' in the body field
+    x2: Number of mails containing a question in the body field
+    x3: Number of mails containing a question in the subject field
+    x4: Number of mails containing some form of "thanks" in the body field
+    x5: Number of mails containing "fixed" in the body or subject fields
+    x6: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
+    x7: Number of mails that mention 'resolved' in the body field
+    x8: number of mails that mention 'commented' in the body field
+    x9: number of mails with 'reopened' in the body field
           
     The MSE for this model is {MSE}.
     
@@ -1893,52 +730,27 @@ elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_ful
     
     Other models taken into consideration, and their respective MSE values were:
         
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
+        - Ridge regression model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
         - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
         - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
-        - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
+        - Elastic net regression model (variables {insert_string}optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
+        - Support Vector Regression model (variables {insert_string}) : MSE = {MSE_svr1}
         - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
+        - Random forest model (variables {insert_string}) : MSE = {MSE_rf1}
         - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
+        - Bagging model (variables {insert_string}) : MSE = {MSE_bagg1}
         - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
+        - Gradient boosting regressor model (variables {insert_string}) : MSE = {MSE_gbr1} 
         - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_enet_cv_full, contrib=contributor, mail_list=mailing_list, r2=enet_cv_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
+        - AdaBoost regressor model (variables {insert_string}) : MSE = {MSE_abr1}
+        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(insert_string=string,MSE=MSE_enet_cv_full, contrib=contributor, mail_list=mailing_list, r2=enet_cv_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet_cv1=MSE_enet_cv, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
     
-# MSE_svr    
-
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_svr:
+# svr    
+elif min(MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_svr:
     y_prediction = svr.predict((X.ix[contributor]).reshape(1,-1))
     squared_error = pow((y_prediction-y_value),2)
 
-    print ("""The chosen model is support vector regression model, built with variables x3, x4, x5, x6, x8 and x9. 
-    
-    Where:
-    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the bocdy field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
+    print ("""The chosen model is support vector regression model, built with variables {insert_string}. 
           
     The MSE for this model is {MSE}.
     
@@ -1953,58 +765,43 @@ elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_ful
     
     Other models taken into consideration, and their respective MSE values were:
         
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
+        - Ridge regression model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
         - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
+        - Lasso model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
         - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
+        - Elastic net regression model (variables {insert_string}optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
         - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
         - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
+        - Random forest model (variables {insert_string}) : MSE = {MSE_rf1}
         - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
+        - Bagging model (variables {insert_string}) : MSE = {MSE_bagg1}
         - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
+        - Gradient boosting regressor model (variables {insert_string}) : MSE = {MSE_gbr1} 
         - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_svr, contrib=contributor, mail_list=mailing_list, r2=svr_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full,MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
+        - AdaBoost regressor model (variables {insert_string}) : MSE = {MSE_abr1}
+        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(insert_string=string,MSE=MSE_svr, contrib=contributor, mail_list=mailing_list, r2=svr_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full,MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
     
 
-# MSE_svr_full
+# svr_full
 
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_svr_full:
+elif min(MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_svr_full:
     y_prediction = svr_full.predict((X_full.ix[contributor]).reshape(1,-1))
     squared_error = pow((y_prediction-y_value),2)
 
-    print ("""The chosen model is a support vector regression model, built with all 10 variables. 
+    print ("""The chosen model is a support vector regression model, built with all 9 variables. 
     
     Where:
     
     x1: Average length of mail sent by contributor
-    x2: IsBot - Indicator variable on whether the author is a Bot or not    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x7: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-    x10: number of mails with 'reopened' in the body field
-          
+    x2: Number of mails containing a question in the body field
+    x3: Number of mails containing a question in the subject field
+    x4: Number of mails containing some form of "thanks" in the body field
+    x5: Number of mails containing "fixed" in the body or subject fields
+    x6: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
+    x7: Number of mails that mention 'resolved' in the body field
+    x8: number of mails that mention 'commented' in the body field
+    x9: number of mails with 'reopened' in the body field
+                    
     The MSE for this model is {MSE}.
     
     The associated coefficient of determination (R^2) of the prediction is {r2}.
@@ -2018,52 +815,28 @@ elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_ful
     
     Other models taken into consideration, and their respective MSE values were:
         
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
+        - Ridge regression model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
         - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
+        - Lasso model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
         - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
+        - Elastic net regression model (variables {insert_string}optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
         - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
+        - Support Vector Regression model (variables {insert_string}) : MSE = {MSE_svr1}
+        - Random forest model (variables {insert_string}) : MSE = {MSE_rf1}
         - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
+        - Bagging model (variables {insert_string}) : MSE = {MSE_bagg1}
         - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
+        - Gradient boosting regressor model (variables {insert_string}) : MSE = {MSE_gbr1} 
         - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_svr_full, contrib=contributor, mail_list=mailing_list, r2=svr_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr,MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
+        - AdaBoost regressor model (variables {insert_string}) : MSE = {MSE_abr1}
+        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(insert_string=string,MSE=MSE_svr_full, contrib=contributor, mail_list=mailing_list, r2=svr_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr,MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
     
-
-#MSE_rf
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_rf:
+# rf
+elif min(MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_rf:
     y_prediction = rf.predict((X.ix[contributor]).reshape(1,-1))
     squared_error = pow((y_prediction-y_value),2)
 
-    print ("""The chosen model is a random forest model built with variables x3, x4, x5, x6, x8 and x9. 
-    
-    Where:
-    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the bocdy field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
+    print ("""The chosen model is a random forest model built with variables {insert_string}.
           
     The MSE for this model is {MSE}.
     
@@ -2078,57 +851,41 @@ elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_ful
     
     Other models taken into consideration, and their respective MSE values were:
         
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
+        - Ridge regression model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
         - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
+        - Lasso model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
         - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
+        - Elastic net regression model (variables {insert_string}optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
         - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
+        - Support Vector Regression model (variables {insert_string}) : MSE = {MSE_svr1}
         - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
         - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
+        - Bagging model (variables {insert_string}) : MSE = {MSE_bagg1}
         - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
+        - Gradient boosting regressor model (variables {insert_string}) : MSE = {MSE_gbr1} 
         - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_rf, contrib=contributor, mail_list=mailing_list, r2=rf_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full,MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
+        - AdaBoost regressor model (variables {insert_string}) : MSE = {MSE_abr1}
+        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(insert_string=string, MSE=MSE_rf, contrib=contributor, mail_list=mailing_list, r2=rf_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full,MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
 
-    
-# MSE_rf_full    
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_rf_full:
+# rf_full    
+elif min(MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_rf_full:
     y_prediction = rf_full.predict((X_full.ix[contributor]).reshape(1,-1))
     squared_error = pow((y_prediction-y_value),2)
 
-    print ("""The chosen model is a random forest model built with all 10 variables. 
+    print ("""The chosen model is a random forest model built with all 9 variables. 
     
     Where:
     
     x1: Average length of mail sent by contributor
-    x2: IsBot - Indicator variable on whether the author is a Bot or not    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x7: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-    x10: number of mails with 'reopened' in the body field
-          
+    x2: Number of mails containing a question in the body field
+    x3: Number of mails containing a question in the subject field
+    x4: Number of mails containing some form of "thanks" in the body field
+    x5: Number of mails containing "fixed" in the body or subject fields
+    x6: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
+    x7: Number of mails that mention 'resolved' in the body field
+    x8: number of mails that mention 'commented' in the body field
+    x9: number of mails with 'reopened' in the body field
+                    
     The MSE for this model is {MSE}.
     
     The associated coefficient of determination (R^2) of the prediction is {r2}.
@@ -2142,52 +899,29 @@ elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_ful
     
     Other models taken into consideration, and their respective MSE values were:
         
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
+        - Ridge regression model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
         - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
+        - Lasso model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
         - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
+        - Elastic net regression model (variables {insert_string}optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
         - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
+        - Support Vector Regression model (variables {insert_string}) : MSE = {MSE_svr1}
         - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
+        - Random forest model (variables {insert_string}) : MSE = {MSE_rf1}
+        - Bagging model (variables {insert_string}) : MSE = {MSE_bagg1}
         - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
+        - Gradient boosting regressor model (variables {insert_string}) : MSE = {MSE_gbr1} 
         - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_rf_full, contrib=contributor, mail_list=mailing_list, r2=rf_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf,MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
+        - AdaBoost regressor model (variables {insert_string}) : MSE = {MSE_abr1}
+        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(insert_string=string,MSE=MSE_rf_full, contrib=contributor, mail_list=mailing_list, r2=rf_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf,MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
    
 
-# MSE_bagg
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_bagg:
+# bagg
+elif min(MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_bagg:
     y_prediction = bagg.predict((X.ix[contributor]).reshape(1,-1))
     squared_error = pow((y_prediction-y_value),2)
 
-    print ("""The chosen model is a bagging model built with variables x3, x4, x5, x6, x8 and x9. 
-    
-    Where:
-    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the bocdy field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
+    print ("""The chosen model is a bagging model built with variables {insert_string}.
           
     The MSE for this model is {MSE}.
     
@@ -2202,56 +936,41 @@ elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_ful
     
     Other models taken into consideration, and their respective MSE values were:
         
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
+        - Ridge regression model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
         - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
+        - Lasso model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
         - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
+        - Elastic net regression model (variables {insert_string}optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
         - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
         - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
         - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
+        - Random forest model (variables {insert_string}) : MSE = {MSE_rf1}
         - Random forest model (all varibles) : MSE = {MSE_rf_full1}
         - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
+        - Gradient boosting regressor model (variables {insert_string}) : MSE = {MSE_gbr1} 
         - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_bagg, contrib=contributor, mail_list=mailing_list, r2=bagg_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full,MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
+        - AdaBoost regressor model (variables {insert_string}) : MSE = {MSE_abr1}
+        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(insert_string=string, MSE=MSE_bagg, contrib=contributor, mail_list=mailing_list, r2=bagg_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full,MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
 
     
-# MSE_bagg_full            
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_bagg_full:
+# bagg_full            
+elif min(MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_bagg_full:
     y_prediction = bagg_full.predict((X_full.ix[contributor]).reshape(1,-1))
     squared_error = pow((y_prediction-y_value),2)
 
-    print ("""The chosen model is a bagging model built with all 10 variables. 
+    print ("""The chosen model is a bagging model built with all 9 variables. 
     
     Where:
     
     x1: Average length of mail sent by contributor
-    x2: IsBot - Indicator variable on whether the author is a Bot or not    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x7: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-    x10: number of mails with 'reopened' in the body field
+    x2: Number of mails containing a question in the body field
+    x3: Number of mails containing a question in the subject field
+    x4: Number of mails containing some form of "thanks" in the body field
+    x5: Number of mails containing "fixed" in the body or subject fields
+    x6: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
+    x7: Number of mails that mention 'resolved' in the body field
+    x8: number of mails that mention 'commented' in the body field
+    x9: number of mails with 'reopened' in the body field
           
     The MSE for this model is {MSE}.
     
@@ -2266,52 +985,29 @@ elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_ful
     
     Other models taken into consideration, and their respective MSE values were:
         
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
+        - Ridge regression model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
         - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
+        - Lasso model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
         - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
+        - Elastic net regression model (variables {insert_string}optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
         - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
+        - Support Vector Regression model (variables {insert_string}) : MSE = {MSE_svr1}
         - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
+        - Random forest model (variables {insert_string}) : MSE = {MSE_rf1}
         - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
+        - Bagging model (variables {insert_string}) : MSE = {MSE_bagg1}
+        - Gradient boosting regressor model (variables {insert_string}) : MSE = {MSE_gbr1} 
         - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_bagg_full, contrib=contributor, mail_list=mailing_list, r2=bag_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg,MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
+        - AdaBoost regressor model (variables {insert_string}) : MSE = {MSE_abr1}
+        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(insert_string=string,MSE=MSE_bagg_full, contrib=contributor, mail_list=mailing_list, r2=bagg_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg,MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
     
 
-# MSE_gbr:
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_gbr:
+# gbr:
+elif min(MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_gbr:
     y_prediction = gbr.predict((X.ix[contributor]).reshape(1,-1))
     squared_error = pow((y_prediction-y_value),2)
 
-    print ("""The chosen model is a gradient boosting regression model built with variables x3, x4, x5, x6, x8 and x9. 
-    
-    Where:
-    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the bocdy field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
+    print ("""The chosen model is a gradient boosting regression model built with variables {insert_string}.
           
     The MSE for this model is {MSE}.
     
@@ -2326,57 +1022,42 @@ elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_ful
     
     Other models taken into consideration, and their respective MSE values were:
         
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
+        - Ridge regression model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
         - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
+        - Lasso model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
         - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
+        - Elastic net regression model (variables {insert_string}optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
         - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
+        - Support Vector Regression model (variables {insert_string}) : MSE = {MSE_svr1}
         - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
+        - Random forest model (variables {insert_string}) : MSE = {MSE_rf1}
         - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
+        - Bagging model (variables {insert_string}) : MSE = {MSE_bagg1}
         - Bagging model (all variables) : MSE = {MSE_bagg_full1}
         - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_gbr, contrib=contributor, mail_list=mailing_list, r2=gbr_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
+        - AdaBoost regressor model (variables {insert_string}) : MSE = {MSE_abr1}
+        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(insert_string=string, MSE=MSE_gbr, contrib=contributor, mail_list=mailing_list, r2=gbr_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
 
 
-# MSE_gbr_full:
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_gbr_full:
+# gbr_full:
+elif min(MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_gbr_full:
     y_prediction = gbr_full.predict((X_full.ix[contributor]).reshape(1,-1))
     squared_error = pow((y_prediction-y_value),2)
 
-    print ("""The chosen model is a gradient boosting regression model built with all 10 variables. 
+    print ("""The chosen model is a gradient boosting regression model built with all 9 variables. 
     
     Where:
     
     x1: Average length of mail sent by contributor
-    x2: IsBot - Indicator variable on whether the author is a Bot or not    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x7: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-    x10: number of mails with 'reopened' in the body field
-          
+    x2: Number of mails containing a question in the body field
+    x3: Number of mails containing a question in the subject field
+    x4: Number of mails containing some form of "thanks" in the body field
+    x5: Number of mails containing "fixed" in the body or subject fields
+    x6: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
+    x7: Number of mails that mention 'resolved' in the body field
+    x8: number of mails that mention 'commented' in the body field
+    x9: number of mails with 'reopened' in the body field
+                    
     The MSE for this model is {MSE}.
     
     The associated coefficient of determination (R^2) of the prediction is {r2}.
@@ -2390,53 +1071,30 @@ elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_ful
     
     Other models taken into consideration, and their respective MSE values were:
         
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
+        - Ridge regression model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
         - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
+        - Lasso model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
         - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
+        - Elastic net regression model (variables {insert_string}optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
         - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
+        - Support Vector Regression model (variables {insert_string}) : MSE = {MSE_svr1}
         - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
+        - Random forest model (variables {insert_string}) : MSE = {MSE_rf1}
         - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
+        - Bagging model (variables {insert_string}) : MSE = {MSE_bagg1}
         - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_gbr_full, contrib=contributor, mail_list=mailing_list, r2=gbr_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr,MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
+        - Gradient boosting regressor model (variables {insert_string}) : MSE = {MSE_gbr1} 
+        - AdaBoost regressor model (variables {insert_string}) : MSE = {MSE_abr1}
+        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(insert_string=string,MSE=MSE_gbr_full, contrib=contributor, mail_list=mailing_list, r2=gbr_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr,MSE_abr1=MSE_abr, MSE_abr_full1=MSE_abr_full))    
     
 
-# MSE_abr:
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_abr:
+# abr:
+elif min(MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_abr:
     y_prediction = abr.predict((X.ix[contributor]).reshape(1,-1))
     squared_error = pow((y_prediction-y_value),2)
 
-    print ("""The chosen model is an AdaBoost regression model built with variables x3, x4, x5, x6, x8 and x9. 
-    
-    Where:
-    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the bocdy field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-          
+    print ("""The chosen model is an AdaBoost regression model built with variables {insert_string}. 
+
     The MSE for this model is {MSE}.
     
     The associated coefficient of determination (R^2) of the prediction is {r2}.
@@ -2450,58 +1108,41 @@ elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_ful
     
     Other models taken into consideration, and their respective MSE values were:
         
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
+        - Ridge regression model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
         - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
+        - Lasso model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
         - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
+        - Elastic net regression model (variables {insert_string}optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
         - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
+        - Support Vector Regression model (variables {insert_string}) : MSE = {MSE_svr1}
         - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
+        - Random forest model (variables {insert_string}) : MSE = {MSE_rf1}
         - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
+        - Bagging model (variables {insert_string}) : MSE = {MSE_bagg1}
         - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
+        - Gradient boosting regressor model (variables {insert_string}) : MSE = {MSE_gbr1} 
         - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(MSE=MSE_abr, contrib=contributor, mail_list=mailing_list, r2=abr_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full,MSE_abr_full1=MSE_abr_full))    
+        - AdaBoost regressor model (all variables) : MSE = {MSE_abr_full1}""".format(insert_string=string, MSE=MSE_abr, contrib=contributor, mail_list=mailing_list, r2=abr_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full,MSE_abr_full1=MSE_abr_full))    
  
-    
-       
-# MSE_abr_full             
-elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_full, MSE_ridgecv_int, MSE_ridgecv_int_full, MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso, MSE_lasso_full, MSE_lasso_noint, MSE_lasso_noint_full, MSE_lasso_cv, MSE_lasso_cv_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet, MSE_enet_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_abr_full:
+# abr_full             
+elif min(MSE_ridgecv_noint, MSE_ridgecv_noint_full, MSE_lasso_cv_noint, MSE_lasso_cv_noint_full, MSE_enet_cv, MSE_enet_cv_full, MSE_svr, MSE_svr_full, MSE_rf, MSE_rf_full, MSE_bagg, MSE_bagg_full, MSE_gbr, MSE_gbr_full, MSE_abr, MSE_abr_full) == MSE_abr_full:
     y_prediction = abr_full.predict((X_full.ix[contributor]).reshape(1,-1))
     squared_error = pow((y_prediction-y_value),2)
 
-    print ("""The chosen model is an AdaBoost regression model built with all 10 variables. 
+    print ("""The chosen model is an AdaBoost regression model built with all 9 variables. 
     
     Where:
     
     x1: Average length of mail sent by contributor
-    x2: IsBot - Indicator variable on whether the author is a Bot or not    
-    x3: Number of mails containing a question in the body field
-    x4: Number of mails containing a question in the subject field
-    x5: Number of mails containing some form of "thanks" in the body field
-    x6: Number of mails containing "fixed" in the body or subject fields
-    x7: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
-    x8: Number of mails that mention 'resolved' in the body field
-    x9: number of mails that mention 'commented' in the body field
-    x10: number of mails with 'reopened' in the body field
-          
+    x2: Number of mails containing a question in the body field
+    x3: Number of mails containing a question in the subject field
+    x4: Number of mails containing some form of "thanks" in the body field
+    x5: Number of mails containing "fixed" in the body or subject fields
+    x6: Number of mails containing a variation of 'commit'/'comitted' in the body or subject fields
+    x7: Number of mails that mention 'resolved' in the body field
+    x8: number of mails that mention 'commented' in the body field
+    x9: number of mails with 'reopened' in the body field
+                    
     The MSE for this model is {MSE}.
     
     The associated coefficient of determination (R^2) of the prediction is {r2}.
@@ -2515,32 +1156,18 @@ elif min(MSE_ridge_int, MSE_ridge_int_full, MSE_ridge_noint, MSE_ridge_noint_ful
     
     Other models taken into consideration, and their respective MSE values were:
         
-        - Ridge regression model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_int1}
-        - Ridge regression model w/ intercept (all variables) : MSE = {MSE_ridge_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_ridge_noint1}
-        - Ridge regression model w/o intercept (all variables) : MSE = {MSE_ridge_noint_full1}
-        - Ridge regression model w/ intercept, (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int1}
-        - Ridge regression model w/ intercept, (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_int_full1}
-        - Ridge regression model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
+        - Ridge regression model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint1}
         - Ridge regression model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_ridgecv_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso1}
-        - Lasso model w/ intercept (all variables) : MSE = {MSE_lasso_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_lasso_noint1}
-        - Lasso model w/o intercept (all variables) : MSE = {MSE_lasso_noint_full1}
-        - Lasso model w/ intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv1}
-        - Lasso model w/ intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_full1}
-        - Lasso model w/o intercept (variables x3,x4,x5,x6,x8,x9; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
+        - Lasso model w/o intercept (variables {insert_string}alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint1}
         - Lasso model w/o intercept (all variables; alpha selected by 10-fold CV) : MSE = {MSE_lasso_cv_noint_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_enet1}
-        - Elastic net regression model (all variables) : MSE = {MSE_enet_full1}
-        - Elastic net regression model (variables x3,x4,x5,x6,x8,x9; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
+        - Elastic net regression model (variables {insert_string}optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv1}
         - Elastic net regression model (all variables; optimal alpha and l1_ratio paramters selected by 10-fold CV) : MSE = {MSE_enet_cv_full1}
-        - Support Vector Regression model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_svr1}
+        - Support Vector Regression model (variables {insert_string}) : MSE = {MSE_svr1}
         - Support Vector Regression model (all variables) : MSE = {MSE_svr_full1}
-        - Random forest model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_rf1}
+        - Random forest model (variables {insert_string}) : MSE = {MSE_rf1}
         - Random forest model (all varibles) : MSE = {MSE_rf_full1}
-        - Bagging model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_bagg1}
+        - Bagging model (variables {insert_string}) : MSE = {MSE_bagg1}
         - Bagging model (all variables) : MSE = {MSE_bagg_full1}
-        - Gradient boosting regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_gbr1} 
+        - Gradient boosting regressor model (variables {insert_string}) : MSE = {MSE_gbr1} 
         - Gradient boosting regressor model (all variables) : MSE = {MSE_gbr_full1}
-        - AdaBoost regressor model (variables x3,x4,x5,x6,x8,x9) : MSE = {MSE_abr1}""".format(MSE=MSE_abr_full, contrib=contributor, mail_list=mailing_list, r2=abr_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridge_int1=MSE_ridge_int,MSE_ridge_int_full1=MSE_ridge_int_full,MSE_ridge_noint1=MSE_ridge_noint,MSE_ridge_noint_full1=MSE_ridge_noint_full,MSE_ridgecv_int1=MSE_ridgecv_int,MSE_ridgecv_int_full1=MSE_ridgecv_int_full,MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso1=MSE_lasso,MSE_lasso_full1=MSE_lasso_full,MSE_lasso_noint1=MSE_lasso_noint,MSE_lasso_noint_full1=MSE_lasso_noint_full,MSE_lasso_cv1=MSE_lasso_cv,MSE_lasso_cv_full1=MSE_lasso_cv_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet1=MSE_enet,MSE_enet_full1=MSE_enet_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr))
+        - AdaBoost regressor model (variables {insert_string}) : MSE = {MSE_abr1}""".format(insert_string=string,MSE=MSE_abr_full, contrib=contributor, mail_list=mailing_list, r2=abr_full_r2, num_of_mails_1=str(y_prediction)[2:][:-1], num_of_mails_2=y_value, se=str(squared_error)[2:][:-1],MSE_ridgecv_noint1=MSE_ridgecv_noint,MSE_ridgecv_noint_full1=MSE_ridgecv_noint_full,MSE_lasso_cv_noint1=MSE_lasso_cv_noint,MSE_lasso_cv_noint_full1=MSE_lasso_cv_noint_full,MSE_enet_cv1=MSE_enet_cv,MSE_enet_cv_full1=MSE_enet_cv_full, MSE_svr1=MSE_svr, MSE_svr_full1=MSE_svr_full, MSE_rf1=MSE_rf, MSE_rf_full1=MSE_rf_full, MSE_bagg1=MSE_bagg, MSE_bagg_full1=MSE_bagg_full, MSE_gbr1=MSE_gbr, MSE_gbr_full1=MSE_gbr_full, MSE_abr1=MSE_abr))

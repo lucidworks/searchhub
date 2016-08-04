@@ -1,4 +1,6 @@
 Flask
+flask-compress
+jsmin
 requests
 dictdiffer
 loremipsum

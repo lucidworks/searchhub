@@ -1,4 +1,5 @@
 <article class="grid-block document row">
+  <!--website-->
   <div class="detail vertical grid-content" >
     <!-- show head field linked with a title. -->
     <h3 class="head-field" ng-if="doc.title">
@@ -29,9 +30,5 @@
      <field ng-if="doc.body" value="doc.body" highlight="highlight[doc.id]" maxlength="200" hkey="body"></field>
     </p>
   </div>
-  <div ng-if="vm.expanded">
-    <p><span class="field-header">MIME Type</span>:
-      <field  value="doc.mimeType_s" maxlength="150"></field>
-    </p>
-  </div>
+
 </article>

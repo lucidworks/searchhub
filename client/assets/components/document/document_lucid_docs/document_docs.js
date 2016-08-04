@@ -24,10 +24,9 @@
 
   }
 
-  function Controller($sce, SnowplowService, $filter, Orwell) {
+  function Controller($sce, SnowplowService, PerDocumentService, $filter, $log) {
     'ngInject';
     var vm = this;
-    var perDocumentObservable = Orwell.getObservable('perDocument');
     var regex = new RegExp("(^\\\s*$)", "gm");
     activate();
 
@@ -39,23 +38,20 @@
 
     function processClick(element, docId, position, score, threadId, subjectSimple){
       SnowplowService.postClickSignal(element, docId, position, score);
-      var payload = {
-        "docId": docId,
-        "threadId": threadId,
-        "subjectSimple": subjectSimple
-      };
-      perDocumentObservable.setContent(payload);
+      PerDocumentService.processPerDocument(docId, threadId, subjectSimple);
     }
 
     function processDocument(doc) {
       //make sure we can display the info
-      //console.log(doc['subject']);
+      $log.info("Process Docs Doc:", doc);
       doc['id'] = $sce.trustAsHtml(doc['id']);
-      doc.content = doc.content.replace(regex, "");
-      //TODO: this is fairly brittle given Zendesk could change.  Probably better to change the crawl to remove this boilerplate
-      doc.content = doc.content.replace(HEADER, "");
-      //Support docs tend to have a lot of excess whitespace and boilerplate, so let's remove some of it
-      doc.content = doc.content.trim();
+      if (doc.content){
+        doc.content = doc.content.replace(regex, "");
+        //TODO: this is fairly brittle given Zendesk could change.  Probably better to change the crawl to remove this boilerplate
+        doc.content = doc.content.replace(HEADER, "");
+        //Support docs tend to have a lot of excess whitespace and boilerplate, so let's remove some of it
+        doc.content = doc.content.trim();
+      }
       //console.log(doc.content.substring(0,250));
       doc.length_lFormatted = $filter('humanizeFilesize')(doc.length_l);
       doc.lastModified_dtFormatted = $filter('date')(doc.lastModified_dt);

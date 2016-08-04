@@ -39,7 +39,7 @@ document boosts
     return service;
 
     function postClickRecommendation(element, docId, position, score, recType){
-      $log.info("Click Signal received for docId: " + docId);
+      $log.info("Click Signal Recommendation received for docId: " + docId);
       var queryObj = QueryService.getQueryObject();
 
       var the_data = {
@@ -60,7 +60,7 @@ document boosts
     }
 
     function postInternalClick(docId, element, the_data){
-      $log.info("Signal Data: " + the_data);
+      $log.info("Signal Data: ", the_data);
       snowplow('trackLinkClick', docId, element.id, element.className, element.target, element.innerHTML, [{
         schema: "iglu:com.snowplowanalytics.snowplow/unstruct_event/jsonschema/1-0-0",
         data: the_data

@@ -24,10 +24,9 @@
 
   }
 
-  function Controller($sce, Orwell, SnowplowService, $filter, $log) {
+  function Controller($sce, PerDocumentService, SnowplowService, $filter, $log) {
     'ngInject';
     var vm = this;
-    var perDocumentObservable = Orwell.getObservable('perDocument');
     activate();
 
     function activate() {
@@ -38,12 +37,7 @@
 
     function processClick(element, docId, position, score, threadId, subjectSimple){
       SnowplowService.postClickSignal(element, docId, position, score);
-      var payload = {
-        "docId": docId,
-        "threadId": threadId,
-        "subjectSimple": subjectSimple
-      };
-      perDocumentObservable.setContent(payload);
+      PerDocumentService.processPerDocument(docId, threadId, subjectSimple);
     }
 
     function processDocument(doc) {

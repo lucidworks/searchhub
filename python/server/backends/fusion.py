@@ -2,7 +2,6 @@ import json
 import requests
 from collections import OrderedDict
 from dictdiffer import diff
-from server import app
 from server.backends import Backend, Document
 from server.backends.github_helper import create_github_datasource_configs
 from server.backends.jira_helper import create_jira_datasource_config
@@ -11,6 +10,8 @@ from server.backends.twitter_helper import create_twitter_datasource_configs
 from server.backends.website_helper import create_website_datasource_configs
 from server.backends.wiki_helper import create_wiki_datasource_configs
 from urlparse import urljoin
+
+from server import app
 
 
 class FusionSession(requests.Session):
@@ -152,6 +153,39 @@ class FusionBackend(Backend):
     else:
       print "Added config"
     return True
+
+  def remove_request_handler(self, collection_name, req_handler_name):
+      print "Attempting removal of request handler: {0}".format(req_handler_name)
+      remove = {
+          "delete-requesthandler": req_handler_name
+      }
+      resp = self.admin_session.post("apollo/solr/{0}/config".format(collection_name),
+                                 data=json.dumps(remove))
+      errors = self.check_bulk_api_for_errors(resp.json())
+      if resp.status_code != 200 or errors:
+        print "Couldn't remove req handler: {0}".format(req_handler_name)
+        print errors
+        return False
+      else:
+          print "Removed req handler {0}".format(req_handler_name)
+      return True
+
+  def remove_search_component(self, collection_name, component_name):
+      print "Attempting removal of search component: {0}".format(component_name)
+      remove = {
+          "delete-searchcomponent": component_name
+      }
+      resp = self.admin_session.post("apollo/solr/{0}/config".format(collection_name),
+                                 data=json.dumps(remove))
+      errors = self.check_bulk_api_for_errors(resp.json())
+      if resp.status_code != 200 or errors:
+        print "Couldn't remove search component: {0}".format(component_name)
+        print errors
+        return False
+      else:
+          print "Removed search comp {0}".format(component_name)
+      return True
+
 
   #Returns None if there are no errors, else a list of the errors
   def check_bulk_api_for_errors(self, response_json):

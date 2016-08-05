@@ -193,6 +193,9 @@ if cmd_args.create_collections or create_all:
   status = backend.create_collection(lucidfind_collection_id, enable_signals=True, solr_params=solr_params)
   if status == False:
     exit(1)
+  # Due to a bug in Solr around suggesters, let's try to remove the suggester first
+  #backend.remove_request_handler(lucidfind_collection_id, "/suggest")
+  #backend.remove_search_component(lucidfind_collection_id, "suggest")
   setup_field_types(backend, lucidfind_collection_id)
   setup_find_fields(backend, lucidfind_collection_id)
   setup_request_handlers(backend, lucidfind_collection_id)

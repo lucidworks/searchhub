@@ -6,63 +6,7 @@ controller: HomeController as hc
 <zf-offcanvas position="left"></zf-offcanvas>
 
 <div class="grid-frame vertical">
-<a href="https://github.com/lucidworks/searchhub"><img style="position: absolute; top: 0; right: 0; border: 0;" src="/assets/img/github_forkme.png" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
-  <!-- Top Bar -->
-  <nav class="primary title-bar">
-    <span class="center">
-      <form name="searchForm" class="show-for-medium" ng-submit="hc.search()">
-        <span class="inline-label search-label">
-          <search query="hc.searchQuery" class="search-box-outer"></search>
-          <a href="#" class="success button" ng-click="hc.search()"><img
-            zf-iconic=""
-            icon="magnifying-glass"
-            data-direction="top"
-            size="small"
-            ></a>
-        </span>
-      </form>
-      <span class="show-for-small-only">
-        <a class="title" href="/#"><img ng-if="::hc.logoLocation" ng-src="{{::hc.logoLocation}}"/><span
-          ng-if="::(!hc.logoLocation)">{{::hc.appName}}</span></a>
-      </span>
-    </span>
-    <!-- Mobile Search bar -->
-    <ul class="left menu-bar primary condense">
-      <li ng-show="hc.showFacets" class="show-for-small-only">
-        <a zf-toggle="sidebar"><img
-          zf-iconic=""
-          icon="menu"
-          data-direction="top"
-          size="small"
-          ></a></a>
-      </li>
-      <li class="show-for-medium"><span class="navLogo"><img
-            zf-iconic=""
-            icon="logo"
-            data-direction="top"
-            size="small"
-            ></a></span>
-        <a class="title">{{hc.appName}}</a>
-      </li>
-    </ul>
-
-  </nav>
-  <nav class="primary title-bar show-for-small-only">
-    <form ng-submit="hc.search()">
-      <span class="inline-label search-label">
-        <search query="hc.searchQuery" class="search-box-outer"></search>
-        <a href="#" class="success button" ng-click="hc.search()"><img
-          zf-iconic=""
-          icon="magnifying-glass"
-          data-direction="top"
-          size="small"
-          class="iconic-color-secondary"></a>
-      </span>
-    </form>
-  </nav>
-
-
-
+  <div ng-include="'/templates/header.html'"></div>
   <!-- Main Content Frame -->
   <div class="grid-block">
 
@@ -80,10 +24,10 @@ controller: HomeController as hc
     </div>
 
     <!-- Main Content Area -->
-    <div class="grid-block small-12" ng-class="{'large-9 medium-8':hc.showFacets,'large-12 medium-12':!hc.showFacets}">
+    <div class="grid-block medium" >
       <div class="grid-content">
         <a name="topOfMainContent"></a>
-        <div class="card card-result-comment" ng-switch="hc.status">
+        <div class="card card-result-comment" ng-switch="hc.status" ng-if="!hc.perDocument">
           <div class="card-section center card-normal" ng-switch-when="normal">
             Showing Results for "{{hc.lastQuery}}". {{hc.numFoundFormatted}} results found.
             <select ng-model="hc.sort" ng-change="hc.onChangeSort()">
@@ -104,8 +48,20 @@ controller: HomeController as hc
           </div>
         </div>
         <landing-page></landing-page>
-        <documents></documents>
-        <paginate></paginate>
+        <documents ng-show="!hc.perDocument"></documents>
+        <perdocument ng-show="hc.perDocument" doc="dc.doc"></perdocument>
+        <paginate ng-show="!hc.perDocument"></paginate>
+      </div>
+    </div>
+    <div ng-show="hc.showRecommendations" class="medium-4 large-3 medium-grid-block">
+      <div
+        zf-panel
+        id="sidebarRight"
+        position="right"
+        zf-swipe-close="right"
+        class="medium-grid-block panel-fixed collapse medium-12 vertical">
+        <a zf-close="" class="close-button show-for-small-only">×</a>
+        <recommendations></recommendations>
       </div>
     </div>
 

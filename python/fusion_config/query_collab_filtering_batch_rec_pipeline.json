@@ -1,0 +1,69 @@
+{
+  "id": "cf-similar-items-batch-rec",
+  "stages": [
+    {
+      "type": "sub-query",
+      "id": "zxzdunmi",
+      "key": "rec_subjects",
+      "collection": "lucidfind_thread_recs",
+      "handler": "select",
+      "method": "GET",
+      "parentParams": [
+        "subjectSimple"
+      ],
+      "rollupKeys": [],
+      "params": [
+        {
+          "key": "fl",
+          "value": "subject_simple_s,weight_d"
+        },
+        {
+          "key": "rows",
+          "value": "10"
+        },
+        {
+          "key": "sort",
+          "value": "weight_d desc"
+        },
+        {
+          "key": "q",
+          "value": "{!term f='rec_for_subject_simple_s' v=$subjectSimple}"
+        }
+      ],
+      "headers": [],
+      "skip": false,
+      "label": "Get top similar items for the given thread"
+    },
+    {
+      "type": "query-logging",
+      "id": "o45qm2t9",
+      "detailed": true,
+      "skip": false,
+      "label": "query-logging"
+    },
+    {
+      "type": "javascript-query",
+      "id": "xb2x9ey8urp5jyvi",
+      "script": "//given the last sub query, which gets us the batch computed recs from the batch_recs index, go get the full docs from the main collection.\n var topRecSignalDocsRsp = ctx.getProperty('rec_subjects');\n var theQuery = \"*:*\"; \n \n if (topRecSignalDocsRsp && topRecSignalDocsRsp.response && topRecSignalDocsRsp.response.numFound > 0){\n print(topRecSignalDocsRsp.response.numFound);\n var docs = topRecSignalDocsRsp.response.docs;\n //print(docs);\n theQuery = \"{!lucene q.op=OR}(\";\n //for each document, or it\n \n for (i = 0; i < docs.size(); i++){\n var doc = docs[i];\n print(doc.id);\n //since we are doing exact match, we only need one or the other\n request.putSingleParam(\"ss_\" + i, doc.subject_simple_s);\n theQuery += \"({!term f=subject_simple v=$ss_\" + i + \"})\";\n }\n theQuery += \")\";\n } else{\n //We don't have a response, so let's just get the most popular documents overall or some other sorting of the main content\n print(\"No response to work with\");\n }\n print(\"The Query: \");\n print(theQuery);\n request.putSingleParam(\"q\", theQuery); \nrequest.putSingleParam(\"fq\", \"-in_reply_to:[* TO *]\");",
+      "skip": false,
+      "label": "Create main collection Query"
+    },
+    {
+      "type": "query-logging",
+      "id": "z02rqu8gx8wyd5cdi",
+      "detailed": true,
+      "skip": false,
+      "label": "query-logging"
+    },
+    {
+      "type": "solr-query",
+      "id": "7gdkd19lrk7r5dn29",
+      "allowedRequestHandlers": [],
+      "httpMethod": "POST",
+      "allowFederatedSearch": false,
+      "skip": false,
+      "label": "solr-query"
+    }
+  ],
+  "properties": {}
+}

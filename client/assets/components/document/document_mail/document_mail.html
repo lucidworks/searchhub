@@ -1,7 +1,8 @@
 <div class="detail vertical grid-content">
+  <!--mail-->
   <!-- show head field linked with a url. -->
-  <h3 class="head-field" ng-if="doc.subject"><a ng-href="{{vm.doc.parent_s}}" target="document"
-                                                 ng-click="vm.postClickSignal(this, doc.id, $index, doc.score)">
+  <h3 class="head-field" ng-if="doc.subject"><a
+      ng-click="vm.postClickSignal(this, doc.id, $index, doc.score, doc.threadId, doc.subject_simple)">
     <field value="doc.subject" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="subject"></field>
   </a>
   </h3>
@@ -10,9 +11,22 @@
     <field value="doc.id" maxlength="200"></field>
   </h3>
   <div ng-include="'/templates/document-common.html'"></div>
-  <h6><span class="field-header">From</span>: <field ng-if="doc.from" value="doc.from" highlight="::vm.highlight[doc.id]" maxlength="150" hkey="from"></field></h6>
+  <h6><span class="field-header">From</span>:
+    <field ng-if="doc.from" value="doc.from" highlight="::vm.highlight[doc.id]" maxlength="150" hkey="from"></field>
+  </h6>
 
   <p class="large-8 xlarge-7 xx-large-6 mail-body">
     <field ng-if="doc.body" value="doc.body" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="body"></field>
   </p>
+  <div ng-if="vm.expanded">
+    <p><span class="field-header">Is Bot?</span>:
+      <field  value="doc.isBot" maxlength="150"></field>
+    </p>
+    <p><span class="field-header">Thread Id</span>:
+      <field ng-if="doc.threadId" value="doc.threadId" maxlength="150"></field>
+    </p>
+    <p><span class="field-header">Message Id</span>:
+      <field ng-if="doc.message_id" value="doc.message_id" maxlength="150"></field>
+    </p>
+  </div>
 </div>

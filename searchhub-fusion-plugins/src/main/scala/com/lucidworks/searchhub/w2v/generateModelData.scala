@@ -1,12 +1,10 @@
 import com.lucidworks.searchhub.analytics.AnalyzerUtils._
 import com.lucidworks.searchhub.analytics._
-import com.lucidworks.spark.util.SolrSupport
-import org.apache.spark.mllib.linalg.{Vector => SparkVector}
 import org.apache.spark.sql.SQLContext
-import org.apache.spark.sql.functions._
 import java.io._
-import org.apache.spark.mllib.feature.Word2VecModel
 import com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.PrepareFile
+import sys.process._
+import com.lucidworks.apollo.spark.SparkJobConfig.newId
 
 /***
   * This file is not meant to be imported or loaded in any way - instead, use the lines here inside of
@@ -47,7 +45,7 @@ object generateModelData {
   //serialization for idf Map,  the data is at the directory bin
   //val file=new File("modelId/idfMapData")
   val filedir=new File("modelId")
-  filedir.mkdir();
+  filedir.mkdir()
   val idfMapData=new File(filedir,"idfMapData")
   //val w2vModelData=new File(filedir,"w2vModelData");
   val bw=new BufferedWriter(new FileWriter(idfMapData))
@@ -56,13 +54,13 @@ object generateModelData {
 
   //make w2v model
   val w2vModel = ManyNewsgroups.buildWord2VecModel(vectorizedMail, tokenizer, textColumnName)
-  w2vModel.findSynonyms("query", 5).take(5)
   //serialization w2v model
   w2vModel.save(sc, "modelId/w2vModelData")
   //deserialize w2v model and run it
   //val newW2vModel=Word2VecModel.load(sc,"modelId/w2vModelData")
   PrepareFile.createZipFile//create the zip file
   "curl -u admin:password123 -X DELETE http://localhost:8764/api/apollo/blobs/modelId28" !
-  "curl -u admin:password123 -X PUT --data-binary @modelId.zip -H Content-type:application/zip http://localhost:8764/api/apollo/blobs/modelId28?modelType=com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.TfIdfTopTerms" ! //send the zip file to blob
+
+  "curl -u admin:password123 -X PUT --data-binary @modelId.zip -H Content-type:application/zip http://localhost:8764/api/apollo/blobs/modelId28?modelType=com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.W2VRelatedTerms" ! //send the zip file to blob
 
 }

@@ -52,7 +52,7 @@
     {
       "type" : "machine-learning",
       "id" : "sitydhqsh502otj4i",
-      "modelId" : "modelId28",
+      "modelId" : "modelId333",
       "predictionFieldName" : "related terms",
       "failOnError" : false,
       "storeInContext" : false,

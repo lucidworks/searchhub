@@ -1,0 +1,22 @@
+{
+  "id": "w2v",
+  "creatorType": "human",
+  "creatorId": "admin",
+  "createTime": "2016-08-04T14:05:17.346Z",
+  "startTime": "2016-08-04T22:39:50.000Z",
+  "repeatUnit": "DAY",
+  "interval": 1,
+  "active": true,
+  "callParams": {
+    "uri": "service://spark/jobs",
+    "method": "POST",
+    "queryParams": {
+      "id": "w2v_scheduled",
+      "type": "script",
+      "maxRows": 1,
+      "script": "import sys.process._ \n import com.lucidworks.searchhub.analytics.AnalyzerUtils._ \n import com.lucidworks.searchhub.analytics._ \n import org.apache.spark.sql.SQLContext \n import java.io._ \n import com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.PrepareFile \n val opts = Map(\"zkhost\" -> \"localhost:9983\", \"collection\" -> \"lucidfind\", \"query\" -> \"*:*\",\"fields\" -> \"id,body,title,subject,publishedOnDate,project,content\" \n val tmpDF = sqlContext.read.format(\"solr\").options(opts).load \n val mailDF = tmpDF.sample(false, 0.2) \n mailDF.cache() \n mailDF.count() \n val textColumnName = \"body\" \n val tokenizer = analyzerFn(noHTMLstdAnalyzerSchema) \n val vectorizer = TfIdfVectorizer.build(mailDF, tokenizer, textColumnName) \n val vectorizedMail = TfIdfVectorizer.vectorize(mailDF, vectorizer, textColumnName) \n vectorizedMail.cache() \n val filedir=new File(\"modelId\") \n filedir.mkdir() \n val idfMapData=new File(filedir,\"idfMapData\") \n val bw=new BufferedWriter(new FileWriter(idfMapData)) \n vectorizer.idfs.foreach(line=>bw.write(line._1+\",\"+line._2+\"\\n\")) \n bw.close() \n val w2vModel = ManyNewsgroups.buildWord2VecModel(vectorizedMail, tokenizer, textColumnName) \n w2vModel.save(sc, \"modelId/w2vModelData\") \n PrepareFile.createZipFile \n \"curl -u admin:password123 -X DELETE http://localhost:8764/api/apollo/blobs/modelId333\" ! \n \n \"curl -u admin:password123 -X PUT --data-binary @modelId.zip -H Content-type:application/zip http://localhost:8764/api/apollo/blobs/modelId333?modelType=com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.W2VRelatedTerms\" !)"
+    },
+    "headers": {}
+  }
+}
+

@@ -23,9 +23,9 @@ public class PrepareFile {
             File modelDir = new File("modelId");
             LinkedHashMap modelJson = new LinkedHashMap();
             modelJson.put("featureFields", featureList);
-            modelJson.put("modelClassName","com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.TfIdfTopTerms");
+            modelJson.put("modelClassName","com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.W2VRelatedTerms");
 
-            File modelJsonFile = new File(modelDir, "com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.TfIdfTopTerms" + ".json");
+            File modelJsonFile = new File(modelDir, "com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.W2VRelatedTerms" + ".json");
             OutputStreamWriter osw = null;
             try {
                 ObjectMapper om = new ObjectMapper();

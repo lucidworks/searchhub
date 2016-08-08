@@ -2,7 +2,7 @@
 import sys
 import argparse
 from flask import Flask
-#from flask.ext.basicauth import BasicAuth
+from flask_compress import Compress
 
 
 parser = argparse.ArgumentParser(description='Setup Search Hub')
@@ -16,6 +16,8 @@ parser.add_argument('--create_projects', action='store_true',
                             help='create the projects')
 parser.add_argument('--create_pipelines', action='store_true',
                             help='create/update the pipelines')
+parser.add_argument('--create_batch_jobs', action='store_true',
+                    help='create/update the batch jobs')
 parser.add_argument('--create_taxonomy', action='store_true',
                             help='create/update the taxonomy')
 parser.add_argument('--create_schedules', action='store_true',
@@ -41,9 +43,11 @@ if cmd_args.config:
 
 #from proxy
 app = Flask(__name__, static_folder="assets", template_folder="flask_templates")
+
 print "Using config: " + config
 app.config.from_object(config)
 app.config.from_envvar("CONFIG_PY", silent=True)
+
 #app.basic_auth = BasicAuth(app)
 
 # Import and initialize the backend
@@ -54,4 +58,4 @@ backend = get_backend()
 from server.views import *
 
 import proxy
-
+Compress(app)

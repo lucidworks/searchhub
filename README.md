@@ -29,7 +29,7 @@
 
 - Depending on how Node is configured on your machine, you may need to run `sudo npm install -g gulp bower` instead, if you get an error with the first command.
 - Python 2.7 and python-dev
-- Fusion 2.3 or later.  Download at http://www.lucidworks.com/products/fusion and install in a directory reachable from this project.
+- Fusion 2.4.1 or later.  Download at http://www.lucidworks.com/products/fusion and install in a directory reachable from this project.
 
 
 ## Get Started
@@ -55,7 +55,7 @@ Run the Installer to install NPM, Bower and Python dependencies
 ./gradlew install
 ```
 
-(Re)Start your Fusion instance (see Requirements above, this needs to be Fusion from the "searchhub" branch)
+(Re)Start your Fusion instance (see Requirements above, this needs to be Fusion 2.4.x)
   This is important since ```deployLibs``` (task called by the install task) installed the MBoxParsingStage into Fusion.
 
 

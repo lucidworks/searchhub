@@ -63,11 +63,14 @@ def proxy_request(other):
     else:
         form_data = None
     r = None
+    #print path
     if request.method == "POST" or request.method == "PUT":
         r = requests.post("{0}://{1}:{2}{3}".format(protocol, hostname, port, path), data=form_data, headers=request_headers)
     else:
         r = requests.get("{0}://{1}:{2}{3}".format(protocol, hostname, port, path), headers=request_headers)
-    flask_response = Response(response=r.iter_content(8192),
+    the_content_type = r.headers['content-type']
+    #print "CT: " + the_content_type
+    flask_response = Response(response=r.iter_content(8192), content_type=the_content_type,
                               status=r.status_code)
     return flask_response
 

@@ -65,7 +65,8 @@
       // }
       var ds = doc['_lw_data_source_s'];
       if (ds) {
-        if (ds.indexOf("lucidworks-docs") != -1) {
+        //$log.info("DS", ds);
+        if (ds.indexOf("lucidworks-docs") != -1 || ds.indexOf("lucidworks-knowldege") != -1) {
           return "lucid-docs";
         }
         var idx = ds.indexOf("-");

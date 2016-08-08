@@ -32,12 +32,40 @@ document boosts
       postClickSignal: postClickSignal,
       postSignalData: postSignalData,
       postSearchSignal: postSearchSignal,
-      postTypeaheadSignal: postTypeaheadSignal
+      postTypeaheadSignal: postTypeaheadSignal,
+      postClickRecommendation: postClickRecommendation
     };
 
     return service;
 
+    function postClickRecommendation(element, docId, position, score, recType){
+      $log.info("Click Signal Recommendation received for docId: " + docId);
+      var queryObj = QueryService.getQueryObject();
 
+      var the_data = {
+        "docId": docId,
+        "position": position,
+        "query": queryObj.q,
+        "score": score,
+        "signalType": recType
+      };
+      //send the UUID with the data so that we can track specific query instances
+      if (queryObj["uuid"]){
+        the_data["query_unique_id"] = queryObj["uuid"];
+      }
+      if (queryObj.fq) {
+        the_data["fq"] = queryObj.fq
+      }
+      postInternalClick(docId, element, the_data);
+    }
+
+    function postInternalClick(docId, element, the_data){
+      $log.info("Signal Data: ", the_data);
+      snowplow('trackLinkClick', docId, element.id, element.className, element.target, element.innerHTML, [{
+        schema: "iglu:com.snowplowanalytics.snowplow/unstruct_event/jsonschema/1-0-0",
+        data: the_data
+      }]);
+    }
 
     //Useful when doing a simple click
     function postClickSignal(element, docId, position, score) {
@@ -58,11 +86,7 @@ document boosts
       if (queryObj.fq) {
         the_data["fq"] = queryObj.fq
       }
-      $log.info("Signal Data: " + the_data);
-      snowplow('trackLinkClick', docId, element.id, element.className, element.target, element.innerHTML, [{
-        schema: "iglu:com.snowplowanalytics.snowplow/unstruct_event/jsonschema/1-0-0",
-        data: the_data
-      }]);
+      postInternalClick(docId, element, the_data);
     }
 
     function postSearchSignal(queryObj, filters, numFound, displayedResults, displayedFacets) {

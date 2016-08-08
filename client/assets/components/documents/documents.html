@@ -1,14 +1,14 @@
 <div id="documentList">
   <div ng-repeat="doc in vm.docs" ng-switch="::vm.getDocType(doc)" class="doc-results">
-    <document-mail ng-switch-when="mailing" doc="vm.decorateDocument(doc)" bind="doc"
+    <document-mail ng-switch-when="mailing" doc="vm.decorateDocument(doc)" 
                    highlight="vm.highlighting"></document-mail>
-    <document-website ng-switch-when="website" doc="vm.decorateDocument(doc)" bind="doc"
+    <document-website ng-switch-when="website" doc="vm.decorateDocument(doc)" 
                   highlight="vm.highlighting"></document-website>
-    <document-lucid-docs ng-switch-when="lucid-docs" doc="vm.decorateDocument(doc)" bind="doc"
+    <document-lucid-docs ng-switch-when="lucid-docs" doc="vm.decorateDocument(doc)" 
                   highlight="vm.highlighting"></document-lucid-docs>
-    <document-website ng-switch-when="wiki" doc="vm.decorateDocument(doc)" bind="doc"
+    <document-website ng-switch-when="wiki" doc="vm.decorateDocument(doc)" 
                   highlight="vm.highlighting"></document-website>
-    <document-github ng-switch-when="github" doc="vm.decorateDocument(doc)" bind="doc"
+    <document-github ng-switch-when="github" doc="vm.decorateDocument(doc)" 
                   highlight="vm.highlighting"></document-github>
 
   </div>
@@ -18,15 +18,15 @@
 
       <div ng-repeat="doc in group.doclist.docs" ng-switch="::vm.getDocType(doc)" class="doc-results">
         <span ng-switch-when="jira"><div ng-include="'/templates/jira.html'"></div></span>
-        <document-mail ng-switch-when="mailing" doc="vm.decorateDocument(doc)" bind="doc"
+        <document-mail ng-switch-when="mailing" doc="vm.decorateDocument(doc)" 
                        highlight="vm.highlighting"></document-mail>
-        <document-website ng-switch-when="website" doc="vm.decorateDocument(doc)" bind="doc"
+        <document-website ng-switch-when="website" doc="vm.decorateDocument(doc)" 
                       highlight="vm.highlighting"></document-website>
-        <document-website ng-switch-when="wiki" doc="vm.decorateDocument(doc)" bind="doc"
+        <document-website ng-switch-when="wiki" doc="vm.decorateDocument(doc)" 
                   highlight="vm.highlighting"></document-website>
-        <document-lucid-docs ng-switch-when="lucid-docs" doc="vm.decorateDocument(doc)" bind="doc"
+        <document-lucid-docs ng-switch-when="lucid-docs" doc="vm.decorateDocument(doc)" 
                   highlight="vm.highlighting"></document-lucid-docs>
-        <document-github ng-switch-when="github" doc="vm.decorateDocument(doc)" bind="doc"
+        <document-github ng-switch-when="github" doc="vm.decorateDocument(doc)" 
                   highlight="vm.highlighting"></document-github>
       </div>
     </div>

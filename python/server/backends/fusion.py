@@ -77,7 +77,7 @@ class FusionBackend(Backend):
 
   def set_log_level(self, log_level="WARN"):
     print "Setting Log Level to {0}".format(log_level)
-    resp = self.admin_session.put("apollo/configurations/com.lucidworks.apollo.log.level", data=json.dumps(log_level))
+    resp = self.admin_session.post("apollo/configurations/com.lucidworks.apollo.log.level", data=json.dumps(log_level))
     if resp.status_code != 204:
       print "Unable to set log_level collection to {0}".format(log_level)
       print resp
@@ -325,6 +325,15 @@ class FusionBackend(Backend):
     resp = self.admin_session.put("apollo/{0}/{1}/refresh".format(pipe_type, id),
                                   headers={"Content-type": "application/json"})
     if resp.status_code != 204:
+      print resp.status_code, resp.json()
+    return resp
+
+  def create_batch_job(self, batch_job_config):
+    id = batch_job_config["id"]
+    print "create batch job: " + id
+    resp = self.admin_session.put("apollo/spark/configurations/{0}".format(id), data=json.dumps(batch_job_config),
+                                  headers={"Content-type": "application/json"})
+    if resp.status_code != 200:
       print resp.status_code, resp.json()
     return resp
 

@@ -1,0 +1,10 @@
+<div class="perDocument" ng-switch="dc.docType">
+  <div class="returnToSearch"><a ng-click="dc.backToSearchResults()">Return to Search Results</a></div>
+  <div ng-repeat="doc in dc.docs" ng-switch="dc.getDocType(doc)" class="doc-results">
+  <document-mail ng-switch-when="mailing" doc="doc" expanded="true"></document-mail>
+  <document-website ng-switch-when="website" doc="doc" expanded="true"></document-website>
+  <document-lucid-docs ng-switch-when="lucid-docs" doc="doc" expanded="true"></document-lucid-docs>
+  <document-website ng-switch-when="wiki" doc="doc" expanded="true"></document-website>
+  <document-github ng-switch-when="github" doc="doc" expanded="true"></document-github>
+    </div>
+</div>

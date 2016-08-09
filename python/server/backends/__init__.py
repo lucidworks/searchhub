@@ -109,6 +109,12 @@ class Backend(object):
   def remove_search_component(self, collection_name, component_name):
     raise NotImplementedError()
 
+  def set_property(self, collection_name, data):
+    raise NotImplementedError()
+
+  def unset_property(self, collection_name, data):
+    raise NotImplementedError()
+
   def stop_datasource(self, id, abort=False):
     raise NotImplementedError()
 

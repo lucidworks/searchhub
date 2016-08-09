@@ -24,6 +24,16 @@
       }
     },
     {
+      "name": "revolution-website",
+      "label":"Lucene Revolution Website",
+      "pipeline":"lw-com-website-default",
+      "url":"https://www.lucenerevolution.org",
+      "schedule": {
+        "repeatUnit": "WEEK",
+        "interval": 1
+      }
+    },
+    {
       "name": "lucidworks-docs-website",
       "label":"lucidworks.com Docs Website",
       "pipeline":"lw-docs-default",

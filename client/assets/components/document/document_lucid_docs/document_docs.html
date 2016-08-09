@@ -1,32 +1,35 @@
 <article class="grid-block document row">
+  <!--lucid docs-->
   <div class="detail vertical grid-content" >
     <!-- show head field linked with a title. -->
-    <h3 class="head-field" ng-if="::vm.doc.title">
-      <a ng-href="{{vm.doc.id}}" ng-click="vm.postClickSignal(this, doc.id, $index, doc.score)" rel="noopener" target="document">
-        <field value="::vm.doc.title" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="title"></field>
+    <h3 class="head-field" ng-if="doc.title">
+      <a ng-click="vm.postClickSignal(this, doc.id, $index, doc.score, doc.threadId, doc.subject_simple)" >
+        <field value="doc.title" highlight="highlight[doc.id]" maxlength="200" hkey="title"></field>
       </a>
     </h3>
     <!-- show head field without a title. -->
-    <h3 class="head-field" ng-if="::(!vm.doc.title && !!vm.doc.url)">
-      <a ng-href="{{::vm.doc.url[0]}}" ng-click="vm.postClickSignal(this, doc.id, $index, doc.score)" rel="noopener" target="_blank">
-        <field value="::vm.doc.url" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="url"></field>
+    <h3 class="head-field" ng-if="(!doc.title && !!doc.url)">
+      <a ng-click="vm.postClickSignal(this, doc.id, $index, doc.score, doc.threadId, doc.subject_simple)">
+        <field value="doc.url" highlight="highlight[doc.id]" maxlength="200" hkey="url"></field>
       </a>
     </h3>
-    <h3 class="subheader" ng-if="::(!vm.doc.title && !vm.doc.url)">
-      <a ng-href="{{::vm.doc.id}}" ng-click="vm.postClickSignal(this, doc.id, $index, doc.score)" rel="noopener" target="_blank">
-        <field value="::vm.doc.id" highlight="::vm.highlight[doc.id]" khey="id" maxlength="200"></field>
+    <h3 class="subheader" ng-if="(!doc.title && !doc.url)">
+      <a ng-click="vm.postClickSignal(this, doc.id, $index, doc.score, doc.threadId, doc.subject_simple)">
+        <field value="doc.id" highlight="highlight[doc.id]" khey="id" maxlength="200"></field>
       </a>
     </h3>
-    <h4 class="subheader" ng-if="::vm.doc.keywords"><field value="::vm.doc.keywords" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="keywords"></field></h4>
+    <h4 class="subheader" ng-if="doc.keywords"><field value="doc.keywords" highlight="highlight[doc.id]" maxlength="200" hkey="keywords"></field></h4>
     <div ng-include="'/templates/document-common.html'"></div>
-    <p class="large-8 xlarge-7 xx-large-6">
-      <field ng-if="::vm.doc.description" value="::vm.doc.description" highlight="::vm.highlight[doc.id]" maxlength="200"
+    <p class="large-8 xlarge-7 xx-large-6 mail-body">
+      <field ng-if="doc.description" value="doc.description" highlight="highlight[doc.id]" maxlength="200"
              hkey="description"></field>
-     <field ng-if="::(!vm.doc.description && vm.doc.og_description)" value="::vm.doc.og_description" highlight="::vm.highlight[doc.id]" maxlength="200"
+     <field ng-if="(!doc.description && doc.og_description)" value="doc.og_description" highlight="highlight[doc.id]" maxlength="200"
             hkey="description"></field>
-    <field ng-if="::vm.doc.content_txt" value="::vm.doc.content_txt" highlight="::vm.highlight[doc.id]" maxlength="200"
+    <field ng-if="doc.content_txt" value="doc.content_txt" highlight="highlight[doc.id]" maxlength="200"
              hkey="content_txt"></field>
-     <field ng-if="vm.doc.body" value="vm.doc.body" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="body"></field>
+      <field ng-if="doc.content" value="doc.content" highlight="highlight[doc.id]" maxlength="200"
+             hkey="content"></field>
+     <field ng-if="doc.body" value="doc.body" highlight="highlight[doc.id]" maxlength="200" hkey="body"></field>
     </p>
   </div>
 </article>

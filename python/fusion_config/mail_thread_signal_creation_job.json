@@ -1,0 +1,6 @@
+{
+  "id": "mail_thread_signal_creation_job",
+  "type": "script",
+  "maxRows": 1,
+  "script": "import org.apache.spark.sql.functions._\nimport com.lucidworks.searchhub.analytics._\nval mailData = SearchHubLoader.loadFromSolr(SearchHubLoader.Config(sqlContext)).filter(\"_lw_data_source_pipeline_s = 'mailing-list-default'\").filter(\"isBot = false\").select(\"id\", \"from_email\", \"threadId\", \"subject_simple\", \"publishedOnDate\", \"in_reply_to\", \"project\")\nval userItemCount = mailData.withColumnRenamed(\"threadId\", \"threadId_s\").withColumnRenamed(\"subject_simple\", \"subject_simple_s\").withColumnRenamed(\"from_email\", \"from_email_s\").groupBy(\"threadId_s\", \"subject_simple_s\", \"from_email_s\").count()\nuserItemCount.withColumnRenamed(\"count\", \"weight_d\").write.format(\"solr\").options(Map(\"zkhost\" -> \"localhost:9983\", \"collection\" -> \"lucidfind_signals_aggr\")).mode(org.apache.spark.sql.SaveMode.Overwrite).save\ncom.lucidworks.spark.util.SolrSupport.getCachedCloudClient(\"localhost:9983\").commit(\"lucidfind_signals_aggr\")"
+}

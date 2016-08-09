@@ -16,7 +16,7 @@ import java.util.*;
  * Created by xiaoyehuang on 8/3/16.
  */
 public class PrepareFile {
-    //assume files 'idfMapData' and 'w2vModelData' are already at the current directory
+    //assume directory 'modelId' is already at the current directory
     public static void createZipFile(){
         try{
             List<String> featureList = Arrays.asList("body");//featureList which will be added into json
@@ -36,28 +36,30 @@ public class PrepareFile {
                 if(osw != null) {
                     try {
                         osw.flush();
-                    } catch (IOException var25) {
+                    } catch (IOException e) {
                         ;
                     }
 
                     try {
                         osw.close();
-                    } catch (IOException var24) {
+                    } catch (IOException e) {
                         ;
                     }
                 }
 
             }
 
-            File zipFile1 = new File("modelId" + ".zip");//make a zip file
+            File zipFile = new File("modelId" + ".zip");//make a zip file
 
-            addFilesToZip(modelDir, zipFile1);//zip all the files under the directory modelDir
+            addFilesToZip(modelDir, zipFile);//zip all the files under the directory modelDir
 
         } catch(Exception ex){
             ex.printStackTrace();
         }
     }
 
+    //the following two functions are copied from com.lucidworks.spark.fusion.FusionMLModelSupport
+    //they are protected so cannot be just imported
     protected static void addFilesToZip(File source, File destination) throws IOException, ArchiveException {
         FileOutputStream archiveStream = new FileOutputStream(destination);
         ArchiveOutputStream archive = (new ArchiveStreamFactory()).createArchiveOutputStream("zip", archiveStream);

@@ -68,8 +68,8 @@ public class W2VRelatedTerms implements MLModel, SparkContextAware {
                         this.idfMap.put(tmp,Double.parseDouble(splittedLine[length-1]));
                     }
                 }
-            } catch (Exception var10) {
-                var10.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
 
             this.textAnalyzer = new LuceneTextAnalyzer(noHTMLstdAnalyzerSchema);
@@ -80,6 +80,7 @@ public class W2VRelatedTerms implements MLModel, SparkContextAware {
                 this.w2vModel = Word2VecModel.load(this.sparkContext, modelDir.getAbsolutePath() + "/w2vModelData");
             } catch (Exception e){
                 log.error("error when loading model");
+                e.printStackTrace();
                 throw e;
             }
         }
@@ -134,7 +135,7 @@ public class W2VRelatedTerms implements MLModel, SparkContextAware {
         out.add("");
         for(String word:topWords){
             if(this.w2vModel.wordIndex().contains(word)){//elif words not in data, do nothing
-                Tuple2<String,Object>[] synonyms=w2vModel.findSynonyms(word,1);//find 2 synonyms for each top word
+                Tuple2<String,Object>[] synonyms=w2vModel.findSynonyms(word,1);//find 1 synonyms for each top word
                 for(Tuple2 tuples: synonyms){
                     out.set(0,out.get(0)+tuples._1+"; ");
                 }

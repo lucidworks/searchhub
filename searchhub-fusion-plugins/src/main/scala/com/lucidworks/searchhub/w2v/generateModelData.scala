@@ -1,66 +1,41 @@
+import sys.process._
 import com.lucidworks.searchhub.analytics.AnalyzerUtils._
 import com.lucidworks.searchhub.analytics._
 import org.apache.spark.sql.SQLContext
 import java.io._
 import com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.PrepareFile
-import sys.process._
-import com.lucidworks.apollo.spark.SparkJobConfig.newId
 
 /***
-  * This file is not meant to be imported or loaded in any way - instead, use the lines here inside of
-  * the spark shell ($FUSION_HOME/bin/spark-shell).
-  * You'll already have a "val sqlContext: SQLContext" in scope, so you can work your way down
-  * this file, bit by bit.  It's encapsulated in an object so that it compiles, and if code changes that makes this
-  * file not compile, it shows that this example code needs updating.
+  * This file is not meant to be imported or loaded in any way
+  * it is a copy of the scripts included in python/fusion_config/w2v_job.json
   */
 object generateModelData {
   val sqlContext: SQLContext = ???
   val sc: org.apache.spark.SparkContext = ???
-  //Setup our Solr connection
-  val opts = Map("zkhost" -> "localhost:9983", "collection" -> "lucidfind", "query" -> "*:*",
-    "fields" -> "id,body,title,subject,publishedOnDate,project,content")
-
-  val tmpDF = sqlContext.read.format("solr").options(opts).load//this is a dataframe of orignal data
-  //Change this depending on how many mail messages you have loaded.  The current settings
-  //were based on about 200K messages loaded and wanting the results to finish in a minute or two
-  val mailDF = tmpDF.sample(false, 0.2)//this is a dataframe, sampled 20%
+  val opts = Map("zkhost" -> "localhost:9983", "collection" -> "lucidfind", "query" -> "*:*","fields" -> "id,body,title,subject,publishedOnDate,project,content")
+  val mailDF = sqlContext.read.format("solr").options(opts).load
   mailDF.cache()
-  //materialize the data so that we don't have to hit Solr every time
   mailDF.count()
-
   val textColumnName = "body"
-
-  val tokenizer = analyzerFn(noHTMLstdAnalyzerSchema)//tokenizer, String => List[String] = <function1>
-
-  val vectorizer = TfIdfVectorizer.build(mailDF, tokenizer, textColumnName)//from dataframe 'mailDF', find the column
-  //'textColumnName', and pass it to tokenizer. this is a function
-
+  val tokenizer = analyzerFn(noHTMLstdAnalyzerSchema)
+  val vectorizer = TfIdfVectorizer.build(mailDF, tokenizer, textColumnName)
   val vectorizedMail = TfIdfVectorizer.vectorize(mailDF, vectorizer, textColumnName)
-  //vectorizedMail is a dataframe, with an additional column body_vect
   vectorizedMail.cache()
-
-
-
-
-  //serialization for idf Map,  the data is at the directory bin
-  //val file=new File("modelId/idfMapData")
   val filedir=new File("modelId")
   filedir.mkdir()
   val idfMapData=new File(filedir,"idfMapData")
-  //val w2vModelData=new File(filedir,"w2vModelData");
+  if(idfMapData.exists){idfMapData.delete}
   val bw=new BufferedWriter(new FileWriter(idfMapData))
   vectorizer.idfs.foreach(line=>bw.write(line._1+","+line._2+"\n"))
   bw.close()
-
-  //make w2v model
   val w2vModel = ManyNewsgroups.buildWord2VecModel(vectorizedMail, tokenizer, textColumnName)
-  //serialization w2v model
+  val w2vModelFile=new File("modelId/w2vModelData")
+  if(w2vModelFile.exists)"rm -rf modelId/w2vModelData"!
+
   w2vModel.save(sc, "modelId/w2vModelData")
-  //deserialize w2v model and run it
-  //val newW2vModel=Word2VecModel.load(sc,"modelId/w2vModelData")
-  PrepareFile.createZipFile//create the zip file
-  "curl -u admin:password123 -X DELETE http://localhost:8764/api/apollo/blobs/modelId28" !
+  PrepareFile.createZipFile
+  "curl -u admin:password123 -X DELETE http://localhost:8764/api/apollo/blobs/modelId666" !
 
-  "curl -u admin:password123 -X PUT --data-binary @modelId.zip -H Content-type:application/zip http://localhost:8764/api/apollo/blobs/modelId28?modelType=com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.W2VRelatedTerms" ! //send the zip file to blob
-
+  //the username and password below is hard coded.. may need to find some API to call and get them..
+  "curl -u admin:password123 -X PUT --data-binary @modelId.zip -H Content-type:application/zip http://localhost:8764/api/apollo/blobs/modelId666?modelType=com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.W2VRelatedTerms" !
 }

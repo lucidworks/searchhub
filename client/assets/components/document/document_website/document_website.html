@@ -27,8 +27,9 @@
             hkey="description"></field>
     <field ng-if="doc.content_txt" value="doc.content_txt" highlight="highlight[doc.id]" maxlength="200"
              hkey="content_txt"></field>
+      <field ng-if="doc.content" value="doc.content" highlight="highlight[doc.id]" maxlength="200"
+             hkey="content"></field>
      <field ng-if="doc.body" value="doc.body" highlight="highlight[doc.id]" maxlength="200" hkey="body"></field>
     </p>
   </div>
-
 </article>

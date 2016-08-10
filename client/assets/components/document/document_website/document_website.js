@@ -41,6 +41,11 @@
     }
 
     function processDocument(doc) {
+      if (doc.content){
+        doc.content = doc.content.trim();
+      } else if (doc.content_txt){
+        doc.content_txt = doc.content_txt.trim();
+      }
       return doc;
     }
 

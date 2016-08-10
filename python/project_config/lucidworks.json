@@ -44,7 +44,7 @@
       }
     },
     {
-      "name": "lucidworks-knowldege-base-website",
+      "name": "lucidworks-knowledge-base-website",
       "label":"lucidworks.com KB Website",
       "pipeline":"lw-com-website-default",
       "url":"https://support.lucidworks.com/hc",

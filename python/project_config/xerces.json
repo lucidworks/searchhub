@@ -1,0 +1,52 @@
+{
+  "name": "xerces",
+    "description": "The Apache xerces project, tweets, wiki, github, et. al",
+  "label": "Apache xerces",
+  "query_pipeline": "lucidfind-default",
+  "github_pipeline": "github-default",
+  "jira_pipeline": "jira-default",
+  "mailing_list_pipeline": "mailing-list-default",
+  "twitter_pipeline": "twitter-default",
+  "website_pipeline": "website-default",
+  "wiki_pipeline": "wiki-default",
+  "websites": [
+    {
+      "name": "xerces-website",
+      "label": "Apache xerces Website",
+      "url": "https://xerces.apache.org/",
+      "schedule": {
+        "repeatUnit": "WEEK",
+        "interval": 1
+      }
+    }
+  ],
+  "mailing_lists": [
+    {
+      "name": "xerces-j-users",
+      "label": "xerces J Users",
+      "mbox": "xerces-j-users",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 2
+      }
+    },
+    {
+      "name": "xerces-j-dev",
+      "label": "xerces J Dev",
+      "mbox": "xerces-j-dev",
+      "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 2
+      }
+    }
+  ],
+  "jira": {
+    "name": "apache-jira-xerces",
+    "label": "Apache xerces JIRA Issues",
+    "url": "https://issues.apache.org/jira/browse/XERCESJ",
+    "schedule": {
+        "repeatUnit": "HOUR",
+        "interval": 2
+      }
+  }
+}

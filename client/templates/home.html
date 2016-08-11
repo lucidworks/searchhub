@@ -6,7 +6,22 @@ controller: HomeController as hc
 <zf-offcanvas position="left"></zf-offcanvas>
 
 <div class="grid-frame vertical">
-  <div ng-include="'/templates/header.html'"></div>
+  <div class="header-container" ng-include="'/templates/header.html'"></div>
+  <!-- Top Bar -->
+  <div class="document row">
+    <div class="search-box detail" >
+      <form name="searchForm" class="show-for-medium" ng-submit="hc.search()">
+        <span class="inline-label search-label">
+          <search query="hc.searchQuery" class="search-box-outer"></search>
+          <a href="#" class="success button" ng-click="hc.search()"><img
+            zf-iconic=""
+            icon="magnifying-glass"
+            data-direction="top"
+            size="small"
+            class="iconic-color-secondary"></a>
+        </span>
+      </form>
+  </div></div>
   <!-- Main Content Frame -->
   <div class="grid-block">
 
@@ -27,7 +42,7 @@ controller: HomeController as hc
     <div class="grid-block medium" >
       <div class="grid-content">
         <a name="topOfMainContent"></a>
-        <div class="card card-result-comment" ng-switch="hc.status" ng-if="!hc.perDocument">
+        <div class="card" ng-switch="hc.status" ng-if="!hc.perDocument">
           <div class="card-section center card-normal" ng-switch-when="normal">
             Showing Results for "{{hc.lastQuery}}". {{hc.numFoundFormatted}} results found.
             <select ng-model="hc.sort" ng-change="hc.onChangeSort()">

@@ -1,56 +1,72 @@
-<a href="https://github.com/lucidworks/searchhub"><img style="position: absolute; top: 0; right: 0; border: 0;" src="/assets/img/github_forkme.png" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
-  <!-- Top Bar -->
-  <nav class="primary title-bar">
-    <span class="center">
-      <form name="searchForm" class="show-for-medium" ng-submit="hc.search()">
-        <span class="inline-label search-label">
-          <search query="hc.searchQuery" class="search-box-outer"></search>
-          <a href="#" class="success button" ng-click="hc.search()"><img
-            zf-iconic=""
-            icon="magnifying-glass"
-            data-direction="top"
-            size="small"
-            class="iconic-color-secondary"></a>
-        </span>
-      </form>
-      <span class="show-for-small-only">
-        <a class="title" href="/#"><img ng-if="::hc.logoLocation" ng-src="{{::hc.logoLocation}}"/><span
-          ng-if="::(!hc.logoLocation)">{{::hc.appName}}</span></a>
-      </span>
-    </span>
-    <!-- Mobile Search bar -->
-    <ul class="left menu-bar primary condense">
-      <li ng-show="hc.showFacets" class="show-for-small-only">
-        <a zf-toggle="sidebar"><img
-          zf-iconic=""
-          icon="menu"
-          data-direction="top"
-          size="small"
-          class="iconic-color-secondary"></a></a>
+<header>
+  <nav class="top-bar foundation-bar" data-topbar role="navigation" aria-hidden="true">
+    <ul class="title-area">
+      <li class="name">
+        <a href="/" class="logo">Lucidworks</a>
       </li>
-      <li class="show-for-medium"><span class="navLogo"><img
-            zf-iconic=""
-            icon="logo"
-            data-direction="top"
-            size="small"
-            class="iconic-color-secondary"></a></span>
-        <a class="title">{{hc.appName}}</a>
-      </li>
+      <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
     </ul>
+    <section class="top-bar-section">
+      <!-- Right Nav Section -->
+      <ul class="right">
+        <li id="support">
+          <a href="tel:+14153296515"><span class="number"><img
+              src="/assets/img/phone.png"/>415-329-6515</span></a> <span
+            class="bar">|</span> <a target="_blank" href="https://support.lucidworks.com/">Support Portal</a>
+        </li>
+        <li id="searchbar">
+          <form class="search-bar" action="/" method="get">
+            <fieldset>
+              <input type="text" name="s" id="search" placeholder="Search" value=""/>
+              <input type="submit" id="search-submit" class="btn" value="Go"/>
+            </fieldset>
+          </form>
+        </li>
+        <li id="searchicon"><span id="magnifying-glass"><i class="fa fa-search"></i></span></li>
+        <li><a class="button nav-button button-alt" href="http://lucidworks.com/products/fusion/download/" target="_blank">Try Fusion</a></li>
+        <li><a class="button nav-button" href="http://lucidworks.com/company/contact" target="_blank">Contact Us</a></li>
+      </ul>
+      <!-- Left Nav Section -->
+      <nav class="nav-main">
+        <ul id="menu-primary" class="top-bar-menu left">
+          <li id="menu-item-458"
+              class="link-product menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-458">
+            <a href="https://lucidworks.com/products/fusion/" target="_blank">Products</a>
+          </li>
+          <li id="menu-item-1340"
+              class="link-solutions menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-1340">
+            <a href="https://lucidworks.com/solutions/customer-insights/" target="_blank">Solutions</a>
 
+          </li>
+          <li id="menu-item-17106" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-17106"><a
+              href="https://lucidworks.com/customers/" target="_blank">Customers</a></li>
+          <li id="menu-item-17169"
+              class="link-hide-supernavs menu-item menu-item-type-custom menu-item-object-custom menu-item-17169"><a
+              href="http://lucidworks.com/resources" target="_blank">Resources</a></li>
+          <li id="menu-item-14969"
+              class="link-hide-supernavs menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-14969">
+            <a href="http://lucidworks.com/company" target="_blank">Company</a>
+          </li>
+          <li id="menu-item-517"
+              class="link-hide-supernavs menu-item menu-item-type-post_type menu-item-object-page menu-item-517"><a
+              href="https://lucidworks.com/blog/" target="_blank">Blog</a></li>
+        </ul>
+      </nav>
+      <ul class="mobile-contact-section">
+        <li class="mobile-contact">
+          <h5>Main Office</h5>
+          <ul class="contact sub-menu">
+            <li>340 Brannan St.</li>
+            <li>Suite 400</li>
+            <li>San Francisco, CA 94107</li>
+            <li><a href="//goo.gl/maps/4bpah" target="blank" class="link">Map It</a></li>
+            <li><a href="tel:415-329-6515" target="blank" class="link">Phone: 415-329-6515</a>
+            <li>
+          </ul>
+        </li>
+      </ul>
+    </section>
   </nav>
-  <nav class="primary title-bar show-for-small-only">
-    <form ng-submit="hc.search()">
-      <span class="inline-label search-label">
-        <search query="hc.searchQuery" class="search-box-outer"></search>
-        <a href="#" class="success button" ng-click="hc.search()"><img
-          zf-iconic=""
-          icon="magnifying-glass"
-          data-direction="top"
-          size="small"
-          class="iconic-color-secondary"></a>
-      </span>
-    </form>
-  </nav>
+</header>
 
 

@@ -1,0 +1,15 @@
+{
+    "id": "mail_threads_recommendation",
+    "creatorType": "human",
+    "creatorId": "admin",
+    "createTime": "2016-05-15T14:50:17.346Z",
+    "startTime": "2016-05-15T14:49:50.000Z",
+    "repeatUnit": "DAY",
+    "interval": 1,
+    "active": true,
+    "callParams": {
+      "uri": "service://spark/jobs/mail_thread_recommendation_job",
+      "method": "POST"
+    }
+}
+

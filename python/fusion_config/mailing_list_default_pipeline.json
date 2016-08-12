@@ -1,76 +1,72 @@
 {
-  "id": "mailing-list-default",
-  "stages": [
-    {
-      "type": "mbox-parsing",
-      "id": "8j7l23xr",
-      "skip": false,
-      "label": "Mail Parsing"
-    },
-    {
-      "type": "indexing-rpc",
-      "id": "98078ewmw468estt9",
-      "mappingRules": [
-        {
-          "path": "//result/doc/str[@name=\"threadId\"]/text()",
-          "target": "threadId",
-          "append": false,
-          "xml": false
-        }
-      ],
-      "debug": false,
-      "params": {
-        "uri": "solr://lucidfind/select",
-        "method": "GET",
-        "queryParams": {
-          "irt": "${in_reply_to}",
-          "q": "{!term f=id v=$irt}"
-        },
-        "headers": { },
-        "entity": { }
+  "id" : "mailing-list-default",
+  "stages" : [ {
+    "type" : "mbox-parsing",
+    "id" : "8j7l23xr",
+    "idPatternStr" : ".*/\\d{6}\\.mbox/raw/%3[Cc].*%3[eE]$",
+    "botEmails" : [ ".*buildbot@.*", ".*git@.*", ".*hudson@.*", ".*jenkins@.*", ".*jira@.*", ".*subversion@.*", ".*svn@.*" ],
+    "type" : "mbox-parsing",
+    "skip" : false,
+    "label" : "Mail Parsing"
+  }, {
+    "type" : "indexing-rpc",
+    "id" : "98078ewmw468estt9",
+    "mappingRules" : [ {
+      "path" : "//result/doc/str[@name=\"threadId\"]/text()",
+      "target" : "threadId",
+      "append" : false,
+      "xml" : false
+    } ],
+    "debug" : false,
+    "params" : {
+      "uri" : "solr://lucidfind/select",
+      "method" : "GET",
+      "queryParams" : {
+        "q" : "{!term f=id v=$irt}",
+        "irt" : "${in_reply_to}"
       },
-      "skip": false,
-      "label": "Find Thread Id",
-      "condition": "true"
+      "headers" : { },
+      "entity" : { }
     },
-    {
-      "type": "field-mapping",
-      "mappings": [
-        {
-          "source": "_raw_content_",
-          "operation": "delete"
-        },
-        {
-          "source": "_rpc_.*",
-          "operation": "delete"
-        }
-      ],
-      "reservedFieldsMappingAllowed": false,
-      "skip": false,
-      "label": "field-mapping"
-    },
-    {
-      "type" : "machine-learning",
-      "id" : "sitydhqsh502otj4i",
-      "modelId" : "modelId333",
-      "predictionFieldName" : "related terms",
-      "failOnError" : false,
-      "storeInContext" : false,
-      "includeRawPredictions" : false,
-      "type" : "machine-learning",
-      "skip" : false,
-      "label" : "machine-learning"
-    },
-    {
-      "type": "solr-index",
-      "id": "3d0d3dd8-771a-450c-ad7a-c1e3c108246a",
-      "enforceSchema": true,
-      "dateFormats": [ ],
-      "params": [ ],
-      "bufferDocsForSolr": true,
-      "skip": false,
-      "label": "solr-index"
-    }
-  ],
-  "properties": { }
+    "type" : "indexing-rpc",
+    "skip" : false,
+    "label" : "Find Thread Id",
+    "condition" : "true"
+  }, {
+    "type" : "field-mapping",
+    "id" : "f6ccd19e-2451-42fc-849b-9a531438e7fb",
+    "mappings" : [ {
+      "source" : "_raw_content_",
+      "operation" : "delete"
+    }, {
+      "source" : "_rpc_.*",
+      "operation" : "delete"
+    } ],
+    "reservedFieldsMappingAllowed" : false,
+    "type" : "field-mapping",
+    "skip" : false,
+    "label" : "field-mapping"
+  }, {
+    "type" : "machine-learning",
+    "id" : "sitydhqsh502otj4i",
+    "modelId" : "modelId666",
+    "predictionFieldName" : "related terms",
+    "failOnError" : false,
+    "storeInContext" : false,
+    "includeRawPredictions" : false,
+    "type" : "machine-learning",
+    "skip" : false,
+    "label" : "machine-learning"
+  }, {
+    "type" : "solr-index",
+    "id" : "3d0d3dd8-771a-450c-ad7a-c1e3c108246a",
+    "enforceSchema" : true,
+    "dateFormats" : [ ],
+    "params" : [ ],
+    "bufferDocsForSolr" : true,
+    "type" : "solr-index",
+    "skip" : false,
+    "label" : "solr-index"
+  } ],
+  "properties" : { }
 }

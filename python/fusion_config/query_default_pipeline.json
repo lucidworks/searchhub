@@ -1,209 +1,176 @@
 {
-  "id": "lucidfind-default",
-  "stages": [
-    {
-      "type": "set-params",
-      "id": "ov5lbjp6tcbf8yqfr",
-      "params": [
-        {
-          "key": "fq",
-          "value": "isBot:false",
-          "policy": "append"
-        },
-        {
-          "key": "sort",
-          "value": "publishedOnDate desc",
-          "policy": "default"
-        }
-      ],
-      "skip": false,
-      "label": "MatchAllRanker",
-      "condition": "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\""
-    },
-    {
-      "type": "set-params",
-      "id": "sl9m37u7xs2j5x9a4i",
-      "params": [
-        {
-          "key": "mm",
-          "value": "2<75%",
-          "policy": "append"
-        },
-        {
-          "key": "mm.autoRelax",
-          "value": "true",
-          "policy": "append"
-        },
-        {
-          "key": "pf",
-          "value": "title^10 subject^10 keywords^20 body content filename",
-          "policy": "append"
-        },
-        {
-          "key": "ps",
-          "value": "2",
-          "policy": "append"
-        },
-        {
-          "key": "qs",
-          "value": "3",
-          "policy": "append"
-        },
-        {
-          "key": "bq",
-          "value": "publishedOnDate:[NOW/DAY-1MONTH TO NOW/DAY]",
-          "policy": "append"
-        }
-      ],
-      "skip": false,
-      "label": "Search Settings"
-    },
-    {
-      "type": "set-params",
-      "id": "tovo0f6r",
-      "params": [
-        {
-          "key": "hl",
-          "value": "true",
-          "policy": "append"
-        },
-        {
-          "key": "hl.fl",
-          "value": "title,content,body,subject",
-          "policy": "append"
-        }
-      ],
-      "skip": false,
-      "label": "Highlighting"
-    },
-    {
-      "type": "search-fields",
-      "id": "d6875c2c-d2af-432d-89b9-9999cc685aaa",
-      "rows": 10,
-      "start": 0,
-      "queryFields": [
-        {
-          "field": "title",
-          "boost": 10
-        },
-        {
-          "field": "subject",
-          "boost": 10
-        },
-        {
-          "field": "keywords",
-          "boost": 20
-        },
-        {
-          "field": "suggest",
-          "boost": 10
-        },
-        {
-          "field": "body"
-        },
-        {
-          "field": "content"
-        },
-        {
-          "field": "filename"
-        }
-      ],
-      "returnFields": [],
-      "skip": false,
-      "label": "search-fields"
-    },
-    {
-      "type": "facet",
-      "id": "86eef67e-5dd8-4e40-9df9-f6eb9eb369d4",
-      "fieldFacets": [
-        {
-          "field": "{!ex=ds}datasource_label",
-          "limit": 100,
-          "minCount": 0,
-          "missing": false
-        },
-        {
-          "field": "{!ex=prj}project_label",
-          "limit": 100,
-          "minCount": 0,
-          "missing": false
-        },
-        {
-          "field": "{!ex=auth}author_facet",
-          "minCount": 1,
-          "missing": false
-        },
-        {
-          "field": "isBot",
-          "minCount": 1,
-          "missing": false
-        },
-        {
-          "field": "productVersion",
-          "minCount": 1,
-          "missing": false
-        },
-        {
-          "field": "productName",
-          "minCount": 1,
-          "missing": false
-        }
-      ],
-      "skip": false,
-      "label": "facet"
-    },
-    {
-      "type": "set-params",
-      "id": "e65666f6-0054-4f42-9b45-0492a251d39d",
-      "params": [
-        {
-          "key": "facet.range",
-          "value": "publishedOnDate",
-          "policy": "append"
-        },
-        {
-          "key": "facet.range.start",
-          "value": "NOW/DAY-4MONTHS",
-          "policy": "append"
-        },
-        {
-          "key": "facet.range.end",
-          "value": "NOW/DAY+1DAY",
-          "policy": "append"
-        },
-        {
-          "key": "facet.range.gap",
-          "value": "+1MONTH",
-          "policy": "append"
-        },
-        {
-          "key": "facet.range.other",
-          "value": "all",
-          "policy": "append"
-        },
-        {
-          "key": "facet.limit",
-          "value": "30",
-          "policy": "append"
-        },
-        {
-          "key": "facet.mincount",
-          "value": "1",
-          "policy": "append"
-        }
-      ],
-      "skip": false,
-      "label": "Other Facets"
-    },
-    {
-      "type": "solr-query",
-      "id": "3742f43a-9e33-4968-957b-dc5182f1393c",
-      "allowedRequestHandlers": [],
-      "httpMethod": "POST",
-      "allowFederatedSearch": false,
-      "skip": false,
-      "label": "solr-query"
-    }
-  ],
-  "properties": {}
+  "id" : "lucidfind-default",
+  "stages" : [ {
+    "type" : "set-params",
+    "id" : "ov5lbjp6tcbf8yqfr",
+    "params" : [ {
+      "key" : "fq",
+      "value" : "isBot:false",
+      "policy" : "append"
+    }, {
+      "key" : "sort",
+      "value" : "publishedOnDate desc",
+      "policy" : "default"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "MatchAllRanker",
+    "condition" : "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\""
+  }, {
+    "type" : "set-params",
+    "id" : "sl9m37u7xs2j5x9a4i",
+    "params" : [ {
+      "key" : "mm",
+      "value" : "2<75%",
+      "policy" : "append"
+    }, {
+      "key" : "mm.autoRelax",
+      "value" : "true",
+      "policy" : "append"
+    }, {
+      "key" : "pf",
+      "value" : "title^10 subject^10 keywords^20 body content filename",
+      "policy" : "append"
+    }, {
+      "key" : "ps",
+      "value" : "2",
+      "policy" : "append"
+    }, {
+      "key" : "qs",
+      "value" : "3",
+      "policy" : "append"
+    }, {
+      "key" : "bq",
+      "value" : "publishedOnDate:[NOW/DAY-1MONTH TO NOW/DAY]",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "Search Settings"
+  }, {
+    "type" : "set-params",
+    "id" : "tovo0f6r",
+    "params" : [ {
+      "key" : "hl",
+      "value" : "true",
+      "policy" : "append"
+    }, {
+      "key" : "hl.fl",
+      "value" : "title,content,body,subject",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "Highlighting"
+  }, {
+    "type" : "search-fields",
+    "id" : "d6875c2c-d2af-432d-89b9-9999cc685aaa",
+    "rows" : 10,
+    "start" : 0,
+    "queryFields" : [ {
+      "field" : "title",
+      "boost" : 10.0
+    }, {
+      "field" : "subject",
+      "boost" : 10.0
+    }, {
+      "field" : "keywords",
+      "boost" : 20.0
+    }, {
+      "field" : "suggest",
+      "boost" : 10.0
+    }, {
+      "field" : "body"
+    }, {
+      "field" : "content"
+    }, {
+      "field" : "filename"
+    } ],
+    "returnFields" : [ ],
+    "type" : "search-fields",
+    "skip" : false,
+    "label" : "search-fields"
+  }, {
+    "type" : "facet",
+    "id" : "86eef67e-5dd8-4e40-9df9-f6eb9eb369d4",
+    "fieldFacets" : [ {
+      "field" : "{!ex=ds}datasource_label",
+      "limit" : 100,
+      "minCount" : 0,
+      "missing" : false
+    }, {
+      "field" : "{!ex=prj}project_label",
+      "limit" : 100,
+      "minCount" : 0,
+      "missing" : false
+    }, {
+      "field" : "{!ex=auth}author_facet",
+      "minCount" : 1,
+      "missing" : false
+    }, {
+      "field" : "isBot",
+      "minCount" : 1,
+      "missing" : false
+    }, {
+      "field" : "productVersion",
+      "minCount" : 1,
+      "missing" : false
+    }, {
+      "field" : "productName",
+      "minCount" : 1,
+      "missing" : false
+    }, {
+      "field" : "related_terms",
+      "minCount" : 1,
+      "missing" : false
+    } ],
+    "type" : "facet",
+    "skip" : false,
+    "label" : "facet"
+  }, {
+    "type" : "set-params",
+    "id" : "e65666f6-0054-4f42-9b45-0492a251d39d",
+    "params" : [ {
+      "key" : "facet.range",
+      "value" : "publishedOnDate",
+      "policy" : "append"
+    }, {
+      "key" : "facet.range.start",
+      "value" : "NOW/DAY-4MONTHS",
+      "policy" : "append"
+    }, {
+      "key" : "facet.range.end",
+      "value" : "NOW/DAY+1DAY",
+      "policy" : "append"
+    }, {
+      "key" : "facet.range.gap",
+      "value" : "+1MONTH",
+      "policy" : "append"
+    }, {
+      "key" : "facet.range.other",
+      "value" : "all",
+      "policy" : "append"
+    }, {
+      "key" : "facet.limit",
+      "value" : "30",
+      "policy" : "append"
+    }, {
+      "key" : "facet.mincount",
+      "value" : "1",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "Other Facets"
+  }, {
+    "type" : "solr-query",
+    "id" : "3742f43a-9e33-4968-957b-dc5182f1393c",
+    "allowedRequestHandlers" : [ ],
+    "httpMethod" : "POST",
+    "allowFederatedSearch" : false,
+    "type" : "solr-query",
+    "skip" : false,
+    "label" : "solr-query"
+  } ],
+  "properties" : { }
 }

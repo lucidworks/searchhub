@@ -126,7 +126,7 @@ public class W2VRelatedTerms implements MLModel, SparkContextAware {
         }
         */
         ArrayList<String> topWords=new ArrayList();
-        for (int i=0;i<Math.min(1,tfidfList.size());i++){
+        for (int i=0;i<Math.min(5,tfidfList.size());i++){
             topWords.add(tfidfList.get(i).getKey());
         }
 
@@ -135,13 +135,13 @@ public class W2VRelatedTerms implements MLModel, SparkContextAware {
         out.add("");
         for(String word:topWords){
             if(this.w2vModel.wordIndex().contains(word)){//elif words not in data, do nothing
-                Tuple2<String,Object>[] synonyms=w2vModel.findSynonyms(word,1);//find 1 synonyms for each top word
+                Tuple2<String,Object>[] synonyms=w2vModel.findSynonyms(word,2);//find 2 synonyms for each top word
                 for(Tuple2 tuples: synonyms){
-                    out.set(0,out.get(0)+tuples._1+"; ");
+                    out.set(0,out.get(0)+tuples._1+",");
                 }
             }
         }
-        out.set(0,out.get(0).substring(0,out.get(0).length()-2));
+        out.set(0,out.get(0).substring(0,out.get(0).length()-1));
         return out;
 
 

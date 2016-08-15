@@ -53,7 +53,7 @@
     "predictionFieldName" : "related terms",
     "failOnError" : false,
     "storeInContext" : false,
-    "includeRawPredictions" : false,
+    "includeRawPredictions" : true,
     "type" : "machine-learning",
     "skip" : false,
     "label" : "machine-learning"

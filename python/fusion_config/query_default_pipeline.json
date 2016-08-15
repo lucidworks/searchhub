@@ -120,7 +120,7 @@
       "minCount" : 1,
       "missing" : false
     }, {
-      "field" : "related_terms",
+      "field" : "related_terms_ss",
       "minCount" : 1,
       "missing" : false
     } ],

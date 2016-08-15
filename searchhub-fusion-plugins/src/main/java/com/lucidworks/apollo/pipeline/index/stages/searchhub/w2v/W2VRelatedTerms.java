@@ -8,9 +8,11 @@ import org.apache.spark.mllib.feature.Word2VecModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import scala.Tuple2;
+import org.apache.spark.api.java.function.VoidFunction;
 
 import java.io.*;
 import java.util.*;
+import org.apache.spark.api.java.JavaRDD;
 
 
 public class W2VRelatedTerms implements MLModel, SparkContextAware {
@@ -55,19 +57,14 @@ public class W2VRelatedTerms implements MLModel, SparkContextAware {
 
             //get this.idfMap. It is used to regenerate the idfMap(used to calculate tfidf)
             try {
-                BufferedReader br=new BufferedReader(new FileReader(modelDir.getAbsolutePath()+"/idfMapData"));
-                String line;
-                while ((line=br.readLine()) != null){
-                    String[] splittedLine=line.split(",");
-                    if(splittedLine.length == 2){
-                        this.idfMap.put(splittedLine[0], Double.parseDouble(splittedLine[1]));
-                    }
-                    else{
-                        int length=splittedLine.length;
-                        String tmp=String.join(",", Arrays.copyOfRange(splittedLine, 0, length-1));
-                        this.idfMap.put(tmp,Double.parseDouble(splittedLine[length-1]));
-                    }
-                }
+                String mapDir=modelDir.getAbsolutePath()+"/idfMapData";
+                JavaRDD<String> distFile = sparkContext.textFile(mapDir,2).toJavaRDD();
+                distFile.foreach(new VoidFunction<String>(){
+                    public void call(String line) {
+                        String[] tmp=line.split(",");
+                        idfMap.put(tmp[0].substring(1),Double.parseDouble(tmp[1].substring(0,tmp[1].length()-1))); //
+                    }});
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

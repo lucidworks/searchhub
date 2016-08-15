@@ -24,10 +24,9 @@ object generateModelData {
   val filedir=new File("modelId")
   filedir.mkdir()
   val idfMapData=new File(filedir,"idfMapData")
-  if(idfMapData.exists){idfMapData.delete}
-  val bw=new BufferedWriter(new FileWriter(idfMapData))
-  vectorizer.idfs.foreach(line=>bw.write(line._1+","+line._2+"\n"))
-  bw.close()
+  if(idfMapData.exists)"rm -rf modelId/idfMapData"!
+
+  sc.parallelize(vectorizer.idfs.toSeq).saveAsTextFile("modelId/idfMapData")
   val w2vModel = ManyNewsgroups.buildWord2VecModel(vectorizedMail, tokenizer, textColumnName)
   val w2vModelFile=new File("modelId/w2vModelData")
   if(w2vModelFile.exists)"rm -rf modelId/w2vModelData"!
@@ -37,5 +36,5 @@ object generateModelData {
   "curl -u admin:password123 -X DELETE http://localhost:8764/api/apollo/blobs/modelId666" !
 
   //the username and password below is hard coded.. may need to find some API to call and get them..
-  "curl -u admin:password123 -X PUT --data-binary @modelId.zip -H Content-type:application/zip http://localhost:8764/api/apollo/blobs/modelId666?modelType=com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.W2VRelatedTerms" !
+  "curl -u admin:password123 -X PUT --data-binary @modelId.zip -H Content-type:application/zip "+"http://localhost:8764/api/apollo/blobs/modelId666?modelType=com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.W2VRelatedTerms" !
 }

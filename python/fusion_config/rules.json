@@ -1,0 +1,33 @@
+[
+{
+  "id": "MatchAllRankerDefaults",
+  "description": "star or star colon star queries",
+  "search_terms": ["LW_MATCH_ALL_DOCS_QUERY"],
+  "type": "set_params",
+  "display_type": "Set Query Params",
+  "enabled": "true",
+  "param_keys": [
+    "fq", "sort"
+  ],
+  "param_values": [
+    "isBot:false", "publishedOnDate desc"
+  ],
+  "param_policies": [
+    "append", "replace"
+  ]
+},
+{
+  "id": "FusionBanner",
+  "description": "match on _fusion_",
+  "search_terms": ["fusion"],
+  "type": "response_value",
+  "display_type": "Banner",
+  "enabled": "true",
+  "keys": [
+    "banner"
+  ],
+  "values": [
+    "Check out Lucidworks Fusion at http://lucidworks.com/fusion"
+  ]
+}
+]

@@ -1,36 +1,34 @@
 {
-  "id": "lucidfind-default",
-  "stages": [
-    {
-        "type" : "set-params",
-        "id" : "xplgcik9",
-        "params" : [ {
-          "key" : "nowx",
-          "value" : "2016-03-14",
-          "policy" : "replace"
-        }, {
-          "key" : "tagsx",
-          "value" : "PROD",
-          "policy" : "default"
-        }, {
-          "key" : "tags_excludex",
-          "value" : "DEMO",
-          "policy" : "append"
-        } ],
-        "type" : "set-params",
-        "skip" : false,
-        "label" : "Rules: Set up 'tags' and 'now'",
-        "condition" : "request.getFirstParam('rules') != 'off'"
-      },
-      {
-          "type" : "javascript-query",
-          "id" : "n4jx17zf3bu766r",
-          "script" : "var main_q = request.getFirstParam('q');\nif (main_q != '*:*' && main_q != '*') { request.putSingleParam('main_q',main_q) };\n\nvar filters = request.getParam('fq');\nif (filters.size != 0) { \n  request.putSingleParam(\"filters\", java.lang.String.join(',',filters));\n}\n\nvar headers = request.headers;\nrequest.addParam('username', headers.getFirst('fusion-user-name'));\nrequest.addParam('roles', headers.get(\"fusion-role-names\"));\nrequest.addParam(\"headers\", headers.toString());\nrequest.putSingleParamIfAbsent('now', (new Date()).toISOString());\nrequest.putSingleParamIfAbsent('wt', 'json');",
-          "type" : "javascript-query",
-          "skip" : false,
-          "label" : "Rules: Prepare sub-query",
-          "condition" : "request.getFirstParam('rules') != 'off'"
-        }, {
+  "id" : "lucidfind-default",
+  "stages" : [ {
+    "type" : "set-params",
+    "id" : "xplgcik9",
+    "params" : [ {
+      "key" : "nowx",
+      "value" : "2016-03-14",
+      "policy" : "replace"
+    }, {
+      "key" : "tagsx",
+      "value" : "PROD",
+      "policy" : "default"
+    }, {
+      "key" : "tags_excludex",
+      "value" : "DEMO",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "Rules: Set up 'tags' and 'now'",
+    "condition" : "request.getFirstParam('rules') != 'off'"
+  }, {
+    "type" : "javascript-query",
+    "id" : "n4jx17zf3bu766r",
+    "script" : "var main_q = request.getFirstParam('q');\n\nif (main_q == '*:*' || main_q == '*') {\n  // special case rule search_term for * or *:* queries\n  main_q = \"LW_MATCH_ALL_DOCS_QUERY\";\n}\n  \nrequest.putSingleParam('main_q',main_q);\n\nvar filters = request.getParam('fq');\nif (filters.size != 0) { \n  request.putSingleParam(\"filters\", java.lang.String.join(',',filters));\n}\n\nvar headers = request.headers;\nrequest.addParam('username', headers.getFirst('fusion-user-name'));\nrequest.addParam('roles', headers.get(\"fusion-role-names\"));\nrequest.addParam(\"headers\", headers.toString());\nrequest.putSingleParamIfAbsent('now', (new Date()).toISOString());\nrequest.putSingleParamIfAbsent('wt', 'json');",
+    "type" : "javascript-query",
+    "skip" : false,
+    "label" : "Rules: Prepare sub-query",
+    "condition" : "request.getFirstParam('rules') != 'off'"
+  }, {
     "type" : "sub-query",
     "id" : "35ndbo6r",
     "key" : "applicable_rules_data",
@@ -84,227 +82,189 @@
     "skip" : false,
     "label" : "Rules: Retrieve Effective",
     "condition" : "request.getFirstParam('rules') != 'off'"
-  },
-  {
-      "type" : "javascript-query",
-      "id" : "89kvs4i",
-      "script" : "//var ST = Java.type('org.stringtemplate.v4.ST');\n//var template = new ST('context: <context> :: request: <request.firstParam(\"main_q\")>');\n//template.add('context',context);\n//template.add('request',request);\n//request.putSingleParam(\"ST\",template.render());\n\nif (!ctx.hasProperty('applicable_rules')) { exit; }\n// TODO: or if rules numFound == 0?\n// TODO: set some context data if no rules data or zero rules?\n\nvar applicable_rules_data = ctx.getProperty('applicable_rules_data');\n\nvar rules_to_exclude = request.getParam('rules.exclude');\n\n// Arrays of things to put into response (by way of the ctx/context and the post-Solr stage)\nvar rules_response = {\n  \"excluded_rules\": [],\n  \"banners\": [],\n  \"redirects\": [],\n//  \"applicable_rules\": [],\n//  \"applicable_rules_ids\": [],\n//  \"applicable_rules_debug\": [],\n  \"rules_errors\": []\n};\n\nif (applicable_rules_data.response.docs.size() != applicable_rules_data.response.numFound) {\n   rules_response[\"rules_errors\"].push((\"Not all matched rules processed: size=\" + applicable_rules_data.response.docs.size() + \" numFound=\" + applicable_rules_data.response.numFound).toString());\n}\n\nfor(var rule_index=0; rule_index < applicable_rules_data.response.docs.size(); rule_index++) {\n  var rule_doc = applicable_rules_data.response.docs[rule_index];\n//  rules_response[\"applicable_rules_ids\"].push(rule_doc.id);\n//  rules_response[\"applicable_rules\"].push(rule_doc);\n//  rules_response[\"applicable_rules_debug\"].push(rule_doc.toString());\n  var excluded = false;\n\n  if (rules_to_exclude) {\n    // TODO: optimize this check, add support for comma-separated values too\n    for (var i=0; i < rules_to_exclude.size(); i++) {\n      if (rule_doc.id == rules_to_exclude[i]) {\n        excluded = true;\n        rules_response[\"excluded_rules\"].push(rules_to_exclude[i]);\n        break;\n      }\n    }\n  }\n\n  if (!excluded) {\n    var rule_type = rule_doc.type;\n\n    // Add response values - every rule type can have multivalued parallel keys/values values\n    if (rule_doc.keys) {\n      for (var kx=0; kx < rule_doc.keys.size(); kx++) {\n        if (!rules_response[rule_doc.keys[kx]]) { rules_response[rule_doc.keys[kx]] = []; }\n        rules_response[rule_doc.keys[kx]].push(rule_doc.values[kx]);\n      }\n    }\n\n    switch (rule_type) {\n      case 'response_value':   // e.g. key=\"banner\", \"redirect\"... etc\n        // response values evolved to being available for all rule types, but if all you\n        // want to do is set a banner this placeholder type suffices\n        break;\n\n      case 'set_params':\n        for (var px=0; px < rule_doc.param_keys.size(); px++) {\n\n          switch (rule_doc.param_policies[px]) {\n            case 'append':\n              request.addParam(rule_doc.param_keys[px], rule_doc.param_values[px]);\n              break\n\n            case 'replace':\n              request.putSingleParam(rule_doc.param_keys[px], rule_doc.param_values[px]);\n              break\n          }\n        }\n        break;\n\n      case 'query_rewrite':\n        // effectively same as a set_params replace of q\n        if (rule_doc.new_q) { request.putSingleParam(\"q\", rule_doc.new_q[0]); }\n        break;\n\n      case 'boost':\n        // boost_param=bq, boost_query=id:2^5\n        // effectively same as a set_params append of boost or bq.\n        request.addParam(rule_doc.boost_param, rule_doc.boost_query);\n        break;\n\n      case 'block_list':\n        // effectively same as set_params append of an fq\n        request.addParam(\"fq\", \"-{!terms f=\" + rule_doc.field_name + \"}\" + Java.type('java.lang.String').join(',',rule_doc.field_values));\n        break;\n\n      case 'filter_list':\n        // effectively same as set_params append of an fq, and a replace of q with `*:*`\n        request.addParam(\"fq\", \"{!terms f=\" + rule_doc.field_name + \"}\" + Java.type('java.lang.String').join(',',rule_doc.field_values));\n        request.putSingleParam('q','*:*');\n        break;\n\n      case 'boost_list':\n        // effectively same as set_params append of a boost\n        // TODO: need to add code to make `id:1^=10 id:2^=9...`\n        request.addParam(\"bq\", \"({!terms f=\" + rule_doc.field_name + \"}\" + Java.type('java.lang.String').join(',',rule_doc.field_values) + ')^5');\n        break;\n\n      default:\n        rules_response[\"rules_errors\"].push((\"Unknown rule type '\" + rule_type + \"' on rule \" + rule_doc.id).toString());\n        break;\n    }\n  }\n}\n\nctx.setProperty(\"rules_response\", rules_response);\n\n",
-      "type" : "javascript-query",
-      "skip" : false,
-      "label" : "Rules: Process",
-      "condition" : "request.getFirstParam('rules') != 'off'"
-    },
-    {
-      "type": "set-params",
-      "id": "ov5lbjp6tcbf8yqfr",
-      "params": [
-        {
-          "key": "fq",
-          "value": "isBot:false",
-          "policy": "append"
-        },
-        {
-          "key": "sort",
-          "value": "publishedOnDate desc",
-          "policy": "default"
-        }
-      ],
-      "skip": false,
-      "label": "MatchAllRanker",
-      "condition": "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\""
-    },
-    {
-      "type": "set-params",
-      "id": "sl9m37u7xs2j5x9a4i",
-      "params": [
-        {
-          "key": "mm",
-          "value": "2<75%",
-          "policy": "append"
-        },
-        {
-          "key": "mm.autoRelax",
-          "value": "true",
-          "policy": "append"
-        },
-        {
-          "key": "pf",
-          "value": "title^10 subject^10 keywords^20 body content filename",
-          "policy": "append"
-        },
-        {
-          "key": "ps",
-          "value": "2",
-          "policy": "append"
-        },
-        {
-          "key": "qs",
-          "value": "3",
-          "policy": "append"
-        },
-        {
-          "key": "bq",
-          "value": "publishedOnDate:[NOW/DAY-1MONTH TO NOW/DAY]",
-          "policy": "append"
-        }
-      ],
-      "skip": false,
-      "label": "Search Settings"
-    },
-    {
-      "type": "set-params",
-      "id": "tovo0f6r",
-      "params": [
-        {
-          "key": "hl",
-          "value": "true",
-          "policy": "append"
-        },
-        {
-          "key": "hl.fl",
-          "value": "title,content,body,subject",
-          "policy": "append"
-        }
-      ],
-      "skip": false,
-      "label": "Highlighting"
-    },
-    {
-      "type": "search-fields",
-      "id": "d6875c2c-d2af-432d-89b9-9999cc685aaa",
-      "rows": 10,
-      "start": 0,
-      "queryFields": [
-        {
-          "field": "title",
-          "boost": 10
-        },
-        {
-          "field": "subject",
-          "boost": 10
-        },
-        {
-          "field": "keywords",
-          "boost": 20
-        },
-        {
-          "field": "suggest",
-          "boost": 10
-        },
-        {
-          "field": "body"
-        },
-        {
-          "field": "content"
-        },
-        {
-          "field": "filename"
-        }
-      ],
-      "returnFields": [],
-      "skip": false,
-      "label": "search-fields"
-    },
-    {
-      "type": "facet",
-      "id": "86eef67e-5dd8-4e40-9df9-f6eb9eb369d4",
-      "fieldFacets": [
-        {
-          "field": "{!ex=ds}datasource_label",
-          "limit": 100,
-          "minCount": 0,
-          "missing": false
-        },
-        {
-          "field": "{!ex=prj}project_label",
-          "limit": 100,
-          "minCount": 0,
-          "missing": false
-        },
-        {
-          "field": "{!ex=auth}author_facet",
-          "minCount": 1,
-          "missing": false
-        },
-        {
-          "field": "isBot",
-          "minCount": 1,
-          "missing": false
-        },
-        {
-          "field": "productVersion",
-          "minCount": 1,
-          "missing": false
-        },
-        {
-          "field": "productName",
-          "minCount": 1,
-          "missing": false
-        }
-      ],
-      "skip": false,
-      "label": "facet"
-    },
-    {
-      "type": "set-params",
-      "id": "e65666f6-0054-4f42-9b45-0492a251d39d",
-      "params": [
-        {
-          "key": "facet.range",
-          "value": "publishedOnDate",
-          "policy": "append"
-        },
-        {
-          "key": "facet.range.start",
-          "value": "NOW/DAY-4MONTHS",
-          "policy": "append"
-        },
-        {
-          "key": "facet.range.end",
-          "value": "NOW/DAY+1DAY",
-          "policy": "append"
-        },
-        {
-          "key": "facet.range.gap",
-          "value": "+1MONTH",
-          "policy": "append"
-        },
-        {
-          "key": "facet.range.other",
-          "value": "all",
-          "policy": "append"
-        },
-        {
-          "key": "facet.limit",
-          "value": "30",
-          "policy": "append"
-        },
-        {
-          "key": "facet.mincount",
-          "value": "1",
-          "policy": "append"
-        }
-      ],
-      "skip": false,
-      "label": "Other Facets"
-    },
-    {
-      "type": "solr-query",
-      "id": "3742f43a-9e33-4968-957b-dc5182f1393c",
-      "allowedRequestHandlers": [],
-      "httpMethod": "POST",
-      "allowFederatedSearch": false,
-      "skip": false,
-      "label": "solr-query"
-    },{
+  }, {
+    "type" : "javascript-query",
+    "id" : "89kvs4i",
+    "script" : "//var ST = Java.type('org.stringtemplate.v4.ST');\n//var template = new ST('context: <context> :: request: <request.firstParam(\"main_q\")>');\n//template.add('context',context);\n//template.add('request',request);\n//request.putSingleParam(\"ST\",template.render());\n\nif (!ctx.hasProperty('applicable_rules')) { exit; }\n// TODO: or if rules numFound == 0?\n// TODO: set some context data if no rules data or zero rules?\n\nvar applicable_rules_data = ctx.getProperty('applicable_rules_data');\n\nvar rules_to_exclude = request.getParam('rules.exclude');\n\n// Arrays of things to put into response (by way of the ctx/context and the post-Solr stage)\nvar rules_response = {\n  \"excluded_rules\": [],\n  \"banners\": [],\n  \"redirects\": [],\n//  \"applicable_rules\": [],\n//  \"applicable_rules_ids\": [],\n//  \"applicable_rules_debug\": [],\n  \"rules_errors\": []\n};\n\nif (applicable_rules_data.response.docs.size() != applicable_rules_data.response.numFound) {\n   rules_response[\"rules_errors\"].push((\"Not all matched rules processed: size=\" + applicable_rules_data.response.docs.size() + \" numFound=\" + applicable_rules_data.response.numFound).toString());\n}\n\nfor(var rule_index=0; rule_index < applicable_rules_data.response.docs.size(); rule_index++) {\n  var rule_doc = applicable_rules_data.response.docs[rule_index];\n//  rules_response[\"applicable_rules_ids\"].push(rule_doc.id);\n//  rules_response[\"applicable_rules\"].push(rule_doc);\n//  rules_response[\"applicable_rules_debug\"].push(rule_doc.toString());\n  var excluded = false;\n\n  if (rules_to_exclude) {\n    // TODO: optimize this check, add support for comma-separated values too\n    for (var i=0; i < rules_to_exclude.size(); i++) {\n      if (rule_doc.id == rules_to_exclude[i]) {\n        excluded = true;\n        rules_response[\"excluded_rules\"].push(rules_to_exclude[i]);\n        break;\n      }\n    }\n  }\n\n  if (!excluded) {\n    var rule_type = rule_doc.type;\n\n    // Add response values - every rule type can have multivalued parallel keys/values values\n    if (rule_doc.keys) {\n      for (var kx=0; kx < rule_doc.keys.size(); kx++) {\n        if (!rules_response[rule_doc.keys[kx]]) { rules_response[rule_doc.keys[kx]] = []; }\n        rules_response[rule_doc.keys[kx]].push(rule_doc.values[kx]);\n      }\n    }\n\n    switch (rule_type) {\n      case 'response_value':   // e.g. key=\"banner\", \"redirect\"... etc\n        // response values evolved to being available for all rule types, but if all you\n        // want to do is set a banner this placeholder type suffices\n        break;\n\n      case 'set_params':\n        for (var px=0; px < rule_doc.param_keys.size(); px++) {\n\n          switch (rule_doc.param_policies[px]) {\n            case 'append':\n              request.addParam(rule_doc.param_keys[px], rule_doc.param_values[px]);\n              break\n\n            case 'replace':\n              request.putSingleParam(rule_doc.param_keys[px], rule_doc.param_values[px]);\n              break\n          }\n        }\n        break;\n\n      case 'query_rewrite':\n        // effectively same as a set_params replace of q\n        if (rule_doc.new_q) { request.putSingleParam(\"q\", rule_doc.new_q[0]); }\n        break;\n\n      case 'boost':\n        // boost_param=bq, boost_query=id:2^5\n        // effectively same as a set_params append of boost or bq.\n        request.addParam(rule_doc.boost_param, rule_doc.boost_query);\n        break;\n\n      case 'block_list':\n        // effectively same as set_params append of an fq\n        request.addParam(\"fq\", \"-{!terms f=\" + rule_doc.field_name + \"}\" + Java.type('java.lang.String').join(',',rule_doc.field_values));\n        break;\n\n      case 'filter_list':\n        // effectively same as set_params append of an fq, and a replace of q with `*:*`\n        request.addParam(\"fq\", \"{!terms f=\" + rule_doc.field_name + \"}\" + Java.type('java.lang.String').join(',',rule_doc.field_values));\n        request.putSingleParam('q','*:*');\n        break;\n\n      case 'boost_list':\n        // effectively same as set_params append of a boost\n        // TODO: need to add code to make `id:1^=10 id:2^=9...`\n        request.addParam(\"bq\", \"({!terms f=\" + rule_doc.field_name + \"}\" + Java.type('java.lang.String').join(',',rule_doc.field_values) + ')^5');\n        break;\n\n      default:\n        rules_response[\"rules_errors\"].push((\"Unknown rule type '\" + rule_type + \"' on rule \" + rule_doc.id).toString());\n        break;\n    }\n  }\n}\n\nctx.setProperty(\"rules_response\", rules_response);\n\n",
+    "type" : "javascript-query",
+    "skip" : false,
+    "label" : "Rules: Process",
+    "condition" : "request.getFirstParam('rules') != 'off'"
+  }, {
+    "type" : "set-params",
+    "id" : "ov5lbjp6tcbf8yqfr",
+    "params" : [ {
+      "key" : "fq",
+      "value" : "isBot:false",
+      "policy" : "append"
+    }, {
+      "key" : "sort",
+      "value" : "publishedOnDate desc",
+      "policy" : "default"
+    } ],
+    "type" : "set-params",
+    "skip" : true,
+    "label" : "MatchAllRanker",
+    "condition" : "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\""
+  }, {
+    "type" : "set-params",
+    "id" : "sl9m37u7xs2j5x9a4i",
+    "params" : [ {
+      "key" : "mm",
+      "value" : "2<75%",
+      "policy" : "append"
+    }, {
+      "key" : "mm.autoRelax",
+      "value" : "true",
+      "policy" : "append"
+    }, {
+      "key" : "pf",
+      "value" : "title^10 subject^10 keywords^20 body content filename",
+      "policy" : "append"
+    }, {
+      "key" : "ps",
+      "value" : "2",
+      "policy" : "append"
+    }, {
+      "key" : "qs",
+      "value" : "3",
+      "policy" : "append"
+    }, {
+      "key" : "bq",
+      "value" : "publishedOnDate:[NOW/DAY-1MONTH TO NOW/DAY]",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "Search Settings"
+  }, {
+    "type" : "set-params",
+    "id" : "tovo0f6r",
+    "params" : [ {
+      "key" : "hl",
+      "value" : "true",
+      "policy" : "append"
+    }, {
+      "key" : "hl.fl",
+      "value" : "title,content,body,subject",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "Highlighting"
+  }, {
+    "type" : "search-fields",
+    "id" : "d6875c2c-d2af-432d-89b9-9999cc685aaa",
+    "rows" : 10,
+    "start" : 0,
+    "queryFields" : [ {
+      "field" : "title",
+      "boost" : 10.0
+    }, {
+      "field" : "subject",
+      "boost" : 10.0
+    }, {
+      "field" : "keywords",
+      "boost" : 20.0
+    }, {
+      "field" : "suggest",
+      "boost" : 10.0
+    }, {
+      "field" : "body"
+    }, {
+      "field" : "content"
+    }, {
+      "field" : "filename"
+    } ],
+    "returnFields" : [ ],
+    "type" : "search-fields",
+    "skip" : false,
+    "label" : "search-fields"
+  }, {
+    "type" : "facet",
+    "id" : "86eef67e-5dd8-4e40-9df9-f6eb9eb369d4",
+    "fieldFacets" : [ {
+      "field" : "{!ex=ds}datasource_label",
+      "limit" : 100,
+      "minCount" : 0,
+      "missing" : false
+    }, {
+      "field" : "{!ex=prj}project_label",
+      "limit" : 100,
+      "minCount" : 0,
+      "missing" : false
+    }, {
+      "field" : "{!ex=auth}author_facet",
+      "minCount" : 1,
+      "missing" : false
+    }, {
+      "field" : "isBot",
+      "minCount" : 1,
+      "missing" : false
+    }, {
+      "field" : "productVersion",
+      "minCount" : 1,
+      "missing" : false
+    }, {
+      "field" : "productName",
+      "minCount" : 1,
+      "missing" : false
+    } ],
+    "type" : "facet",
+    "skip" : false,
+    "label" : "facet"
+  }, {
+    "type" : "set-params",
+    "id" : "e65666f6-0054-4f42-9b45-0492a251d39d",
+    "params" : [ {
+      "key" : "facet.range",
+      "value" : "publishedOnDate",
+      "policy" : "append"
+    }, {
+      "key" : "facet.range.start",
+      "value" : "NOW/DAY-4MONTHS",
+      "policy" : "append"
+    }, {
+      "key" : "facet.range.end",
+      "value" : "NOW/DAY+1DAY",
+      "policy" : "append"
+    }, {
+      "key" : "facet.range.gap",
+      "value" : "+1MONTH",
+      "policy" : "append"
+    }, {
+      "key" : "facet.range.other",
+      "value" : "all",
+      "policy" : "append"
+    }, {
+      "key" : "facet.limit",
+      "value" : "30",
+      "policy" : "append"
+    }, {
+      "key" : "facet.mincount",
+      "value" : "1",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "Other Facets"
+  }, {
+    "type" : "solr-query",
+    "id" : "3742f43a-9e33-4968-957b-dc5182f1393c",
+    "allowedRequestHandlers" : [ ],
+    "httpMethod" : "POST",
+    "allowFederatedSearch" : false,
+    "type" : "solr-query",
+    "skip" : false,
+    "label" : "solr-query"
+  }, {
     "type" : "javascript-query",
     "id" : "ipco9a4i",
-    "script" : "function add_to_response(key, list) {\n  if (list.length > 0) {\n      response.initialEntity.appendStringList(key, Java.to(list, Java.type('java.util.List')));\n  }\n}\n\nvar rules_response = ctx.getProperty(\"rules_response\")\nif (rules_response) {\n  for (var k in rules_response) {\n    add_to_response(k, rules_response[k]);\n  }\n\n  // Duplicate redirect responses to supported landing-pages\n  if (rules_response[\"redirect\"]) {\n    add_to_response('landing-pages', rules_response[\"redirect\"]);\n  }\n}\n\n// This only works with JSON response format (wt=json); TODO: maybe convert the data to JSON and emit as a string?\nresponse.initialEntity.appendObject(\"applicable_rules_data\", ctx.getProperty('applicable_rules_data'));\nresponse.initialEntity.appendObject(\"aggregation-results\", ctx.getProperty('aggregation-results'));\n\n",
+    "script" : "function add_to_response(key, list) {\n  if (list.length > 0) {\n      response.initialEntity.appendStringList(key, Java.to(list, Java.type('java.util.List')));\n  }\n}\n\nvar rules_response = ctx.getProperty(\"rules_response\")\nif (rules_response) {\n  for (var k in rules_response) {\n    add_to_response(k, rules_response[k]);\n  }\n\n  // Duplicate redirect responses to supported landing-pages\n  if (rules_response[\"redirect\"]) {\n    add_to_response('landing-pages', rules_response[\"redirect\"]);\n  }\n}\n\n// This only works with JSON response format (wt=json); TODO: maybe convert the data to JSON and emit as a string?\nresponse.initialEntity.appendObject(\"applicable_rules_data\", ctx.getProperty('applicable_rules_data'));\n\n",
     "type" : "javascript-query",
     "skip" : false,
     "label" : "Rules: Augment Response",
     "condition" : "request.getFirstParam('rules') != 'off'"
-  }
-  ],
-  "properties": {}
+  } ],
+  "properties" : { }
 }

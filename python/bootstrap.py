@@ -223,8 +223,10 @@ if cmd_args.create_collections or create_all:
   # Create the "lucidfind" collection
   solr_params = {"replicationFactor":2,"numShards":1}
   status = backend.create_collection(lucidfind_collection_id, enable_signals=True, solr_params=solr_params, default_commit_within=60*10*1000)
+
   if status == False:
     exit(1)
+
   # Due to a bug in Solr around suggesters, let's try to remove the suggester first
   #backend.remove_request_handler(lucidfind_collection_id, "/suggest")
   #backend.remove_search_component(lucidfind_collection_id, "suggest")
@@ -235,6 +237,12 @@ if cmd_args.create_collections or create_all:
   setup_commit_times(backend, "logs", 5*60*1000)
   setup_commit_times(backend, "lucidfind_logs", 5*60*1000)
   status = backend.create_collection("lucidfind_thread_recs")
+  if status == False:
+    exit(1)
+
+  # Create the "lucidfind_rules" collection
+  # TODO: set-up fields on base schema, rather than providing our own config
+  status = backend.create_collection("lucidfind_rules", enable_signals=False, enable_search_logs=False, solr_params={"replicationFactor":1,"numShards":1, "collection.configName": "rules"})
   if status == False:
     exit(1)
 
@@ -268,3 +276,6 @@ if cmd_args.stop_schedules:
 
 if cmd_args.stop_datasources:
   stop_datasources(backend)
+
+# TODO: Add indexing the default rules
+# $FUSION_HOME/apps/solr-dist/bin/post -c lucidfind_rules fusion/rules.json

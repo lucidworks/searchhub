@@ -17,7 +17,7 @@
       "name": "lucidworks-website",
       "label":"lucidworks.com Website",
       "pipeline":"lw-com-website-default",
-      "url":"https://www.lucidworks.com",
+      "url":"https://lucidworks.com",
       "schedule": {
         "repeatUnit": "WEEK",
         "interval": 1
@@ -27,7 +27,7 @@
       "name": "revolution-website",
       "label":"Lucene Revolution Website",
       "pipeline":"lw-com-website-default",
-      "url":"https://www.lucenerevolution.org",
+      "url":"https://lucenerevolution.org",
       "schedule": {
         "repeatUnit": "WEEK",
         "interval": 1

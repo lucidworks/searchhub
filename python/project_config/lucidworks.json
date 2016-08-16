@@ -27,7 +27,7 @@
       "name": "revolution-website",
       "label":"Lucene Revolution Website",
       "pipeline":"lw-com-website-default",
-      "url":"https://lucenerevolution.org",
+      "url":"http://lucenerevolution.org",
       "schedule": {
         "repeatUnit": "WEEK",
         "interval": 1

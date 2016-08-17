@@ -72,7 +72,7 @@ public class W2VRelatedTerms implements MLModel, SparkContextAware {
             this.textAnalyzer = new LuceneTextAnalyzer(noHTMLstdAnalyzerSchema);
 
 
-            //begin w2v part
+            //deserialize w2v model
             try {
                 this.w2vModel = Word2VecModel.load(this.sparkContext, modelDir.getAbsolutePath() + "/w2vModelData");
             } catch (Exception e){
@@ -89,66 +89,64 @@ public class W2VRelatedTerms implements MLModel, SparkContextAware {
     }
 
     public List<String> prediction(Object[] tuple) throws Exception {
-        //1.transform the input tuple to input vector(tokenized terms)
+        //transform the input tuple to input vector(tokenized terms)
         LinkedList<String> terms = new LinkedList();
         if(tuple[0] != null) {
             terms.addAll(this.textAnalyzer.analyzeJava(this.featureFields[0], tuple[0].toString()));
         }
-        //2.make a predict function
+        //get a hashmap which stores the count of each term in terms. This is the tf map
         HashMap<String,Integer> tf=new HashMap();
         for(int i=0;i<terms.size();i++){
             tf.put(terms.get(i),tf.getOrDefault(terms.get(i),0)+1);
         }
+        //combine tf and idf to get a tfidf hashmap
         HashMap<String,Double> tfidf=new HashMap();
         for(String key:tf.keySet()){
+            //in tfidf, we only have terms in tf map. and if the term is not in idf, we give it a default value 1
             tfidf.put(key,tf.get(key)*this.idfMap.getOrDefault(key,1.0));
         }
-        //TODO:find k largest values, may need to optimize
-        List<Map.Entry<String, Double>> tfidfList =
-                new LinkedList<Map.Entry<String, Double>>(tfidf.entrySet());
-        // Sort list with comparator, to compare the Map values
-
-        Collections.sort(tfidfList, new Comparator<Map.Entry<String, Double>>() {
-            public int compare(Map.Entry<String, Double> o1,
-                               Map.Entry<String, Double> o2) {
-                return -(o1.getValue()).compareTo(o2.getValue());
+        //find k top tuples
+        Comparator<Tuple2<String,Double>> comparator=new Comparator<Tuple2<String, Double>>() {
+            @Override
+            public int compare(Tuple2<String, Double> o1, Tuple2<String, Double> o2) {
+                return o1._2.compareTo(o2._2);
             }
-        });
-
-        //3.feed the input vector into the predict function
-        /*
-        ArrayList<String> out=new ArrayList<String>();
-        for(int i=0;i<Math.min(5,tfidfList.size());i++){
-            out.add(tfidfList.get(i).getKey());
-        }
-        */
-        ArrayList<String> topWords=new ArrayList();
-        for (int i=0;i<Math.min(5,tfidfList.size());i++){
-            topWords.add(tfidfList.get(i).getKey());
-        }
-
-        //begin w2v part
-        ArrayList<String> out=new ArrayList();
-        /*
-        out.add("");
-        for(String word:topWords){
-            if(this.w2vModel.wordIndex().contains(word)){//elif words not in data, do nothing
-                Tuple2<String,Object>[] synonyms=w2vModel.findSynonyms(word,2);//find 2 synonyms for each top word
-                for(Tuple2 tuples: synonyms){
-                    out.set(0,out.get(0)+tuples._1+",");
+        };
+        PriorityQueue<Tuple2<String, Double>> largestTfIdf=new PriorityQueue<>(100, comparator);
+        for(String key:tfidf.keySet()){
+            if(largestTfIdf.size()<5){
+                largestTfIdf.add(new Tuple2(key, tfidf.get(key)));
+            }
+            else{
+                if(tfidf.get(key)>largestTfIdf.peek()._2){
+                    largestTfIdf.remove();
+                    largestTfIdf.add(new Tuple2(key, tfidf.get(key)));
                 }
             }
         }
-        out.set(0,out.get(0).substring(0,out.get(0).length()-1));
-        */
-        for(String word:topWords){
-            if(this.w2vModel.wordIndex().contains(word)){//elif words not in data, do nothing
-                Tuple2<String,Object>[] synonyms=w2vModel.findSynonyms(word,2);//find 2 synonyms for each top word
+
+        //sort the top k tuples
+        ArrayList<Tuple2<String, Double>> topkTerms=new ArrayList<Tuple2<String, Double>>();
+        Iterator<Tuple2<String, Double>> iter=largestTfIdf.iterator();
+        while(iter.hasNext()){
+            topkTerms.add(iter.next());
+        }
+        topkTerms.sort(comparator);
+        Collections.reverse(topkTerms);
+
+        //find related terms for each of the topWords(according to tfidf)
+        ArrayList<String> out=new ArrayList();
+
+        for(Tuple2<String, Double> topTerm:topkTerms){
+            if(this.w2vModel.wordIndex().contains(topTerm._1)){//elif words not in data, do nothing
+                Tuple2<String,Object>[] synonyms=w2vModel.findSynonyms(topTerm._1, 2);//find 2 synonyms for each top word
                 for(Tuple2 tuples: synonyms){
                     out.add((String)tuples._1);
                 }
             }
         }
+
+
         return out;
 
 

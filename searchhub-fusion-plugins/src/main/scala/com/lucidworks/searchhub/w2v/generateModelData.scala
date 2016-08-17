@@ -24,17 +24,23 @@ object generateModelData {
   val filedir=new File("modelId")
   filedir.mkdir()
   val idfMapData=new File(filedir,"idfMapData")
+  //if "modelId/idfMapData" already exists, remove it
   if(idfMapData.exists)"rm -rf modelId/idfMapData"!
 
+  sc.getConf.set("spark.kryoserializer.buffer.max","512m")//set spark.kryoserializer.buffer.max greater
   sc.parallelize(vectorizer.idfs.toSeq).saveAsTextFile("modelId/idfMapData")
   val w2vModel = ManyNewsgroups.buildWord2VecModel(vectorizedMail, tokenizer, textColumnName)
   val w2vModelFile=new File("modelId/w2vModelData")
+  //if "modelId/w2vModelData" already exists, remove it
   if(w2vModelFile.exists)"rm -rf modelId/w2vModelData"!
 
   w2vModel.save(sc, "modelId/w2vModelData")
+  //call PrepareFile.createZipFile to add a metadata json file, and zip 'modelId'
   PrepareFile.createZipFile
+  //if the current zip file already exists in BLOB, delete it
   "curl -u admin:password123 -X DELETE http://localhost:8764/api/apollo/blobs/modelId666" !
 
+  //send the zip file to BLOB
   //the username and password below is hard coded.. may need to find some API to call and get them..
   "curl -u admin:password123 -X PUT --data-binary @modelId.zip -H Content-type:application/zip "+"http://localhost:8764/api/apollo/blobs/modelId666?modelType=com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.W2VRelatedTerms" !
 }

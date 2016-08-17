@@ -13,10 +13,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
- * Created by xiaoyehuang on 8/3/16.
+ * This file will be called in w2v's scheduled job:FUSION_HOME/python/fusion_config/w2v_job.json
+ * It assumes drectory 'modelId' is already at the current directory.
+ * What it does is to create the json file in the directory, and then pack all the 'modelId' into a zip file
  */
 public class PrepareFile {
-    //assume directory 'modelId' is already at the current directory
     public static void createZipFile(){
         try{
             List<String> featureList = Arrays.asList("body");//featureList which will be added into json

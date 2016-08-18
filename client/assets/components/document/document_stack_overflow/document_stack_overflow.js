@@ -44,7 +44,7 @@
 
     function processDocument(doc) {
       if (doc["question_txt"]){ //we're specifically going to do a substring here instead of <field> truncation, b/c we don't want the "Read More" in the title.
-        doc["question_txt_trunc"] = doc["question_txt"][0].substring(0, 200);
+        doc["question_txt_trunc"] = doc["question_txt"][0].substring(0, 200) + "...";
       }
       doc = DocumentDisplayHelperService.processDocument(doc);
       /*if (doc["body"]) {

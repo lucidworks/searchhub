@@ -38,9 +38,9 @@ object generateModelData {
   //call PrepareFile.createZipFile to add a metadata json file, and zip 'modelId'
   PrepareFile.createZipFile
   //if the current zip file already exists in BLOB, delete it
-  "curl -u admin:password123 -X DELETE http://localhost:8764/api/apollo/blobs/modelId666" !
+  "curl -u admin:password123 -X DELETE http://localhost:8764/api/apollo/blobs/relatedTermModel" !
 
   //send the zip file to BLOB
   //the username and password below is hard coded.. may need to find some API to call and get them..
-  "curl -u admin:password123 -X PUT --data-binary @modelId.zip -H Content-type:application/zip "+"http://localhost:8764/api/apollo/blobs/modelId666?modelType=com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.W2VRelatedTerms" !
+  "curl -u admin:password123 -X PUT --data-binary @modelId.zip -H Content-type:application/zip "+"http://localhost:8764/api/apollo/blobs/relatedTermModel?modelType=com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.W2VRelatedTerms" !
 }

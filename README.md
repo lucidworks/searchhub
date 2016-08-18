@@ -194,7 +194,7 @@ To learn more on the Scala side, start with the ```SparkShellHelpers.scala``` fi
 
 #### Example Plugin: Word2Vec
 
-We have included one plugin which leverages Spark's mllib in our pipelines. The high-level idea is to first find most important terms in each document, and then find w2v synonyms for each of the most important terms, and add them into a new field during the index pipeline, so that we can do something further using the new field in the query pipeline.
+We have some examples in our code which leverages Spark's mllib. Here is one of them. The high-level idea is to first find most important terms in each document, and then find w2v synonyms for each of the most important terms. After that, we add them into a new field during the index pipeline, so that we can do something further using the new field in the query pipeline(faceting on the new field in our case).
 
 The building of the model is scheduled to run on a regular basis. To run it successfully, please navigate into `SEARCHHUB_HOME/python/fusion_config/w2v_job.json` and replace `admin:password123` with your own username and password. And if you have never run spark-shell, you may need to navigate into `FUSION_HOME/bin` and run `./spark-shell` to start the spark shell for the first time, so that the plugins in searchhub can be really downloaded into Fusion.
 

@@ -1,0 +1,52 @@
+{
+  "name": "stack-overflow",
+  "description": "Stack Overflow topics related to our favorite projects",
+  "label": "Stack Overflow",
+  "query_pipeline": "lucidfind-default",
+  "stack_pipeline": "stack-overflow-default",
+  "schedule": {
+    "repeatUnit": "HOUR",
+    "interval": 4
+  },
+  "excludes": [
+        ".*users.*",
+        ".*login.*",
+        ".*sort=frequent.*",
+        ".*sort=votes.*",
+        ".*sort=active.*",
+        ".*sort=features.*",
+        ".*jobs.*",
+        ".*documentation.*",
+        ".*tags.*",
+        ".*badges.*",
+        ".*answertab.*",
+        ".*noredirect.*",
+        ".*questions$"
+      ],
+  "includes": [
+        ".*questions/\\d+/.*",
+        ".*questions/tagged/(solr|lucene|hadoop|.*spark.*)"
+      ],
+  "stacks": [
+    {
+      "name": "solr-stack-overflow",
+      "label": "Solr Stack Overflow",
+      "tag": "solr"
+    },
+    {
+      "name": "lucene-stack-overflow",
+      "label": "Lucene Stack Overflow",
+      "tag": "lucene"
+    },
+    {
+      "name": "hadoop-stack-overflow",
+      "label": "Hadoop Stack Overflow",
+      "tag": "hadoop"
+    },
+    {
+      "name": "spark-stack-overflow",
+      "label": "Apache Spark Stack Overflow",
+      "tag": "apache-spark"
+    }
+  ]
+}

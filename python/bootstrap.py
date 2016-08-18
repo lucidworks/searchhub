@@ -127,13 +127,14 @@ def setup_projects(backend):
     print("Bootstraping configs for %s..." % project["name"])
     #create the data sources
     datasources = []
-    (twitter_config, jira_config, mailbox_configs, wiki_configs, website_configs, github_configs) = backend.create_or_update_datasources(project)
+    (twitter_config, jira_config, mailbox_configs, wiki_configs, website_configs, github_configs, stack_configs) = backend.create_or_update_datasources(project)
     datasources.append(twitter_config)
     datasources.append(jira_config)
     datasources.extend(mailbox_configs)
     datasources.extend(wiki_configs)
     datasources.extend(website_configs)
     datasources.extend(github_configs)
+    datasources.extend(stack_configs)
 
     for datasource in datasources:
       if datasource:

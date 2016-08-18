@@ -20,7 +20,7 @@
     </h3>
     <h4 class="subheader" ng-if="doc.keywords"><field value="doc.keywords" highlight="highlight[doc.id]" maxlength="200" hkey="keywords"></field></h4>
     <div ng-include="'/templates/document-common.html'"></div>
-    <p class="large-8 xlarge-7 xx-large-6">
+    <p class="large-8 xlarge-7 xx-large-6 body-display">
       <field ng-if="doc.description" value="doc.description" highlight="highlight[doc.id]" maxlength="200"
              hkey="description"></field>
      <field ng-if="::(!doc.description && doc.og_description)" value="doc.og_description" highlight="highlight[doc.id]" maxlength="200"

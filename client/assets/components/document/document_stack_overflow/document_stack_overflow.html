@@ -1,0 +1,47 @@
+<article class="grid-block document row">
+  <!--website-->
+  <div class="detail vertical grid-content" >
+    <!-- show head field linked with a title. -->
+    <h3 class="head-field" ng-if="doc.question_txt && !vm.expanded">
+      <a  ng-click="vm.postClickSignal(this, doc.id, $index, doc.score, doc.threadId, doc.subject_simple)" rel="noopener" target="document">
+        <field value="doc.question_txt" highlight="highlight[doc.id]" hkey="question_txt"></field>
+      </a>
+    </h3>
+    <h3 class="head-field" ng-if="doc.question_txt_trunc && vm.expanded">
+      <a  ng-click="vm.postClickSignal(this, doc.id, $index, doc.score, doc.threadId, doc.subject_simple)" rel="noopener" target="document">
+        <field value="doc.question_txt_trunc" highlight="highlight[doc.id]" hkey="question_txt_trunc"></field>
+      </a>
+    </h3>
+    <!-- show head field without a title. -->
+    <h3 class="head-field" ng-if="::(!doc.question_txt && !!doc.url)">
+      <a ng-click="vm.postClickSignal(this, doc.id, $index, doc.score, doc.threadId, doc.subject_simple)" rel="noopener" target="_blank">
+        <field value="doc.url" highlight="highlight[doc.id]" maxlength="200" hkey="url"></field>
+      </a>
+    </h3>
+    <h3 class="subheader" ng-if="::(!doc.question_txt && !doc.url)">
+      <a ng-href="{{doc.id}}" ng-click="vm.postClickSignal(this, doc.id, $index, doc.score, doc.threadId, doc.subject_simple)" rel="noopener" target="_blank">
+        <field value="doc.id" highlight="highlight[doc.id]" khey="id" maxlength="200"></field>
+      </a>
+    </h3>
+    <h4 class="subheader" ng-if="doc.keywords"><field value="doc.keywords" highlight="highlight[doc.id]" maxlength="200" hkey="keywords"></field></h4>
+    <div ng-include="'/templates/document-common.html'"></div>
+    <div ng-if="doc.accepted_answer_txt">
+      <h4 class="subheader">Accepted Answer</h4>
+      <p class="large-8 xlarge-7 xx-large-6 body-display">
+      <field ng-if="doc.accepted_answer_txt" value="doc.accepted_answer_txt" highlight="highlight[doc.id]" maxlength="200"
+             hkey="accepted_answer_txt"></field>
+
+    </p></div>
+    <div ng-if="doc.answer_txt && doc.answer_txt != doc.accepted_answer_txt">
+      <h4 class="subheader">Other Answers</h4>
+      <p class="large-8 xlarge-7 xx-large-6 body-display">
+      <field ng-if="doc.answer_txt" value="doc.answer_txt" highlight="highlight[doc.id]" maxlength="200"
+             hkey="answer_txt"></field>
+
+    </p></div>
+    <div ng-if="!doc.answer_txt && !doc.accepted_answer_txt">
+      <p class="large-8 xlarge-7 xx-large-6 body-display">
+      No answers available yet.
+    </p></div>
+  </div>
+</article>

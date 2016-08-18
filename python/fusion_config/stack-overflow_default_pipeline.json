@@ -1,0 +1,92 @@
+{
+  "id": "stack-overflow-default",
+  "stages": [
+    {
+      "type": "javascript-index",
+      "id": "z7uf6w29nfcn5ewmi",
+      "script": "function(doc){\n  var id = doc.getId();\n  if (id != null && id.indexOf(\"questions/tagged\") != -1){\n    print(\"Dropping \" + id);\n    return null;\n  }\n  return doc;\n}",
+      "skip": false,
+      "label": "javascript-index"
+    },
+    {
+      "type": "tika-parser",
+      "id": "214af411-448a-4318-8b3c-8a85a19a5970",
+      "includeImages": false,
+      "flattenCompound": false,
+      "addFailedDocs": false,
+      "addOriginalContent": false,
+      "contentField": "_raw_content_",
+      "contentEncoding": "binary",
+      "returnXml": false,
+      "keepOriginalStructure": false,
+      "extractHtmlLinks": true,
+      "extractOtherLinks": false,
+      "csvParsing": false,
+      "includeContentTypes": [],
+      "excludeContentTypes": [],
+      "skip": false,
+      "label": "tika-parser"
+    },
+    {
+      "type": "field-mapping",
+      "id": "02401ce8-89a8-454a-ba3e-6b2d7696ca6a",
+      "mappings": [
+        {
+          "source": "/(.*?)lat(itude)?$/",
+          "target": "$1_lat_lon",
+          "operation": "move"
+        },
+        {
+          "source": "/(.*?)lon(gitude)?$/",
+          "target": "$1_lat_lon",
+          "operation": "move"
+        },
+        {
+          "source": ".post-taglist a.post-tag",
+          "target": "stacktag_ss",
+          "operation": "move"
+        },
+        {
+          "source": "/twitter_app.*/",
+          "operation": "delete"
+        },
+        {
+          "source": ".postcell .post-text",
+          "target": "question_txt",
+          "operation": "move"
+        },
+        {
+          "source": ".answercell",
+          "target": "answer_txt",
+          "operation": "move"
+        },
+        {
+          "source": ".accepted-answer .answercell",
+          "target": "accepted_answer_txt",
+          "operation": "move"
+        }
+      ],
+      "reservedFieldsMappingAllowed": false,
+      "skip": false,
+      "label": "field-mapping"
+    },
+    {
+      "type": "index-logging",
+      "id": "fnine6sba4b8iwwmi",
+      "detailed": true,
+      "skip": true,
+      "label": "index-logging"
+    },
+    {
+      "type": "solr-index",
+      "id": "3a6481e1-dc4b-4e9b-a6ed-cc0e44ecbd9f",
+      "enforceSchema": true,
+      "dateFormats": [],
+      "params": [],
+      "bufferDocsForSolr": true,
+      "skip": false,
+      "label": "solr-index"
+    }
+  ],
+  "properties": {}
+}

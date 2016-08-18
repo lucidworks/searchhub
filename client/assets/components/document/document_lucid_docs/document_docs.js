@@ -23,8 +23,8 @@
     return directive;
 
   }
-
-  function Controller($sce, SnowplowService, PerDocumentService, $filter, $log) {
+  var SUPPORT_HEADER = new RegExp("Submit a request\\s*$\\s*Sign in\\s*$\\s*Lucidworks Support\\s*$(\\s*Community\\s*$)*(\\s*Show topics\\s*$)*(\\s*Show all posts\\s*$)*(\\s*Lucidworks Community Questions\\s*$)*\\s*New post\\s*$(\\s*Show all\\s*$)?(\\s*Show no status\\s*$)?\\s*All\\s*$\\s*Planned\\s*$\\s*Not planned\\s*$\\s*Completed\\s*$\\s*Answered\\s*$\\s*No status\\s*$\\s*Sort by (votes|recent activity|comments|newest post)\\s*$\\s*Newest post\\s*$\\s*Recent activity\\s*$\\s*Votes\\s*$\\s*Comments\\s*$|", "gm");
+  function Controller($sce, SnowplowService, PerDocumentService, DocumentDisplayHelperService, $log) {
     'ngInject';
     var vm = this;
 
@@ -41,31 +41,27 @@
       PerDocumentService.processPerDocument(docId, threadId, subjectSimple);
     }
 
-    function trim(doc, field) {
-      if (doc[field]) {
-        doc[field] = doc[field].replace(EXTRA_SPACES, "");
-        //TODO: this is fairly brittle given Zendesk could change.  Probably better to change the crawl to remove this boilerplate
-        doc[field] = doc[field].replace(HEADER, "");
-        //Support docs tend to have a lot of excess whitespace and boilerplate, so let's remove some of it
-        doc[field] = doc[field].trim();
-      }
-    }
+
 
     function processDocument(doc) {
       //make sure we can display the info
       $log.info("Process Docs Doc:", doc);
       doc['id'] = $sce.trustAsHtml(doc['id']);
-      trim(doc, "content");
-      trim(doc, "body")
+      if (doc["content"]) {
+        doc["content"] = doc["content"].replace(SUPPORT_HEADER, "");
+      }
+      if (doc["body"]) {
+        doc["body"] = doc["body"].replace(SUPPORT_HEADER, "");
+      }
+
+      doc = DocumentDisplayHelperService.processDocument(doc);
       //console.log(doc.content.substring(0,250));
-      doc.length_lFormatted = $filter('humanizeFilesize')(doc.length_l);
-      doc.lastModified_dtFormatted = $filter('date')(doc.lastModified_dt);
+
       return doc;
     }
   }
 
-  var EXTRA_SPACES = new RegExp("(^\\\s*$)", "gm");
-  var HEADER = new RegExp("Submit a request\\s*$\\s*Sign in\\s*$\\s*Lucidworks Support\\s*$(\\s*Community\\s*$)*(\\s*Show topics\\s*$)*(\\s*Show all posts\\s*$)*(\\s*Lucidworks Community Questions\\s*$)*\\s*New post\\s*$(\\s*Show all\\s*$)?(\\s*Show no status\\s*$)?\\s*All\\s*$\\s*Planned\\s*$\\s*Not planned\\s*$\\s*Completed\\s*$\\s*Answered\\s*$\\s*No status\\s*$\\s*Sort by (votes|recent activity|comments|newest post)\\s*$\\s*Newest post\\s*$\\s*Recent activity\\s*$\\s*Votes\\s*$\\s*Comments\\s*$|", "gm");
+
 
 
 })();

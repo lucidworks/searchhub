@@ -9,6 +9,7 @@ from server.backends.mailbox_helper import create_mailinglist_datasource_configs
 from server.backends.twitter_helper import create_twitter_datasource_configs
 from server.backends.website_helper import create_website_datasource_configs
 from server.backends.wiki_helper import create_wiki_datasource_configs
+from server.backends.stack_helper import create_stack_datasource_configs
 from urlparse import urljoin
 
 from server import app
@@ -366,6 +367,7 @@ class FusionBackend(Backend):
     wiki_configs = []
     website_configs = []
     github_configs = []
+    stack_configs = []
     # Generate twitter datasources
     if "twitter" in project and app.config.get('TWITTER_CONSUMER_KEY'):
       twitter_config = create_twitter_datasource_configs(project)
@@ -406,10 +408,16 @@ class FusionBackend(Backend):
         self.update_datasource(**config)
       for schedule in schedules:
         self.create_or_update_schedule(schedule)
+    if "stacks" in project:
+      stack_configs, schedules = create_stack_datasource_configs(project)
+      for config in stack_configs:
+        self.update_datasource(**config)
+      for schedule in schedules:
+        self.create_or_update_schedule(schedule)
     #TODO: should we return schedules?
     # TODO: flatten this out
     # Add in the PUTS
-    return (twitter_config, jira_config, mailbox_configs, wiki_configs, website_configs, github_configs)
+    return (twitter_config, jira_config, mailbox_configs, wiki_configs, website_configs, github_configs, stack_configs)
 
 
 

@@ -34,7 +34,7 @@
     "condition" : "true"
   }, {
     "type" : "field-mapping",
-    "id" : "f6ccd19e-2451-42fc-849b-9a531438e7fb",
+    "id" : "bc7b9b4a-cabc-462c-b874-b91b5afb2628",
     "mappings" : [ {
       "source" : "_raw_content_",
       "operation" : "delete"
@@ -48,7 +48,7 @@
     "label" : "field-mapping"
   }, {
     "type" : "machine-learning",
-    "id" : "sitydhqsh502otj4i",
+    "id" : "8m2eydijvwo28olxr",
     "modelId" : "relatedTermModel",
     "predictionFieldName" : "related terms",
     "failOnError" : false,

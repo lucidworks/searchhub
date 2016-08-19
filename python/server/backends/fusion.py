@@ -486,6 +486,39 @@ class FusionBackend(Backend):
     found = decoded['response']['numFound']
     return docs, ordered_facets, found
 
+  def get_user(self, username, email=""):
+    path = "apollo/collections/{0}/query-profiles/{1}/select".format("users", "default")
+    params = {
+      "q": "username:\"{0}\" OR email:\"{1}\"".format(username, email),
+      "fq": [],
+      "rows": 1,
+      "start": 0,
+      "wt": "json"
+    }
+    resp = self.admin_session.get(path, params=params, headers={"Content-type": "application/json"})
+
+    decoded = resp.json()
+    docs = decoded['response']['docs']
+
+    return docs
+
+  def add_user(self, user_data):
+    path = "apollo/index-pipelines/users-default/collections/users/index"
+    data = {"fields": []}
+    for field in user_data:
+      data["fields"].append({"name": field, "value": user_data[field]})
+    records = [data]
+    resp = self.admin_session.post(path,
+                                   data=json.dumps(records),
+                                   headers={"Content-type": "application/json"})
+    if resp.status_code == 200:
+      return True
+    else:
+      print resp.status_code
+      print resp.text
+      raise Exception("Couldn't add user to users collection")
+    return False
+
   def delete_taxonomy(self, collection_id, category=None):
     if category:
       resp = self.admin_session.delete("apollo/collections/{0}/taxonomy/{1}".format(collection_id, category))

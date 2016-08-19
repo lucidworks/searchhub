@@ -2,7 +2,9 @@ import logging
 import os
 from flask import render_template, send_from_directory
 from flask import request, redirect
+from flask import jsonify
 from server import app, backend
+from werkzeug.security import generate_password_hash, check_password_hash
 import werkzeug
 import urllib
 import json
@@ -55,7 +57,65 @@ def apache(path):
 def search():
     return render_template('index.html')
 
+@app.route('/login', methods=["POST"])
+def login():
+    user_data = request.json
 
+    if (user_data is None) or ("username" not in user_data) or ("password" not in user_data):
+        msg = 'Please fill missing fields!'
+        return jsonify({"msg": msg, "success": False})
+
+    users = backend.get_user(username=user_data["username"])
+
+    if len(users) == 1:
+        user = users[0]
+        if check_password_hash(user["password"], user_data["password"]):
+            success = True
+            msg = "Login success!"
+            email = user["email"]
+        else:
+            success = False
+            msg = "Incorrect password!"
+    else:
+        # user already exists
+        success = False
+        msg = 'Username does not exists!'
+
+
+    return jsonify({"msg": msg, "success": success, "email": email})
+
+@app.route('/signup', methods=["POST"])
+def signup():
+    user_data = request.json
+
+    if (user_data is None) or ("username" not in user_data) or ("email" not in user_data) or \
+            ("password" not in user_data) or ("password_confirm" not in user_data):
+        msg = 'Please fill missing fields!'
+        return jsonify({"msg": msg, "success": False})
+    elif len(user_data["password"]) < 6:
+        msg = 'Password length must be at least 6'
+        return jsonify({"msg": msg, "success": False})
+    elif user_data["password"] != user_data["password_confirm"]:
+        msg = 'Password does not match!'
+        return jsonify({"msg": msg, "success": False})
+
+    user_data["password"] = generate_password_hash(user_data["password"])
+    users = backend.get_user(username=user_data["username"], email=user_data["email"])
+
+    if len(users) > 0:
+        # user already exists
+        success = False
+        msg = 'Username or email already exists!'
+    else:
+        # add new user into collection
+        if backend.add_user(user_data):
+            success = True
+            msg = "Sign up success!"
+        else:
+            success = False
+            msg = "Sign up error!"
+
+    return jsonify({"msg": msg, "success": success})
 
 # Route all Signals from Snowplow accordingly
 @app.route('/snowplow/<path:path>', methods=["GET"])

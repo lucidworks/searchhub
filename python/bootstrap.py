@@ -72,6 +72,14 @@ def setup_find_fields(backend, collection_id):
 
 # ((fusion)/(\d+.\d+))|((\w+|LucidWorksSearch-Docs)-v(\d+\.\d+))
 
+# Setup schema for user collection
+def setup_user_fields(backend, collection_id):
+  backend.add_field(collection_id, "username", type="string", required=True)
+  backend.add_field(collection_id, "email", type="string", required=True)
+  backend.add_field(collection_id, "password", type="string", required=True)
+  backend.add_field(collection_id, "first_name", type="string", required=True)
+  backend.add_field(collection_id, "last_name", type="string", required=True)
+
 # Loop over the Fusion config and add any pipelines defined there.
 def setup_pipelines(backend):
   pipe_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_pipeline.json")]
@@ -155,6 +163,7 @@ backend.set_log_level("WARN")
 
 lucidfind_collection_id = app.config.get("FUSION_COLLECTION", "lucidfind")
 lucidfind_batch_recs_collection_id = app.config.get("FUSION_BATCH_RECS_COLLECTION", "lucidfind_thread_recs")
+user_collection_id = app.config.get("USER_COLLECTION", "users")
 
 # Create our main application user
 username = app.config.get("FUSION_APP_USER", "lucidfind")
@@ -217,7 +226,6 @@ status = backend.create_user(username, app.config.get("FUSION_APP_PASSWORD"))
 if status == False:
   exit(1)
 
-
 # Create the collection, setup fields and other solr pieces
 if cmd_args.create_collections or create_all:
   session = new_admin_session()
@@ -239,6 +247,11 @@ if cmd_args.create_collections or create_all:
   if status == False:
     exit(1)
 
+  # Create the "users" collection for registration
+  status = backend.create_collection(user_collection_id, enable_signals=False, enable_search_logs=False, enable_dynamic_schema=False)
+  if status == False:
+    exit(1)
+  setup_user_fields(backend, user_collection_id)
 
 #create the pipelines
 if cmd_args.create_pipelines or create_all:

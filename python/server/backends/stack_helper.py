@@ -37,6 +37,8 @@ def create_config(project_name, project_label, includes, excludes, schedule, pip
                 ".topbar",
                 ".bottom-notice",
                 "#hot-network-questions",
+                "#header",
+                ".hero-content",
                 "#footer"
             ],
             "f.selectorFields": [

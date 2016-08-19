@@ -21,6 +21,8 @@
         ".*badges.*",
         ".*answertab.*",
         ".*noredirect.*",
+        ".*stackexchange.*",
+        ".*stackapps.*",
         ".*questions$"
       ],
   "includes": [

@@ -112,7 +112,7 @@ public class W2VRelatedTerms implements MLModel, SparkContextAware {
                 return o1._2.compareTo(o2._2);
             }
         };
-        PriorityQueue<Tuple2<String, Double>> largestTfIdf=new PriorityQueue<>(100, comparator);
+        PriorityQueue<Tuple2<String, Double>> largestTfIdf=new PriorityQueue<>(5, comparator);
         for(String key:tfidf.keySet()){
             if(largestTfIdf.size()<5){
                 largestTfIdf.add(new Tuple2(key, tfidf.get(key)));

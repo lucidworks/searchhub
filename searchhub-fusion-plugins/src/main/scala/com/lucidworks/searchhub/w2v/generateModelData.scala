@@ -22,18 +22,14 @@ object generateModelData {
   val vectorizedMail = TfIdfVectorizer.vectorize(mailDF, vectorizer, textColumnName)
   vectorizedMail.cache()
   val filedir=new File("modelId")
+  if(filedir.exists)"rm -rf modelId"!
+
   filedir.mkdir()
   val idfMapData=new File(filedir,"idfMapData")
-  //if "modelId/idfMapData" already exists, remove it
-  if(idfMapData.exists)"rm -rf modelId/idfMapData"!
 
-  sc.getConf.set("spark.kryoserializer.buffer.max","512m")//set spark.kryoserializer.buffer.max greater
   sc.parallelize(vectorizer.idfs.toSeq).saveAsTextFile("modelId/idfMapData")
   val w2vModel = ManyNewsgroups.buildWord2VecModel(vectorizedMail, tokenizer, textColumnName)
   val w2vModelFile=new File("modelId/w2vModelData")
-  //if "modelId/w2vModelData" already exists, remove it
-  if(w2vModelFile.exists)"rm -rf modelId/w2vModelData"!
-
   w2vModel.save(sc, "modelId/w2vModelData")
   //call PrepareFile.createZipFile to add a metadata json file, and zip 'modelId'
   PrepareFile.createZipFile

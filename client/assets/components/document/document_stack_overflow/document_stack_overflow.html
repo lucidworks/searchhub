@@ -2,11 +2,11 @@
   <!--website-->
   <div class="detail vertical grid-content" >
     <!-- show head field linked with a title. -->
-    <h3 class="head-field" ng-if="doc.question_txt && vm.expanded">
+    <div class="head-field" ng-if="doc.question_txt && vm.expanded">
       <a  ng-click="vm.postClickSignal(this, doc.id, $index, doc.score, doc.threadId, doc.subject_simple)" rel="noopener" target="document">
         <field value="doc.question_txt" highlight="highlight[doc.id]" hkey="question_txt"></field>
       </a>
-    </h3>
+    </div>
     <h3 class="head-field" ng-if="doc.question_txt_trunc && !vm.expanded">
       <a  ng-click="vm.postClickSignal(this, doc.id, $index, doc.score, doc.threadId, doc.subject_simple)" rel="noopener" target="document">
         <field value="doc.question_txt_trunc" highlight="highlight[doc.id]" hkey="question_txt_trunc"></field>

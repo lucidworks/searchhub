@@ -18,6 +18,10 @@
         <a href="#"><field value="doc.name_s" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="subject"></field></a>
       </a>
       </div>
+      <div class="head-field" ng-if="!doc.subject && !doc.title && doc.question_txt"
+           ng-click="rc.postClickRecommendation(this, doc.id, $index, doc.score, 'mltRecommendation')">
+        <a href="#"><field value="doc.question_txt" maxlength="50"></field></a>
+      </div>
     </div>
   </div>
   <div>

@@ -204,6 +204,8 @@ You may want to modify some config of the scheduling of the job. You can change 
 
 You may also want to set your own MLStage. Just to make sure, the `Machine Learning Model ID` should be the same as how you name the corresponding file sent to BLOB(check file `SEARCHHUB_HOME/python/fusion_config/w2v_job.json`). In our case, it should be `relatedTermModel`.
 
+If the document size in your solr is huge, then you may see the following error `Kryo serialization failed: Buffer overflow.`. You may want to make a POST request such as ``curl -vvv -X POST -H "Content-type: application/json" -u admin:password123 -d '"512m"' http://localhost:8764/api/apollo/configurations/spark.kryoserializer.buffer.max` to increase the buffer size (to 512 mb in this example). 
+
 
 
 ### The Build

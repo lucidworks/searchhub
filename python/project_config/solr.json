@@ -63,7 +63,7 @@
       "name": "solr-ref-guide",
       "label": "Solr Reference Guide",
       "url": "https://cwiki.apache.org/confluence/display/solr/",
-      "excludes":".*focusedCommentId.*",
+      "excludes": [".*focusedCommentId.*"],
       "schedule": {
         "repeatUnit": "DAY",
         "interval": 1

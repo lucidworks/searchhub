@@ -52,7 +52,7 @@
         "repeatUnit": "DAY",
         "interval": 2
       },
-      "excludes":".*signin.*"
+      "excludes":[".*signin.*"]
     }
   ]
 }

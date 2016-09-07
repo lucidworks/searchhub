@@ -7,6 +7,7 @@
       'ngAnimate',
       'ngSanitize',
       'ngCookies',
+      'nvd3',
 
       // Foundation
       'foundation',

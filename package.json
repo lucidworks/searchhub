@@ -63,6 +63,7 @@
     "ng-describe": "^1.6.0",
     "angular-sanitize": "1.5.7",
     "angular-cookies": "1.5.7",
+    "angular-nvd3": "1.0.8",
     "require-dir": "^0.3.0",
     "rimraf": "^2.4.1",
     "run-sequence": "^1.1.1",

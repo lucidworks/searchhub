@@ -45,6 +45,7 @@
       hc.signupError = false;
       hc.loginError = false;
       hc.is_login = false;
+      hc.isLoading = false;
       query = URLService.getQueryFromUrl();
       console.log(QueryService.getQueryObject());
 
@@ -55,6 +56,7 @@
       resultsObservable = Orwell.getObservable('queryResults');
       resultsObservable.addObserver(function(data) {
         // updateStatus();
+        startLoading();
         checkResultsType(data);
         updateStatus();
         // Initializing sorting
@@ -64,6 +66,7 @@
           rspSort = data.responseHeader.params.sort;
         }
         getSortFromQuery(query, rspSort);
+        endLoading();
 
       });
       perDocumentObservable = Orwell.getObservable('perDocument');
@@ -149,6 +152,15 @@
       var query = QueryService.getQueryObject();
       query.sort = hc.sort + " desc";
       QueryService.setQuery(query);
+    }
+
+    function startLoading(){
+      hc.isLoading = true;
+    }
+
+
+    function endLoading(){
+      hc.isLoading = false;
     }
 
     function checkResultsType(data){

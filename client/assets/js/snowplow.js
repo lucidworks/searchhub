@@ -29,7 +29,7 @@ searchhub_snowplow("newTracker", "searchHub", location.hostname + ":" + location
 });
 
 searchhub_snowplow('enableActivityTracking', 30, 30);
-//searchhub_snowplow('enableLinkClickTracking', {'blacklist':['no-track']}, true, true);
+searchhub_snowplow('enableLinkClickTracking', null, true, true);
 //searchhub_snowplow('refreshLinkClickTracking');
 searchhub_snowplow('trackPageView', null, [{
           schema: "iglu:com.snowplowanalytics.snowplow/unstruct_event/jsonschema/1-0-0",

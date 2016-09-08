@@ -40,6 +40,7 @@ class FusionSession(requests.Session):
 
   def request(self, method, url, **kwargs):
     full_url = urljoin(self.__base_url, url)
+
     resp = super(FusionSession, self).request(method, full_url, **kwargs)
     if resp.status_code == 401:
       if url == "session":

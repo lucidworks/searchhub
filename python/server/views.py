@@ -151,11 +151,11 @@ def track_post_event(foo):
             #we need to set a few headers from the client so that the signal shows up properly on the backend
             for h in ["Referer", "User-Agent"]:
                 if h in request.headers:
-                    request_headers[h] = request.headers[h]
+                    request_headers[h] = str(request.headers[h])
             if request.method == "POST" or request.method == "PUT":
                 form_data = list(iterform(request.form))
                 form_data = urllib.urlencode(form_data)
-                request_headers["Content-Length"] = len(form_data)
+                request_headers["Content-Length"] = str(len(form_data))
             # The snowplow payload needs to set these to override the underlying python requests setting
             item["ip"] = request.remote_addr
             item["ua"] = request.user_agent

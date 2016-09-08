@@ -16,7 +16,7 @@ class Backend(object):
   def set_log_level(self, logLevel="ERROR"):
     raise NotImplementedError()
 
-  def send_signal(self, collection_id, payload):
+  def send_signal(self, collection_id, payload, req_headers=None):
     """
     Send a signal
     """

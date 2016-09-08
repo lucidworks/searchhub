@@ -7,4 +7,3 @@ loremipsum
 python-twitter
 markupsafe
 oauthlib
-urlparse

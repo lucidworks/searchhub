@@ -34,6 +34,7 @@
       console.log("We are in the activate of the timeline");
       var resultsObservable = Orwell.getObservable('queryResults');
       console.log(resultsObservable);
+
       // Currently this changes based on the search...is this what we want or not? 
       resultsObservable.addObserver(function (data) {
         console.log("The data is as follows!", data);
@@ -60,6 +61,52 @@
         populate_timeline(vm.data_vals);
       });
 
+      function addQueryFacet(query, key, title){
+        if(!query.hasOwnProperty('fq')){
+          query.fq = [];
+        }
+        var keyObj = {
+          key: key,
+          values: [title],
+          transformer: 'fq:field',
+          tag: vm.facetTag
+        };
+        if(keyObj.tag){
+          //Set these properties if the facet has localParams
+          //concat the localParams with the key of the facet
+          keyObj.key = '{!tag=' + keyObj.tag + '}' + key;
+          keyObj.transformer = 'localParams';
+          var existingMultiSelectFQ = checkIfMultiSelectFQExists(query.fq, keyObj.key);
+          if(existingMultiSelectFQ){
+            //If the facet exists, the new filter values are pushed into the same facet. A new facet object is not added into the query.
+            existingMultiSelectFQ.values.push(title);
+            return query;
+          }
+        }
+        query.fq.push(keyObj);
+        $log.debug('final query', query);
+        return query;
+      }
+
+
+      function toggleFacet(facet){
+        var key = "publishedOnDate";
+        var query = QueryService.getQueryObject();
+        console.log(key);
+        console.log(query);
+
+        // CASE: fq doesnt exist.
+        if(!query.hasOwnProperty('fq')){
+          query = addQueryFacet(query, key, facet.title);
+        }
+        updateFacetQuery(query);
+      }
+
+      function updateFacetQuery(query) {
+        query.start = 0;
+        URLService.setQuery(query);
+      }
+
       function populate_timeline(data_info){
         vm.d3options = {
           chart: {
@@ -69,6 +116,7 @@
                 elementClick: function(e) {
                   console.log(e);
                   console.log("You Clicked on a Bar! Lets start a search.");
+                  toggleFacet("publishedOnDate");
                 }
               }
             },

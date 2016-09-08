@@ -21,10 +21,11 @@
     };
 
 
-  function Controller($sce, $anchorScroll, Orwell, SnowplowService, IDService, QueryService, $log, $scope, URLService) {
+  function Controller($sce, $anchorScroll, Orwell, SnowplowService, IDService, QueryService, $log, $scope, URLService, QueryDataService) {
     'ngInject';
     var vm = this;
     var chart_height = 200;
+    var dateToRange = "date";
 
     activate();
 
@@ -34,18 +35,17 @@
       console.log("We are in the activate of the timeline");
       var resultsObservable = Orwell.getObservable('queryResults');
       console.log(resultsObservable);
-
       // Currently this changes based on the search...is this what we want or not? 
       resultsObservable.addObserver(function (data) {
         console.log("The data is as follows!", data);
+        console.log("The timeline data lives in ", data.facet_counts.facet_ranges[dateToRange].counts);
         var queryObject = QueryService.getQueryObject();
         
         queryObject["uuid"] = IDService.generateUUID();
       
         // Note we have to make a slice because otherwise javascript will 
         // change the original array and ruin everything! 
-        var timeline_data = data.facet_counts.facet_ranges.publishedOnDate.counts.slice()
-
+        var timeline_data = data.facet_counts.facet_ranges[dateToRange].counts.slice();
         var num_dates = timeline_data.length;
 
         vm.data_vals = [];
@@ -90,7 +90,7 @@
 
 
       function toggleFacet(facet){
-        var key = "publishedOnDate";
+        var key = dateToRange;
         var query = QueryService.getQueryObject();
         console.log(key);
         console.log(query);
@@ -114,9 +114,21 @@
             bars: {
               dispatch: {
                 elementClick: function(e) {
-                  console.log(e);
+                  console.log("Lets get the date in a parsable format");
+                  var startClickDate = new Date(e.data[0]);
+                  
+                  var endClickDate = new Date();
+                  endClickDate.setDate(startClickDate.getDate() + 1);
+                  
+                  var startClickDateIso = startClickDate.toISOString();
+                  var endClickDateIso = endClickDate.toISOString();
+
+                  console.log("Start Date is", startClickDateIso);
+                  console.log("End Date is", endClickDateIso);
                   console.log("You Clicked on a Bar! Lets start a search.");
-                  toggleFacet("publishedOnDate");
+
+                  QueryDataService.getQueryResults({q: "date:[" + startClickDateIso + " TO " + endClickDateIso + "]", wt:'json'});
+                  //toggleFacet(dateToRange);
                 }
               }
             },

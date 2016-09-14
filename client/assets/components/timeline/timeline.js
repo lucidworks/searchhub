@@ -24,7 +24,8 @@
   function Controller($sce, $anchorScroll, Orwell, SnowplowService, IDService, QueryService, $log, $scope, URLService, QueryDataService) {
     'ngInject';
     var vm = this;
-    var chart_height = 200;
+    vm.selectBar = false;
+    var chart_height = 300;
     var dateToRange = "date";
 
     activate();
@@ -32,80 +33,51 @@
     ////////
 
     function activate() {
-      console.log("We are in the activate of the timeline");
+      console.log("In the activate of the timeline");
+
       var resultsObservable = Orwell.getObservable('queryResults');
-      console.log(resultsObservable);
-      // Currently this changes based on the search...is this what we want or not? 
+      var timeline_data;
+      var num_dates;
+
       resultsObservable.addObserver(function (data) {
-        console.log("The data is as follows!", data);
-        console.log("The timeline data lives in ", data.facet_counts.facet_ranges[dateToRange].counts);
+        console.log("The data has changed");
         var queryObject = QueryService.getQueryObject();
-        
+
         queryObject["uuid"] = IDService.generateUUID();
-      
-        // Note we have to make a slice because otherwise javascript will 
-        // change the original array and ruin everything! 
-        var timeline_data = data.facet_counts.facet_ranges[dateToRange].counts.slice();
-        var num_dates = timeline_data.length;
+
+
+        try {
+          // Note we have to make a slice because otherwise javascript will 
+          // change the original array and ruin everything! 
+          console.log(data);
+          timeline_data = data.facet_counts.facet_ranges[dateToRange].counts.slice();
+          num_dates = timeline_data.length;  
+        }
+        catch (err) {
+          if (err.name === "TypeError") {
+            $log.error("GRAPH ERROR: There is no " + dateToRange + " facet field");
+          }
+          else {
+            $log.error("ERROR: Something has gone wrong");
+          }
+        }
 
         vm.data_vals = [];
-
-        for (var i = 0; i <= num_dates/2; i+=2) {
-          var date = new Date(timeline_data[i]);
-          // console.log(date);
-          var milliseconds = date.getTime();
-          timeline_data[i] = milliseconds
-          var sub_array = [milliseconds, timeline_data[i + 1]];
-          vm.data_vals.push(sub_array);
+        if (num_dates == 0) {
+          $log.error("SEARCH ERROR: There are no values for field " + dateToRange + " for this particular search");
+        }
+        else {
+          for (var i = 0; i <= num_dates/2; i+=2) {
+            var date = new Date(timeline_data[i]);
+            date.setDate(date.getDate() + 1);
+            var milliseconds = date.getTime();
+            timeline_data[i] = milliseconds
+            var sub_array = [milliseconds, timeline_data[i + 1]];
+            vm.data_vals.push(sub_array);
+          }
         }
         populate_timeline(vm.data_vals);
       });
-
-      function addQueryFacet(query, key, title){
-        if(!query.hasOwnProperty('fq')){
-          query.fq = [];
-        }
-        var keyObj = {
-          key: key,
-          values: [title],
-          transformer: 'fq:field',
-          tag: vm.facetTag
-        };
-        if(keyObj.tag){
-          //Set these properties if the facet has localParams
-          //concat the localParams with the key of the facet
-          keyObj.key = '{!tag=' + keyObj.tag + '}' + key;
-          keyObj.transformer = 'localParams';
-          var existingMultiSelectFQ = checkIfMultiSelectFQExists(query.fq, keyObj.key);
-          if(existingMultiSelectFQ){
-            //If the facet exists, the new filter values are pushed into the same facet. A new facet object is not added into the query.
-            existingMultiSelectFQ.values.push(title);
-            return query;
-          }
-        }
-        query.fq.push(keyObj);
-        $log.debug('final query', query);
-        return query;
-      }
-
-
-      function toggleFacet(facet){
-        var key = dateToRange;
-        var query = QueryService.getQueryObject();
-        console.log(key);
-        console.log(query);
-
-        // CASE: fq doesnt exist.
-        if(!query.hasOwnProperty('fq')){
-          query = addQueryFacet(query, key, facet.title);
-        }
-        updateFacetQuery(query);
-      }
-
-      function updateFacetQuery(query) {
-        query.start = 0;
-        URLService.setQuery(query);
-      }
 
       function populate_timeline(data_info){
         vm.d3options = {
@@ -114,21 +86,40 @@
             bars: {
               dispatch: {
                 elementClick: function(e) {
-                  console.log("Lets get the date in a parsable format");
+
                   var startClickDate = new Date(e.data[0]);
-                  
-                  var endClickDate = new Date();
-                  endClickDate.setDate(startClickDate.getDate() + 1);
+                  var endClickDate = new Date(e.data[0]);
+
+                  startClickDate.setDate(startClickDate.getDate() - 1);
                   
                   var startClickDateIso = startClickDate.toISOString();
                   var endClickDateIso = endClickDate.toISOString();
 
-                  console.log("Start Date is", startClickDateIso);
-                  console.log("End Date is", endClickDateIso);
-                  console.log("You Clicked on a Bar! Lets start a search.");
+                  $log.debug("Start Date is", startClickDateIso);
+                  $log.debug("End Date is", endClickDateIso);
+                  $log.debug("You Clicked on a Bar! Lets start a search.");
 
-                  QueryDataService.getQueryResults({q: "date:[" + startClickDateIso + " TO " + endClickDateIso + "]", wt:'json'});
-                  //toggleFacet(dateToRange);
+                  // get the appropriate date range 
+                  var dateStringToAdd = dateToRange + ":[" + startClickDateIso + " TO " + endClickDateIso + "]"; 
+                  var queryObject = QueryService.getQueryObject();
+                  
+                  if (queryObject['fq'] == undefined || queryObject['fq'].length == 0){
+                    queryObject['fq'] = [];
+                    queryObject['fq'].push(dateStringToAdd);
+                  }
+                  else {
+                    if (queryObject['fq'].indexOf(dateStringToAdd) == -1) {
+                      queryObject['fq'].push(dateStringToAdd);
+                    }
+                    else {
+                      var index = queryObject['fq'].indexOf(dateStringToAdd);
+                      queryObject['fq'].splice(index, 1);
+                    }
+                  }
+                  vm.selectBar = true; 
+                  
+                  // Set the query and launch the search 
+                  URLService.setQuery(queryObject); 
                 }
               }
             },

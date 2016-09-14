@@ -24,7 +24,7 @@
   function Controller($sce, $anchorScroll, Orwell, SnowplowService, IDService, QueryService, $log, $scope, URLService, QueryDataService) {
     'ngInject';
     var vm = this;
-    vm.selectBar = false;
+    vm.barIsClicked = false;
     var chart_height = 300;
     var dateToRange = "date";
 
@@ -34,22 +34,19 @@
 
     function activate() {
       console.log("In the activate of the timeline");
-
       var resultsObservable = Orwell.getObservable('queryResults');
+      var queryObservable = Orwell.getObservable('query');
+      
       var timeline_data;
-      var num_dates;
+      var num_dates; 
+
+      vm.showTimeline = true; 
 
       resultsObservable.addObserver(function (data) {
-        console.log("The data has changed");
-        var queryObject = QueryService.getQueryObject();
-
-        queryObject["uuid"] = IDService.generateUUID();
-
-
+        console.log("The data has changed! It is", data);
         try {
           // Note we have to make a slice because otherwise javascript will 
           // change the original array and ruin everything! 
-          console.log(data);
           timeline_data = data.facet_counts.facet_ranges[dateToRange].counts.slice();
           num_dates = timeline_data.length;  
         }
@@ -79,6 +76,32 @@
         populate_timeline(vm.data_vals);
       });
 
+      queryObservable.addObserver(function (query) {
+        $log.debug("The query has changed! It is now", query); 
+        var queryObject = QueryService.getQueryObject();
+        
+        if (vm.barIsClicked == true && (queryObject['fq'] == undefined || queryObject['fq'].length == 0 || queryObject['fq'].indexOf(vm.dateStringToAdd) == -1)){
+          $log.debug("We have to add the appropriate fq to the query!");
+          if (queryObject['fq'] == undefined || queryObject['fq'].length == 0){
+            $log.debug("Adding the FQ parameter in the query observable");
+            queryObject['fq'] = [];
+            queryObject['fq'].push(vm.dateStringToAdd);
+          }
+          else {
+            if (queryObject['fq'].indexOf(vm.dateStringToAdd) == -1) {
+              $log.debug("Adding the datestring to the FQ parameter in the query observable");
+              queryObject['fq'].push(vm.dateStringToAdd);
+            }
+          }
+          $log.debug("Sending the search!");
+          URLService.setQuery(queryObject);
+        }
+        else {
+          $log.debug("There is already an fq or the bar has not been clicked!");
+        }
+      });
+
+
       function populate_timeline(data_info){
         vm.d3options = {
           chart: {
@@ -100,26 +123,31 @@
                   $log.debug("You Clicked on a Bar! Lets start a search.");
 
                   // get the appropriate date range 
-                  var dateStringToAdd = dateToRange + ":[" + startClickDateIso + " TO " + endClickDateIso + "]"; 
+                  vm.dateStringToAdd = dateToRange + ":[" + startClickDateIso + " TO " + endClickDateIso + "]"; 
+                  // console.log(queryObservable);
                   var queryObject = QueryService.getQueryObject();
-                  
+                  // console.log(queryObject);
+
                   if (queryObject['fq'] == undefined || queryObject['fq'].length == 0){
+                    $log.debug("Adding the FQ parameter in the click");
                     queryObject['fq'] = [];
-                    queryObject['fq'].push(dateStringToAdd);
+                    queryObject['fq'].push(vm.dateStringToAdd);
+                    vm.barIsClicked = true;
                   }
                   else {
-                    if (queryObject['fq'].indexOf(dateStringToAdd) == -1) {
-                      queryObject['fq'].push(dateStringToAdd);
+                    if (queryObject['fq'].indexOf(vm.dateStringToAdd) == -1) {
+                      $log.debug("Adding the datestring to the FQ parameter in the click");
+                      queryObject['fq'].push(vm.dateStringToAdd);
+                      vm.barIsClicked = true;
                     }
                     else {
-                      var index = queryObject['fq'].indexOf(dateStringToAdd);
+                      $log.debug("Removing the datestring from the FQ parameter in the click");
+                      var index = queryObject['fq'].indexOf(vm.dateStringToAdd);
                       queryObject['fq'].splice(index, 1);
+                      vm.barIsClicked = false;
                     }
                   }
-                  vm.selectBar = true; 
-                  
-                  // Set the query and launch the search 
-                  URLService.setQuery(queryObject); 
+                  queryObservable.setContent(queryObject);
                 }
               }
             },

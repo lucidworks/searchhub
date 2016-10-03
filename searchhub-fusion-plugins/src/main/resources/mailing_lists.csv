@@ -88,7 +88,5 @@ THRIFT_USER, thrift, user, thrift-user, THIRFT
 YARN_DEV, yarn, dev, hadoop-yarn-dev, HADOOP
 YARN_USER, yarn, user, hadoop-yarn-user, HADOOP
 TURBINE_DEV, turbine, dev, turbine-dev, TURBINE 
-TURBINE_USER, turbine, user, turbine-user, TURBINE 
-XERCES_DEV, xerces, dev, xerces-j-dev, XERCES 
-XERCES_USER, xerces, user, xerces-j-users, XERCES 
+TURBINE_USER, turbine, user, turbine-user, TURBINE
 

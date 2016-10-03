@@ -26,7 +26,7 @@
       "params": [
         {
           "key": "mm",
-          "value": "2<75%",
+          "value": "2\\<75%",
           "policy": "append"
         },
         {
@@ -145,6 +145,11 @@
         },
         {
           "field": "productName",
+          "minCount": 1,
+          "missing": false
+        },
+        {
+          "field": "date",
           "minCount": 1,
           "missing": false
         }

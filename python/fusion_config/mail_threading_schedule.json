@@ -8,15 +8,8 @@
     "interval": 1,
     "active": true,
     "callParams": {
-      "uri": "service://spark/jobs",
-      "method": "POST",
-      "queryParams": {
-        "id": "mail_threading_scheduled",
-        "type": "script",
-        "maxRows": 1,
-        "script": "import com.lucidworks.searchhub.analytics._ \n val mailData = SearchHubLoader.loadFromSolr(SearchHubLoader.Config(sqlContext)) \n val withThreads = MailThreadJob.createThreadGroups(mailData) \n withThreads.write.format(\"solr\").options(SearchHubLoader.opts()).mode(org.apache.spark.sql.SaveMode.Overwrite).save"
-      },
-      "headers": {}
+      "uri": "service://spark/jobs/mail_threading_scheduled",
+      "method": "POST"
     }
 }
 

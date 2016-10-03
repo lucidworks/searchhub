@@ -14,7 +14,7 @@ object SearchHubLoader {
   case class Config(sqlContext: SQLContext, options: Map[String, String] = opts())
 
   def opts(zkHost: String = "localhost:9983", collection: String = "lucidfind", query: String ="lucidfind") =
-    Map("zkhost" -> zkHost, "collection" -> collection, "query" -> query)
+    Map("zkhost" -> zkHost, "collection" -> collection, "query" -> query, "fields" -> "isBot,mimeType_s,from_email,subject,suggest,project,_lw_data_source_collection_s,title,body,body_display,threadId,parent_s,from,_lw_data_source_type_s,_lw_data_source_s,author,author_facet,message_id,list,_lw_batch_id_s,in_reply_to,list_type,subject_simple,_lw_data_source_pipeline_s,hash_id,id,lastModified_dt,number,dateCreated,fetchedDate_dt,publishedOnDate,depth,fileSize,length_l,lastModified,_version_")
 
   def load(sqlContext: SQLContext, opts: Map[String, String]) = loadFromSolr(Config(sqlContext, opts))
 

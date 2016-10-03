@@ -2,7 +2,7 @@
 sudo service docker-searchhub stop
 docker rmi --force searchhub
 docker rm --force searchhub
-node_modules/gulp/bin/gulp.js build
+node_modules/gulp/bin/gulp.js build --production
 cd python
 docker build -t searchhub .
 docker create -p 80:80 --name searchhub searchhub

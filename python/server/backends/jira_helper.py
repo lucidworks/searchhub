@@ -35,6 +35,7 @@ def create_jira_datasource_config(project):
                           {"source": "project", "target": project["name"], "operation": "set"},
                           {"source": "project_label", "target": project["label"], "operation": "set"},
                           {"source": "datasource_label", "target": jira["label"], "operation": "set"},
+                          {"source": "isBot", "target": "false", "operation": "set"},
                           {
                               "source": "charSet",
                               "target": "charSet_s",

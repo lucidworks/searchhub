@@ -1,0 +1,5 @@
+{
+  "id": "thread_recommender_job",
+  "type": "item-similarity-recommender",
+  "maxRows": 1
+}

@@ -1,14 +1,15 @@
 <article class="grid-block document row">
+  <!--github-->
   <div class="detail vertical grid-content github">
     <!-- show head field linked with a title. -->
     <h3 class="head-field" ng-if="::vm.doc.title">
-      <a ng-href="{{vm.doc.id}}" ng-click="vm.postClickSignal(this, doc.id, $index, doc.score)" rel="noopener"
+      <a  ng-click="vm.postClickSignal(this, doc.id, $index, doc.score, doc.threadId, doc.subject_simple)" rel="noopener"
          target="document">
         <field value="::vm.doc.title" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="title"></field>
       </a>
     </h3>
     <h3 class="head-field" ng-if="!vm.doc.title">
-      <a ng-href="{{vm.doc.id}}" ng-click="vm.postClickSignal(this, doc.id, $index, doc.score)" rel="noopener"
+      <a ng-click="vm.postClickSignal(this, doc.id, $index, doc.score, doc.threadId, doc.subject_simple)" rel="noopener"
          target="document">
         <field value="::vm.doc.id" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="id"></field>
       </a>

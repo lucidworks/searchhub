@@ -45,6 +45,7 @@ def create_config(project_name, project_label, pipeline, repo):
                           {"source": "project", "target": project_name, "operation": "set"},
                           {"source": "project_label", "target": project_label, "operation": "set"},
                           {"source": "datasource_label", "target": repo["label"], "operation": "set"},
+                          {"source": "isBot", "target": "false", "operation": "set"},
                           {
                               "source": "charSet",
                               "target": "charSet_s",

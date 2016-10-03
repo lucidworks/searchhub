@@ -14,8 +14,9 @@
       controller: Controller,
       controllerAs: 'vm',
       bindToController: {
-        doc: '=bind',
-        highlight: '='
+        doc: '=',
+        highlight: '=',
+        expanded: "="
       }
     };
 
@@ -23,27 +24,30 @@
 
   }
 
-  function Controller($sce, SnowplowService, $filter, $log) {
+  function Controller($sce, SnowplowService, PerDocumentService, DocumentDisplayHelperService, $log) {
     'ngInject';
     var vm = this;
-
     activate();
 
     function activate() {
       vm.postSignal = SnowplowService.postSignal;
-      vm.postClickSignal = SnowplowService.postClickSignal;
+      vm.postClickSignal = processClick;
       vm.doc = processDocument(vm.doc);
+    }
+
+    function processClick(element, docId, position, score, threadId, subjectSimple){
+      SnowplowService.postClickSignal(element, docId, position, score);
+      PerDocumentService.processPerDocument(docId, threadId, subjectSimple);
     }
 
     function processDocument(doc) {
       //make sure we can display the info
       //$log.info(doc['subject']);
+      doc = DocumentDisplayHelperService.processDocument(doc);
       doc['body'] = $sce.trustAsHtml(doc['body']);
       doc['subject'] = $sce.trustAsHtml(doc['subject']);
       //$log.info(doc['subject']);
       doc['id'] = $sce.trustAsHtml(doc['id']);
-      doc.length_lFormatted = $filter('humanizeFilesize')(doc.length_l);
-      doc.lastModified_dtFormatted = $filter('date')(doc.lastModified_dt);
       return doc;
     }
   }

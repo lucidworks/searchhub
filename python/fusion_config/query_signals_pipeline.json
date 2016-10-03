@@ -1,0 +1,26 @@
+{
+  "id": "lucidfind_signals-default",
+  "stages": [
+    {
+      "type": "facet",
+      "fieldFacets": [
+        {
+          "field": "type_s",
+          "minCount": 1,
+          "missing": false
+        }
+      ],
+      "skip": false,
+      "label": "facet"
+    },
+    {
+      "type": "solr-query",
+      "allowedRequestHandlers": [],
+      "httpMethod": "POST",
+      "allowFederatedSearch": false,
+      "skip": false,
+      "label": "solr-query"
+    }
+  ],
+  "properties": {}
+}

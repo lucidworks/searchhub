@@ -1,0 +1,35 @@
+{
+  "id": "lucidfind-recommendations",
+  "stages": [
+    {
+      "type": "set-params",
+      "id": "jrxkgaw8j56k73nmi",
+      "params": [
+        {
+          "key": "rows",
+          "value": "5",
+          "policy": "append"
+        }
+      ],
+      "skip": false,
+      "label": "set-params"
+    },
+    {
+      "type": "javascript-query",
+      "id": "sv954l7jxghj16ecdi",
+      "script": "var docId = request.getFirstParam(\"docId\");\nvar q = \"{!mlt qf=body,suggest,subject,title mintf=2 mindf=5 minwl=3}\" + docId\nrequest.putSingleParam(\"q\", q);",
+      "skip": false,
+      "label": "javascript-query"
+    },
+    {
+      "type": "solr-query",
+      "id": "3742f43a-9e33-4968-957b-dc5182f1393c",
+      "allowedRequestHandlers": [],
+      "httpMethod": "POST",
+      "allowFederatedSearch": false,
+      "skip": false,
+      "label": "solr-query"
+    }
+  ],
+  "properties": {}
+}

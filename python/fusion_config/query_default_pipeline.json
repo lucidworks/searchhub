@@ -183,7 +183,7 @@
         },
         {
           "key": "facet.limit",
-          "value": "30",
+          "value": "120",
           "policy": "append"
         },
         {

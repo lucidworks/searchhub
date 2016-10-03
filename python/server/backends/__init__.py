@@ -16,7 +16,7 @@ class Backend(object):
   def set_log_level(self, logLevel="ERROR"):
     raise NotImplementedError()
 
-  def send_signal(self, collection_id, payload):
+  def send_signal(self, collection_id, payload, req_headers=None):
     """
     Send a signal
     """
@@ -45,7 +45,7 @@ class Backend(object):
     """
     raise NotImplementedError()
 
-  def create_collection(self, collection_id, enable_signals=False, enable_search_logs=True, enable_dynamic_schema=True):
+  def create_collection(self, collection_id, enable_signals=False, enable_search_logs=True, enable_dynamic_schema=True, solr_params=None):
     raise NotImplementedError()
 
   def create_user(self, user, password):
@@ -100,9 +100,20 @@ class Backend(object):
   def add_request_handler(self, collection_name, add_req_handler_json):
     raise NotImplementedError()
 
+  def remove_request_handler(self, collection_name, req_handler_name):
+    raise NotImplementedError()
+
   def add_search_component(self, collection_name, add_search_component_json):
     raise NotImplementedError()
 
+  def remove_search_component(self, collection_name, component_name):
+    raise NotImplementedError()
+
+  def set_property(self, collection_name, data):
+    raise NotImplementedError()
+
+  def unset_property(self, collection_name, data):
+    raise NotImplementedError()
 
   def stop_datasource(self, id, abort=False):
     raise NotImplementedError()

@@ -1,0 +1,6 @@
+{
+  "id": "mail_threading_scheduled",
+  "type": "script",
+  "maxRows": 1,
+  "script": "import com.lucidworks.searchhub.analytics._\nimport org.slf4j.LoggerFactory\nval log = LoggerFactory.getLogger(\"ScriptWithNoClass, using MailThreadJob\")\nval acc = (s: String) => s -> sc.accumulator(0, s)\nval msgAcc = acc(\"num_messages\")\nval msgKnown = acc(\"num_msgs_with_threadIds\")\nval msgUnknown = acc(\"num_msgs_without_threadIds\")\nval subAcc = acc(\"num_subjects\")\nval subWithAllKnownAcc = acc(\"num_subjects_with_all_known_threadIds\")\nval subWithNoKnownAcc = acc(\"num_subjects_with_no_known_threadIds\")\nval subWithMixedAcc = acc(\"num_subjects_with_some_known_some_unknown_threadIds\")\nval accMap = Map(msgAcc, msgKnown, msgUnknown, subAcc, subWithAllKnownAcc, subWithNoKnownAcc, subWithMixedAcc)\nval mailData = SearchHubLoader.loadFromSolr(SearchHubLoader.Config(sqlContext, SearchHubLoader.opts(query = \"*:*\"))).cache()\nprintln(\"pre-work count:\" + mailData.count())\nval withThreads = MailThreadJob.createThreadGroups(mailData, accMap, true)\nval report = accMap.mapValues(_.value).mkString(\",\")\nlog.info(report)\nwithThreads.write.format(\"solr\").options(SearchHubLoader.opts()).mode(org.apache.spark.sql.SaveMode.Overwrite).save"
+}

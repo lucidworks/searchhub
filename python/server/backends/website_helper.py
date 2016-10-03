@@ -69,6 +69,7 @@ def create_config(project_name, project_label, pipeline, website):
           {"source": "project_label", "target": project_label, "operation": "set"},
           {"source": "datasource_label", "target": website["label"], "operation": "set"},
           {"source": "fetchedDate", "target": "publishedOnDate", "operation": "copy"},
+          {"source": "isBot", "target": "false", "operation": "set"},
           {
             "source": "charSet",
             "target": "charSet_s",
@@ -149,7 +150,7 @@ def create_config(project_name, project_label, pipeline, website):
     }
   }
   if "excludes" in website:
-    config['properties']['excludeRegexes'] = [website["excludes"]]
+    config['properties']['excludeRegexes'] = website["excludes"]
   schedule = None
   if "schedule" in website:
     details = website["schedule"]

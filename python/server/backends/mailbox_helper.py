@@ -36,7 +36,8 @@ def create_config(project_name, project_label, pipeline, mailing_list):
       "f.respectMetaEquivRedirects": False,
       "fetchDelayMS": 50,
       "splitArchives": True,
-      "refreshAll": True,
+      "refreshAll": False,
+      "refreshScript": "function shouldRefresh(id, depth, lastModified, lastFetched, lastEmitted, error){\n\tvar date = new Date();\n  var month = \"\";\n  if (date.getUTCMonth() < 10){\n    month = \"0\" + (date.getUTCMonth() + 1);\n  } else {\n    month = date.getUTCMonth()  + 1\n  }\n  var yearMonth = date.getUTCFullYear() + \"\" + (month);//need 1 based dates\n  if (id != null){\n    return id.indexOf(yearMonth) != -1\n  }\n  return false;\n}\n",
       "f.defaultMIMEType": "application/octet-stream",
       "restrictToTreeAllowSubdomains": False,
       "maxItems": -1,
@@ -142,6 +143,12 @@ def create_config(project_name, project_label, pipeline, mailing_list):
       "aliasExpiration": 1
     }
   }
+  #automatically exclude date/author sorted links and atom:
+  # http://asfmail.lucidworks.io/mail_files/ambari-dev/201412.mbox/date and http://asfmail.lucidworks.io/mail_files/ambari-dev/201412.mbox/author
+  # http://asfmail.lucidworks.io/mail_files/ambari-dev/?format=atom
+  config['properties']['excludeRegexes'] = [".*/date.*", ".*/author.*", ".*format=atom.*"]
+  if "excludes" in mailing_list:
+    config['properties']['excludeRegexes'].append(mailing_list["excludes"])
   schedule = None
   if "schedule" in mailing_list:
     details = mailing_list["schedule"]

@@ -15,12 +15,13 @@ def create_twitter_datasource_configs(project):
   :param project: the project
   :returns: the configuration dictionary
   """
-  if app.config.get('TWITTER_CONSUMER_KEY') is None:
+  twitter_consumer_key = app.config.get('TWITTER_CONSUMER_KEY')
+  if twitter_consumer_key is None or twitter_consumer_key == "XXXXXXXX":
     print "No Twitter config set, skipping"
     return None
 
   try:
-    twitter_api = twitter.Api(consumer_key=app.config.get('TWITTER_CONSUMER_KEY'),
+    twitter_api = twitter.Api(consumer_key=twitter_consumer_key,
                               consumer_secret=app.config.get('TWITTER_CONSUMER_SECRET'),
                               access_token_key=app.config.get('TWITTER_ACCESS_TOKEN'),
                               access_token_secret=app.config.get('TWITTER_TOKEN_SECRET'))
@@ -35,7 +36,7 @@ def create_twitter_datasource_configs(project):
     'type': "twitter_stream",
     'properties': {
       'collection': app.config.get('FUSION_COLLECTION'),
-      'consumer_key': app.config.get('TWITTER_CONSUMER_KEY'),
+      'consumer_key': twitter_consumer_key,
       'consumer_secret': app.config.get('TWITTER_CONSUMER_SECRET'),
       'access_token': app.config.get('TWITTER_ACCESS_TOKEN'),
       'token_secret': app.config.get('TWITTER_TOKEN_SECRET'),
@@ -46,6 +47,7 @@ def create_twitter_datasource_configs(project):
           {"source": "project_label", "target": project["label"], "operation": "set"},
           {"source": "datasource_label", "target": project["label"] + " Twitter", "operation": "set"},
           {"source": "source_s", "target": "twitter", "operation": "set"},
+          {"source": "isBot", "target": "false", "operation": "set"},
 
           # People names
           {"source": "userName", "target": "person_ss", "operation": "copy"},

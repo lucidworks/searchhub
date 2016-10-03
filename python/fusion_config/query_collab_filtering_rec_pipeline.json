@@ -1,0 +1,127 @@
+{
+  "id": "cf-similar-items-rec",
+  "stages": [
+    {
+      "type": "sub-query",
+      "id": "zxzdunmi",
+      "key": "topusers",
+      "collection": "lucidfind_signals_aggr",
+      "handler": "select",
+      "method": "GET",
+      "parentParams": [
+        "subjectSimple"
+      ],
+      "rollupKeys": [],
+      "params": [
+        {
+          "key": "fl",
+          "value": "from_email_s,weight_d"
+        },
+        {
+          "key": "rows",
+          "value": "100"
+        },
+        {
+          "key": "sort",
+          "value": "weight_d desc"
+        },
+        {
+          "key": "q",
+          "value": "{!term f='subject_simple_s' v=$subjectSimple}"
+        },
+        {
+          "key": "fq",
+          "value": "-from_email_s:lucene-cvs@jakarta.apache.org"
+        },
+        {
+          "key": "fq",
+          "value": "-from_email_s:bugzilla@apache.org"
+        },
+        {
+          "key": "debugQuery",
+          "value": "true"
+        }
+      ],
+      "headers": [],
+      "skip": false,
+      "label": "Get top users for the given thread"
+    },
+    {
+      "type": "query-logging",
+      "id": "o45qm2t9",
+      "detailed": true,
+      "skip": true,
+      "label": "query-logging"
+    },
+    {
+      "type": "rollup-rec-aggr",
+      "id": "6l1pp66r",
+      "key": "topusers",
+      "resultKey": "userrollup",
+      "rollupField": "from_email_s",
+      "weightField": "weight_d",
+      "weightFunction": "sum",
+      "maxRows": 100,
+      "sort": true,
+      "skip": false,
+      "label": "Rollup on the user ids from sub-query"
+    },
+    {
+      "type": "sub-query",
+      "id": "ozrdlsor",
+      "key": "topRelatedSignalsDocs",
+      "collection": "lucidfind_signals_aggr",
+      "handler": "select",
+      "method": "GET",
+      "parentParams": [],
+      "rollupKeys": [
+        "userrollup"
+      ],
+      "params": [
+        {
+          "key": "q",
+          "value": "{!type=edismax qf=from_email_s v=$userrollup}"
+        },
+        {
+          "key": "rows",
+          "value": "10"
+        },
+        {
+          "key": "sort",
+          "value": "weight_d desc"
+        },
+        {
+          "key": "fl",
+          "value": "*,score"
+        }
+      ],
+      "headers": [],
+      "skip": false,
+      "label": "Get the documents most associated with these user ids"
+    },
+    {
+      "type": "javascript-query",
+      "id": "xb2x9ey8urp5jyvi",
+      "script": "//given the last sub query, which gets us the top docs for the top\n// users from the signals index, go get the full docs from the main\n// collection.\nvar topRecSignalDocsRsp = ctx.getProperty('topRelatedSignalsDocs');\nvar theQuery = \"*:*\";\n\nif (topRecSignalDocsRsp && topRecSignalDocsRsp.response && topRecSignalDocsRsp.response.numFound > 0){\n  print(topRecSignalDocsRsp.response.numFound);\n  var docs = topRecSignalDocsRsp.response.docs;\n  //print(docs);\n  theQuery = \"{!lucene q.op=OR}(\";\n  //for each document, or it\n\n  for (i = 0; i < docs.size(); i++){\n    var doc = docs[i];\n    print(doc.id);\n    //since we are doing exact match, we only need one or the other\n    request.putSingleParam(\"ss_\" + i, doc.subject_simple_s);\n    request.putSingleParam(\"tid_\" + i, doc.threadId_s);\n    theQuery += \"({!term f=subject_simple v=$ss_\" + i + \"} AND {!term f=threadId v=$tid_\" + i + \"}) \";\n  }\n  theQuery += \")\";\n} else{\n  //We don't have a response, so let's just get the most popular documents overall or some other sorting of the main content\n  print(\"No response to work with\");\n}\nprint(\"The Query: \");\nprint(theQuery);\nrequest.putSingleParam(\"q\", theQuery);\nrequest.putSingleParam(\"rows\", \"5\");\nrequest.putSingleParam(\"fq\", \"-in_reply_to:[* TO *]\");",
+      "skip": false,
+      "label": "Create main collection Query"
+    },
+    {
+      "type": "query-logging",
+      "id": "z02rqu8gx8wyd5cdi",
+      "detailed": true,
+      "skip": false,
+      "label": "query-logging"
+    },
+    {
+      "type": "solr-query",
+      "id": "7gdkd19lrk7r5dn29",
+      "allowedRequestHandlers": [],
+      "httpMethod": "POST",
+      "allowFederatedSearch": false,
+      "skip": false,
+      "label": "solr-query"
+    }
+  ],
+  "properties": {}
+}

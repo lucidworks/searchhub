@@ -1,8 +1,12 @@
 AMBARI_DEV, ambari, dev, ambari-dev, AMBARI
 AMBARI_USER, ambari, user, ambari-user, AMBARI
 ARROW_DEV, arrow, dev, arrow-dev, ARROW
+AXIS_JAVA_DEV, axis, dev, axis-java-dev, AXIS 
+AXIS_JAVA_USER, axis, user, axis-java-user, AXIS 
 BIGTOP_DEV, bigtop, dev, bigtop-dev, BIGTOP
 BIGTOP_USER, bigtop, user, bigtop-user, BIGTOP
+CAMEL_DEV, camel, dev, camel-dev, CAMEL 
+CAMEL_USER, camel, user, camel-users, CAMEL 
 CASSANDRA_DEV, cassandra, dev, cassandra-dev, CASSANDRA
 CASSANDRA_USER, cassandra, user, cassandra-user, CASSANDRA
 CURATOR_DEV, curator, dev, curator-dev, CURATOR
@@ -39,6 +43,8 @@ HTTPD_DEV, httpd, dev, httpd-dev, HTTPD
 HTTPD_USERS, httpd, user, httpd-users, HTTPD
 IGNITE_DEV, ignite, dev, ignite-dev, IGNITE
 IGNITE_USER, ignite, user, ignite-user, IGNITE
+JCLOUDS_DEV, jclouds, dev, jclouds-dev, JCLOUDS
+JCLOUDS_USER, jclouds, user, jclouds-user, JCLOUDS 
 KYLIN, kylin, kylin-dev, kylin-dev, KYLIN
 KYLIN, kylin, kylin-user, kylin-user, KYLIN
 KAFKA_USER, kafka, user, kafka-users, KAFKA
@@ -84,3 +90,6 @@ THRIFT_DEV, thrift, dev, thrift-dev, THIRFT
 THRIFT_USER, thrift, user, thrift-user, THIRFT
 YARN_DEV, yarn, dev, hadoop-yarn-dev, HADOOP
 YARN_USER, yarn, user, hadoop-yarn-user, HADOOP
+TURBINE_DEV, turbine, dev, turbine-dev, TURBINE 
+TURBINE_USER, turbine, user, turbine-user, TURBINE
+

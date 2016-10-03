@@ -21,12 +21,12 @@
     };
 
 
-  function Controller($sce, $anchorScroll, Orwell, SnowplowService, IDService, QueryService, $log, $scope, URLService, QueryDataService) {
+  function Controller($sce, $anchorScroll, Orwell, SnowplowService, IDService, QueryService, $log, $scope, URLService, QueryDataService, ConfigService) {
     'ngInject';
     var vm = this; 
     var chart_height = 300;
-    var dateToRange = "publishedOnDate";
-
+    // var dateToRange = ConfigService.getTimelineDateField();
+    var dateToRange = 'publishedOnDate';
     activate();
 
     ////////

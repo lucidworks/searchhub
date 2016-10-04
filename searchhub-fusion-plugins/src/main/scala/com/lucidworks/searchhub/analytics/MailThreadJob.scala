@@ -6,7 +6,7 @@ import org.apache.spark.sql.{Row, DataFrame}
 import org.slf4j.LoggerFactory
 
 
-object MailThreadJob {
+object MailThreadJob extends Serializable {
   val log = LoggerFactory.getLogger("MailThreadJob")
 
   // simple struct to let us do the grouping

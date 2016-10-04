@@ -30,7 +30,7 @@ object MailThreadJob {
     //val idTrmUdf = udf((id: String) => id.split("/").last)
     //mailDataFrame.withColumn("id", idTrmUdf(col("id")))
     val subjectGroups: RDD[(String, Iterable[Row])] = mailDataFrame.rdd.groupBy(_.getAs[String]("subject_simple"))
-    val messageThreadItems = subjectGroups.values.flatMap(x => createThreads(x, accumulatorMap)).toDF()
+    val messageThreadItems = subjectGroups.values.flatMap(x => createMultipleThreads(x, accumulatorMap)).toDF()
       .select("id", "threadId", "thread_size_i").withColumnRenamed("threadId", "newThreadId")
     val reJoined = mailDataFrame.join(messageThreadItems, "id")
     val overrideIfEmpty = udf((oldCol: String, overrideCol: String) =>
@@ -70,7 +70,7 @@ object MailThreadJob {
     val subWithNoKnownAcc = acc("num_subjects_with_no_known_threadIds")
     val subWithMixedAcc = acc("num_subjects_with_some_known_some_unknown_threadIds")
    */
-  def createThreads(rows: Iterable[Row], accumulatorMap: Map[String, Accumulator[Int]]): List[MessageThreadItem] = {
+  def createMultipleThreads(rows: Iterable[Row], accumulatorMap: Map[String, Accumulator[Int]]): List[MessageThreadItem] = {
     val items: List[MessageThreadItem] = rows.toList.map(rowToMessageThreadItem)
     val threadedItems = createThreads(items)
     val unknown = threadedItems.count(_.threadId.equalsIgnoreCase("unknown"))

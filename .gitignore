@@ -17,3 +17,4 @@ config-*.py
 python/server/flask_templates/index.html
 venv
 docker-*.sh
+update-*.sh

@@ -9,6 +9,7 @@ from server.backends.mailbox_helper import create_mailinglist_datasource_configs
 from server.backends.twitter_helper import create_twitter_datasource_configs
 from server.backends.website_helper import create_website_datasource_configs
 from server.backends.wiki_helper import create_wiki_datasource_configs
+from server.backends.stack_helper import create_stack_datasource_configs
 from urlparse import urljoin
 
 from server import app
@@ -39,6 +40,7 @@ class FusionSession(requests.Session):
 
   def request(self, method, url, **kwargs):
     full_url = urljoin(self.__base_url, url)
+
     resp = super(FusionSession, self).request(method, full_url, **kwargs)
     if resp.status_code == 401:
       if url == "session":
@@ -59,6 +61,7 @@ class FusionBackend(Backend):
         app.config.get("FUSION_ADMIN_USERNAME"),
         app.config.get("FUSION_ADMIN_PASSWORD")
       )
+
     if app.config.get("FUSION_APP_USER"):
       self.app_session = FusionSession(
         app.config.get("FUSION_URL", "http://localhost:8764/api/"),
@@ -218,13 +221,13 @@ class FusionBackend(Backend):
       result = response_json["errorMessages"]
     return result
 
-  def send_signal(self, collection_id, payload):
+  def send_signal(self, collection_id, payload, req_headers=None):
     """
     Send a signal
     """
     resp = self.app_session.get("apollo/signals/{0}/i".format(collection_id),
                                   # tack on the i so that we invoke the snowplow endpoint
-                                  params=payload)
+                                  params=payload, headers=req_headers)
     if resp.status_code != 200:
       print "Unable to send signal: {0}".format(resp.text)
       return False
@@ -366,6 +369,7 @@ class FusionBackend(Backend):
     wiki_configs = []
     website_configs = []
     github_configs = []
+    stack_configs = []
     # Generate twitter datasources
     if "twitter" in project and app.config.get('TWITTER_CONSUMER_KEY'):
       twitter_config = create_twitter_datasource_configs(project)
@@ -406,10 +410,16 @@ class FusionBackend(Backend):
         self.update_datasource(**config)
       for schedule in schedules:
         self.create_or_update_schedule(schedule)
+    if "stacks" in project:
+      stack_configs, schedules = create_stack_datasource_configs(project)
+      for config in stack_configs:
+        self.update_datasource(**config)
+      for schedule in schedules:
+        self.create_or_update_schedule(schedule)
     #TODO: should we return schedules?
     # TODO: flatten this out
     # Add in the PUTS
-    return (twitter_config, jira_config, mailbox_configs, wiki_configs, website_configs, github_configs)
+    return (twitter_config, jira_config, mailbox_configs, wiki_configs, website_configs, github_configs, stack_configs)
 
 
 
@@ -477,6 +487,39 @@ class FusionBackend(Backend):
 
     found = decoded['response']['numFound']
     return docs, ordered_facets, found
+
+  def get_user(self, username, email=""):
+    path = "apollo/collections/{0}/query-profiles/{1}/select".format("users", "default")
+    params = {
+      "q": "username:\"{0}\" OR email:\"{1}\"".format(username, email),
+      "fq": [],
+      "rows": 1,
+      "start": 0,
+      "wt": "json"
+    }
+    resp = self.admin_session.get(path, params=params, headers={"Content-type": "application/json"})
+
+    decoded = resp.json()
+    docs = decoded['response']['docs']
+
+    return docs
+
+  def add_user(self, user_data):
+    path = "apollo/index-pipelines/users-default/collections/users/index"
+    data = {"fields": []}
+    for field in user_data:
+      data["fields"].append({"name": field, "value": user_data[field]})
+    records = [data]
+    resp = self.admin_session.post(path,
+                                   data=json.dumps(records),
+                                   headers={"Content-type": "application/json"})
+    if resp.status_code == 200:
+      return True
+    else:
+      print resp.status_code
+      print resp.text
+      raise Exception("Couldn't add user to users collection")
+    return False
 
   def delete_taxonomy(self, collection_id, category=None):
     if category:

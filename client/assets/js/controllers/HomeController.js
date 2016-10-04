@@ -11,7 +11,7 @@
     OrwellProvider.createObservable('perDocument', {});
   }
 
-  function HomeController($filter, $timeout, ConfigService, QueryService, URLService, Orwell, AuthService, _, $log) {
+  function HomeController($filter, $timeout, ConfigService, QueryService, URLService, Orwell, AuthService, _, $log, $http, $window, $location) {
 
     'ngInject';
     var hc = this; //eslint-disable-line
@@ -40,6 +40,12 @@
       hc.grouped = false;
       hc.perDocument = false;
       hc.showRecommendations = false;
+      hc.signup = signup;
+      hc.login = login;
+      hc.signupError = false;
+      hc.loginError = false;
+      hc.is_login = false;
+      hc.isLoading = false;
       query = URLService.getQueryFromUrl();
       console.log(QueryService.getQueryObject());
 
@@ -50,6 +56,7 @@
       resultsObservable = Orwell.getObservable('queryResults');
       resultsObservable.addObserver(function(data) {
         // updateStatus();
+        startLoading();
         checkResultsType(data);
         updateStatus();
         // Initializing sorting
@@ -59,6 +66,7 @@
           rspSort = data.responseHeader.params.sort;
         }
         getSortFromQuery(query, rspSort);
+        endLoading();
 
       });
       perDocumentObservable = Orwell.getObservable('perDocument');
@@ -84,6 +92,47 @@
       });
     }
 
+    function signup() {
+      $http.post('/signup', hc.user)
+        .success(function (data) {
+          console.log(data);
+          if (data["success"] === true) {
+            hc.is_login = true;
+            hc.signupError = false;
+            hc.msg = data["msg"];
+            var snowplow = $window.searchhub_snowplow;
+            snowplow('setUserId', hc.user.email);
+          } else {
+            hc.signupError = true;
+            hc.msg = data["msg"];
+          }
+        })
+        .error(function (data) {
+          hc.signupError = true;
+          hc.msg = "Sign up error!";
+        });
+    }
+
+    function login() {
+      $http.post('/login', hc.user)
+        .success(function (data) {
+          if (data["success"] === true) {
+            hc.is_login = true;
+            hc.loginError = false;
+            hc.msg = data["msg"]
+            var snowplow = $window.searchhub_snowplow;
+            snowplow('setUserId', data["email"]);
+          } else {
+            hc.loginError = true;
+            hc.msg = data["msg"];
+          }
+        })
+        .error(function (data) {
+          hc.loginError = true;
+          hc.msg = "Login error!";
+        });
+    }
+
     function getSortFromQuery(query, rspSort){
       //first check to see if sorting is in the response object
       if (rspSort) {
@@ -103,6 +152,15 @@
       var query = QueryService.getQueryObject();
       query.sort = hc.sort + " desc";
       QueryService.setQuery(query);
+    }
+
+    function startLoading(){
+      hc.isLoading = true;
+    }
+
+
+    function endLoading(){
+      hc.isLoading = false;
     }
 
     function checkResultsType(data){
@@ -167,6 +225,7 @@
      * Logs a user out of a session.
      */
     function logout(){
+      hc.is_login = false;
       AuthService.destroySession();
     }
   }

@@ -55,7 +55,7 @@ def proxy_request(other):
     else:
       path = '/api/' + other
 
-    print request_headers
+    #print "proxy req headers: {0}".format(request_headers)
     if request.method == "POST" or request.method == "PUT":
         form_data = list(iterform(request.form))
         form_data = urllib.urlencode(form_data)

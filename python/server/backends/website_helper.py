@@ -150,7 +150,7 @@ def create_config(project_name, project_label, pipeline, website):
     }
   }
   if "excludes" in website:
-    config['properties']['excludeRegexes'] = [website["excludes"]]
+    config['properties']['excludeRegexes'] = website["excludes"]
   schedule = None
   if "schedule" in website:
     details = website["schedule"]

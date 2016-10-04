@@ -10,6 +10,8 @@
                   highlight="vm.highlighting"></document-website>
     <document-github ng-switch-when="github" doc="vm.decorateDocument(doc)" 
                   highlight="vm.highlighting"></document-github>
+    <document-stack-overflow ng-switch-when="stack" doc="vm.decorateDocument(doc)"
+                  highlight="vm.highlighting"></document-stack-overflow>
 
   </div>
   <div ng-if="vm.groupedResults" ng-repeat="(key, val) in vm.groupedResults">

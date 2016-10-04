@@ -9,6 +9,21 @@
     <section class="top-bar-section">
       <!-- Right Nav Section -->
       <ul class="right">
+        <li id="menu-item-signin"
+            class="link-hide-supernavs menu-item menu-item-type-post_type menu-item-object-page menu-item-signin"
+            ng-if="!hc.is_login">
+          <a href="#" zf-open="loginModal">Login</a>
+        </li>
+        <li id="menu-item-signup"
+            class="link-hide-supernavs menu-item menu-item-type-post_type menu-item-object-page menu-item-signup"
+            ng-if="!hc.is_login">
+          <a href="#" zf-open="signupModal">Register</a>
+        </li>
+        <li id="menu-item-logout"
+            class="link-hide-supernavs menu-item menu-item-type-post_type menu-item-object-page menu-item-logout"
+            ng-if="hc.is_login">
+          <a href="#" ng-click="hc.logout()">Logout</a>
+        </li>
         <li id="support">
           <a href="tel:+14153296515"><span class="number"><img
               src="/assets/img/phone.png"/>415-329-6515</span></a> <span
@@ -23,8 +38,10 @@
           </form>
         </li>
         <li id="searchicon"><span id="magnifying-glass"><i class="fa fa-search"></i></span></li>
-        <li><a class="button nav-button button-alt" href="http://lucidworks.com/products/fusion/download/" target="_blank">Try Fusion</a></li>
-        <li><a class="button nav-button" href="http://lucidworks.com/company/contact" target="_blank">Contact Us</a></li>
+        <li><a class="button nav-button button-alt" href="http://lucidworks.com/products/fusion/download/"
+               target="_blank">Try Fusion</a></li>
+        <li><a class="button nav-button" href="http://lucidworks.com/company/contact" target="_blank">Contact Us</a>
+        </li>
       </ul>
       <!-- Left Nav Section -->
       <nav class="nav-main">
@@ -48,8 +65,9 @@
             <a href="http://lucidworks.com/company" target="_blank">Company</a>
           </li>
           <li id="menu-item-517"
-              class="link-hide-supernavs menu-item menu-item-type-post_type menu-item-object-page menu-item-517"><a
-              href="https://lucidworks.com/blog/" target="_blank">Blog</a></li>
+              class="link-hide-supernavs menu-item menu-item-type-post_type menu-item-object-page menu-item-517">
+            <a href="https://lucidworks.com/blog/" target="_blank">Blog</a>
+          </li>
         </ul>
       </nav>
       <ul class="mobile-contact-section">

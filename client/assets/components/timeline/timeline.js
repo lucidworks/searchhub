@@ -36,39 +36,6 @@
       var queryObservable = Orwell.getObservable('query');
       var num_dates;
 
-      // We add a query observable so that, if we have already clicked on a bar
-      // all further queries will have the correct date range appended 
-      queryObservable.addObserver(function (query) {
-        $log.debug("The query has changed! It is now", query); 
-        var queryObject = QueryService.getQueryObject();
-        
-        // If we have clicked on the bar but there are no filter queries or the 
-        // correct date has not been set then we must add the date to the fq 
-        if (vm.barIsClicked == true && (queryObject['fq'] == undefined || queryObject['fq'].length == 0 || queryObject['fq'].indexOf(vm.dateStringToAdd) == -1)){
-          $log.debug("We have to add the appropriate fq to the query!");
-          // If we have no fq we must add it and the date range 
-          if (queryObject['fq'] == undefined || queryObject['fq'].length == 0){
-            $log.debug("Adding the FQ parameter in the query observable");
-            queryObject['fq'] = [];
-            queryObject['fq'].push(vm.dateStringToAdd);
-          }
-          // Otherwise we can simply add the date into the existing array 
-          else {
-            if (queryObject['fq'].indexOf(vm.dateStringToAdd) == -1) {
-              $log.debug("Adding the datestring to the FQ parameter in the query observable");
-              queryObject['fq'].push(vm.dateStringToAdd);
-            }
-          }
-          // Now let's send the search to fusion to actually modify the results appropriately 
-          $log.debug("Sending the search!");
-          URLService.setQuery(queryObject);
-        }
-        // If no bar has been clicked then we dont have to do anything 
-        else {
-          $log.debug("There is already an fq or the bar has not been clicked!");
-        }
-      });
-
       resultsObservable.addObserver(function (data) {
         // Try to get the appropriate results, if there is an error log it
         try {

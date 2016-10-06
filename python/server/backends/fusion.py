@@ -362,6 +362,40 @@ class FusionBackend(Backend):
       print resp.status_code, resp.json()
     return resp
 
+  def create_experiment(self, experiment_config):
+    id = experiment_config["id"]
+    print "create experiment: " + id
+    success = False
+    resp = self.admin_session.post("apollo/experiments/configs", data=json.dumps(experiment_config),
+                                  headers={"Content-type": "application/json"})
+
+    if resp.status_code != 200:
+
+      if resp.status_code == 409:#try a PUT
+        print "Trying PUT"
+        resp = self.admin_session.put("apollo/experiments/configs/{0}".format(id), data=json.dumps(experiment_config),
+                                  headers={"Content-type": "application/json"})
+
+        if resp.status_code != 200:
+          print resp.status_code, resp.json()
+        else:
+          success = True
+      else:
+        print resp.status_code, resp.json()
+    else:
+      success = True
+
+    if success:
+      #start the job
+      print "Starting {} experiment".format(id)
+      resp = self.admin_session.post("apollo/experiments/jobs/{0}".format(id), data=None)
+      if resp.status_code != 200:
+        print "Unable to start job"
+        print resp.status_code, resp.json()
+
+
+    return resp
+
   def create_or_update_datasources(self, project, includeJIRA=False):
     twitter_config = None
     jira_config = None

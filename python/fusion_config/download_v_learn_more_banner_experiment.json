@@ -5,11 +5,11 @@
     "variants":[
         {"id": "download-fusion",
             "image": "/assets/img/banners/download_fusion.png",
-            "href": "https://lucidworks.com/products/fusion/"
+            "href": "https://lucidworks.com/products/fusion/download"
         },
         {"id": "learn-more",
             "image": "/assets/img/banners/learn_more.png",
-            "href":"https://lucidworks.com/products/fusion/download/"
+            "href":"https://lucidworks.com/products/fusion/"
         }
         ]
 }

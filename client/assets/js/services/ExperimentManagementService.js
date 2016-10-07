@@ -47,6 +47,7 @@ document boosts
     }
 
     function postReward(experimentName, choice, reward){
+      var experimentBase = ApiBase.getEndpoint() + "api/apollo/experiments/jobs/";
       $log.info("post reward for " + experimentName + " and choice: " + choice + " reward: " + reward);
       var deferred = $q.defer();
       $http

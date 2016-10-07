@@ -100,7 +100,7 @@
 
     function getVariant(experimentName) {
       ExperimentManagementService.getVariant(experimentName).then(function (resp) {
-        $log.info("Variant: " + resp);
+        $log.info("Variant: ", resp);
         hc.banner_href = resp["href"];
         hc.banner_image = resp["image"];
         hc.banner_variant_id = resp["id"];

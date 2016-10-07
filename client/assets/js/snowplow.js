@@ -23,8 +23,7 @@ searchhub_snowplow("newTracker", "searchHub", location.hostname + ":" + location
   contexts: {
     webPage: true,
     performanceTiming: true,
-    gaCookies: true,
-    geolocation: true
+    gaCookies: true
   }
 });
 

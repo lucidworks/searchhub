@@ -40,6 +40,7 @@ class FusionSession(requests.Session):
 
   def request(self, method, url, **kwargs):
     full_url = urljoin(self.__base_url, url)
+
     resp = super(FusionSession, self).request(method, full_url, **kwargs)
     if resp.status_code == 401:
       if url == "session":
@@ -60,6 +61,7 @@ class FusionBackend(Backend):
         app.config.get("FUSION_ADMIN_USERNAME"),
         app.config.get("FUSION_ADMIN_PASSWORD")
       )
+
     if app.config.get("FUSION_APP_USER"):
       self.app_session = FusionSession(
         app.config.get("FUSION_URL", "http://localhost:8764/api/"),
@@ -219,13 +221,13 @@ class FusionBackend(Backend):
       result = response_json["errorMessages"]
     return result
 
-  def send_signal(self, collection_id, payload):
+  def send_signal(self, collection_id, payload, req_headers=None):
     """
     Send a signal
     """
     resp = self.app_session.get("apollo/signals/{0}/i".format(collection_id),
                                   # tack on the i so that we invoke the snowplow endpoint
-                                  params=payload)
+                                  params=payload, headers=req_headers)
     if resp.status_code != 200:
       print "Unable to send signal: {0}".format(resp.text)
       return False
@@ -358,6 +360,40 @@ class FusionBackend(Backend):
                                   headers={"Content-type": "application/json"})
     if resp.status_code != 200:
       print resp.status_code, resp.json()
+    return resp
+
+  def create_experiment(self, experiment_config):
+    id = experiment_config["id"]
+    print "create experiment: " + id
+    success = False
+    resp = self.admin_session.post("apollo/experiments/configs", data=json.dumps(experiment_config),
+                                  headers={"Content-type": "application/json"})
+
+    if resp.status_code != 200:
+
+      if resp.status_code == 409:#try a PUT
+        print "Trying PUT"
+        resp = self.admin_session.put("apollo/experiments/configs/{0}".format(id), data=json.dumps(experiment_config),
+                                  headers={"Content-type": "application/json"})
+
+        if resp.status_code != 200:
+          print resp.status_code, resp.json()
+        else:
+          success = True
+      else:
+        print resp.status_code, resp.json()
+    else:
+      success = True
+
+    if success:
+      #start the job
+      print "Starting {} experiment".format(id)
+      resp = self.admin_session.post("apollo/experiments/jobs/{0}".format(id), data=None)
+      if resp.status_code != 200:
+        print "Unable to start job"
+        print resp.status_code, resp.json()
+
+
     return resp
 
   def create_or_update_datasources(self, project, includeJIRA=False):

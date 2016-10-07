@@ -16,7 +16,7 @@ class Backend(object):
   def set_log_level(self, logLevel="ERROR"):
     raise NotImplementedError()
 
-  def send_signal(self, collection_id, payload):
+  def send_signal(self, collection_id, payload, req_headers=None):
     """
     Send a signal
     """
@@ -73,6 +73,9 @@ class Backend(object):
     raise NotImplementedError()
 
   def create_or_update_schedule(self, schedule):
+    raise NotImplementedError()
+
+  def create_experiment(self, experiment_config):
     raise NotImplementedError()
 
   #if schedules is none, then activate all.  If specified, only activate those schedules that match

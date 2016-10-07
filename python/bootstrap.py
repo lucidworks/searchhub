@@ -96,6 +96,13 @@ def setup_batch_jobs(backend):
     print ("Creating Batch Job for %s" % file)
     backend.create_batch_job(json.load(open(join("./fusion_config", file))))
 
+def setup_experiments(backend):
+  job_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_experiment.json")]
+  for file in job_files:
+    print ("Creating Experiment for %s" % file)
+    backend.create_experiment(json.load(open(join("./fusion_config", file))))
+
+
 # Create the taxonomy, which can be used to alter requests based on hierarchy
 def setup_taxonomy(backend, collection_id):
   status = backend.delete_taxonomy(collection_id)
@@ -217,6 +224,18 @@ if cmd_args.create_collections or create_all:
           "GET"
         ],
         "path": "/signals/{0}/i".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],# Make this more flexible, as this is hardcoded now
+        "path": "/experiments/jobs/download_v_learn_more/variant"
+      },
+      {
+        "methods": [
+          "PUT"
+        ],
+        "path": "/experiments/jobs/download_v_learn_more/variant/*"
       }
     ]
   }
@@ -273,6 +292,10 @@ if cmd_args.create_batch_jobs or create_all:
 #create the schedules
 if cmd_args.create_schedules or create_all:
   setup_schedules(backend)
+
+#create the experiments
+if cmd_args.create_experiments or create_all:
+  setup_experiments(backend)
 
 if cmd_args.start_schedules:
   start_schedules(backend)

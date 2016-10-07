@@ -23,8 +23,6 @@ controller: HomeController as hc
       </form>
   </div></div>
 
-  <timeline> </timeline>
-
   <!-- Main Content Frame -->
   <div class="grid-block">
 
@@ -66,6 +64,7 @@ controller: HomeController as hc
             <p class="subheader">Try searching on a different term or using different facets to refine your search</p>
           </div>
         </div>
+        <timeline> </timeline>
         <landing-page></landing-page>
         <documents ng-show="!hc.perDocument"></documents>
         <perdocument ng-show="hc.perDocument" doc="dc.doc"></perdocument>

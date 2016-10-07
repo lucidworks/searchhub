@@ -46,7 +46,7 @@ def proxy_request(other):
 
     userAndPass = b64encode(user + ":" + password).decode("ascii")
     request_headers = {'Authorization' : 'Basic %s' %  userAndPass}
-    content_type = request.headers['Content_Type']
+
     for h in ["Cookie", "Referer", "X-Csrf-Token", "Accept-Language", "Accept", "User-Agent"]:
         if h in request.headers:
           request_headers[h] = request.headers[h]
@@ -58,6 +58,10 @@ def proxy_request(other):
     #print request_headers
     #print "proxy req headers: {0}".format(request_headers)
     if request.method == "POST" or request.method == "PUT":
+        if "Content_Type" in request.headers:
+            content_type = request.headers['Content_Type']
+        else:
+            content_type = "application/json"#????
         #print request
         if request.form:
             print "Form"

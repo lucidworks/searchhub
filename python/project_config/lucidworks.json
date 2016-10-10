@@ -16,6 +16,7 @@
     {
       "name": "youtube-lucidworks",
       "label": "Lucidworks Youtube Channel",
+      "pipeline": "youtube_parser",
       "url": "https://www.youtube.com/user/LucidWorksSearch",
       "schedule": {
         "repeatUnit": "WEEK",
@@ -26,7 +27,17 @@
       "name": "lucidworks-website",
       "label":"lucidworks.com Website",
       "pipeline":"lw-com-website-default",
-      "url":"https://www.lucidworks.com",
+      "url":"https://lucidworks.com",
+      "schedule": {
+        "repeatUnit": "WEEK",
+        "interval": 1
+      }
+    },
+    {
+      "name": "revolution-website",
+      "label":"Lucene Revolution Website",
+      "pipeline":"lw-com-website-default",
+      "url":"http://lucenerevolution.org",
       "schedule": {
         "repeatUnit": "WEEK",
         "interval": 1
@@ -43,15 +54,15 @@
       }
     },
     {
-      "name": "lucidworks-knowldege-base-website",
+      "name": "lucidworks-knowledge-base-website",
       "label":"lucidworks.com KB Website",
       "pipeline":"lw-com-website-default",
-      "url":"http://support.lucidworks.com/hc",
+      "url":"https://support.lucidworks.com/hc",
       "schedule": {
         "repeatUnit": "DAY",
         "interval": 2
       },
-      "excludes":".*signin.*"
+      "excludes":[".*signin.*"]
     }
   ]
 }

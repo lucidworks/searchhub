@@ -43,6 +43,7 @@ def setup_commit_times(backend, collection_id, time_in_ms=10*60*1000):
 
   backend.set_property(collection_id, data)
 
+
 # Setup an official schema for things we know we are going to have in the data
 def setup_find_fields(backend, collection_id):
   backend.add_field(collection_id, "publishedOnDate", type="tdate", required=True)
@@ -56,7 +57,7 @@ def setup_find_fields(backend, collection_id):
   backend.add_field(collection_id, "keywords", type="text_en", copyDests=["suggest"])
   backend.add_field(collection_id, "comments", type="text_en")
   backend.add_field(collection_id, "mimeType", type="string")
-  backend.add_field(collection_id, "author_facet", type="string")
+  backend.add_field(collection_id, "author_facet", type="string", multivalued=True)
   backend.add_field(collection_id, "author", type="text_en", copyDests=["author_facet"])
   backend.add_field(collection_id, "og_description", type="text_en")
   backend.add_field(collection_id, "description", type="text_en")
@@ -95,13 +96,6 @@ def setup_batch_jobs(backend):
   for file in job_files:
     print ("Creating Batch Job for %s" % file)
     backend.create_batch_job(json.load(open(join("./fusion_config", file))))
-
-def setup_experiments(backend):
-  job_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_experiment.json")]
-  for file in job_files:
-    print ("Creating Experiment for %s" % file)
-    backend.create_experiment(json.load(open(join("./fusion_config", file))))
-
 
 # Create the taxonomy, which can be used to alter requests based on hierarchy
 def setup_taxonomy(backend, collection_id):
@@ -161,12 +155,52 @@ def setup_projects(backend):
           #TODO
           backend.start_datasource(datasource["id"])
 
+def update_logging_scheduler(backend):
+  print("Updating for the 6th time")
+  delete_old_logs_json = {  
+    "id":"delete-old-logs",
+    "creatorType":"system",
+    "creatorId":"DefaultLogCleanupScheduleRegistrar",
+    "createTime":"2016-10-06T17:03:43.792Z",
+    "startTime":"2016-10-06T17:03:43.792Z",
+    "repeatUnit":"DAY",
+    "interval":"1",
+    "active":"true",
+    "callParams":{  
+      "uri":"solr://logs/update",
+      "method":"GET",
+      "queryParams":{  
+         "wt":"json",
+         "stream.body":"<delete><query>timestamp_tdt:[* TO NOW-1DAYS] OR timestamp_dt:[* TO NOW-1DAYS]</query></delete>"
+      },
+      "headers":{  
 
+      }
+    }
+  }
+  start_value = new_admin_session().get("apollo/scheduler/schedules/delete-old-logs")
+  try: 
+    start_value.raise_for_status()
+    start_status = start_value.status_code
+    if (start_status == 404):
+      print("We have to create a new delete-old-logs schedule")
+      final_value = new_admin_session().post("apollo/scheduler/schedules/delete-old-logs", data=json.dumps(delete_old_logs_json))
+    else:
+      print("We have to update the existing delete-old-logs schedule")
+      final_value = new_admin_session().put("apollo/scheduler/schedules/delete-old-logs", data=json.dumps(delete_old_logs_json))
 
+    final_value.raise_for_status()
 
+  except: 
+    print("ERROR: Failed to update the delete logs schedule")
+  
+  else:
+    print("SUCCESS: We have updated the delete logs schedule")
 
 backend.toggle_system_metrics(False)
 backend.set_log_level("WARN")
+
+update_logging_scheduler(backend)
 
 lucidfind_collection_id = app.config.get("FUSION_COLLECTION", "lucidfind")
 lucidfind_batch_recs_collection_id = app.config.get("FUSION_BATCH_RECS_COLLECTION", "lucidfind_thread_recs")
@@ -224,18 +258,6 @@ if cmd_args.create_collections or create_all:
           "GET"
         ],
         "path": "/signals/{0}/i".format(lucidfind_collection_id)
-      },
-      {
-        "methods": [
-          "GET"
-        ],# Make this more flexible, as this is hardcoded now
-        "path": "/experiments/jobs/download_v_learn_more/variant"
-      },
-      {
-        "methods": [
-          "PUT"
-        ],
-        "path": "/experiments/jobs/download_v_learn_more/variant/*"
       }
     ]
   }
@@ -292,10 +314,6 @@ if cmd_args.create_batch_jobs or create_all:
 #create the schedules
 if cmd_args.create_schedules or create_all:
   setup_schedules(backend)
-
-#create the experiments
-if cmd_args.create_experiments or create_all:
-  setup_experiments(backend)
 
 if cmd_args.start_schedules:
   start_schedules(backend)

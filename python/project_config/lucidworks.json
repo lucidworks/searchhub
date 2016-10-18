@@ -16,7 +16,8 @@
     {
       "name": "youtube-lucidworks",
       "label": "Lucidworks Youtube Channel",
-      "url": "https://www.youtube.com/user/LucidWorksSearch",
+      "pipeline": "youtube_parser",
+      "url": "https://www.youtube.com/user/Lucidworks",
       "schedule": {
         "repeatUnit": "WEEK",
         "interval": 1

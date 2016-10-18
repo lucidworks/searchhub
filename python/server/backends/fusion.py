@@ -586,6 +586,50 @@ class FusionBackend(Backend):
       print resp.text
       raise Exception("Couldn't create taxonomy for {0}.  Tax: {1}".format(collection_id, taxonomy))
 
+
+
+  def update_logging_scheduler(self):
+    delete_old_logs_json = {  
+      "id":"delete-old-logs",
+      "creatorType":"system",
+      "creatorId":"DefaultLogCleanupScheduleRegistrar",
+      "createTime":"2016-10-06T17:03:43.792Z",
+      "startTime":"2016-10-06T17:03:43.792Z",
+      "repeatUnit":"DAY",
+      "interval":"1",
+      "active":"true",
+      "callParams":{  
+        "uri":"solr://logs/update",
+        "method":"GET",
+        "queryParams":{  
+           "wt":"json",
+           "stream.body":"<delete><query>timestamp_tdt:[* TO NOW-1DAYS] OR timestamp_dt:[* TO NOW-1DAYS]</query></delete>"
+        },
+        "headers":{  
+
+        }
+      }
+    }
+    start_value = new_admin_session().get("apollo/scheduler/schedules/delete-old-logs")
+    try: 
+      start_value.raise_for_status()
+      start_status = start_value.status_code
+      if (start_status == 404):
+        print("We have to create a new delete-old-logs schedule")
+        final_value = new_admin_session().post("apollo/scheduler/schedules/delete-old-logs", data=json.dumps(delete_old_logs_json))
+      else:
+        print("We have to update the existing delete-old-logs schedule")
+        final_value = new_admin_session().put("apollo/scheduler/schedules/delete-old-logs", data=json.dumps(delete_old_logs_json))
+
+      final_value.raise_for_status()
+
+    except: 
+      print("ERROR: Failed to update the delete logs schedule")
+    
+    else:
+      print("SUCCESS: We have updated the delete logs schedule")
+
+
   def create_or_update_schedule(self, schedule):
     # check to see if it exists already
     resp = self.admin_session.get("apollo/scheduler/schedules/{0}".format(schedule["id"]))

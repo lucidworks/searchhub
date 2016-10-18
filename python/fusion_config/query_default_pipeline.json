@@ -26,7 +26,7 @@
       "params": [
         {
           "key": "mm",
-          "value": "2<75%",
+          "value": "2\\<75%",
           "policy": "append"
         },
         {
@@ -51,7 +51,7 @@
         },
         {
           "key": "bq",
-          "value": "publishedOnDate:[NOW/DAY-1MONTH TO NOW/DAY]",
+          "value": "publishedOnDate:[NOW/DAY-1YEAR TO NOW/DAY+1YEAR]",
           "policy": "append"
         }
       ],
@@ -168,17 +168,17 @@
         },
         {
           "key": "facet.range.start",
-          "value": "NOW/DAY-4MONTHS",
+          "value": "NOW/DAY-1YEAR",
           "policy": "append"
         },
         {
           "key": "facet.range.end",
-          "value": "NOW/DAY+1DAY",
+          "value": "NOW/DAY+1YEAR",
           "policy": "append"
         },
         {
           "key": "facet.range.gap",
-          "value": "+1MONTH",
+          "value": "+1DAY",
           "policy": "append"
         },
         {

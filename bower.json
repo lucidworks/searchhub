@@ -27,6 +27,7 @@
     "ng-orwell": "~1.1.2",
     "angucomplete-alt": "~2.2.0",
     "angular-sanitize": "~1.5.7",
+    "angular-nvd3": "1.0.8",
     "angular-cookies": "~1.5.7",
     "angular-rison": "~0.0.13",
     "angularjs-humanize": "master",

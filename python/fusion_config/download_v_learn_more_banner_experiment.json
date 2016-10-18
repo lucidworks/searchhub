@@ -1,0 +1,15 @@
+{
+    "id":"download_v_learn_more",
+    "type": "bandits",
+    "algorithm":"epsilonGreedy",
+    "variants":[
+        {"id": "download-fusion",
+            "image": "/assets/img/banners/download_fusion.png",
+            "href": "https://lucidworks.com/products/fusion/download"
+        },
+        {"id": "learn-more",
+            "image": "/assets/img/banners/learn_more.png",
+            "href":"https://lucidworks.com/products/fusion/"
+        }
+        ]
+}

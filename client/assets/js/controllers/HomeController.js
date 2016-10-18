@@ -1,9 +1,9 @@
-(function() {
+(function () {
   'use strict';
   angular
-    .module('searchHub.controllers.home', ['searchHub.services', 'lucidworksView.services', 'angucomplete-alt', 'angular-humanize'])
+      .module('searchHub.controllers.home', ['searchHub.services', 'lucidworksView.services', 'angucomplete-alt', 'angular-humanize'])
       .config(Config)
-    .controller('HomeController', HomeController);
+      .controller('HomeController', HomeController);
 
 
   function Config(OrwellProvider) {
@@ -11,7 +11,10 @@
     OrwellProvider.createObservable('perDocument', {});
   }
 
-  function HomeController($filter, $timeout, ConfigService, QueryService, URLService, Orwell, AuthService, _, $log, $http, $window, $location) {
+  function HomeController($filter, $timeout,
+                          ConfigService, QueryService, URLService, Orwell,
+                          AuthService, _, $log, $http, $window, $location,
+                          ExperimentManagementService) {
 
     'ngInject';
     var hc = this; //eslint-disable-line
@@ -32,6 +35,7 @@
     function activate() {
       hc.search = doSearch;
       hc.logout = logout;
+      hc.postReward = postReward;
       hc.onChangeSort = onChangeSort;
       hc.appName = ConfigService.config.search_app_title;
       hc.logoLocation = ConfigService.config.logo_location;
@@ -48,13 +52,15 @@
       hc.isLoading = false;
       query = URLService.getQueryFromUrl();
       console.log(QueryService.getQueryObject());
-
-
+      hc.banner_href = "";
+      hc.banner_variant_id = "";
+      hc.banner_image = "";
+      getVariant('download_v_learn_more');
       //Setting the query object... also populating the the view model
-      hc.searchQuery = _.get(query,'q','*');
+      hc.searchQuery = _.get(query, 'q', '*');
       // Use an observable to get the contents of a queryResults after it is updated.
       resultsObservable = Orwell.getObservable('queryResults');
-      resultsObservable.addObserver(function(data) {
+      resultsObservable.addObserver(function (data) {
         // updateStatus();
         startLoading();
         checkResultsType(data);
@@ -62,7 +68,7 @@
         // Initializing sorting
         hc.sort = "score";
         var rspSort;
-        if (data.responseHeader && data.responseHeader.params && data.responseHeader.params.sort){
+        if (data.responseHeader && data.responseHeader.params && data.responseHeader.params.sort) {
           rspSort = data.responseHeader.params.sort;
         }
         getSortFromQuery(query, rspSort);
@@ -70,9 +76,9 @@
 
       });
       perDocumentObservable = Orwell.getObservable('perDocument');
-      perDocumentObservable.addObserver(function(data){
+      perDocumentObservable.addObserver(function (data) {
         $log.info("HC perD", data);
-        if (data.docId){
+        if (data.docId) {
           hc.perDocument = true;
           hc.showFacets = false;
           hc.showRecommendations = true;
@@ -87,53 +93,69 @@
       // Force set the query object to change one digest cycle later
       // than the digest cycle of the initial load-rendering
       // The $timeout is needed or else the query to fusion is not made.
-      $timeout(function(){
+      $timeout(function () {
         URLService.setQuery(query);
       });
     }
 
+    function getVariant(experimentName) {
+      ExperimentManagementService.getVariant(experimentName).then(function (resp) {
+        $log.info("Variant: ", resp);
+        hc.banner_href = resp["href"];
+        hc.banner_image = resp["image"];
+        hc.banner_variant_id = resp["id"];
+      }).catch(function (error){
+        $log.error("Error getting variant: " + error);
+      });
+
+    }
+
+    function postReward(experimentName, choice, reward) {
+      ExperimentManagementService.postReward(experimentName, choice, reward)
+    }
+
     function signup() {
       $http.post('/signup', hc.user)
-        .success(function (data) {
-          console.log(data);
-          if (data["success"] === true) {
-            hc.is_login = true;
-            hc.signupError = false;
-            hc.msg = data["msg"];
-            var snowplow = $window.searchhub_snowplow;
-            snowplow('setUserId', hc.user.email);
-          } else {
+          .success(function (data) {
+            console.log(data);
+            if (data["success"] === true) {
+              hc.is_login = true;
+              hc.signupError = false;
+              hc.msg = data["msg"];
+              var snowplow = $window.searchhub_snowplow;
+              snowplow('setUserId', hc.user.email);
+            } else {
+              hc.signupError = true;
+              hc.msg = data["msg"];
+            }
+          })
+          .error(function (data) {
             hc.signupError = true;
-            hc.msg = data["msg"];
-          }
-        })
-        .error(function (data) {
-          hc.signupError = true;
-          hc.msg = "Sign up error!";
-        });
+            hc.msg = "Sign up error!";
+          });
     }
 
     function login() {
       $http.post('/login', hc.user)
-        .success(function (data) {
-          if (data["success"] === true) {
-            hc.is_login = true;
-            hc.loginError = false;
-            hc.msg = data["msg"]
-            var snowplow = $window.searchhub_snowplow;
-            snowplow('setUserId', data["email"]);
-          } else {
+          .success(function (data) {
+            if (data["success"] === true) {
+              hc.is_login = true;
+              hc.loginError = false;
+              hc.msg = data["msg"]
+              var snowplow = $window.searchhub_snowplow;
+              snowplow('setUserId', data["email"]);
+            } else {
+              hc.loginError = true;
+              hc.msg = data["msg"];
+            }
+          })
+          .error(function (data) {
             hc.loginError = true;
-            hc.msg = data["msg"];
-          }
-        })
-        .error(function (data) {
-          hc.loginError = true;
-          hc.msg = "Login error!";
-        });
+            hc.msg = "Login error!";
+          });
     }
 
-    function getSortFromQuery(query, rspSort){
+    function getSortFromQuery(query, rspSort) {
       //first check to see if sorting is in the response object
       if (rspSort) {
         hc.sort = rspSort.replace(" desc", "").trim();
@@ -148,42 +170,42 @@
       }
     }
 
-    function onChangeSort(){
+    function onChangeSort() {
       var query = QueryService.getQueryObject();
       query.sort = hc.sort + " desc";
       QueryService.setQuery(query);
     }
 
-    function startLoading(){
+    function startLoading() {
       hc.isLoading = true;
     }
 
 
-    function endLoading(){
+    function endLoading() {
       hc.isLoading = false;
     }
 
-    function checkResultsType(data){
+    function checkResultsType(data) {
       if (data.hasOwnProperty('response')) {
         hc.numFound = data.response.numFound;
         hc.numFoundFormatted = $filter('humanizeNumberFormat')(hc.numFound, 0);
         hc.lastQuery = data.responseHeader.params.q;
-        if(_.has(data, 'facet_counts')){
+        if (_.has(data, 'facet_counts')) {
           return hc.showFacets = !_.isEmpty(data.facet_counts.facet_fields);
         }
         // Make sure you check for all the supported facets before for empty-ness
         // before toggling the `showFacets` flag
       }
-      else if(_.has(data, 'grouped')){
+      else if (_.has(data, 'grouped')) {
         hc.lastQuery = data.responseHeader.params.q;
         var numFoundArray = [];
-        _.each(data.grouped, function(group){
+        _.each(data.grouped, function (group) {
           numFoundArray.push(group.matches);
         });
         // For grouping, giving total number of documents found
         hc.numFound = _.sum(numFoundArray);
         hc.numFoundFormatted = $filter('humanizeNumberFormat')(hc.numFound, 0);
-        if(_.has(data, 'facet_counts')){
+        if (_.has(data, 'facet_counts')) {
           return hc.showFacets = !_.isEmpty(data.facet_counts.facet_fields);
         }
       }
@@ -192,12 +214,12 @@
       }
     }
 
-    function updateStatus(){
+    function updateStatus() {
       var status = '';
       //console.log(hc.numFound);
-      if(hc.numFound === 0){
+      if (hc.numFound === 0) {
         status = 'no-results';
-        if(hc.lastQuery === ''){
+        if (hc.lastQuery === '') {
           status = 'get-started';
         }
       } else {
@@ -224,7 +246,7 @@
     /**
      * Logs a user out of a session.
      */
-    function logout(){
+    function logout() {
       hc.is_login = false;
       AuthService.destroySession();
     }

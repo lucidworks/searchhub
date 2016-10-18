@@ -4,5 +4,6 @@ angular.module('searchHub.services', [
   'searchHub.services.perdocument',
   'searchHub.services.querypipeline',
   'searchHub.services.id',
-  'searchHub.services.documentdisplayhelper'
+  'searchHub.services.documentdisplayhelper',
+  'searchHub.services.experiment'
 ]);

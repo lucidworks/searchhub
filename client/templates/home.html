@@ -22,6 +22,7 @@ controller: HomeController as hc
         </span>
       </form>
   </div></div>
+
   <!-- Main Content Frame -->
   <div class="grid-block">
 
@@ -42,6 +43,7 @@ controller: HomeController as hc
     <div class="grid-block medium" >
       <div class="grid-content">
         <a name="topOfMainContent"></a>
+        <div class="banner"><a ng-href="{{hc.banner_href}}" target="_blank" ng-click="hc.postReward('download_v_learn_more', hc.banner_variant_id, 1.0)"><img ng-src="{{hc.banner_image}}" border="0"/></a> </div>
         <div class="card" ng-switch="hc.status" ng-if="!hc.perDocument">
           <div class="card-section center card-normal" ng-switch-when="normal">
             Showing Results for "{{hc.lastQuery}}". {{hc.numFoundFormatted}} results found.
@@ -62,6 +64,7 @@ controller: HomeController as hc
             <p class="subheader">Try searching on a different term or using different facets to refine your search</p>
           </div>
         </div>
+        <timeline> </timeline>
         <landing-page></landing-page>
         <documents ng-show="!hc.perDocument"></documents>
         <perdocument ng-show="hc.perDocument" doc="dc.doc"></perdocument>

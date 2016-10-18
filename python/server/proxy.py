@@ -35,7 +35,7 @@ def parse_host_port(h):
 
 # For RESTful Service
 #@proxy.route('/proxy/<host>/<path:file>', methods=["GET", "POST", "PUT", "DELETE"])
-@app.route('/api/<path:other>', methods=["GET", "POST"])
+@app.route('/api/<path:other>', methods=["GET", "POST", "PUT"])
 def proxy_request(other):
     hostname = app.config.get("FUSION_HOST")
     port = int(app.config.get("FUSION_PORT"))
@@ -46,6 +46,7 @@ def proxy_request(other):
 
     userAndPass = b64encode(user + ":" + password).decode("ascii")
     request_headers = {'Authorization' : 'Basic %s' %  userAndPass}
+
     for h in ["Cookie", "Referer", "X-Csrf-Token", "Accept-Language", "Accept", "User-Agent"]:
         if h in request.headers:
           request_headers[h] = request.headers[h]
@@ -54,18 +55,49 @@ def proxy_request(other):
       path = "/api/%s?%s" % (other, request.query_string)
     else:
       path = '/api/' + other
-
+    #print request_headers
     #print "proxy req headers: {0}".format(request_headers)
     if request.method == "POST" or request.method == "PUT":
-        form_data = list(iterform(request.form))
-        form_data = urllib.urlencode(form_data)
-        request_headers["Content-Length"] = len(form_data)
+        if "Content_Type" in request.headers:
+            content_type = request.headers['Content_Type']
+        else:
+            content_type = "application/json"#????
+        #print request
+        if request.form:
+            print "Form"
+            form_data = list(iterform(request.form))
+            form_data = urllib.urlencode(form_data)
+            request_headers["Content-Length"] = len(form_data)
+        elif request.stream and content_type == "application/json":
+            print "Stream: {0}".format(content_type)
+            chunk_size = 1024
+            form_data = None
+            tmp = ""
+            total_read = 0
+            max_read = 1024*1024*2
+            while total_read < max_read: #this needs to be smarter
+                chunk = request.stream.read(chunk_size)
+                amt_read = len(chunk)
+                if amt_read == 0:
+                    break
+                tmp += chunk.decode("utf-8")
+                total_read += amt_read
+            if tmp:
+                form_data = tmp
+                request_headers['Content-Type'] = content_type
+        else:
+            form_data = None
+
     else:
         form_data = None
     r = None
     #print path
-    if request.method == "POST" or request.method == "PUT":
+    if request.method == "POST":
         r = requests.post("{0}://{1}:{2}{3}".format(protocol, hostname, port, path), data=form_data, headers=request_headers)
+    elif request.method == "PUT":
+        print form_data
+        #print request_headers
+        r = requests.put("{0}://{1}:{2}{3}".format(protocol, hostname, port, path), data=form_data, headers=request_headers)
     else:
         r = requests.get("{0}://{1}:{2}{3}".format(protocol, hostname, port, path), headers=request_headers)
     the_content_type = r.headers['content-type']

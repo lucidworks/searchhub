@@ -198,9 +198,7 @@ We have included a job that leverages Spark's mllib capabilities, specifically w
 
 The high-level idea behind word2vec is to first discover the 'most important' terms in each document and then use a word2vec model to generate related terms for each of the most important terms. For each important term in each document we generate a few synonyms and add them to a field in each document so that we can use them in a query pipeline. The steps are as follows. 
 
-##### Pre-processing:
-
-**Before doing anything associated with w2v you must navigate to 'SEARCHHUB_HOME/python/fusion_config/w2v_job.json' and replace 'admin:password123' with your own username and password and run or rerun the bootstrap.py.** If you have never run the spark-shell you may beed to navigate into the 'FUSION_HOME/bin` and run `./spark-shell` to start the spark shell for the first time, so that the plugins in searchhub can be really downloaded into Fusion.
+If you have never run the spark-shell you may beed to navigate into the 'FUSION_HOME/bin` and run `./spark-shell` to start the spark shell for the first time, so that the plugins in searchhub can be really downloaded into Fusion.
 
 ##### Get data to train the model off of: 
 

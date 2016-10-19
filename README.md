@@ -198,10 +198,12 @@ We have included a job that leverages Spark's mllib capabilities, specifically w
 
 The high-level idea behind word2vec is to first discover the 'most important' terms in each document and then use a word2vec model to generate related terms for each of the most important terms. For each important term in each document we generate a few synonyms and add them to a field in each document so that we can use them in a query pipeline. The steps are as follows. 
 
-1. Pre-process
+1. Pre-processing:
+
 ** Before doing anything associated with w2v you must navigate to 'SEARCHHUB_HOME/python/fusion_config/w2v_job.json' and replace 'admin:password123' with your own username and password and run or rerun the bootstrap.py. ** If you have never run the spark-shell you may beed to navigate into the 'FUSION_HOME/bin` and run `./spark-shell` to start the spark shell for the first time, so that the plugins in searchhub can be really downloaded into Fusion.
 
 2. Get data to train the model off of: 
+
 The model is trained on the data in your fusion instance. If you already have data that you would like to use to train the model you may skip this step and go straight to step 3. If not, read on. 
 
 Searchhub comes prepackaged with the appropriate index pipeline for the included mailing lists and so, we recommend training the model on mailing list data (although it is not difficult to copy the structure of the mailing-list-w2v index pipeline to suit any datasource you would like to train the model off of). 
@@ -209,13 +211,15 @@ Searchhub comes prepackaged with the appropriate index pipeline for the included
 **Since the model must be trained before it can be used you must crawl some datasources in fusion BEFORE you run the job to actually train the model**. To do this start crawl a mailing list using the mailing-list-default index pipeline. 
 
 3. Train and store the model off of the crawled data: 
+
 We have written a job to train and store the model in your blob store. The job should be automatically populated by the bootstrap. You can see all availible jobs by navigating to 'http://localhost:8764/api/apollo/spark/configurations/'. If you do not see the w2v job there something has gone wrong with the bootstrap. 
 
 The job is schedueld to run once a day. If you would like to modify this schedule you can change the frequency, timeout time etc. at 'SEARCHHUB_HOME/python/fusion_config/w2v_schedule.json`. If you wish to manually start the job when you have finished crawling your datasources you simply need to 'POST' to 'http://localhost:8764/api/apollo/spark/jobs/w2v_job'. See https://doc.lucidworks.com/fusion/2.4/REST_API_Reference/Spark-Jobs-API.html for more information. 
 
 Running the job will automatically build the model and add it to the blob store. Once the job has finished you should see a 'relatedTermModel' at 'http://localhost:8764/api/apollo/blobs/'. This is what we will be using to build the synonyms fields. 
 
-4. Reindex the data with these new fields
+4. Reindex the data with these new field:
+
 Now that we have the model we can easily produce the related terms fields. Simply go to the mailing list datasource you wish to produce these fields for, change the index pipeline to mailing-list-w2v pipeline and recrawl the datasource. Now the datasource will have two new fields, `related_terms` and `related_terms_ss`. The field `related_terms` will only include one closest w2v synonym of the most important terms. While `related_terms_ss` will have the 2 closest w2v synonyms of the 5 most important terms for the document.
 
 If you wish to make changes to the scala script it is in `SEARCHHUB_HOME/python/fusion_config/w2v_job.json`. A more human readable version of the steps is in `SEARCHHUB_HOME/searchhub-fusion-plugins/src/main/scala/com/lucidworks/searchhub/w2v/generateModelData.scala`. Note these steps may also be executed sequentially in the spark-shell in /FUSION_HOME/bin. 

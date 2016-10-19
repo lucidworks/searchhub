@@ -1,5 +1,5 @@
 {
-  "id" : "mailing-list-default",
+  "id" : "mailing-list-w2v",
   "stages" : [ {
     "type" : "mbox-parsing",
     "id" : "8j7l23xr",
@@ -46,6 +46,17 @@
     "type" : "field-mapping",
     "skip" : false,
     "label" : "field-mapping"
+  }, {
+    "type" : "machine-learning",
+    "id" : "8m2eydijvwo28olxr",
+    "modelId" : "relatedTermModel",
+    "predictionFieldName" : "related terms",
+    "failOnError" : false,
+    "storeInContext" : false,
+    "includeRawPredictions" : true,
+    "type" : "machine-learning",
+    "skip" : false,
+    "label" : "machine-learning"
   }, {
     "type" : "solr-index",
     "id" : "3d0d3dd8-771a-450c-ad7a-c1e3c108246a",

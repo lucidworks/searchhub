@@ -14,7 +14,7 @@ import java.util.*;
 
 /**
  * This file will be called in w2v's scheduled job:FUSION_HOME/python/fusion_config/w2v_job.json
- * It assumes drectory 'modelId' is already at the current directory.
+ * It assumes directory 'modelId' is already at the current directory.
  * What it does is to create the json file in the directory, and then pack all the 'modelId' into a zip file
  */
 public class PrepareFile {

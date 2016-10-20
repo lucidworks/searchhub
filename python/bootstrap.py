@@ -156,10 +156,28 @@ def setup_projects(backend):
           backend.start_datasource(datasource["id"])
 
 
+# now we can easily set up scripts to run jobs and the like 
+def setup_jobs_from_scripts(backend):
+  print("Setting up Jobs from scripts in fusion_config/job_scripts directory")
+  files = [f for f in listdir("./fusion_config/job_scripts") if isfile(join("./fusion_config/job_scripts", f))]
+  for file in files:
+    print("Setting up the job for " + file)
+    scriptfile = open(join("./fusion_config/job_scripts", file))
+    script = scriptfile.read()
+    json_body = {"id": file + "_job", "type": "script", "maxRows": 1,"script":script}
+    scriptfile.close()
+    # put them in fusion config 
+    newscriptfile = open(join("./fusion_config", file), 'w')
+    json.dump(json_body, newscriptfile) 
+    newscriptfile.close()
+
+
 backend.toggle_system_metrics(False)
 backend.set_log_level("WARN")
 
 backend.update_logging_scheduler()
+
+backend.setup_jobs_from_scripts(backend)
 
 lucidfind_collection_id = app.config.get("FUSION_COLLECTION", "lucidfind")
 lucidfind_batch_recs_collection_id = app.config.get("FUSION_BATCH_RECS_COLLECTION", "lucidfind_thread_recs")

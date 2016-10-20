@@ -207,3 +207,8 @@ To add another project, you need to do a few things:
 1. In $FUSION_HOME/searchhub-fusion-plugins/src/main/resources, edit the mailing_lists.csv to add your project.
 1. If you are adding more mailing lists, you will need to either crawl the ASF's mail archives site (please be polite when doing so) or setup an 
    httpd mod_mbox instance like we have at http://asfmail.lucidworks.io.  If you submit a pull request against this project with your mailing_lists.csv changes, we will consider adding it to our hosted version.
+
+
+## Adding custom scripted jobs
+
+The bootstrapper also makes it possible to automatically construct scripts for jobs you would like to put into fusion. You simply specify the job in the 'job_scripts' directory in 'fusion_config' and then run the bootstrapper. It should automatically create the appropriate files and put them into fusion_config and then automatically send them to fusion as well.

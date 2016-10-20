@@ -157,9 +157,9 @@ def setup_projects(backend):
 def change_w2v_file(backend):
   print("modifying w2v file now!")
   password = app.config.get("FUSION_APP_PASSWORD")
-  w2vfile = open('fusion_config/w2v_job.json', 'r+')
+  w2vfile = open('fusion_config/w2v_job.json', 'r')
   json_data = json.load(w2vfile)
-  w2vfile.seek(0)
+  w2vfile.close()
   script = json_data["script"]
   new_script = script.replace("password123", password)
   json_data["script"] = new_script

@@ -1,0 +1,57 @@
+{
+  "id" : "youtube_parser",
+  "stages" : [ {
+    "type" : "tika-parser",
+    "id" : "xnrwln9rrakp22o6r",
+    "includeImages" : true,
+    "flattenCompound" : false,
+    "addFailedDocs" : true,
+    "addOriginalContent" : true,
+    "contentField" : "_raw_content_",
+    "contentEncoding" : "binary",
+    "returnXml" : false,
+    "keepOriginalStructure" : false,
+    "extractHtmlLinks" : true,
+    "extractOtherLinks" : false,
+    "csvParsing" : false,
+    "includeContentTypes" : [ ],
+    "excludeContentTypes" : [ ],
+    "type" : "tika-parser",
+    "skip" : false,
+    "label" : "tika-parser"
+  }, {
+    "type" : "field-mapping",
+    "id" : "r8i9tfv3164dkj4i",
+    "mappings" : [ {
+      "source" : "/(.*?)lat(itude)?$/",
+      "target" : "$1_lat_lon",
+      "operation" : "move"
+    }, {
+      "source" : "/(.*?)lon(gitude)?$/",
+      "target" : "$1_lat_lon",
+      "operation" : "move"
+    } ],
+    "reservedFieldsMappingAllowed" : false,
+    "type" : "field-mapping",
+    "skip" : false,
+    "label" : "field-mapping"
+  }, {
+    "type" : "javascript-index",
+    "id" : "a2l3cfhwdaoy4aemi",
+    "script" : "function removeDocs(doc){\n  logger.info(\"IN THE JAVASCRIPT STAGE!\");\n  logger.info(doc.getId());\n  if (doc.getId() !== null){\n    if (doc.getId().indexOf(\"www.youtube.com/watch\") == -1) {\n      logger.info(\"We have a doc we want to ignore\");\n      return null;\n    }\n    else {\n      logger.info(\"We have a doc we want to include\");\n    }\n  }\n  return doc; \n}",
+    "type" : "javascript-index",
+    "skip" : false,
+    "label" : ""
+  }, {
+    "type" : "solr-index",
+    "id" : "qew8ovpeq8a935wmi",
+    "enforceSchema" : true,
+    "dateFormats" : [ ],
+    "params" : [ ],
+    "bufferDocsForSolr" : true,
+    "type" : "solr-index",
+    "skip" : false,
+    "label" : "solr-index"
+  } ],
+  "properties" : { }
+}

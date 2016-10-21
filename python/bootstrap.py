@@ -72,6 +72,12 @@ def setup_find_fields(backend, collection_id):
 
 # ((fusion)/(\d+.\d+))|((\w+|LucidWorksSearch-Docs)-v(\d+\.\d+))
 
+def setup_experiments(backend):    
+  job_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_experiment.json")]    
+  for file in job_files:    
+    print ("Creating Experiment for %s" % file)   
+    backend.create_experiment(json.load(open(join("./fusion_config", file))))
+
 # Setup schema for user collection
 def setup_user_fields(backend, collection_id):
   backend.add_field(collection_id, "username", type="string", required=True)
@@ -154,6 +160,7 @@ def setup_projects(backend):
           #TODO
           backend.start_datasource(datasource["id"])
 
+<<<<<<< HEAD
 def change_w2v_file(backend):
   print("modifying w2v file now!")
   password = app.config.get("FUSION_APP_PASSWORD")
@@ -167,13 +174,18 @@ def change_w2v_file(backend):
   json.dump(json_data, neww2vfile)
   neww2vfile.close()
   print("done updating the w2v file")
+=======
+>>>>>>> master
 
 backend.toggle_system_metrics(False)
 backend.set_log_level("WARN")
 
 backend.update_logging_scheduler()
+<<<<<<< HEAD
 
 change_w2v_file(backend)
+=======
+>>>>>>> master
 
 lucidfind_collection_id = app.config.get("FUSION_COLLECTION", "lucidfind")
 lucidfind_batch_recs_collection_id = app.config.get("FUSION_BATCH_RECS_COLLECTION", "lucidfind_thread_recs")
@@ -231,6 +243,18 @@ if cmd_args.create_collections or create_all:
           "GET"
         ],
         "path": "/signals/{0}/i".format(lucidfind_collection_id)
+      },   
+      {   
+        "methods": [    
+          "GET"   
+        ],# Make this more flexible, as this is hardcoded now   
+        "path": "/experiments/jobs/download_v_learn_more/variant"   
+      },    
+      {   
+        "methods": [    
+          "PUT"   
+        ],    
+        "path": "/experiments/jobs/download_v_learn_more/variant/*"
       }
     ]
   }
@@ -287,6 +311,9 @@ if cmd_args.create_batch_jobs or create_all:
 #create the schedules
 if cmd_args.create_schedules or create_all:
   setup_schedules(backend)
+
+if cmd_args.create_experiments or create_all:
+  setup_experiments(backend)
 
 if cmd_args.start_schedules:
   start_schedules(backend)

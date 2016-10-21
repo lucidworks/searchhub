@@ -73,6 +73,12 @@ def setup_find_fields(backend, collection_id):
 
 # ((fusion)/(\d+.\d+))|((\w+|LucidWorksSearch-Docs)-v(\d+\.\d+))
 
+def setup_experiments(backend):    
+  job_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_experiment.json")]    
+  for file in job_files:    
+    print ("Creating Experiment for %s" % file)   
+    backend.create_experiment(json.load(open(join("./fusion_config", file))))
+
 # Setup schema for user collection
 def setup_user_fields(backend, collection_id):
   backend.add_field(collection_id, "username", type="string", required=True)

@@ -280,6 +280,9 @@ if cmd_args.create_batch_jobs or create_all:
 if cmd_args.create_schedules or create_all:
   setup_schedules(backend)
 
+if cmd_args.create_experiments or create_all:
+  setup_experiments(backend)
+
 if cmd_args.start_schedules:
   start_schedules(backend)
 

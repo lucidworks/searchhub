@@ -223,6 +223,18 @@ if cmd_args.create_collections or create_all:
           "GET"
         ],
         "path": "/signals/{0}/i".format(lucidfind_collection_id)
+      },   
+      {   
+        "methods": [    
+          "GET"   
+        ],# Make this more flexible, as this is hardcoded now   
+        "path": "/experiments/jobs/download_v_learn_more/variant"   
+      },    
+      {   
+        "methods": [    
+          "PUT"   
+        ],    
+        "path": "/experiments/jobs/download_v_learn_more/variant/*"
       }
     ]
   }

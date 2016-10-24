@@ -586,13 +586,7 @@ class FusionBackend(Backend):
       print resp.text
       raise Exception("Couldn't create taxonomy for {0}.  Tax: {1}".format(collection_id, taxonomy))
 
-<<<<<<< HEAD
-  def update_logging_scheduler(backend):
-=======
-
-
   def update_logging_scheduler(self):
->>>>>>> master
     delete_old_logs_json = {  
       "id":"delete-old-logs",
       "creatorType":"system",
@@ -633,10 +627,7 @@ class FusionBackend(Backend):
     else:
       print("SUCCESS: We have updated the delete logs schedule")
 
-<<<<<<< HEAD
-=======
 
->>>>>>> master
   def create_or_update_schedule(self, schedule):
     # check to see if it exists already
     resp = self.admin_session.get("apollo/scheduler/schedules/{0}".format(schedule["id"]))

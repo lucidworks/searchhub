@@ -160,7 +160,6 @@ def setup_projects(backend):
           #TODO
           backend.start_datasource(datasource["id"])
 
-<<<<<<< HEAD
 def change_w2v_file(backend):
   print("modifying w2v file now!")
   password = app.config.get("FUSION_APP_PASSWORD")
@@ -174,18 +173,13 @@ def change_w2v_file(backend):
   json.dump(json_data, neww2vfile)
   neww2vfile.close()
   print("done updating the w2v file")
-=======
->>>>>>> master
 
 backend.toggle_system_metrics(False)
 backend.set_log_level("WARN")
 
 backend.update_logging_scheduler()
-<<<<<<< HEAD
 
 change_w2v_file(backend)
-=======
->>>>>>> master
 
 lucidfind_collection_id = app.config.get("FUSION_COLLECTION", "lucidfind")
 lucidfind_batch_recs_collection_id = app.config.get("FUSION_BATCH_RECS_COLLECTION", "lucidfind_thread_recs")

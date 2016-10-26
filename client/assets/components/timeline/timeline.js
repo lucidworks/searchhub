@@ -15,7 +15,7 @@
         scope: true,
         controller: Controller,
         controllerAs: 'vm',
-        bindToController: {}
+        bindToController: {chartHeight: '='}
       };
       return directive;
     };
@@ -24,7 +24,6 @@
   function Controller($sce, $anchorScroll, Orwell, SnowplowService, IDService, QueryService, $log, $scope, URLService, QueryDataService, ConfigService) {
     'ngInject';
     var vm = this; 
-    var chart_height = 300;
     // var dateToRange = ConfigService.getTimelineDateField();
     var dateToRange = 'publishedOnDate';
     activate();
@@ -124,12 +123,12 @@
                 }
               }
             },
-            height: chart_height,
+            height: vm.chartHeight,
             margin: {
-              top:0.04*chart_height,
-              right:0.20*chart_height,
-              bottom:0.20*chart_height,
-              left:0.20*chart_height
+              top:10,
+              right:10,
+              bottom:50,
+              left:55
             },
             x: function(d) {return d[0];},
             y: function(d) {return d[1];},
@@ -140,7 +139,7 @@
               tickFormat: function(d) {
                 return d3.time.format('%x')(new Date(d))
               },
-              rotateLabels:30,
+              rotateLabels:57.3*Math.atan(0.20*vm.chartHeight/150),
               showMaxMin: true,
             },
             yAxis: {

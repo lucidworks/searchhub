@@ -1,0 +1,242 @@
+diff --git a/client/assets/components/document/document_mail/document_mail.js b/client/assets/components/document/document_mail/document_mail.js
+index c90c214..992a463 100644
+--- a/client/assets/components/document/document_mail/document_mail.js
++++ b/client/assets/components/document/document_mail/document_mail.js
+@@ -16,7 +16,7 @@
+       bindToController: {
+         doc: '=',
+         highlight: '=',
+-        expanded: "="
++        expanded: '='
+       }
+     };
+ 
+diff --git a/client/assets/components/documents/documents.js b/client/assets/components/documents/documents.js
+index f53e520..0e55eb4 100644
+--- a/client/assets/components/documents/documents.js
++++ b/client/assets/components/documents/documents.js
+@@ -14,7 +14,6 @@
+       templateUrl: 'assets/components/documents/documents.html',
+       controller: Controller,
+       controllerAs: 'vm',
+-      bindToController: {},
+       scope: true,
+       replace: true
+     };
+@@ -22,7 +21,7 @@
+   }
+ 
+ 
+-  function Controller($sce, $anchorScroll, Orwell, SnowplowService, IDService, QueryService, $log) {
++  function Controller($sce, $anchorScroll, Orwell, SnowplowService, IDService, QueryService, $log, ExperimentManagementService) {
+     'ngInject';
+     var vm = this;
+     vm.docs = [];
+@@ -38,6 +37,13 @@
+     ////////
+ 
+     function activate() {
++      ExperimentManagementService.getVariant("document_body_experiment").then(function (resp) {
++          $log.info("In the document body experiment", resp);
++          vm.showBody = resp["show"];
++          vm.documentBodyId = resp["id"];
++        }).catch (function (error){
++          $log.error("Error getting variant" + error);
++        });
+       var resultsObservable = Orwell.getObservable('queryResults');
+       resultsObservable.addObserver(function (data) {
+         //Every time a query is fired and results come back, this section gets called
+@@ -84,7 +90,13 @@
+      * @return {object}     Document object
+      */
+     function decorateDocument(doc) {
+-      return doc;
++      if (!vm.show){
++        delete doc.body;
++        return doc;
++      }
++      else {
++        return doc;
++      }
+     }
+ 
+     function isNotGrouped(data) {
+diff --git a/client/assets/components/timeline/timeline.js b/client/assets/components/timeline/timeline.js
+index cfa2215..4acbfa7 100644
+--- a/client/assets/components/timeline/timeline.js
++++ b/client/assets/components/timeline/timeline.js
+@@ -15,7 +15,7 @@
+         scope: true,
+         controller: Controller,
+         controllerAs: 'vm',
+-        bindToController: {}
++        bindToController: {chartHeight: '='}
+       };
+       return directive;
+     };
+@@ -24,7 +24,6 @@
+   function Controller($sce, $anchorScroll, Orwell, SnowplowService, IDService, QueryService, $log, $scope, URLService, QueryDataService, ConfigService) {
+     'ngInject';
+     var vm = this; 
+-    var chart_height = 300;
+     // var dateToRange = ConfigService.getTimelineDateField();
+     var dateToRange = 'publishedOnDate';
+     activate();
+@@ -124,12 +123,12 @@
+                 }
+               }
+             },
+-            height: chart_height,
++            height: vm.chartHeight,
+             margin: {
+-              top:0.04*chart_height,
+-              right:0.20*chart_height,
+-              bottom:0.20*chart_height,
+-              left:0.20*chart_height
++              top:10,
++              right:10,
++              bottom:50,
++              left:55
+             },
+             x: function(d) {return d[0];},
+             y: function(d) {return d[1];},
+@@ -140,7 +139,7 @@
+               tickFormat: function(d) {
+                 return d3.time.format('%x')(new Date(d))
+               },
+-              rotateLabels:30,
++              rotateLabels:57.3*Math.atan(0.20*vm.chartHeight/150),
+               showMaxMin: true,
+             },
+             yAxis: {
+diff --git a/client/assets/js/controllers/HomeController.js b/client/assets/js/controllers/HomeController.js
+index 476e1d8..ceb2a56 100644
+--- a/client/assets/js/controllers/HomeController.js
++++ b/client/assets/js/controllers/HomeController.js
+@@ -25,6 +25,7 @@
+ 
+     hc.searchQuery = '*';
+     hc.sort = "score";
++    
+     activate();
+ 
+     ////////////////
+@@ -55,6 +56,8 @@
+       hc.banner_href = "";
+       hc.banner_variant_id = "";
+       hc.banner_image = "";
++
++      getVariant('timeline_experiment');
+       getVariant('download_v_learn_more');
+       //Setting the query object... also populating the the view model
+       hc.searchQuery = _.get(query, 'q', '*');
+@@ -82,6 +85,7 @@
+           hc.perDocument = true;
+           hc.showFacets = false;
+           hc.showRecommendations = true;
++          postReward('timeline_experiment', hc.timelineVariantId, 1.0);
+         } else {
+           hc.perDocument = false;
+           hc.showFacets = true;
+@@ -99,15 +103,27 @@
+     }
+ 
+     function getVariant(experimentName) {
+-      ExperimentManagementService.getVariant(experimentName).then(function (resp) {
+-        $log.info("Variant: ", resp);
+-        hc.banner_href = resp["href"];
+-        hc.banner_image = resp["image"];
+-        hc.banner_variant_id = resp["id"];
+-      }).catch(function (error){
+-        $log.error("Error getting variant: " + error);
+-      });
+-
++      console.log(experimentName)
++      if (experimentName == "timeline_experiment"){
++        ExperimentManagementService.getVariant(experimentName).then(function (resp) {
++          $log.info("In the timeline experiment", resp);
++          hc.timelineHeight = resp["size"];
++          console.log("height is", hc.timelineHeight);
++          hc.timelineVariantId = resp["id"];
++        }).catch (function (error){
++          $log.error("Error getting variant" + error);
++        });
++      }
++      else {
++        ExperimentManagementService.getVariant(experimentName).then(function (resp) {
++          $log.info("Variant: ", resp);
++          hc.banner_href = resp["href"];
++          hc.banner_image = resp["image"];
++          hc.banner_variant_id = resp["id"];
++        }).catch(function (error){
++          $log.error("Error getting variant: " + error);
++        });
++      }
+     }
+ 
+     function postReward(experimentName, choice, reward) {
+diff --git a/client/assets/js/services/ExperimentManagementService.js b/client/assets/js/services/ExperimentManagementService.js
+index 6b1f4d4..819b77d 100644
+--- a/client/assets/js/services/ExperimentManagementService.js
++++ b/client/assets/js/services/ExperimentManagementService.js
+@@ -23,8 +23,6 @@ document boosts
+ 
+     return service;
+ 
+-
+-
+     function getVariant(experimentName){
+       var experimentBase = ApiBase.getEndpoint() + "api/apollo/experiments/jobs/";
+       var url = experimentBase + experimentName + "/variant";
+diff --git a/client/templates/home.html b/client/templates/home.html
+index 456e7f4..f807a19 100644
+--- a/client/templates/home.html
++++ b/client/templates/home.html
+@@ -64,7 +64,7 @@ controller: HomeController as hc
+             <p class="subheader">Try searching on a different term or using different facets to refine your search</p>
+           </div>
+         </div>
+-        <timeline> </timeline>
++        <timeline chart-height="hc.timelineHeight"> </timeline>
+         <landing-page></landing-page>
+         <documents ng-show="!hc.perDocument"></documents>
+         <perdocument ng-show="hc.perDocument" doc="dc.doc"></perdocument>
+diff --git a/python/bootstrap.py b/python/bootstrap.py
+index 73212e3..a6ce9fd 100755
+--- a/python/bootstrap.py
++++ b/python/bootstrap.py
+@@ -163,6 +163,7 @@ def setup_projects(backend):
+ def change_w2v_file(backend):
+   print("modifying w2v file now!")
+   password = app.config.get("FUSION_APP_PASSWORD")
++  print(password)
+   w2vfile = open('fusion_config/w2v_job.json', 'r')
+   json_data = json.load(w2vfile)
+   w2vfile.close()
+diff --git a/searchhub-fusion-plugins/src/main/scala/com/lucidworks/searchhub/w2v/generateModelData.scala b/searchhub-fusion-plugins/src/main/scala/com/lucidworks/searchhub/w2v/generateModelData.scala
+index 5b0e6f6..adb7131 100644
+--- a/searchhub-fusion-plugins/src/main/scala/com/lucidworks/searchhub/w2v/generateModelData.scala
++++ b/searchhub-fusion-plugins/src/main/scala/com/lucidworks/searchhub/w2v/generateModelData.scala
+@@ -4,6 +4,8 @@ import com.lucidworks.searchhub.analytics._
+ import org.apache.spark.sql.SQLContext
+ import java.io._
+ import com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.PrepareFile
++import org.slf4j.impl.StaticLoggerBinder
++import org.apache.spark.storage.StorageLevel._
+ 
+ /***
+   * This file is not meant to be imported or loaded in any way
+@@ -12,9 +14,10 @@ import com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.PrepareFile
+ object generateModelData {
+   val sqlContext: SQLContext = ???
+   val sc: org.apache.spark.SparkContext = ???
+-  val opts = Map("zkhost" -> "localhost:9983", "collection" -> "lucidfind", "query" -> "*:*","fields" -> "id,body,title,subject,publishedOnDate,project,content")
+-  val mailDF = sqlContext.read.format("solr").options(opts).load
+-  mailDF.cache()
++  val opts = Map("zkhost" -> "localhost:9983", "collection" -> "lucidfind", "query" -> "*:*","fields" -> "id,body,title,subject,publishedOnDate,project,content", "splits" -> "true")
++  var mailDF = sqlContext.read.format("solr").options(opts).load
++  mailDF = mailDF.repartition(50)
++  mailDF.persist(MEMORY_AND_DISK)
+   mailDF.count()
+   val textColumnName = "body"
+   val tokenizer = analyzerFn(noHTMLstdAnalyzerSchema)

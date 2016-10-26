@@ -16,7 +16,7 @@
       bindToController: {
         doc: '=',
         highlight: '=',
-        expanded: "="
+        expanded: '='
       }
     };
 

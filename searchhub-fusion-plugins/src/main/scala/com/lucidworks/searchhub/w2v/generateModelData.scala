@@ -4,6 +4,8 @@ import com.lucidworks.searchhub.analytics._
 import org.apache.spark.sql.SQLContext
 import java.io._
 import com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.PrepareFile
+import org.slf4j.impl.StaticLoggerBinder
+import org.apache.spark.storage.StorageLevel._
 
 /***
   * This file is not meant to be imported or loaded in any way
@@ -12,9 +14,10 @@ import com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.PrepareFile
 object generateModelData {
   val sqlContext: SQLContext = ???
   val sc: org.apache.spark.SparkContext = ???
-  val opts = Map("zkhost" -> "localhost:9983", "collection" -> "lucidfind", "query" -> "*:*","fields" -> "id,body,title,subject,publishedOnDate,project,content")
-  val mailDF = sqlContext.read.format("solr").options(opts).load
-  mailDF.cache()
+  val opts = Map("zkhost" -> "localhost:9983", "collection" -> "lucidfind", "query" -> "*:*","fields" -> "id,body,title,subject,publishedOnDate,project,content", "sample_pct" -> "0.01", "sample_seed" -> "5150")
+  var mailDF = sqlContext.read.format("solr").options(opts).load
+  mailDF = mailDF.repartition(50)
+  mailDF.persist(MEMORY_AND_DISK)
   mailDF.count()
   val textColumnName = "body"
   val tokenizer = analyzerFn(noHTMLstdAnalyzerSchema)
@@ -38,5 +41,5 @@ object generateModelData {
 
   //send the zip file to BLOB
   //the username and password below is hard coded.. may need to find some API to call and get them..
-  "curl -u admin:password123 -X PUT --data-binary @modelId.zip -H Content-type:application/zip "+"http://localhost:8764/api/apollo/blobs/relatedTermModel?modelType=com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.W2VRelatedTerms" !
+  "curl -u admin:9NoudHx2mX -X PUT --data-binary @modelId.zip -H Content-type:application/zip "+"http://localhost:8764/api/apollo/blobs/relatedTermModel?modelType=com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.W2VRelatedTerms" !
 }

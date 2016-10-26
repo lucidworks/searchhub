@@ -14,7 +14,6 @@
       templateUrl: 'assets/components/documents/documents.html',
       controller: Controller,
       controllerAs: 'vm',
-      bindToController: {},
       scope: true,
       replace: true
     };
@@ -22,7 +21,7 @@
   }
 
 
-  function Controller($sce, $anchorScroll, Orwell, SnowplowService, IDService, QueryService, $log) {
+  function Controller($sce, $anchorScroll, Orwell, SnowplowService, IDService, QueryService, $log, ExperimentManagementService) {
     'ngInject';
     var vm = this;
     vm.docs = [];
@@ -38,6 +37,13 @@
     ////////
 
     function activate() {
+      ExperimentManagementService.getVariant("document_body_experiment").then(function (resp) {
+          $log.info("In the document body experiment", resp);
+          vm.showBody = resp["show"];
+          vm.documentBodyId = resp["id"];
+        }).catch (function (error){
+          $log.error("Error getting variant" + error);
+        });
       var resultsObservable = Orwell.getObservable('queryResults');
       resultsObservable.addObserver(function (data) {
         //Every time a query is fired and results come back, this section gets called
@@ -84,7 +90,13 @@
      * @return {object}     Document object
      */
     function decorateDocument(doc) {
-      return doc;
+      if (!vm.show){
+        delete doc.body;
+        return doc;
+      }
+      else {
+        return doc;
+      }
     }
 
     function isNotGrouped(data) {

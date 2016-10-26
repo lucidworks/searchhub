@@ -4,6 +4,8 @@ import com.lucidworks.searchhub.analytics._
 import org.apache.spark.sql.SQLContext
 import java.io._
 import com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.PrepareFile
+import org.slf4j.impl.StaticLoggerBinder
+import org.apache.spark.storage.StorageLevel._
 
 /***
   * This file is not meant to be imported or loaded in any way
@@ -12,10 +14,13 @@ import com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.PrepareFile
 object generateModelData {
   val sqlContext: SQLContext = ???
   val sc: org.apache.spark.SparkContext = ???
-  val opts = Map("zkhost" -> "localhost:9983", "collection" -> "lucidfind", "query" -> "*:*","fields" -> "id,body,title,subject,publishedOnDate,project,content")
-  val mailDF = sqlContext.read.format("solr").options(opts).load
-  mailDF.cache()
+  val opts = Map("zkhost" -> "localhost:9983", "collection" -> "lucidfind", "query" -> "*:*","fields" -> "id,body,title,subject,publishedOnDate,project,content", "sample_pct" -> "0.01", "sample_seed" -> "5150")
+  var mailDF = sqlContext.read.format("solr").options(opts).load
+
+  mailDF = mailDF.repartition(50)
+  mailDF.persist(MEMORY_AND_DISK)
   mailDF.count()
+
   val textColumnName = "body"
   val tokenizer = analyzerFn(noHTMLstdAnalyzerSchema)
   val vectorizer = TfIdfVectorizer.build(mailDF, tokenizer, textColumnName)

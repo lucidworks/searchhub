@@ -1,9 +1,9 @@
 <div id="documentList">
   <div ng-repeat="doc in vm.docs" ng-switch="::vm.getDocType(doc)" class="doc-results">
     <document-mail ng-switch-when="mailing" doc="vm.decorateDocument(doc)" 
-                   highlight="vm.highlighting"></document-mail>
+                   highlight="vm.highlighting" show-body="vm.showBody" document-body-id="vm.documentBodyId"></document-mail>
     <document-website ng-switch-when="website" doc="vm.decorateDocument(doc)" 
-                  highlight="vm.highlighting"></document-website>
+                  highlight="vm.highlighting" ></document-website>
     <document-lucid-docs ng-switch-when="lucid-docs" doc="vm.decorateDocument(doc)" 
                   highlight="vm.highlighting"></document-lucid-docs>
     <document-website ng-switch-when="wiki" doc="vm.decorateDocument(doc)" 
@@ -21,7 +21,7 @@
       <div ng-repeat="doc in group.doclist.docs" ng-switch="::vm.getDocType(doc)" class="doc-results">
         <span ng-switch-when="jira"><div ng-include="'/templates/jira.html'"></div></span>
         <document-mail ng-switch-when="mailing" doc="vm.decorateDocument(doc)" 
-                       highlight="vm.highlighting"></document-mail>
+                       highlight="vm.highlighting" ></document-mail>
         <document-website ng-switch-when="website" doc="vm.decorateDocument(doc)" 
                       highlight="vm.highlighting"></document-website>
         <document-website ng-switch-when="wiki" doc="vm.decorateDocument(doc)" 

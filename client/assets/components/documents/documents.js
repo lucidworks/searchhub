@@ -31,6 +31,8 @@
     vm.toggleGroupedResults = toggleGroupedResults;
     vm.decorateDocument = decorateDocument;
     vm.showGroupedResults = {};
+    vm.showBody = null;
+    vm.documentBodyId = null;
 
     activate();
 
@@ -40,6 +42,7 @@
       ExperimentManagementService.getVariant("document_body_experiment").then(function (resp) {
           $log.info("In the document body experiment", resp);
           vm.showBody = resp["show"];
+          console.log(vm.showBody)
           vm.documentBodyId = resp["id"];
         }).catch (function (error){
           $log.error("Error getting variant" + error);
@@ -90,13 +93,7 @@
      * @return {object}     Document object
      */
     function decorateDocument(doc) {
-      if (!vm.show){
-        delete doc.body;
-        return doc;
-      }
-      else {
-        return doc;
-      }
+      return doc;
     }
 
     function isNotGrouped(data) {

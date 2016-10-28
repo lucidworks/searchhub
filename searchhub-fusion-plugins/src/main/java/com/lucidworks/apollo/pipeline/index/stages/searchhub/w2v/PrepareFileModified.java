@@ -12,13 +12,35 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+import com.lucidworks.spark.fusion.*;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.EntityBuilder;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ContentType;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
+import org.apache.spark.SparkContext;
+import org.apache.spark.ml.util.MLWritable;
+import org.apache.spark.mllib.util.Saveable;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+
 /**
  * This file will be called in w2v's scheduled job:FUSION_HOME/python/fusion_config/w2v_job.json
  * It assumes directory 'modelId' is already at the current directory.
  * What it does is to create the json file in the directory, and then pack all the 'modelId' into a zip file
  */
-public class PrepareFile {
-    public static void createZipFile(){
+public class PrepareFileModified {
+    public static void createZipAndSendFile(){
+
+        System.out.println("In the create zip and send file");
+
         try{
             List<String> featureList = Arrays.asList("body");//featureList which will be added into json
             File modelDir = new File("modelId");
@@ -54,10 +76,67 @@ public class PrepareFile {
 
             addFilesToZip(modelDir, zipFile);//zip all the files under the directory modelDir
 
+            HashMap<String, String> modelType = new HashMap();
+            modelType.put("modelType", "com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.W2VRelatedTerms");
+
+            HttpEntity entity = null;
+
+            try{
+                HttpPut putRequest = FusionMLModelSupport.buildPutRequestToFusion("relatedTermModel", "localhost:8764", modelType, zipFile, "/api/apollo");    
+                FusionPipelineClient fusionClient = new FusionPipelineClient(putRequest.getRequestLine().getUri(), "admin", "vishalak1964", "native");
+                entity = fusionClient.sendRequestToFusion(putRequest);   
+            } catch (Exception e){
+                System.out.print("building request failed ");
+                e.printStackTrace();
+            }
+
+            if (entity != null) {
+                try {
+                  EntityUtils.consume(entity);
+                } catch (Exception ignore) {
+                  System.out.println("Failed to consume entity due to: "+ ignore);
+                }
+            }
         } catch(Exception ex){
             ex.printStackTrace();
         }
+
     }
+
+    public static HttpPut buildPutRequestToFusionInPrep(String modelId,
+                                                String fusionHostAndPort,
+                                                HashMap<String,String> mutableMetadata,
+                                                File zipFile,
+                                                String fusionApiPath)
+          throws Exception{
+        // convert metadata into query string parameters for the PUT request to Fusion
+        List<NameValuePair> pairs = new ArrayList<>();
+        for (Map.Entry<String,String> entry : mutableMetadata.entrySet()) {
+          pairs.add(new BasicNameValuePair(entry.getKey(), URLEncoder.encode(entry.getValue(), "UTF-8")));
+        }
+
+        String[] pair = fusionHostAndPort.split(":");
+        String fusionHost = fusionHostAndPort;
+        int fusionPort = 8764;
+        if (pair.length == 2) {
+          fusionHost = pair[0];
+          fusionPort = Integer.parseInt(pair[1]);
+        }
+
+        URIBuilder builder = new URIBuilder();
+        builder.setScheme("http").setHost(fusionHost).setPort(fusionPort).setPath(fusionApiPath+"/blobs/"+modelId)
+                .setParameters(pairs);
+        HttpPut putRequest = new HttpPut(builder.build());
+        putRequest.setHeader("Content-Type", "application/zip");
+
+        EntityBuilder entityBuilder = EntityBuilder.create();
+        entityBuilder.setContentType(ContentType.create("application/zip"));
+        entityBuilder.setFile(zipFile);
+        putRequest.setEntity(entityBuilder.build());
+
+        return putRequest;
+    }
+
 
     //the following two functions are copied from com.lucidworks.spark.fusion.FusionMLModelSupport
     //they are protected so cannot be just imported

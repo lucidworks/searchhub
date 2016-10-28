@@ -43,7 +43,6 @@ def setup_commit_times(backend, collection_id, time_in_ms=10*60*1000):
 
   backend.set_property(collection_id, data)
 
-
 # Setup an official schema for things we know we are going to have in the data
 def setup_find_fields(backend, collection_id):
   backend.add_field(collection_id, "publishedOnDate", type="tdate", required=True)
@@ -57,7 +56,7 @@ def setup_find_fields(backend, collection_id):
   backend.add_field(collection_id, "keywords", type="text_en", copyDests=["suggest"])
   backend.add_field(collection_id, "comments", type="text_en")
   backend.add_field(collection_id, "mimeType", type="string")
-  backend.add_field(collection_id, "author_facet", type="string", multivalued=True)
+  backend.add_field(collection_id, "author_facet", type="string")
   backend.add_field(collection_id, "author", type="text_en", copyDests=["author_facet"])
   backend.add_field(collection_id, "og_description", type="text_en")
   backend.add_field(collection_id, "description", type="text_en")
@@ -161,11 +160,26 @@ def setup_projects(backend):
           #TODO
           backend.start_datasource(datasource["id"])
 
+def change_w2v_file(backend):
+  print("modifying w2v file now!")
+  password = app.config.get("FUSION_APP_PASSWORD")
+  w2vfile = open('fusion_config/w2v_job.json', 'r')
+  json_data = json.load(w2vfile)
+  w2vfile.close()
+  script = json_data["script"]
+  new_script = script.replace("password123", password)
+  json_data["script"] = new_script
+  neww2vfile = open('fusion_config/w2v_job.json', 'w')
+  json.dump(json_data, neww2vfile)
+  neww2vfile.close()
+  print("done updating the w2v file")
 
 backend.toggle_system_metrics(False)
 backend.set_log_level("WARN")
 
 backend.update_logging_scheduler()
+
+change_w2v_file(backend)
 
 lucidfind_collection_id = app.config.get("FUSION_COLLECTION", "lucidfind")
 lucidfind_batch_recs_collection_id = app.config.get("FUSION_BATCH_RECS_COLLECTION", "lucidfind_thread_recs")

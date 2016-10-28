@@ -23,8 +23,6 @@ document boosts
 
     return service;
 
-
-
     function getVariant(experimentName){
       var experimentBase = ApiBase.getEndpoint() + "api/apollo/experiments/jobs/";
       var url = experimentBase + experimentName + "/variant";

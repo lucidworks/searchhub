@@ -170,14 +170,17 @@ def setup_jobs_from_scripts(backend):
     newscriptfile = open(join("./fusion_config", file), 'w')
     json.dump(json_body, newscriptfile) 
     newscriptfile.close()
-
+    json_schedule = {"id": file, "creatorType": "human", "creatorId": "admin", "createTime": "2016-05-15T14:50:17.346Z", "startTime": "2016-05-15T14:49:50.000Z", "repeatUnit": "DAY","interval": 1,"active": True,"callParams": {"uri": "service://spark/jobs/mail_threading_scheduled","method": "POST"}}
+    newschedulefile = open(join("./fusion_config", file + '_schedule'), 'w')
+    json.dump(json_schedule, newschedulefile)
+    newschedulefile.close()
 
 backend.toggle_system_metrics(False)
 backend.set_log_level("WARN")
 
 backend.update_logging_scheduler()
 
-backend.setup_jobs_from_scripts(backend)
+setup_jobs_from_scripts(backend)
 
 lucidfind_collection_id = app.config.get("FUSION_COLLECTION", "lucidfind")
 lucidfind_batch_recs_collection_id = app.config.get("FUSION_BATCH_RECS_COLLECTION", "lucidfind_thread_recs")

@@ -14,6 +14,8 @@ import java.util.*;
 
 import com.lucidworks.spark.fusion.*;
 
+import org.apache.log4j.Logger;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.EntityBuilder;
@@ -37,10 +39,12 @@ import java.text.SimpleDateFormat;
  * What it does is to create the json file in the directory, and then pack all the 'modelId' into a zip file
  */
 public class PrepareFileModified {
+
+    public static Logger logger = Logger.getLogger(PrepareFileModified.class);
+    
     public static void createZipAndSendFile(){
 
-        System.out.println("In the create zip and send file");
-
+        logger.info("In the create zip and send file");
         try{
             List<String> featureList = Arrays.asList("body");//featureList which will be added into json
             File modelDir = new File("modelId");
@@ -76,6 +80,8 @@ public class PrepareFileModified {
 
             addFilesToZip(modelDir, zipFile);//zip all the files under the directory modelDir
 
+            System.out.println("Done creating the appropriate zip file");
+
             HashMap<String, String> modelType = new HashMap();
             modelType.put("modelType", "com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.W2VRelatedTerms");
 
@@ -83,10 +89,16 @@ public class PrepareFileModified {
 
             try{
                 HttpPut putRequest = FusionMLModelSupport.buildPutRequestToFusion("relatedTermModel", "localhost:8764", modelType, zipFile, "/api/apollo");    
-                FusionPipelineClient fusionClient = new FusionPipelineClient(putRequest.getRequestLine().getUri(), "admin", "vishalak1964", "native");
-                entity = fusionClient.sendRequestToFusion(putRequest);   
+                System.out.println("Created put request successfully");
+                
+                FusionPipelineClient fusionClient = new FusionPipelineClient(putRequest.getRequestLine().getUri(), "admin", "password123", "native");
+                System.out.println("Created client successfully");
+
+                entity = fusionClient.sendRequestToFusion(putRequest); 
+                System.out.println("Created entity successfully");
+
             } catch (Exception e){
-                System.out.print("building request failed ");
+                System.out.print("Building request failed ");
                 e.printStackTrace();
             }
 

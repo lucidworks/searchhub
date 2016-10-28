@@ -160,26 +160,24 @@ def setup_projects(backend):
           #TODO
           backend.start_datasource(datasource["id"])
 
-def change_w2v_file(backend):
-  print("modifying w2v file now!")
+def change_passwords_prepfile(backend):
+  print("modifying prepare file modified file now!")
   password = app.config.get("FUSION_APP_PASSWORD")
-  w2vfile = open('fusion_config/w2v_job.json', 'r')
-  json_data = json.load(w2vfile)
-  w2vfile.close()
-  script = json_data["script"]
-  new_script = script.replace("password123", password)
-  json_data["script"] = new_script
-  neww2vfile = open('fusion_config/w2v_job.json', 'w')
-  json.dump(json_data, neww2vfile)
-  neww2vfile.close()
-  print("done updating the w2v file")
+  prepFile = open('../searchhub-fusion-plugins/src/main/java/com/lucidworks/apollo/pipeline/index/stages/searchhub/w2v/PrepareFileModified.java', 'r')
+  prepFileData = prepFile.read()
+  prepFile.close()
+  newPrepFileData = prepFileData.replace("password123", password)
+  newPrepFile = open('../searchhub-fusion-plugins/src/main/java/com/lucidworks/apollo/pipeline/index/stages/searchhub/w2v/PrepareFileModified.java', 'w')
+  newPrepFile.write(newPrepFileData)
+  newPrepFile.close()
+  print("done updating the prepare file modified file")
 
 backend.toggle_system_metrics(False)
 backend.set_log_level("WARN")
 
 backend.update_logging_scheduler()
 
-change_w2v_file(backend)
+change_passwords_prepfile(backend)
 
 lucidfind_collection_id = app.config.get("FUSION_COLLECTION", "lucidfind")
 lucidfind_batch_recs_collection_id = app.config.get("FUSION_BATCH_RECS_COLLECTION", "lucidfind_thread_recs")

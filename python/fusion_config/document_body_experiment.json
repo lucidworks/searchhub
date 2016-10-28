@@ -1,0 +1,13 @@
+{
+    "id":"document_body_experiment",
+    "type": "bandits",
+    "algorithm":"epsilonGreedy",
+    "variants":[
+        {"id": "full_body",
+            "show":"true"
+        },
+        {"id": "abridged",
+            "show":"false"
+        }
+        ]
+}

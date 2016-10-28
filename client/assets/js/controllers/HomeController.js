@@ -25,6 +25,7 @@
 
     hc.searchQuery = '*';
     hc.sort = "score";
+    
     activate();
 
     ////////////////
@@ -55,6 +56,8 @@
       hc.banner_href = "";
       hc.banner_variant_id = "";
       hc.banner_image = "";
+
+      getVariant('timeline_experiment');
       getVariant('download_v_learn_more');
       //Setting the query object... also populating the the view model
       hc.searchQuery = _.get(query, 'q', '*');
@@ -82,6 +85,7 @@
           hc.perDocument = true;
           hc.showFacets = false;
           hc.showRecommendations = true;
+          postReward('timeline_experiment', hc.timelineVariantId, 1.0);
         } else {
           hc.perDocument = false;
           hc.showFacets = true;
@@ -99,15 +103,27 @@
     }
 
     function getVariant(experimentName) {
-      ExperimentManagementService.getVariant(experimentName).then(function (resp) {
-        $log.info("Variant: ", resp);
-        hc.banner_href = resp["href"];
-        hc.banner_image = resp["image"];
-        hc.banner_variant_id = resp["id"];
-      }).catch(function (error){
-        $log.error("Error getting variant: " + error);
-      });
-
+      console.log(experimentName)
+      if (experimentName == "timeline_experiment"){
+        ExperimentManagementService.getVariant(experimentName).then(function (resp) {
+          $log.info("In the timeline experiment", resp);
+          hc.timelineHeight = resp["size"];
+          console.log("height is", hc.timelineHeight);
+          hc.timelineVariantId = resp["id"];
+        }).catch (function (error){
+          $log.error("Error getting variant" + error);
+        });
+      }
+      else {
+        ExperimentManagementService.getVariant(experimentName).then(function (resp) {
+          $log.info("Variant: ", resp);
+          hc.banner_href = resp["href"];
+          hc.banner_image = resp["image"];
+          hc.banner_variant_id = resp["id"];
+        }).catch(function (error){
+          $log.error("Error getting variant: " + error);
+        });
+      }
     }
 
     function postReward(experimentName, choice, reward) {

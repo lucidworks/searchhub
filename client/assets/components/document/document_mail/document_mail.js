@@ -16,7 +16,9 @@
       bindToController: {
         doc: '=',
         highlight: '=',
-        expanded: "="
+        expanded: '=',
+        showBody: '=',
+        documentBodyId: '='
       }
     };
 
@@ -24,7 +26,7 @@
 
   }
 
-  function Controller($sce, SnowplowService, PerDocumentService, DocumentDisplayHelperService, $log) {
+  function Controller($sce, SnowplowService, PerDocumentService, DocumentDisplayHelperService, $log, ExperimentManagementService) {
     'ngInject';
     var vm = this;
     activate();
@@ -38,6 +40,7 @@
     function processClick(element, docId, position, score, threadId, subjectSimple){
       SnowplowService.postClickSignal(element, docId, position, score);
       PerDocumentService.processPerDocument(docId, threadId, subjectSimple);
+      ExperimentManagementService.postReward("document_body_experiment", vm.documentBodyId, 1.0);
     }
 
     function processDocument(doc) {

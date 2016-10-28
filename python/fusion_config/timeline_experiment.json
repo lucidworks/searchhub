@@ -1,0 +1,13 @@
+{
+    "id":"timeline_experiment",
+    "type": "bandits",
+    "algorithm":"epsilonGreedy",
+    "variants":[
+        {"id": "small_timeline",
+            "size":"150"
+        },
+        {"id": "large_timeline",
+            "size":"300"
+        }
+        ]
+}

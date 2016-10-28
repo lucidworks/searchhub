@@ -39,10 +39,4 @@ val w2vModelFile=new File("modelId/w2vModelData")
 w2vModel.save(sc, "modelId/w2vModelData")
   //call PrepareFile.createZipFile to add a metadata json file, and zip 'modelId'
 PrepareFileModified.createZipAndSendFile
-  //if the current zip file already exists in BLOB, delete it
-  // "curl -u admin:password123 -X DELETE http://localhost:8764/api/apollo/blobs/relatedTermModel" !
-
-  //send the zip file to BLOB
-  //the username and password below is hard coded.. may need to find some API to call and get them..
-  // "curl -u admin:password123 -X PUT --data-binary @modelId.zip -H Content-type:application/zip "+"http://localhost:8764/api/apollo/blobs/relatedTermModel?modelType=com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.W2VRelatedTerms" !
 }

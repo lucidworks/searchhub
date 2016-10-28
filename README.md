@@ -192,6 +192,29 @@ On the Scala side, there are a number of Spark Scala utilities that show how to 
 code for correlating email messages based on message ids.  See Grant Ingersoll's talk at the Dallas Data Science [meetup](http://www.slideshare.net/lucidworks/data-science-with-solr-and-spark) for details.
 To learn more on the Scala side, start with the ```SparkShellHelpers.scala``` file.
 
+
+#### Fusion Machine Learning Plugins Best Practices 
+##### Organization 
+The general structure of a fusion plugin consists of three files 
+
+Job File - This file is placed in searchhub/python/fusion_config and describes the job. It must have the fields type, id and max_rows and must include the actual body of the script you would like to run in the script field. This is where you generate and train your model, zip your files and send them to the fusion blob store. 
+
+Schedule File - This file is also placed in searchhub/python/fusion_config and describes a schedule for when and how often you would like your job to actually be run. 
+
+Index Pipeline - This file is also placed in searchhub/python/fusion_config. It is a list of pipeline stages, including the ML-Stage, that you will use to reindex your data after your blob has been created. 
+
+##### Script Best Practices 
+The script is where you actually generate the zipped file you want to send to the blob store. This zipped file must have a certain structure to automatically work with the inbuild MLStage in Fusion, 
+
+The zip file should contain the following files, 
+IDF Map 
+Model Data 
+(Optional) JSON File containing metadata you would like to include for the index stage (what fields to consider and what the class name of your model is etc.)
+
+In order to correctly send the blob for use in the ML Index Stage you must also send along some metadata about the modelType. You should write a file specifying information about the modelType you would like to send (see W2V Related Terms for an example). 
+
+In order to properly send the file you should use the methods provided in the spark-solr repository, specifically those in com.lucidworks.spark.fusion.FusionPipelineClient. This file will give you methods to send your blob to solr correctly provided you have the files listed above. 
+
 #### Example Plugin: Word2Vec
 
 We have included a job that leverages Spark's mllib capabilities, specifically word2vec. 

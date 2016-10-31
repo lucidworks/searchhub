@@ -38,6 +38,9 @@ a {
 
 .search-box-outer {
   flex: 1;
+  position:relative;
+  display:block;
+  width:100%;
 }
 
 .body-display > span {
@@ -66,6 +69,7 @@ a {
 }
 
 .search-box {
+  position:relative;
   padding-top: 15px;
   padding-bottom: 15px;
   width: 80%;
@@ -94,6 +98,39 @@ a {
     //fill: #0bbdd6;
   }
 
+}
+
+.grid-block {
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: -moz-box;    
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;  
+  height: auto;
+  position: relative;
+  overflow: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -ms-flex: 1 1 auto;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1;          
+  -ms-flex: 1;              
+  flex: 1;                 
+  -ms-flex-flow: row wrap;
+  flex-flow: row wrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -ms-flex-order: 0;
+  order: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
 .card-section {

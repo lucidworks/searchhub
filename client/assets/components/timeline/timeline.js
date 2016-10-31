@@ -62,7 +62,7 @@
           $log.error("SEARCH ERROR: There are no values for field " + dateToRange + " for this particular search");
         }
         else {
-          for (var i = 0; i <= num_dates/2; i+=2) {
+          for (var i = 0; i < num_dates; i+=2) {
             var date = new Date(vm.timeline_data[i]);
             date.setDate(date.getDate() + 1);
             var milliseconds = date.getTime();

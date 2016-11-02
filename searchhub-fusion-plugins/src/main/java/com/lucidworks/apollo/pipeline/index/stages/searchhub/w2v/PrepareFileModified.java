@@ -13,7 +13,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import com.lucidworks.spark.fusion.*;
-
 import org.apache.log4j.Logger;
 
 import org.apache.http.HttpEntity;
@@ -41,7 +40,7 @@ import java.text.SimpleDateFormat;
 public class PrepareFileModified {
 
     public static Logger logger = Logger.getLogger(PrepareFileModified.class);
-    
+
     public static void createZipAndSendFile(){
 
         logger.info("In the create zip and send file");
@@ -85,16 +84,16 @@ public class PrepareFileModified {
             HashMap<String, String> modelType = new HashMap();
             modelType.put("modelType", "com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.W2VRelatedTerms");
 
+            HttpPut putRequest = FusionMLModelSupport.buildPutRequestToFusion("relatedTermModel", "localhost:8764", modelType, zipFile, "/api/apollo");
+            System.out.println("Created put request successfully");
+
+            FusionPipelineClient fusionClient = new FusionPipelineClient(putRequest.getRequestLine().getUri(), "admin", "password123", "native");
+            System.out.println("Created client successfully");
+
             HttpEntity entity = null;
 
-            try{
-                HttpPut putRequest = FusionMLModelSupport.buildPutRequestToFusion("relatedTermModel", "localhost:8764", modelType, zipFile, "/api/apollo");    
-                System.out.println("Created put request successfully");
-                
-                FusionPipelineClient fusionClient = new FusionPipelineClient(putRequest.getRequestLine().getUri(), "admin", "password123", "native");
-                System.out.println("Created client successfully");
-
-                entity = fusionClient.sendRequestToFusion(putRequest); 
+            try {
+                entity = fusionClient.sendRequestToFusion(putRequest);
                 System.out.println("Created entity successfully");
 
             } catch (Exception e){

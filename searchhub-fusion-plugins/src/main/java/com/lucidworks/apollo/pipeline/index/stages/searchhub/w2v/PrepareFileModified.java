@@ -87,13 +87,16 @@ public class PrepareFileModified {
             HttpPut putRequest = FusionMLModelSupport.buildPutRequestToFusion("relatedTermModel", "localhost:8764", modelType, zipFile, "/api/apollo");
             System.out.println("Created put request successfully");
 
-            FusionPipelineClient fusionClient = new FusionPipelineClient(putRequest.getRequestLine().getUri(), "admin", "password123", "native");
+            FusionPipelineClient fusionClient = new FusionPipelineClient(putRequest.getRequestLine().getUri(), "admin", "vishalak1964", "native");
             System.out.println("Created client successfully");
 
-            HttpEntity entity = null;
+            // Add these parameters for versions of fusion 3.0.0 and above
+            // HttpEntity entity = null;
 
             try {
-                entity = fusionClient.sendRequestToFusion(putRequest);
+                // Add for 3.0.0 and up
+                // entity = fusionClient.sendRequestToFusion(putRequest)
+                fusionClient.sendRequestToFusion(putRequest);
                 System.out.println("Created entity successfully");
 
             } catch (Exception e){
@@ -101,13 +104,14 @@ public class PrepareFileModified {
                 e.printStackTrace();
             }
 
-            if (entity != null) {
-                try {
-                  EntityUtils.consume(entity);
-                } catch (Exception ignore) {
-                  System.out.println("Failed to consume entity due to: "+ ignore);
-                }
-            }
+            // Add for 3.0.0 and up 
+            //if (entity != null) {
+            //    try {
+            //      EntityUtils.consume(entity);
+            //    } catch (Exception ignore) {
+            //      System.out.println("Failed to consume entity due to: "+ ignore);
+            //    }
+            //}
         } catch(Exception ex){
             ex.printStackTrace();
         }

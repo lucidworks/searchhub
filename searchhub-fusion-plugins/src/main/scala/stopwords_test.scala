@@ -73,7 +73,7 @@ object stopwordsTest {
   val wordOnesFullRDD = sc.parallelize(wordOnesFull).reduceByKey(_ + _).sortBy(_._2, false)
 
   // MailDF Full Script (acting with full_removal)
-  val final_stopwords_removal_schema =
+  val finalStopwordsRemovalSchema =
     """{ "analyzers": [
       |  { "name": "NoStdTokLowerStop",
       |    "charFilters": [ { "type": "htmlstrip" } ],
@@ -85,7 +85,7 @@ object stopwordsTest {
     """.stripMargin
 
   val textColumnName = "body"
-  val tokenizer = analyzerFn(final_stopwords_removal_schema)
+  val tokenizer = analyzerFn(finalStopwordsRemovalSchema)
   val vectorizer = TfIdfVectorizer.build(mailDF, tokenizer, textColumnName)
 
   val vectorizedMail = TfIdfVectorizer.vectorize(mailDF, vectorizer, textColumnName)

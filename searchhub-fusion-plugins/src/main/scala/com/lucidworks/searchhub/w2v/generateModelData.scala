@@ -3,16 +3,22 @@ import com.lucidworks.searchhub.analytics.AnalyzerUtils._
 import com.lucidworks.searchhub.analytics._
 import org.apache.spark.sql.SQLContext
 import java.io._
+import java.util
+
 import com.lucidworks.apollo.pipeline.index.stages.searchhub.w2v.PrepareFileModified
 import org.slf4j.impl.StaticLoggerBinder
 import org.apache.spark.storage.StorageLevel._
 import com.lucidworks.spark.fusion._
 
 /***
+  *
   * This file is not meant to be imported or loaded in any way
+
   * it is a copy of the scripts included in python/fusion_config/w2v_job.json
+
   */
 object generateModelData {
+
   val sqlContext: SQLContext = ???
   val sc: org.apache.spark.SparkContext = ???
 val opts = Map("zkhost" -> "localhost:9983", "collection" -> "lucidfind", "query" -> "*:*","fields" -> "id,body,title,subject,publishedOnDate,project,content", "sample_pct" -> "0.01", "sample_seed" -> "5150")

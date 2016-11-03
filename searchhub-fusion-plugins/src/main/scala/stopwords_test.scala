@@ -73,7 +73,6 @@ object stopwordsTest {
   val wordOnesFullRDD = sc.parallelize(wordOnesFull).reduceByKey(_ + _).sortBy(_._2, false)
 
   // MailDF Full Script (acting with full_removal)
-
   val final_stopwords_removal_schema =
     """{ "analyzers": [
       |  { "name": "NoStdTokLowerStop",
@@ -81,7 +80,7 @@ object stopwordsTest {
       |    "tokenizer": { "type": "pattern", "pattern":"\\W|\\d", "group":"-1" },
       |    "filters": [
       |    { "type": "lowercase" },
-      |    { "type": "stop", "ignoreCase":"true", "words":"PATH TO STOPWORDS FILE" }] }],
+      |    { "type": "stop", "ignoreCase":"true", "words":"stopwords.txt" }] }],
       |  "fields": [{ "regex": ".+", "analyzer": "NoStdTokLowerStop" } ]}
     """.stripMargin
 

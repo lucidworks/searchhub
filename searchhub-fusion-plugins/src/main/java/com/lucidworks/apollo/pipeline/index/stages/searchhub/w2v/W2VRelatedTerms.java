@@ -139,6 +139,9 @@ public class W2VRelatedTerms implements MLModel, SparkContextAware {
 
         for(Tuple2<String, Double> topTerm:topkTerms){
             if(this.w2vModel.wordIndex().contains(topTerm._1)){//elif words not in data, do nothing
+                out.add("Source Term:");
+                out.add((String) topTerm._1);
+                out.add("Related Terms:");
                 Tuple2<String,Object>[] synonyms=w2vModel.findSynonyms(topTerm._1, 2);//find 2 synonyms for each top word
                 for(Tuple2 tuples: synonyms){
                     out.add((String)tuples._1);

@@ -28,9 +28,21 @@ mailDF = mailDF.repartition(50)
 mailDF.persist(MEMORY_AND_DISK)
 mailDF.count()
 
+val finalStopwordsRemovalSchema =
+  """{ "analyzers": [
+    |  { "name": "NoStdTokLowerStop",
+    |    "charFilters": [ { "type": "htmlstrip" } ],
+    |    "tokenizer": { "type": "pattern", "pattern":"\\W|\\d", "group":"-1" },
+    |    "filters": [
+    |    { "type": "lowercase" },
+    |    { "type": "stop", "ignoreCase":"true", "words":"stopwords.txt" }] }],
+    |  "fields": [{ "regex": ".+", "analyzer": "NoStdTokLowerStop" } ]}
+  """.stripMargin
+
 val textColumnName = "body"
-val tokenizer = analyzerFn(noHTMLstdAnalyzerSchema)
+val tokenizer = analyzerFn(finalStopwordsRemovalSchema)
 val vectorizer = TfIdfVectorizer.build(mailDF, tokenizer, textColumnName)
+
 val vectorizedMail = TfIdfVectorizer.vectorize(mailDF, vectorizer, textColumnName)
 vectorizedMail.persist(MEMORY_AND_DISK)
 val filedir=new File("modelId")
@@ -43,6 +55,6 @@ sc.parallelize(vectorizer.idfs.toSeq).saveAsTextFile("modelId/idfMapData")
 val w2vModel = ManyNewsgroups.buildWord2VecModel(vectorizedMail, tokenizer, textColumnName)
 val w2vModelFile=new File("modelId/w2vModelData")
 w2vModel.save(sc, "modelId/w2vModelData")
-  //call PrepareFile.createZipFile to add a metadata json file, and zip 'modelId'
+//call PrepareFile.createZipFile to add a metadata json file, and zip 'modelId'
 PrepareFileModified.createZipAndSendFile
 }

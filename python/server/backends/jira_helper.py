@@ -27,8 +27,7 @@ def create_jira_datasource_config(project):
               "pipeline": pipeline,
               "properties": {
                   "collection": "lucidfind",
-                  "startLinks": [jira["url"]],
-                  "enable_security_trimming": False},
+                  "startLinks": [jira["url"]]},
                   "initial_mapping": {
                       "id": "FromMap",
                       "mappings": [

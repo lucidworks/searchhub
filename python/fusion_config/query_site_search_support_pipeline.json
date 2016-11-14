@@ -1,0 +1,25 @@
+{
+  "id" : "site-search-support",
+  "stages" : [ {
+    "type" : "set-params",
+    "id" : "059v2z9gfstuo9a4i",
+    "params" : [ {
+      "key" : "fq",
+      "value" : "_lw_data_source_s:website-lucidworks-lucidworks-knowledge-base-website",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "set-params"
+  }, {
+    "type" : "solr-query",
+    "id" : "9zdgtw15xwwomvx6r",
+    "allowedRequestHandlers" : [ ],
+    "httpMethod" : "POST",
+    "allowFederatedSearch" : false,
+    "type" : "solr-query",
+    "skip" : false,
+    "label" : "solr-query"
+  } ],
+  "properties" : { }
+}

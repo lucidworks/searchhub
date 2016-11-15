@@ -9,6 +9,15 @@ import org.apache.spark.storage.StorageLevel._
 import com.lucidworks.spark.fusion._
 import scala.collection.JavaConversions._
 
+import org.apache.spark.ml.feature.{CountVectorizer, CountVectorizerModel}
+
+import org.apache.spark.rdd._
+import org.apache.spark.mllib.clustering.{LDA, DistributedLDAModel, LocalLDAModel}
+import org.apache.spark.mllib.linalg.{Vector, Vectors}
+import scala.collection.mutable
+
+import org.apache.spark.sql.functions._
+
 /***
   *
   * This file is not meant to be imported or loaded in any way
@@ -46,6 +55,28 @@ object generateModelData {
   val ldaModel = ManyNewsgroups.buildLDAModel(vectorizedMail, k = 5, textColumnName)
   val topicTerms = ManyNewsgroups.tokensForTopics(ldaModel, vectorizer)
   topicTerms.foreach {case(topicId, list) => println(s"$topicId : ${list.map(_._1).take(10).mkString(",")}") }
+
+  val reverseDictionary = vectorizer.dictionary.toList.map(_.swap).toMap
+  val topicDist = ldaModel.topicsMatrix
+  val tokenWeights = for { k <- 0 until ldaModel.getK; i <- 0 until vectorizer.dictionary.size } yield {
+    k -> (reverseDictionary(i), topicDist(i, k))
+  }
+
+  val toArray = udf[Array[String], String]( _.split(" "))
+  val featureDf = mailDF.withColumn("body", toArray(mailDF("body")))
+
+  val cvModel: CountVectorizerModel = new CountVectorizer().setInputCol("body").setOutputCol("features").setVocabSize(10).setMinDF(2).fit(featureDf)
+  val newDF = cvModel.transform(featureDf)
+
+  val rdd = newDF.rdd.zipWithIndex()
+  val cvRDD = rdd.map(row => (row._2.asInstanceOf[Long], row._1(7).asInstanceOf[Vector]))
+
+//  val cvRDD = newDF.map(row => (row(0).asInstanceOf[Int].asInstanceOf[Long], row(2).asInstanceOf[Vector]))
+  val ldaModel2: DistributedLDAModel = new LDA().setK(5).setMaxIterations(20).run(cvRDD).asInstanceOf[DistributedLDAModel]
+  val localLDAModel: LocalLDAModel = ldaModel2.toLocal
+  val topicDistributions = localLDAModel.topicDistributions(cvRDD)
+
+  println("first topic distribution:"+topicDistributions.first._2.toArray.mkString(", "))
 
   val myMap = scala.collection.immutable.Map("modelType" -> "com.lucidworks.apollo.pipeline.index.stages.searchhub.lda.LDARelatedTerms")
   val modelType = new java.util.HashMap[String, String](myMap)

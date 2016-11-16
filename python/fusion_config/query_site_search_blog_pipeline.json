@@ -5,7 +5,7 @@
     "id" : "47fmz1dn13yc01wcdi",
     "params" : [ {
       "key" : "fq",
-      "value" : "_lw_data_source_s=website-lucidworks-lucidworks-website",
+      "value" : "_lw_data_source_s:website-lucidworks-lucidworks-website",
       "policy" : "append"
     } ],
     "type" : "set-params",

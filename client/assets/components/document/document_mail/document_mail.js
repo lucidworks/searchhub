@@ -45,7 +45,7 @@
       //$log.info(doc['subject']);
       doc = DocumentDisplayHelperService.processDocument(doc);
       doc['body'] = $sce.trustAsHtml(doc['body']);
-      doc['subject'] = $sce.trustAsHtml(doc['subject'][0]);
+      doc['subject'] = $sce.trustAsHtml(doc['subject']);
       //$log.info(doc['subject']);
       doc['id'] = $sce.trustAsHtml(doc['id']);
       return doc;

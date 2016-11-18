@@ -128,7 +128,7 @@ def recs(path):
     print("In the recs pipeline!")
     print("the path is", path)
     xml = backend.get_recs(path)
-    return Response(xml, mimetype='text/xml')
+    return Response(xml, mimetype='text/json')
 
 # Route all Signals from Snowplow accordingly
 @app.route('/snowplow/<path:path>', methods=["GET"])

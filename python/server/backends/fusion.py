@@ -69,6 +69,11 @@ class FusionBackend(Backend):
         app.config.get("FUSION_APP_PASSWORD"),
         lazy=True
       )
+    self.rec_session = FusionSession(
+      app.config.get("FUSION_URL", "http://localhost:8764/api/"),
+      app.config.get("FUSION_REC_USER", "recs"),
+      app.config.get("FUSION_REC_PASSWORD", "password123"),
+    )
 
   def toggle_system_metrics(self, enabled=True):
     print "Setting System Metrics indexing to {0}".format(enabled)
@@ -755,14 +760,11 @@ class FusionBackend(Backend):
 
   def get_recs(self, path):
     print("In the get recs! The path is", path)
-    rec_session = new_rec_session()
-    resp = rec_session.get("apollo/" + path)
-    print(resp)
+    resp = self.rec_session.get("apollo/" + path, headers = {"Content-type": "application/json"})
     if resp.status_code != 200:
       print("Error in the query")
       return ""
     else:
-      print(resp.text)
       return resp.text
 
 

@@ -53,7 +53,10 @@
       "schedule": {
         "repeatUnit": "DAY",
         "interval": 2
-      }
+      },
+      "includeTags": [ "article", "title", "meta" ],
+      "excludeTagIDs" : [ "accordion" ],
+      "scrapeLinksBeforeFiltering":true
     },
     {
       "name": "lucidworks-knowledge-base-website",

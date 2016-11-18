@@ -153,6 +153,8 @@ def create_config(project_name, project_label, pipeline, website):
     config['properties']['excludeRegexes'] = website["excludes"]
   if "includeTags" in website:
     config['properties']['f.includeTags'] = website["includeTags"]
+  if "excludeTagIDs" in website:
+    config['properties']['f.excludeTagIDs'] = website["excludeTagIDs"]
   if "scrapeLinksBeforeFiltering" in website:
     config['properties']['f.scrapeLinksBeforeFiltering'] = website["scrapeLinksBeforeFiltering"]
   schedule = None

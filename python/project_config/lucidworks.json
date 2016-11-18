@@ -31,7 +31,9 @@
       "schedule": {
         "repeatUnit": "WEEK",
         "interval": 1
-      }
+      },
+      "includeTags":["article", ".content"],
+      "scrapeLinksBeforeFiltering":true
     },
     {
       "name": "revolution-website",
@@ -62,7 +64,9 @@
         "repeatUnit": "DAY",
         "interval": 2
       },
-      "excludes":[".*signin.*"]
+      "excludes":[".*signin.*", ".*\\?filter.*", ".*\\?sort.*"], 
+      "includeTags":["article", "title"],
+      "scrapeLinksBeforeFiltering":true
     }
   ]
 }

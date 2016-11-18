@@ -91,7 +91,7 @@
             $log.warn("Unable to get recommendations", reason);
           });
           //Now call the precomputed collab filtering pipeline
-          var preCompPromise = QueryPipelineService.recQueryPipelineWithCollection("lucidfind_thread_recs", recQuery, "cf-similar-items-batch-rec");
+          var preCompPromise = QueryPipelineService.recsQueryPipelineWithCollection("lucidfind_thread_recs", recQuery, "cf-similar-items-batch-rec");
           preCompPromise.then(function (data) {
             $log.info("pre CF Recs:", data);
             if (data && data.response && data.response.numFound > 0){

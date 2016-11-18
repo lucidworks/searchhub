@@ -75,7 +75,7 @@
       return doQuery(theUrl);
     }
 
-    function recQueryPipelineWithCollection(collection, queryObject, pipelineName){
+    function recsQueryPipelineWithCollection(collection, queryObject, pipelineName){
       var queryString = QueryBuilder.objectToURLString(queryObject);
       var theUrl = ApiBase.getEndpoint() + 'rec/query-pipelines/' +
           pipelineName + '/collections/' + collection +

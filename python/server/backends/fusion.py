@@ -245,12 +245,23 @@ class FusionBackend(Backend):
 
   def update_role(self, rolename, data):
     role = self.get_role(rolename)
+    print("WE HAVE A ROLE! THE ROLE IS", role)
     if role:
       for key in data:
         print "Adding/Updating {0} with {1}".format(key, data[key])
         role[key] = data[key]
       print role
       resp = self.admin_session.put("roles/{0}".format(role["id"]), data=json.dumps(role), headers={'Content-Type': "application/json"})
+      if resp.status_code != 200:
+        print "Unable to send signal: {0}".format(resp.text)
+        return False
+      return True
+    elif role == "recs":
+      for key in data:
+        print "Adding/Updating {0} with {1}".format(key, data[key])
+        role[key] = data[key]
+      # print recs_role
+      resp = self.admin_session.post("roles/", data=json.dumps(role), headers={'Content-Type': "application/json"})
       if resp.status_code != 200:
         print "Unable to send signal: {0}".format(resp.text)
         return False
@@ -586,8 +597,6 @@ class FusionBackend(Backend):
       print resp.text
       raise Exception("Couldn't create taxonomy for {0}.  Tax: {1}".format(collection_id, taxonomy))
 
-
-
   def update_logging_scheduler(self):
     delete_old_logs_json = {  
       "id":"delete-old-logs",
@@ -744,6 +753,18 @@ class FusionBackend(Backend):
       resp = self.admin_session.delete("apollo/connectors/jobs/{0}?abort={1}".format(id, str(abort).lower()))
       return resp.json()
 
+  def get_recs(self, path):
+    print("In the get recs! The path is", path)
+    rec_session = new_rec_session()
+    resp = rec_session.get("apollo/" + path)
+    print(resp)
+    if resp.status_code != 200:
+      print("Error in the query")
+      return ""
+    else:
+      print(resp.text)
+      return resp.text
+
 
 def _new_session(proxy_url, username, password):
   "Establishes a cookie-based session with the Fusion proxy node"
@@ -766,6 +787,13 @@ def new_user_session():
     app.config.get("FUSION_APP_PASSWORD")
   )
 
+def new_rec_session():
+  print("Creating a rec session!")
+  return _new_session(
+    app.config.get("FUSION_URL", "http://localhost:8764/api/"),
+    app.config.get("FUSION_REC_USER", "recs"),
+    app.config.get("FUSION_REC_PASSWORD", "password123")
+  )
 
 def compare_datasources(test_datasource, target_datasource):
   """

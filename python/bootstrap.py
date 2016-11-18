@@ -192,24 +192,6 @@ if cmd_args.create_collections or create_all:
         "methods": [
           "GET"
         ],
-        "path": "/query-pipelines/lucidfind-recommendations/collections/{0}/select".format(lucidfind_collection_id)
-      },
-      {
-        "methods": [
-          "GET"
-        ],
-        "path": "/query-pipelines/cf-similar-items-rec/collections/{0}/select".format(lucidfind_collection_id)
-      },
-      {
-        "methods": [
-          "GET"
-        ],
-        "path": "/query-pipelines/cf-similar-items-batch-rec/collections/{0}/select".format(lucidfind_batch_recs_collection_id)
-      },
-      {
-        "methods": [
-          "GET"
-        ],
         "path": "/collections/{0}/query-profiles/lucidfind-default/select".format(lucidfind_collection_id)
       },
       {
@@ -229,7 +211,13 @@ if cmd_args.create_collections or create_all:
           "GET"   
         ],# Make this more flexible, as this is hardcoded now   
         "path": "/experiments/jobs/download_v_learn_more/variant"   
-      },    
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/lucidfind-recommendations/collections/{0}/select".format(lucidfind_collection_id)
+      },
       {   
         "methods": [    
           "PUT"   
@@ -239,9 +227,52 @@ if cmd_args.create_collections or create_all:
     ]
   }
 
-  backend.update_role("search", update_permissions)
+  update_rec_permissions = {
+    "permissions": [
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/cf-similar-items-batch-rec/collections/lucidfind_thread_recs/select"
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/cf-similar-items-rec/collections/lucidfind/select"
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/solr/lucidfind_signals_aggr/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/solr/lucidfind_thread_recs/select".format(lucidfind_collection_id)
+      }
+    ]
+  }
+
+roles = backend.update_role("search", update_permissions)
+if roles == False:
+  print("We have no original role!")
+  exit(1)
+
+rec_roles = backend.update_role("recs", update_rec_permissions)
+if rec_roles == False:
+  print("We have no role!")
+  exit(1)
+
 status = backend.create_user(username, app.config.get("FUSION_APP_PASSWORD"))
+rec_status = backend.create_user("recs", app.config.get("FUSION_APP_PASSWORD"), ["recs"])
+
 if status == False:
+  exit(1)
+if rec_status == False:
+  print("couldnt find the status")
   exit(1)
 
 # Create the collection, setup fields and other solr pieces

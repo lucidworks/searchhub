@@ -1,6 +1,6 @@
 import logging
 import os
-from flask import render_template, send_from_directory
+from flask import render_template, send_from_directory, Response
 from flask import request, redirect
 from flask import jsonify
 from server import app, backend
@@ -51,7 +51,6 @@ def apache(path):
     #print fq
     args = {"query": "(q:'{0}',rows:10,start:0,wt:json{1})".format(query, fq)}
     return redirect("/search?{0}".format(urllib.urlencode(args)))
-
 
 @app.route('/search')
 def search():
@@ -121,6 +120,15 @@ def iterform(multidict):
     for key in multidict.keys():
         for value in multidict.getlist(key):
             yield (key.encode("utf8"), value.encode("utf8"))
+
+# Route all rec's accordingly
+@app.route('/recs/<path:path>', methods=["GET"])
+def recs(path):
+    # When we hit the recs endpoint we simply want to get the appropriate set of recs
+    print("In the recs pipeline!")
+    print("the path is", path)
+    xml = backend.get_recs(path)
+    return Response(xml, mimetype='text/xml')
 
 # Route all Signals from Snowplow accordingly
 @app.route('/snowplow/<path:path>', methods=["GET"])

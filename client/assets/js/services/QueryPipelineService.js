@@ -22,7 +22,10 @@
       query: query,
       queryProfile: queryProfile,
       queryPipeline: queryPipeline,
-      queryPipelineWithCollection: queryPipelineWithCollection
+      queryPipelineWithCollection: queryPipelineWithCollection,
+      recsQueryPipeline: recsQueryPipeline,
+      getRecQueryUrl: getRecQueryUrl,
+      recQueryPipelineWithCollection:recQueryPipelineWithCollection
     };
     return service;
 
@@ -40,6 +43,7 @@
     }
 
     function doQuery(url) {
+      console.log("THE URL IS", url);
       var deferred = $q.defer();
       $http
           .get(url)
@@ -71,6 +75,14 @@
       return doQuery(theUrl);
     }
 
+    function recQueryPipelineWithCollection(collection, queryObject, pipelineName){
+      var queryString = QueryBuilder.objectToURLString(queryObject);
+      var theUrl = ApiBase.getEndpoint() + 'rec/query-pipelines/' +
+          pipelineName + '/collections/' + collection +
+          '/select?' + queryString;
+      return doQuery(theUrl);
+    }
+
     /**
      * return a promise on the $http.get
      * @param queryObject
@@ -80,6 +92,19 @@
       var queryString = QueryBuilder.objectToURLString(queryObject);
       return doQuery(getQueryUrl(null, pipelineName) + '?' + queryString);
 
+    }
+
+    function recsQueryPipeline(queryObject, pipelineName) {
+      var queryString = QueryBuilder.objectToURLString(queryObject);
+      return doQuery(getRecQueryUrl(pipelineName) + '?' + queryString);
+    }
+
+    function getRecQueryUrl(pipeline) {
+      return getRecPipelineEndpoint(pipeline, 'select');
+    }
+
+    function getRecPipelineEndpoint(pipeline, requestHandler){
+        return ApiBase.getEndpoint() + 'recs/query-pipelines/' + pipeline + '/collections/' + ConfigService.getCollectionName() + '/' + requestHandler;
     }
 
     function getQueryUrl(profile, pipeline) {

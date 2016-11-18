@@ -30,19 +30,10 @@ object MailThreadJob {
     //val idTrmUdf = udf((id: String) => id.split("/").last)
     //mailDataFrame.withColumn("id", idTrmUdf(col("id")))
     val subjectGroups: RDD[(String, Iterable[Row])] = mailDataFrame.rdd.groupBy(_.getAs[String]("subject_simple"))
-    val messageThreadItems = subjectGroups.values.flatMap(x => createThreads(x, accumulatorMap)).toDF()
-      .select("id", "threadId", "thread_size_i").withColumnRenamed("threadId", "newThreadId")
+    val messageThreadItems = subjectGroups.values.flatMap(x => createThreads(x, accumulatorMap)).toDF().select("id", "threadId", "thread_size_i").withColumnRenamed("threadId", "newThreadId")
     val reJoined = mailDataFrame.join(messageThreadItems, "id")
-    val overrideIfEmpty = udf((oldCol: String, overrideCol: String) =>
-      if (alwaysOverride || oldCol == null || oldCol.equalsIgnoreCase("unknown")) {
-        overrideCol
-      } else {
-        oldCol
-      })
-    val withNewThreadIdCol =
-      reJoined.withColumn("overRiddenThreadId", overrideIfEmpty(reJoined.col("threadId"), reJoined.col("newThreadId")))
-      .drop("threadId")
-      .drop("newThreadId")
+    val overrideIfEmpty = udf((oldCol: String, overrideCol: String) => if (alwaysOverride || oldCol == null || oldCol.equalsIgnoreCase("unknown")) {overrideCol} else {oldCol})
+    val withNewThreadIdCol = reJoined.withColumn("overRiddenThreadId", overrideIfEmpty(reJoined.col("threadId"), reJoined.col("newThreadId"))).drop("threadId").drop("newThreadId")
     val renamed = withNewThreadIdCol.withColumnRenamed("overRiddenThreadId", "threadId")
     renamed
   }

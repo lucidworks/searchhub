@@ -79,7 +79,7 @@
             $log.warn("Unable to get recommendations", reason);
           });
           //Now call the collab filtering pipeline
-          var cfPromise = QueryPipelineService.queryPipeline(recQuery, "cf-similar-items-rec");
+          var cfPromise = QueryPipelineService.recsQueryPipeline(recQuery, "cf-similar-items-rec");
           cfPromise.then(function (data) {
             $log.info("CF Recs:", data);
             if (data && data.response && data.response.numFound > 0){
@@ -91,7 +91,7 @@
             $log.warn("Unable to get recommendations", reason);
           });
           //Now call the precomputed collab filtering pipeline
-          var preCompPromise = QueryPipelineService.queryPipelineWithCollection("lucidfind_thread_recs", recQuery, "cf-similar-items-batch-rec");
+          var preCompPromise = QueryPipelineService.recQueryPipelineWithCollection("lucidfind_thread_recs", recQuery, "cf-similar-items-batch-rec");
           preCompPromise.then(function (data) {
             $log.info("pre CF Recs:", data);
             if (data && data.response && data.response.numFound > 0){

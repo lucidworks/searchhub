@@ -78,30 +78,46 @@
           }, function (reason) {
             $log.warn("Unable to get recommendations", reason);
           });
+
           //Now call the collab filtering pipeline
-          var cfPromise = QueryPipelineService.recsQueryPipeline(recQuery, "cf-similar-items-rec");
-          cfPromise.then(function (data) {
-            $log.info("CF Recs:", data);
-            if (data && data.response && data.response.numFound > 0){
-              rc.cfDocs = data.response.docs;
-            } else {
-              $log.warn("Unable to get CF recommendations, no docs found", data);
-            }
-          }, function (reason) {
-            $log.warn("Unable to get recommendations", reason);
-          });
-          //Now call the precomputed collab filtering pipeline
-          var preCompPromise = QueryPipelineService.recsQueryPipelineWithCollection("lucidfind_thread_recs", recQuery, "cf-similar-items-batch-rec");
-          preCompPromise.then(function (data) {
-            $log.info("pre CF Recs:", data);
-            if (data && data.response && data.response.numFound > 0){
-              rc.preCFDocs = data.response.docs;
-            } else {
-              $log.warn("Unable to get pre CF recommendations, no docs found", data);
-            }
-          }, function (reason) {
-            $log.warn("Unable to get recommendations", reason);
-          });
+          console.log("The first promise!")
+          var cfPromise2 = QueryPipelineService.cfRecsQueryPipeline(recQuery);
+          cfPromise2.then(function (data) {
+              $log.info("CF Recs:", data);
+              if (data && data.response && data.response.numFound > 0){
+                rc.cfDocs = data.response.docs;
+              } else {
+                $log.warn("Unable to get CF recommendations, no docs found", data);
+              }
+            }, function (reason) {
+              $log.warn("Unable to get recommendations", reason);
+            });
+
+//          console.log("The second promise")
+//          var cfPromise = QueryPipelineService.recsQueryPipeline(recQuery, "cf-similar-items-rec");
+//          cfPromise.then(function (data) {
+//            $log.info("CF Recs:", data);
+//            if (data && data.response && data.response.numFound > 0){
+//              rc.cfDocs = data.response.docs;
+//            } else {
+//              $log.warn("Unable to get CF recommendations, no docs found", data);
+//            }
+//          }, function (reason) {
+//            $log.warn("Unable to get recommendations", reason);
+//          });
+//
+//          //Now call the precomputed collab filtering pipeline
+//          var preCompPromise = QueryPipelineService.recsQueryPipelineWithCollection("lucidfind_thread_recs", recQuery, "cf-similar-items-batch-rec");
+//          preCompPromise.then(function (data) {
+//            $log.info("pre CF Recs:", data);
+//            if (data && data.response && data.response.numFound > 0){
+//              rc.preCFDocs = data.response.docs;
+//            } else {
+//              $log.warn("Unable to get pre CF recommendations, no docs found", data);
+//            }
+//          }, function (reason) {
+//            $log.warn("Unable to get recommendations", reason);
+//          });
         }
       });
     }

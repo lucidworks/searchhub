@@ -760,7 +760,8 @@ class FusionBackend(Backend):
 
   def get_recs(self, path):
     print("In the get recs! The path is", path)
-    resp = self.rec_session.get("apollo/" + path, headers = {"Content-type": "application/json"})
+    resp = self.rec_session.get("apollo/query-pipelines/cf-similar-items-rec/collections/lucidfind/select?" + path, headers = {"Content-type": "application/json"})
+    print("resp now has what we want")
     if resp.status_code != 200:
       print("Error in the query")
       return ""

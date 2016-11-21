@@ -1,7 +1,7 @@
 {
   "name": "camel",
     "description": "The Apache camel project, tweets, wiki, github, et. al",
-  "label": "Apache Camel",
+  "label": "Apache camel",
   "query_pipeline": "lucidfind-default",
   "github_pipeline": "github-default",
   "jira_pipeline": "jira-default",
@@ -23,7 +23,7 @@
   "mailing_lists": [
     {
       "name": "camel-users",
-      "label": "Camel Users",
+      "label": "camel Users",
       "mbox": "camel-users",
       "schedule": {
         "repeatUnit": "HOUR",
@@ -32,7 +32,7 @@
     },
     {
       "name": "camel-dev",
-      "label": "Camel Dev",
+      "label": "camel Dev",
       "mbox": "camel-dev",
       "schedule": {
         "repeatUnit": "HOUR",
@@ -42,7 +42,7 @@
   ],
   "jira": {
     "name": "apache-jira-camel",
-    "label": "Apache Camel JIRA Issues",
+    "label": "Apache camel JIRA Issues",
     "url": "https://issues.apache.org/jira/browse/camel",
     "schedule": {
         "repeatUnit": "HOUR",

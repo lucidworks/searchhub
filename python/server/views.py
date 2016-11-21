@@ -10,7 +10,7 @@ import urllib
 import json
 from os import listdir
 from os.path import isfile, join
-
+import re
 
 logging.basicConfig(level=logging.INFO)
 
@@ -124,11 +124,12 @@ def iterform(multidict):
 # Route all rec's accordingly
 @app.route('/recs/<path:path>', methods=["GET"])
 def recs(path):
-    # When we hit the recs endpoint we simply want to get the appropriate set of recs
-    print("In the recs pipeline!")
-    print("the path is", path)
-    xml = backend.get_recs(path)
-    return Response(xml, mimetype='text/json')
+    # When we hit the recs endpoint we simply want to get the appropriate set of recs from the backend
+    # Let's grab which pipeline to use
+    pipeline_value = re.search("(?<=pipeline=)(.*?)(?=/)", path).group(0).encode('utf8')
+    pass_path = path[path.find("path=") + 5:]
+    results = backend.get_recs(pass_path, pipeline_value)
+    return Response(results)
 
 # Route all Signals from Snowplow accordingly
 @app.route('/snowplow/<path:path>', methods=["GET"])

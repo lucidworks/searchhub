@@ -758,15 +758,17 @@ class FusionBackend(Backend):
       resp = self.admin_session.delete("apollo/connectors/jobs/{0}?abort={1}".format(id, str(abort).lower()))
       return resp.json()
 
-  def get_recs(self, path):
-    print("In the get recs! The path is", path)
-    resp = self.rec_session.get("apollo/query-pipelines/cf-similar-items-rec/collections/lucidfind/select?" + path, headers = {"Content-type": "application/json"})
-    print("resp now has what we want")
-    if resp.status_code != 200:
-      print("Error in the query")
-      return ""
-    else:
-      return resp.text
+  def get_recs(self, path, pipeline):
+    pipeline_dict = app.config.get("FUSION_PIPELINE_DICT")
+    try:
+      collection = pipeline_dict[pipeline]
+      resp = self.rec_session.get("apollo/query-pipelines/cf-similar-items-rec/collections/" + collection + "/select?" + path)
+      if resp.status_code != 200:
+        print("Error in the recs query! The path you requested is apollo/query-pipelines/" + pipeline + "/collections/" + collection + "/select?" + path)
+      else:
+        return resp.text
+    except Exception, e:
+      print("We have an error!", e)
 
 
 def _new_session(proxy_url, username, password):

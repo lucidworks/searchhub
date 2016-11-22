@@ -1,7 +1,7 @@
 {
   "name": "jclouds",
     "description": "The Apache jclouds project, tweets, wiki, github, et. al",
-  "label": "Apache jclouds",
+  "label": "Apache Jclouds",
   "query_pipeline": "lucidfind-default",
   "github_pipeline": "github-default",
   "jira_pipeline": "jira-default",
@@ -12,7 +12,7 @@
   "websites": [
     {
       "name": "jclouds-website",
-      "label": "Apache jclouds Website",
+      "label": "Apache Jclouds Website",
       "url": "https://jclouds.apache.org/",
       "schedule": {
         "repeatUnit": "WEEK",
@@ -23,7 +23,7 @@
   "mailing_lists": [
     {
       "name": "jclouds-user",
-      "label": "jclouds User",
+      "label": "Jclouds User",
       "mbox": "jclouds-user",
       "schedule": {
         "repeatUnit": "HOUR",
@@ -32,7 +32,7 @@
     },
     {
       "name": "jclouds-dev",
-      "label": "jclouds Dev",
+      "label": "Jclouds Dev",
       "mbox": "jclouds-dev",
       "schedule": {
         "repeatUnit": "HOUR",
@@ -42,7 +42,7 @@
   ],
   "jira": {
     "name": "apache-jira-jclouds",
-    "label": "Apache jclouds JIRA Issues",
+    "label": "Apache Jclouds JIRA Issues",
     "url": "https://issues.apache.org/jira/browse/jclouds",
     "schedule": {
         "repeatUnit": "HOUR",

@@ -216,6 +216,12 @@ if cmd_args.create_collections or create_all:
         "methods": [
           "GET"
         ],
+        "path": "/query-pipelines/site-search-all/collections/{0}/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
         "path": "/query-pipelines/lucidfind-recommendations/collections/{0}/select".format(lucidfind_collection_id)
       },
       {
@@ -303,6 +309,7 @@ if cmd_args.create_pipelines or create_all:
   backend.create_query_profile(lucidfind_collection_id, "site-search-documentation", "site-search-documentation")
   backend.create_query_profile(lucidfind_collection_id, "site-search-support", "site-search-support")
   backend.create_query_profile(lucidfind_collection_id, "site-search-videos", "site-search-videos")
+  backend.create_query_profile(lucidfind_collection_id, "site-search-all", "site-search-all")
 
 if cmd_args.create_taxonomy or create_all:
   setup_taxonomy(backend, lucidfind_collection_id)

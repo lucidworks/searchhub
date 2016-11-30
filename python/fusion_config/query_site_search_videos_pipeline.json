@@ -7,6 +7,22 @@
       "key" : "fq",
       "value" : "_lw_data_source_s:website-lucidworks-youtube-lucidworks",
       "policy" : "append"
+    }, {
+      "key" : "defType",
+      "value" : "edismax",
+      "policy" : "append"
+    }, {
+      "key" : "qf",
+      "value" : "title content productName productVersion",
+      "policy" : "append"
+    }, {
+      "key" : "pf",
+      "value" : "title^3 content productName productVersion",
+      "policy" : "append"
+    }, {
+      "key" : "fl",
+      "value" : "id content title",
+      "policy" : "append"
     } ],
     "type" : "set-params",
     "skip" : false,

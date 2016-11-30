@@ -32,11 +32,15 @@
       "policy" : "append"
     }, {
       "key" : "qf",
-      "value" : "title description content productName productVersion",
+      "value" : "title content productName productVersion",
       "policy" : "append"
     }, {
       "key" : "pf",
-      "value" : "title^3 description content productName productVersion",
+      "value" : "title^3 content productName productVersion",
+      "policy" : "append"
+    }, {
+      "key" : "fl",
+      "value" : "id content title",
       "policy" : "append"
     } ],
     "type" : "set-params",

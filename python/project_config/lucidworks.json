@@ -17,11 +17,20 @@
       "name": "youtube-lucidworks",
       "label": "Lucidworks Youtube Channel",
       "pipeline": "youtube_parser",
-      "url": "https://www.youtube.com/user/Lucidworks",
+      "url": "https://www.youtube.com/user/LucidWorksSearch",
       "schedule": {
         "repeatUnit": "WEEK",
         "interval": 1
-      }
+      },
+      "includeTags" : [ "title" ],
+      "includeTagIDs" : [ "action-panel-details" ],
+      "excludeTags" : [ "button" ],
+      "excludeTagClasses" : [ "related-list-item", "autoplay-dismiss-bar", "yt-spinner-message", "yt-alert-buttons", "signin-clickcard", "autoplay-bar", "action-panel-trigger-transcript" ],
+      "excludeTagIDs" : [ "watch-queue-mole", "unavailable-message", "action-panel-error", "action-panel-rental-required", "watch-transcript-container", "watch-more-related", "yt-masthead-signin", "watch-actions-transcript" ],
+      "restrictToTreeUseHostAndPath" : false,
+      "includeRegexes" : [ ".*youtube\\.com.*" ],
+      "scrapeLinksBeforeFiltering":true
+
     },
     {
       "name": "lucidworks-website",
@@ -53,7 +62,10 @@
       "schedule": {
         "repeatUnit": "DAY",
         "interval": 2
-      }
+      },
+      "includeTags": [ "article", "title", "meta" ],
+      "excludeTagIDs" : [ "accordion" ],
+      "scrapeLinksBeforeFiltering":true
     },
     {
       "name": "lucidworks-knowledge-base-website",

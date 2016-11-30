@@ -151,10 +151,23 @@ def create_config(project_name, project_label, pipeline, website):
   }
   if "excludes" in website:
     config['properties']['excludeRegexes'] = website["excludes"]
+  if "includeRegexes" in website:
+    config['properties']['includeRegexes'] = website["includeRegexes"]
   if "includeTags" in website:
     config['properties']['f.includeTags'] = website["includeTags"]
+  if "excludeTags" in website:
+    config['properties']['f.excludeTags'] = website["excludeTags"]
+  if "includeTagIDs" in website:
+    config['properties']['f.includeTagIDs'] = website["includeTagIDs"]
+  if "excludeTagIDs" in website:
+    config['properties']['f.excludeTagIDs'] = website["excludeTagIDs"]
+  if "excludeTagClasses" in website:
+    config['properties']['f.excludeTagClasses'] = website["excludeTagClasses"]
   if "scrapeLinksBeforeFiltering" in website:
     config['properties']['f.scrapeLinksBeforeFiltering'] = website["scrapeLinksBeforeFiltering"]
+  if "restrictToTreeUseHostAndPath" in website:
+    config['properties']['restrictToTreeUseHostAndPath'] = website["restrictToTreeUseHostAndPath"]
+
   schedule = None
   if "schedule" in website:
     details = website["schedule"]

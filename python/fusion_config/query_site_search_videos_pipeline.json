@@ -1,0 +1,25 @@
+{
+  "id" : "site-search-videos",
+  "stages" : [ {
+    "type" : "set-params",
+    "id" : "xx07zbjli393yds4i",
+    "params" : [ {
+      "key" : "fq",
+      "value" : "_lw_data_source_s:website-lucidworks-youtube-lucidworks",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "set-params"
+  }, {
+    "type" : "solr-query",
+    "id" : "eufnqnapmrou5wmi",
+    "allowedRequestHandlers" : [ ],
+    "httpMethod" : "POST",
+    "allowFederatedSearch" : false,
+    "type" : "solr-query",
+    "skip" : false,
+    "label" : "solr-query"
+  } ],
+  "properties" : { }
+}

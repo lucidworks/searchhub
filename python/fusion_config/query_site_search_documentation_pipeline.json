@@ -26,6 +26,18 @@
       "key" : "fq",
       "value" : "productName:fusion",
       "policy" : "append"
+    }, {
+      "key" : "defType",
+      "value" : "edismax",
+      "policy" : "append"
+    }, {
+      "key" : "qf",
+      "value" : "title description content productName productVersion",
+      "policy" : "append"
+    }, {
+      "key" : "pf",
+      "value" : "title^3 description content productName productVersion",
+      "policy" : "append"
     } ],
     "type" : "set-params",
     "skip" : false,

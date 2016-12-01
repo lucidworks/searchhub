@@ -1,0 +1,81 @@
+{
+  "id" : "github-second",
+  "stages" : [ {
+    "type" : "tika-parser",
+    "id" : "8ewalt2menhwnopqfr",
+    "includeImages" : false,
+    "flattenCompound" : false,
+    "addFailedDocs" : false,
+    "addOriginalContent" : true,
+    "contentField" : "_raw_content_",
+    "contentEncoding" : "binary",
+    "returnXml" : false,
+    "keepOriginalStructure" : false,
+    "extractHtmlLinks" : true,
+    "extractOtherLinks" : false,
+    "csvParsing" : false,
+    "includeContentTypes" : [ ],
+    "excludeContentTypes" : [ ],
+    "type" : "tika-parser",
+    "skip" : false,
+    "label" : "tika-parser"
+  }, {
+    "type" : "regex-extractor",
+    "id" : "riugcik9",
+    "rules" : [ {
+      "source" : [ "_lw_data_source_s" ],
+      "target" : "project",
+      "pattern" : "\"(.*?)-(.*?)-\\d+\"",
+      "annotateAs" : "",
+      "group" : 2
+    } ],
+    "type" : "regex-extractor",
+    "skip" : true,
+    "label" : "Project Name Extractor"
+  }, {
+    "type" : "field-mapping",
+    "id" : "fe210f17-def9-4da9-a73d-0eb1fcfe4233",
+    "mappings" : [ {
+      "source" : "/(.*?)lat(itude)?$/",
+      "target" : "$1_lat_lon",
+      "operation" : "move"
+    }, {
+      "source" : "/(.*?)lon(gitude)?$/",
+      "target" : "$1_lat_lon",
+      "operation" : "move"
+    }, {
+      "source" : "lastModified_dt",
+      "target" : "publishedOnDate",
+      "operation" : "copy"
+    }, {
+      "source" : "github_content_type_s",
+      "target" : "type_s",
+      "operation" : "move"
+    }, {
+      "source" : "_raw_content_",
+      "operation" : "delete"
+    } ],
+    "reservedFieldsMappingAllowed" : false,
+    "type" : "field-mapping",
+    "skip" : false,
+    "label" : "field-mapping"
+  }, {
+    "type" : "solr-index",
+    "id" : "59bf92e4-2a56-4be1-a5df-5dad271a972e",
+    "enforceSchema" : true,
+    "dateFormats" : [ ],
+    "params" : [ ],
+    "bufferDocsForSolr" : true,
+    "type" : "solr-index",
+    "skip" : false,
+    "label" : "solr-index"
+  }, {
+    "type" : "javascript-index",
+    "id" : "qyu9i3x4bvnuq5mi",
+    "script" : "function (doc) {\n  logger.info(\"why is this not being run\");\n  var SOLR_URL = \"http://localhost:8983/solr/lucidfind_shard1_replica1/select?q=datasource_label%3A%22Apache+Mahout+Github%22%26type_s%3Acommit&sort=lastModified_dt+asc&rows=2&fl=lastModified_dt%2Ctype_s&wt=json&indent=true\";\n  var method = new org.apache.commons.httpclient.methods.GetMethod(SOLR_URL);\n    method.setRequestHeader(\"Content-Type\", \"application/json\");\n    \n  var client = new org.apache.commons.httpclient.HttpClient;\n  var returnCode = client.executeMethod(method);\n  var responseValue = \"\";\n\n  if (returnCode == org.apache.commons.httpclient.HttpStatus.SC_NOT_IMPLEMENTED) {\n    logger.warn(\"We didnt make the request!\");\n  } else if (returnCode == org.apache.commons.httpclient.HttpStatus.SC_OK) {\n    responseValue = method.getResponseBodyAsString();\n    logger.warn(\"The response value is\");\n    logger.warn(responseValue);\n  } else {\n    logger.warn(\"The return code is\");\n    logger.warn(returnCode);\n  }\n  logger.warn('The document is');\n  doc.addParam(\"first_date\", responseValue);\n}",
+    "type" : "javascript-index",
+    "skip" : false,
+    "label" : "javascript-index"
+  } ],
+  "properties" : { }
+}

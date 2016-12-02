@@ -41,7 +41,7 @@
         "repeatUnit": "WEEK",
         "interval": 1
       },
-      "includeTags":["article", ".content"],
+      "includeTags":["article", ".content", "title"],
       "scrapeLinksBeforeFiltering":true
     },
     {

@@ -87,7 +87,7 @@ public class PrepareFileModified {
             HttpPut putRequest = FusionMLModelSupport.buildPutRequestToFusion("relatedTermModel", "localhost:8764", modelType, zipFile, "/api/apollo");
             System.out.println("Created put request successfully");
 
-            FusionPipelineClient fusionClient = new FusionPipelineClient(putRequest.getRequestLine().getUri(), "admin", "password123", "native");
+            FusionPipelineClient fusionClient = new FusionPipelineClient(putRequest.getRequestLine().getUri(), "admin", "vishalak1964", "native");
             System.out.println("Created client successfully");
 
             // Add these parameters for versions of fusion 3.0.0 and above

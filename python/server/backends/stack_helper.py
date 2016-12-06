@@ -25,7 +25,7 @@ def create_config(project_name, project_label, includes, excludes, schedule, pip
         "connector": "lucid.anda",
         "type": "web",
         'pipeline': pipeline,
-        "parserConfigId": "default",
+        "parserId": "default",
         "properties": {
             "refreshOlderThan": -1,
             "f.appendTrailingSlashToLinks": False,

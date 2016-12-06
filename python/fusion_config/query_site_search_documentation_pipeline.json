@@ -1,0 +1,60 @@
+{
+  "id" : "site-search-documentation",
+  "stages" : [ {
+    "type" : "facet",
+    "id" : "6v3va7o48epzaor",
+    "fieldFacets" : [ {
+      "field" : "productVersion",
+      "minCount" : 1,
+      "missing" : false
+    }, {
+      "field" : "productName",
+      "minCount" : 1,
+      "missing" : false
+    } ],
+    "type" : "facet",
+    "skip" : false,
+    "label" : "facet"
+  }, {
+    "type" : "set-params",
+    "id" : "pwp7dw5osmjz6w29",
+    "params" : [ {
+      "key" : "fq",
+      "value" : "_lw_data_source_s:website-lucidworks-lucidworks-docs-website",
+      "policy" : "append"
+    }, {
+      "key" : "fq",
+      "value" : "productName:fusion",
+      "policy" : "append"
+    }, {
+      "key" : "defType",
+      "value" : "edismax",
+      "policy" : "append"
+    }, {
+      "key" : "qf",
+      "value" : "title content productName productVersion",
+      "policy" : "append"
+    }, {
+      "key" : "pf",
+      "value" : "title^3 content productName productVersion",
+      "policy" : "append"
+    }, {
+      "key" : "fl",
+      "value" : "id content title",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "set-params"
+  }, {
+    "type" : "solr-query",
+    "id" : "fy9epi3g56v5597ldi",
+    "allowedRequestHandlers" : [ ],
+    "httpMethod" : "POST",
+    "allowFederatedSearch" : false,
+    "type" : "solr-query",
+    "skip" : false,
+    "label" : "solr-query"
+  } ],
+  "properties" : { }
+}

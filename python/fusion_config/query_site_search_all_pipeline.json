@@ -1,0 +1,41 @@
+{
+  "id" : "site-search-all",
+  "stages" : [ {
+    "type" : "set-params",
+    "id" : "e1grsryvjza3e4s4i",
+    "params" : [ {
+      "key" : "fq",
+      "value" : "_lw_data_source_s:website-lucidworks-youtube-lucidworks OR _lw_data_source_s:website-lucidworks-lucidworks-docs-website OR _lw_data_source_s:website-lucidworks-lucidworks-knowledge-base-website OR _lw_data_source_s:website-lucidworks-lucidworks-website",
+      "policy" : "append"
+    }, {
+      "key" : "defType",
+      "value" : "edismax",
+      "policy" : "append"
+    }, {
+      "key" : "qf",
+      "value" : "title content productName productVersion",
+      "policy" : "append"
+    }, {
+      "key" : "pf",
+      "value" : "title^3 content productName productVersion",
+      "policy" : "append"
+    }, {
+      "key" : "fl",
+      "value" : "id content title",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "set-params"
+  }, {
+    "type" : "solr-query",
+    "id" : "2aibvx6g1szslqsemi",
+    "allowedRequestHandlers" : [ ],
+    "httpMethod" : "POST",
+    "allowFederatedSearch" : false,
+    "type" : "solr-query",
+    "skip" : false,
+    "label" : "solr-query"
+  } ],
+  "properties" : { }
+}

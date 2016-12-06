@@ -138,7 +138,7 @@ def setup_projects(backend):
   for file in project_files: #TODO: what's the python way here?
     print ("Creating Project for %s" % file)
     project = json.load(open(join("./project_config", file)))
-    print("Bootstraping configs for %s..." % project["name"])
+    print("Bootstrapping configs for %s..." % project["name"])
     #create the data sources
     datasources = []
     (twitter_config, jira_config, mailbox_configs, wiki_configs, website_configs, github_configs, stack_configs) = backend.create_or_update_datasources(project)
@@ -199,6 +199,36 @@ if cmd_args.create_collections or create_all:
           "GET"
         ],
         "path": "/query-pipelines/lucidfind-default/collections/{0}/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/site-search-blog/collections/{0}/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/site-search-support/collections/{0}/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/site-search-documentation/collections/{0}/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/site-search-videos/collections/{0}/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/site-search-all/collections/{0}/select".format(lucidfind_collection_id)
       },
       {
         "methods": [
@@ -287,7 +317,11 @@ if cmd_args.create_collections or create_all:
 if cmd_args.create_pipelines or create_all:
   setup_pipelines(backend)
   backend.create_query_profile(lucidfind_collection_id, "lucidfind-default", "lucidfind-default")
-
+  backend.create_query_profile(lucidfind_collection_id, "site-search-blog", "site-search-blog")
+  backend.create_query_profile(lucidfind_collection_id, "site-search-documentation", "site-search-documentation")
+  backend.create_query_profile(lucidfind_collection_id, "site-search-support", "site-search-support")
+  backend.create_query_profile(lucidfind_collection_id, "site-search-videos", "site-search-videos")
+  backend.create_query_profile(lucidfind_collection_id, "site-search-all", "site-search-all")
 
 if cmd_args.create_taxonomy or create_all:
   setup_taxonomy(backend, lucidfind_collection_id)

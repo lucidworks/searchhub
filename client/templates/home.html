@@ -64,7 +64,7 @@ controller: HomeController as hc
             <p class="subheader">Try searching on a different term or using different facets to refine your search</p>
           </div>
         </div>
-        <timeline> </timeline>
+        <!--<timeline ng-show="!hc.perDocument"> </timeline>-->
         <landing-page></landing-page>
         <documents ng-show="!hc.perDocument"></documents>
         <perdocument ng-show="hc.perDocument" doc="dc.doc"></perdocument>

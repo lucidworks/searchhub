@@ -135,7 +135,7 @@ def create_config(project_name, project_label, pipeline, website):
       "f.timeoutMS": 10000,
       "failFastOnStartLinkFailure": True,
       "startLinks": [
-        "url"
+        website["url"]
       ],
       "chunkSize": 100,
       "includeRegexes": [],
@@ -167,6 +167,8 @@ def create_config(project_name, project_label, pipeline, website):
     config['properties']['f.scrapeLinksBeforeFiltering'] = website["scrapeLinksBeforeFiltering"]
   if "restrictToTreeUseHostAndPath" in website:
     config['properties']['restrictToTreeUseHostAndPath'] = website["restrictToTreeUseHostAndPath"]
+  if "multiurl" in website:
+    config['properties']['startLinks'] = website["multiurl"]
 
   schedule = None
   if "schedule" in website:

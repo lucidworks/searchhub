@@ -84,7 +84,8 @@
       "name": "lucidworks-javadocs-website",
       "label":"doc.lucidworks.com javadocs Website",
       "pipeline":"lw-docs-default",
-      "url":["https://doc.lucidworks.com/fusion-pipeline-javadocs/2.4/index-all.html", "https://doc.lucidworks.com/fusion-pipeline-javadocs/2.2/index-all.html", "https://doc.lucidworks.com/fusion-pipeline-javadocs/2.1/index-all.html", "https://doc.lucidworks.com/fusion-pipeline-javadocs/2.0/index-all.html"],
+      "url": "https://doc.lucidworks.com/fusion-pipeline-javadocs/2.4/index-all.html",
+      "multiurl":["https://doc.lucidworks.com/fusion-pipeline-javadocs/2.4/index-all.html", "https://doc.lucidworks.com/fusion-pipeline-javadocs/2.2/index-all.html", "https://doc.lucidworks.com/fusion-pipeline-javadocs/2.1/index-all.html", "https://doc.lucidworks.com/fusion-pipeline-javadocs/2.0/index-all.html"],
       "schedule": {
         "repeatUnit": "DAY",
         "interval": 2

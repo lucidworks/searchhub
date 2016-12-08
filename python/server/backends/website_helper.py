@@ -135,7 +135,7 @@ def create_config(project_name, project_label, pipeline, website):
       "f.timeoutMS": 10000,
       "failFastOnStartLinkFailure": True,
       "startLinks": [
-        website["url"]
+        "url"
       ],
       "chunkSize": 100,
       "includeRegexes": [],

@@ -42,8 +42,13 @@
           "source" : "body",
           "target" : "content",
           "operation" : "copy"
-        }
-      ],
+        }, 
+        {
+          "source" : [ "resourceName" ],
+          "target" : "productVersion",
+          "pattern" : "((fusion-pipeline-javadocs)/(\\d+.\\d+))",
+          "group" : 3
+        } ],
       "reservedFieldsMappingAllowed": false,
       "skip": false,
       "condition": "",

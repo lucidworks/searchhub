@@ -20,7 +20,7 @@
     "id" : "pwp7dw5osmjz6w29",
     "params" : [ {
       "key" : "fq",
-      "value" : "_lw_data_source_s:website-lucidworks-lucidworks-docs-website",
+      "value" : "_lw_data_source_s:website-lucidworks-lucidworks-docs-website OR _lw_data_source_s:website-lucidworks-lucidworks-javadocs-website",
       "policy" : "append"
     }, {
       "key" : "fq",

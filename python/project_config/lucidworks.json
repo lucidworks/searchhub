@@ -79,6 +79,29 @@
       "excludes":[".*signin.*", ".*\\?filter.*", ".*\\?sort.*"], 
       "includeTags":["article", "title"],
       "scrapeLinksBeforeFiltering":true
+    },
+    {
+      "name": "lucidworks-javadocs-website",
+      "label":"doc.lucidworks.com javadocs Website",
+      "pipeline":"lw-docs-default",
+      "url":["https://doc.lucidworks.com/fusion-pipeline-javadocs/2.4/index-all.html", "https://doc.lucidworks.com/fusion-pipeline-javadocs/2.2/index-all.html", "https://doc.lucidworks.com/fusion-pipeline-javadocs/2.1/index-all.html", "https://doc.lucidworks.com/fusion-pipeline-javadocs/2.0/index-all.html"],
+      "schedule": {
+        "repeatUnit": "DAY",
+        "interval": 2
+      },
+      "excludeTags" : [ "noscript" ],
+      "restrictToTreeUseHostAndPath" : false,
+      "includeTags":["article", "title"],
+      "scrapeLinksBeforeFiltering":true,
+      "includeRegexes" : [ ".*javadocs.*" ],
+      "excludeTagClasses" : [ "topNav", "navList", "subNavList", "skipNav" ],
+      "initial_mapping" : {
+        "mappings" : [ {
+          "source" : "productName",
+          "target" : "fusion",
+          "operation" : "set"
+        } ]
+      }
     }
   ]
 }

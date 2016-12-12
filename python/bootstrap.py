@@ -161,7 +161,10 @@ def setup_projects(backend):
           #TODO
           backend.start_datasource(datasource["id"])
 
-backend.run_youtube()
+if cmd_args.run_youtube:
+  print("Starting the run youtube!")
+  backend.run_youtube()
+
 backend.toggle_system_metrics(False)
 backend.set_log_level("WARN")
 

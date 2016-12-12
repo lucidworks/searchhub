@@ -465,6 +465,7 @@ class FusionBackend(Backend):
         print resp.status_code, resp.json()
     else:
       success = True
+      success = True
 
     if success:
       #start the job

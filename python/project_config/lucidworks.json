@@ -42,7 +42,12 @@
         "interval": 1
       },
       "includeTags":["article", ".content", "title"],
-      "scrapeLinksBeforeFiltering":true
+      "scrapeLinksBeforeFiltering":true,
+      "additional_mapping": {
+        "source" : "site_search_s",
+        "target" : "blog",
+        "operation" : "set"
+      }
     },
     {
       "name": "revolution-website",
@@ -65,7 +70,12 @@
       },
       "includeTags": [ "article", "title", "meta" ],
       "excludeTagIDs" : [ "accordion" ],
-      "scrapeLinksBeforeFiltering":true
+      "scrapeLinksBeforeFiltering":true,
+      "additional_mapping": {
+        "source" : "site_search_s",
+        "target" : "documentation",
+        "operation" : "set"
+      }
     },
     {
       "name": "lucidworks-knowledge-base-website",
@@ -78,7 +88,12 @@
       },
       "excludes":[".*signin.*", ".*\\?filter.*", ".*\\?sort.*"], 
       "includeTags":["article", "title"],
-      "scrapeLinksBeforeFiltering":true
+      "scrapeLinksBeforeFiltering":true,
+      "additional_mapping": {
+        "source" : "site_search_s",
+        "target" : "support",
+        "operation" : "set"
+      }
     },
     {
       "name": "lucidworks-javadocs-website",
@@ -96,13 +111,16 @@
       "scrapeLinksBeforeFiltering":true,
       "includeRegexes" : [ ".*javadocs.*" ],
       "excludeTagClasses" : [ "topNav", "navList", "subNavList", "skipNav" ],
-      "initial_mapping" : {
-        "mappings" : [ {
-          "source" : "productName",
-          "target" : "fusion",
-          "operation" : "set"
-        } ]
-      }
+      "additional_mapping": {
+        "source" : "site_search_s",
+        "target" : "blog",
+        "operation" : "set"
+      },
+      "additional_mapping_2": {
+        "source" : "productName",
+        "target" : "fusion",
+        "operation" : "set"
+      } 
     }
   ]
 }

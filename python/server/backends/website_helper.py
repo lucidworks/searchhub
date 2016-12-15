@@ -169,6 +169,11 @@ def create_config(project_name, project_label, pipeline, website):
     config['properties']['restrictToTreeUseHostAndPath'] = website["restrictToTreeUseHostAndPath"]
   if "multiurl" in website:
     config['properties']['startLinks'] = website["multiurl"]
+  if "additional_mapping" in website:
+    config['properties']['initial_mapping']['mappings'].append(website["additional_mapping"])
+  if "additional_mapping_2" in website:
+    config['properties']['initial_mapping']['mappings'].append(website["additional_mapping_2"])
+
 
   schedule = None
   if "schedule" in website:

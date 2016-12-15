@@ -35,6 +35,26 @@
       "key" : "hl.snippets",
       "value" : "2",
       "policy" : "append"
+    }, {
+      "key" : "facet",
+      "value" : "on",
+      "policy" : "append"
+    }, {
+      "key" : "facet.field",
+      "value" : "site_search_s",
+      "policy" : "append"
+    }, {
+      "key" : "group",
+      "value" : "true",
+      "policy" : "append"
+    }, {
+      "key" : "group.field",
+      "value" : "site_search_s",
+      "policy" : "append"
+    }, {
+      "key" : "group.limit",
+      "value" : "5",
+      "policy" : "append"
     } ],
     "type" : "set-params",
     "skip" : false,

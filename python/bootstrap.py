@@ -73,10 +73,10 @@ def setup_find_fields(backend, collection_id):
 
 # ((fusion)/(\d+.\d+))|((\w+|LucidWorksSearch-Docs)-v(\d+\.\d+))
 
-def setup_experiments(backend):
-  job_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_experiment.json")]
-  for file in job_files:
-    print ("Creating Experiment for %s" % file)
+def setup_experiments(backend):    
+  job_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_experiment.json")]    
+  for file in job_files:    
+    print ("Creating Experiment for %s" % file)   
     backend.create_experiment(json.load(open(join("./fusion_config", file))))
 
 # Setup schema for user collection
@@ -161,9 +161,6 @@ def setup_projects(backend):
           #TODO
           backend.start_datasource(datasource["id"])
 
-if cmd_args.run_youtube:
-  print("Starting the run youtube!")
-  backend.run_youtube()
 
 backend.toggle_system_metrics(False)
 backend.set_log_level("WARN")
@@ -219,6 +216,12 @@ if cmd_args.create_collections or create_all:
         "methods": [
           "GET"
         ],
+        "path": "/query-pipelines/site-search-all/collections/{0}/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
         "path": "/query-pipelines/lucidfind-recommendations/collections/{0}/select".format(lucidfind_collection_id)
       },
       {
@@ -250,17 +253,17 @@ if cmd_args.create_collections or create_all:
           "GET"
         ],
         "path": "/signals/{0}/i".format(lucidfind_collection_id)
-      },
-      {
-        "methods": [
-          "GET"
-        ],# Make this more flexible, as this is hardcoded now
-        "path": "/experiments/jobs/download_v_learn_more/variant"
-      },
-      {
-        "methods": [
-          "PUT"
-        ],
+      },   
+      {   
+        "methods": [    
+          "GET"   
+        ],# Make this more flexible, as this is hardcoded now   
+        "path": "/experiments/jobs/download_v_learn_more/variant"   
+      },    
+      {   
+        "methods": [    
+          "PUT"   
+        ],    
         "path": "/experiments/jobs/download_v_learn_more/variant/*"
       }
     ]
@@ -270,6 +273,10 @@ if cmd_args.create_collections or create_all:
 status = backend.create_user(username, app.config.get("FUSION_APP_PASSWORD"))
 if status == False:
   exit(1)
+
+if cmd_args.run_youtube:
+  print("Starting the run_youtube")
+  backend.run_youtube()
 
 # Create the collection, setup fields and other solr pieces
 if cmd_args.create_collections or create_all:
@@ -306,6 +313,7 @@ if cmd_args.create_pipelines or create_all:
   backend.create_query_profile(lucidfind_collection_id, "site-search-documentation", "site-search-documentation")
   backend.create_query_profile(lucidfind_collection_id, "site-search-support", "site-search-support")
   backend.create_query_profile(lucidfind_collection_id, "site-search-videos", "site-search-videos")
+  backend.create_query_profile(lucidfind_collection_id, "site-search-all", "site-search-all")
 
 if cmd_args.create_taxonomy or create_all:
   setup_taxonomy(backend, lucidfind_collection_id)

@@ -6,6 +6,7 @@ from flask_compress import Compress
 
 
 parser = argparse.ArgumentParser(description='Setup Search Hub')
+parser.add_argument('--run_youtube', action='store_true', help='start the youtube crawler')
 parser.add_argument('--start_datasources', action='store_true',
                             help='start the datasources when bootstrapping')
 parser.add_argument('--stop_datasources', action='store_true',

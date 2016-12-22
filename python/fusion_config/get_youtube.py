@@ -35,7 +35,8 @@ def get_videos(id_string):
             "content":video["snippet"]["description"].encode('utf-8'),
             "title":video["snippet"]["title"].encode('utf-8'), 
             "url":("https://www.youtube.com/watch?v=" + video["id"]).encode('utf-8'), 
-            "_lw_data_source_s":"website-lucidworks-youtube-lucidworks"
+            "_lw_data_source_s":"website-lucidworks-youtube-lucidworks",
+            "site_search_s":"video"
         })
     return video_details
 

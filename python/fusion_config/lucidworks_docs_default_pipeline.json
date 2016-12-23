@@ -39,6 +39,10 @@
       "source" : "body",
       "target" : "content",
       "operation" : "copy"
+    }, {
+      "source" : "title",
+      "target" : "documentation_suggest",
+      "operation" : "copy"
     } ],
     "reservedFieldsMappingAllowed" : false,
     "type" : "field-mapping",

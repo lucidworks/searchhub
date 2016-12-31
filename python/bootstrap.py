@@ -48,10 +48,6 @@ def setup_commit_times(backend, collection_id, time_in_ms=10*60*1000):
 def setup_find_fields(backend, collection_id):
   backend.add_field(collection_id, "publishedOnDate", type="tdate", required=True)
   backend.add_field(collection_id, "suggest", type="suggesterFT", multivalued=True)
-  backend.add_field(collection_id, "blog_suggest", type="suggesterFT", multivalued=True)
-  backend.add_field(collection_id, "video_suggest", type="suggesterFT", multivalued=True)
-  backend.add_field(collection_id, "documentation_suggest", type="suggesterFT", multivalued=True)
-  backend.add_field(collection_id, "support_suggest", type="suggesterFT", multivalued=True)
   backend.add_field(collection_id, "all_suggest", type="suggesterFT", multivalued=True)
   backend.add_field(collection_id, "content", type="text_en")
   backend.add_field(collection_id, "project", type="string", copyDests=["suggest"])
@@ -186,36 +182,6 @@ if cmd_args.create_collections or create_all:
           "GET"
         ],
         "path": "/query-pipelines/shub-typeahead/collections/{0}/suggest".format(lucidfind_collection_id)
-      },
-      {
-        "methods": [
-          "GET"
-        ],
-        "path": "/query-pipelines/shub-typeahead/collections/{0}/documentation_suggester".format(lucidfind_collection_id)
-      },
-      {
-        "methods": [
-          "GET"
-        ],
-        "path": "/query-pipelines/shub-typeahead/collections/{0}/blog_suggester".format(lucidfind_collection_id)
-      },
-      {
-        "methods": [
-          "GET"
-        ],
-        "path": "/query-pipelines/shub-typeahead/collections/{0}/video_suggester".format(lucidfind_collection_id)
-      },
-      {
-        "methods": [
-          "GET"
-        ],
-        "path": "/query-pipelines/shub-typeahead/collections/{0}/support_suggester".format(lucidfind_collection_id)
-      },
-      {
-        "methods": [
-          "GET"
-        ],
-        "path": "/query-pipelines/shub-typeahead/collections/{0}/all_suggester".format(lucidfind_collection_id)
       },
       {
         "methods": [

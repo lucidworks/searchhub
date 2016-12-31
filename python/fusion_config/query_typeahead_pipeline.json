@@ -28,12 +28,7 @@
       "type": "solr-query",
       "id": "7gxbhuxr",
       "allowedRequestHandlers": [
-        "suggest",
-        "documentation_suggester",
-        "blog_suggester",
-        "video_suggester",
-        "support_suggester",
-        "all_suggester"
+        "suggest"
       ],
       "httpMethod": "GET",
       "allowFederatedSearch": false,

@@ -6,7 +6,7 @@
   "interval": 5,
   "active": true,
   "callParams": {
-    "uri": "solr://lucidfind/blog_suggester?suggest=true&suggest.build=true&suggest.dictionary=blog_suggester_dictionary&wt=json&suggest.q=hi",
+    "uri": "solr://lucidfind/suggest?suggest=true&suggest.build=true&suggest.dictionary=blended_infix_blog&wt=json&suggest.q=hi",
     "method": "GET",
     "queryParams": {},
     "headers": {}

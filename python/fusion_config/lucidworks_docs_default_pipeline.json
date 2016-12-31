@@ -41,7 +41,7 @@
       "operation" : "copy"
     }, {
       "source" : "title",
-      "target" : "documentation_suggest",
+      "target" : "suggest",
       "operation" : "copy"
     } ],
     "reservedFieldsMappingAllowed" : false,

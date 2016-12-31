@@ -321,7 +321,7 @@
       "operation" : "move"
     }, {
       "source" : "title",
-      "target" : "blog_suggest",
+      "target" : "suggest",
       "operation" : "copy"
     } ],
     "skip" : false,

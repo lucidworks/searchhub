@@ -5,7 +5,7 @@
     "id" : "e1grsryvjza3e4s4i",
     "params" : [ {
       "key" : "fq",
-      "value" : "_lw_data_source_s:website-lucidworks-youtube-lucidworks OR _lw_data_source_s:website-lucidworks-lucidworks-docs-website OR _lw_data_source_s:website-lucidworks-lucidworks-knowledge-base-website OR _lw_data_source_s:website-lucidworks-lucidworks-website OR _lw_data_source_s:website-lucidworks-lucidworks-javadocs-website",
+      "value" : "_lw_data_source_s:website-lucidworks-youtube-lucidworks OR _lw_data_source_s:website-lucidworks-lucidworks-docs-website OR _lw_data_source_s:website-lucidworks-lucidworks-website OR _lw_data_source_s:website-lucidworks-lucidworks-javadocs-website",
       "policy" : "append"
     }, {
       "key" : "defType",

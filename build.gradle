@@ -155,6 +155,11 @@ task install(dependsOn: [checkRequiredProperties, deployLibs, installNPM, instal
   }
 }
 
+//Primarily used when Fusion is running somewhere else and we don't need to build/install Fusion plugins locally
+task installNoLibDeploy(dependsOn: [checkRequiredProperties, installNPM, installBower, installPython]) {
+
+}
+
 task gulpConfig(type: Exec) {
   commandLine 'node_modules/gulp/bin/gulp.js', 'copy:configSample'
 }

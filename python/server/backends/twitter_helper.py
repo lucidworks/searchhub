@@ -34,6 +34,7 @@ def create_twitter_datasource_configs(project):
     'connector': "lucid.twitter.stream",
     'pipeline': project["twitter_pipeline"],
     'type': "twitter_stream",
+    "parserId": "default",
     'properties': {
       'collection': app.config.get('FUSION_COLLECTION'),
       'consumer_key': twitter_consumer_key,

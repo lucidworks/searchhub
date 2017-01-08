@@ -7,3 +7,4 @@ loremipsum
 python-twitter
 markupsafe
 oauthlib
+google-api-python-client

@@ -37,8 +37,7 @@ subprojects {
     mavenCentral()
     //not thrilled by this, but let's try it
     flatDir {
-      dirs "$searchhubFusionHome" + "/apps/jetty/connectors/webapps/connectors/WEB-INF/lib",
-        "$searchhubFusionHome" + "/apps/jetty/connectors/webapps/connectors/WEB-INF/classes"
+      dirs "$searchhubFusionHome" + "/apps/libs/"
     }
   }
 
@@ -88,7 +87,6 @@ task checkRequiredProperties() {
 }
 checkRequiredProperties
 
-version = '1.0'
 jar {
   manifest {
     attributes 'Implementation-Title': 'SearchHub Fusion',
@@ -104,20 +102,24 @@ def jarDir = "searchhub-fusion-plugins/build/libs"
 
 task deployLibsToConnectors(type: Copy) {
   from jarDir
-  into "$searchhubFusionHome/apps/jetty/connectors/webapps/connectors/WEB-INF/lib/"
+  into "$searchhubFusionHome/apps/libs/"
   dependsOn "searchhub-fusion-plugins:compileScala"
   dependsOn "jar"
 }
 
 task deployLibsToApi(type: Copy) {
   from jarDir
-  into "$searchhubFusionHome/apps/jetty/api/webapps/api/WEB-INF/lib/"
+  into "$searchhubFusionHome/apps/libs/"
   dependsOn "searchhub-fusion-plugins:compileScala"
   dependsOn "jar"
 }
 
 task deployLibs(dependsOn: [deployLibsToConnectors, deployLibsToApi]) {
   println("Copied libs to connectors and apis")
+
+  def searchhubJar = "\napps/libs/searchhub-fusion-plugins-${version}.jar"
+  file("$searchhubFusionHome/apps/jetty/api/webapps/api-extra-classpath.txt").append(searchhubJar)
+  file("$searchhubFusionHome/apps/jetty/connectors/webapps/connectors-extra-classpath.txt").append(searchhubJar)
 }
 
 task installNPM(type: Exec) {
@@ -194,11 +196,11 @@ project(":searchhub-fusion-plugins") {
 
   dependencies {
     compile fileTree(
-      dir: "$searchhubFusionHome/apps/jetty/connectors/webapps/connectors/WEB-INF/lib/",
+      dir: "$searchhubFusionHome/apps/libs/",
       includes: ["*.jar"]
     )
     compile fileTree(
-      dir: "$searchhubFusionHome/apps/jetty/api/webapps/api/WEB-INF/lib/",
+      dir: "$searchhubFusionHome/apps/libs/",
       includes: ["*.jar"]
     )
     compile "org.scala-lang:scala-library:2.10.5"
@@ -208,10 +210,10 @@ project(":searchhub-fusion-plugins") {
 
   compileScala.doFirst{
     println("Removing old instances of the plugin jar from Fusion")
-    delete fileTree(dir: "$searchhubFusionHome/apps/jetty/api/webapps/api/WEB-INF/lib/",
+    delete fileTree(dir: "$searchhubFusionHome/apps/libs/",
         include: "searchhub-fusion-plugins*.jar"
     )
-    delete fileTree(dir: "$searchhubFusionHome/apps/jetty/connectors/webapps/connectors/WEB-INF/lib/",
+    delete fileTree(dir: "$searchhubFusionHome/apps/libs/",
       include: "searchhub-fusion-plugins*.jar"
     )
   }

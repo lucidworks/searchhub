@@ -26,7 +26,7 @@
       "params": [
         {
           "key": "mm",
-          "value": "2<75%",
+          "value": "2\\<75%",
           "policy": "append"
         },
         {

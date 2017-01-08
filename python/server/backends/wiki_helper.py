@@ -23,6 +23,7 @@ def create_config(project_name, project_label, pipeline, wiki):
     "connector": "lucid.anda",
     "type": "web",
     'pipeline': pipeline,
+    "parserId": "default",
     "properties": {
       "refreshOlderThan": -1,
       "f.appendTrailingSlashToLinks": False,
@@ -35,7 +36,6 @@ def create_config(project_name, project_label, pipeline, wiki):
       "f.discardLinkURLQueries": False,
       "f.respectMetaEquivRedirects": False,
       "fetchDelayMS": 2000,
-      "splitArchives": True,
       "refreshAll": True,
       "f.defaultMIMEType": "application/octet-stream",
       "restrictToTreeAllowSubdomains": False,

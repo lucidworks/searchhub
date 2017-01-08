@@ -427,7 +427,7 @@ class FusionBackend(Backend):
   def create_query_profile(self, collection_id, name, pipeline_name):
 
     resp = self.admin_session.put("apollo/collections/{0}/query-profiles/{1}".format(collection_id, name),
-                                  data='"' + pipeline_name + '"',
+                                  data= pipeline_name ,
                                   headers={"Content-type": "application/json"})
 
     if resp.status_code != 204:

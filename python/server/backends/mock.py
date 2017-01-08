@@ -13,11 +13,6 @@ class MockBackend(Backend):
     def get_document(self, doc_id):
         return _gen_fake_docs(1).next()
 
-    def find_documents(self, query="*", source=None, author=None, project=None, limit=10, offset=0):
-        docs = list(_gen_fake_docs(limit, author, source, project))
-        facets = _gen_fake_facets(docs, author, source, project)
-        return docs, facets, 100
-
     def get_datasource(self, id):
         return self.datasources.get(id, None)
 

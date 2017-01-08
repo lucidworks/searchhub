@@ -16,6 +16,7 @@ from apiclient.discovery import build
 from apiclient.errors import HttpError
 from oauth2client.tools import argparser
 import requests
+
 import os
 import argparse
 import json
@@ -24,7 +25,7 @@ import sys
 import urllib2
 
 from server import app
-
+import random
 
 class FusionSession(requests.Session):
   """
@@ -35,6 +36,7 @@ class FusionSession(requests.Session):
     super(FusionSession, self).__init__()
     self.__base_url = proxy_url
     self.proxy_url = proxy_url
+    print("Using: {0}".format(self.proxy_url))
     self.username = username
     self.password = password
     if not lazy:
@@ -54,7 +56,7 @@ class FusionSession(requests.Session):
 
     resp = super(FusionSession, self).request(method, full_url, **kwargs)
     if resp.status_code == 401:
-      if url == "session":
+      if url == "/session":
         return resp
       else:
         print("session expired, re-authenticating")
@@ -63,23 +65,35 @@ class FusionSession(requests.Session):
     else:
       return resp
 
-
+# The Backend is primarily used by the bootstrap
 class FusionBackend(Backend):
   def __init__(self):
     if app.config.get("FUSION_ADMIN_USERNAME"):
       self.admin_session = FusionSession(
-        app.config.get("FUSION_URL", "http://localhost:8764/api/"),
+        self.get_random_fusion_url(),
         app.config.get("FUSION_ADMIN_USERNAME"),
         app.config.get("FUSION_ADMIN_PASSWORD")
       )
 
     if app.config.get("FUSION_APP_USER"):
       self.app_session = FusionSession(
-        app.config.get("FUSION_URL", "http://localhost:8764/api/"),
-        app.config.get("FUSION_APP_USER"),  # TODO change to another user
+        self.get_random_fusion_url(),
+        app.config.get("FUSION_APP_USER"),
         app.config.get("FUSION_APP_PASSWORD"),
         lazy=True
       )
+
+
+  def get_random_fusion_url(self):
+    fusionUrls = app.config.get("FUSION_URLS")
+    if fusionUrls and len(fusionUrls) > 0:
+      rand = random.randint(0, len(fusionUrls)-1)
+      return fusionUrls[rand]
+    else:
+      print("You don't have any FUSION_HOSTS defined")
+      return None
+
+
 
   def get_videos(self, id_string, youtube):
     video_details = []
@@ -559,51 +573,6 @@ class FusionBackend(Backend):
     resp = self.app_session.get(path, params=params, headers={"Content-type": "application/json"})
     return self._from_solr_doc(resp.json()['response']['docs'][0])
 
-  def find_documents(self, query="*", source=None, author=None, project=None, limit=10, offset=0):
-    path = "apollo/query-pipelines/{0}/collections/{1}/select".format("default", "lucidfind")
-    # TODO move this to a QP config?
-    params = {
-      "q": query,
-      "defType": "edismax",
-      "qf": ["author_t^10", "person_t^8", "content_t^6", "source_s^4", "project^4"],
-      "fl": ["id:id", "author:author_s", "source:source_s", "project:project", "content:content_t",
-             "created_at:created_at_dt", "link:url"],
-      "fq": [],
-      "rows": limit,
-      "start": offset,
-      "facet": True,
-      "facet.mincount": 1,
-      "facet.limit": 20,
-      "facet.order": "count",
-      "facet.field": ["source_s", "person_ss", "project"],
-      "wt": "json",
-      "json.nl": "arrarr"
-    }
-
-    if source is not None:
-      params['fq'].append("source_s:{0}".format(source))
-    if author is not None:
-      params['fq'].append("author_s:{0}".format(author))
-    if project is not None:
-      params['fq'].append("project:{0}".format(project))
-    params['fq'].append("content_t:*")  # TODO is this a bug in the field mapper "set" op?
-
-    resp = self.app_session.get(path, params=params, headers={"Content-type": "application/json"})
-
-    decoded = resp.json()
-    docs = [self._from_solr_doc(doc) for doc in decoded['response']['docs']]
-
-    facets = decoded['facet_counts']['facet_fields']
-    ordered_facets = OrderedDict()
-    for field, field_facets in facets.items():
-      # TODO rename facet fields?
-      ordered_facets[field] = OrderedDict()
-      for value, count in field_facets:
-        ordered_facets[field][value] = count
-
-    found = decoded['response']['numFound']
-    return docs, ordered_facets, found
-
   def get_user(self, username, email=""):
     path = "apollo/collections/{0}/query-profiles/{1}/select".format("users", "default")
     params = {
@@ -692,16 +661,16 @@ class FusionBackend(Backend):
         }
       }
     }
-    start_value = new_admin_session().get("apollo/scheduler/schedules/delete-old-logs")
+    start_value = self.admin_session.get("apollo/scheduler/schedules/delete-old-logs")
     try:
       start_value.raise_for_status()
       start_status = start_value.status_code
       if (start_status == 404):
         print("We have to create a new delete-old-logs schedule")
-        final_value = new_admin_session().post("apollo/scheduler/schedules/delete-old-logs", data=json.dumps(delete_old_logs_json))
+        final_value = self.admin_session.post("apollo/scheduler/schedules/delete-old-logs", data=json.dumps(delete_old_logs_json))
       else:
         print("We have to update the existing delete-old-logs schedule")
-        final_value = new_admin_session().put("apollo/scheduler/schedules/delete-old-logs", data=json.dumps(delete_old_logs_json))
+        final_value = self.admin_session.put("apollo/scheduler/schedules/delete-old-logs", data=json.dumps(delete_old_logs_json))
 
       final_value.raise_for_status()
 
@@ -826,27 +795,6 @@ class FusionBackend(Backend):
       resp = self.admin_session.delete("apollo/connectors/jobs/{0}?abort={1}".format(id, str(abort).lower()))
       return resp.json()
 
-
-def _new_session(proxy_url, username, password):
-  "Establishes a cookie-based session with the Fusion proxy node"
-  session = FusionSession(proxy_url, username, password)
-  return session
-
-
-def new_admin_session():
-  return _new_session(
-    app.config.get("FUSION_URL", "http://localhost:8764/api/"),
-    app.config.get("FUSION_ADMIN_USERNAME"),
-    app.config.get("FUSION_ADMIN_PASSWORD")
-  )
-
-
-def new_user_session():
-  return _new_session(
-    app.config.get("FUSION_URL", "http://localhost:8764/api/"),
-    app.config.get("FUSION_APP_USER"),
-    app.config.get("FUSION_APP_PASSWORD")
-  )
 
 
 def compare_datasources(test_datasource, target_datasource):

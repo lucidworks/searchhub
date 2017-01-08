@@ -1,7 +1,7 @@
 {
   "name": "turbine",
-    "description": "The Apache turbine project, tweets, wiki, github, et. al",
-  "label": "Apache turbine",
+    "description": "The Apache Turbine project, tweets, wiki, github, et. al",
+  "label": "Apache Turbine",
   "query_pipeline": "lucidfind-default",
   "github_pipeline": "github-default",
   "jira_pipeline": "jira-default",
@@ -12,7 +12,7 @@
   "websites": [
     {
       "name": "turbine-website",
-      "label": "Apache turbine Website",
+      "label": "Apache Turbine Website",
       "url": "https://turbine.apache.org/",
       "schedule": {
         "repeatUnit": "WEEK",
@@ -23,7 +23,7 @@
   "mailing_lists": [
     {
       "name": "turbine-user",
-      "label": "turbine User",
+      "label": "Turbine User",
       "mbox": "turbine-user",
       "schedule": {
         "repeatUnit": "HOUR",
@@ -32,7 +32,7 @@
     },
     {
       "name": "turbine-dev",
-      "label": "turbine Dev",
+      "label": "Turbine Dev",
       "mbox": "turbine-dev",
       "schedule": {
         "repeatUnit": "HOUR",

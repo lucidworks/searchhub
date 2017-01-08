@@ -280,7 +280,9 @@ if cmd_args.run_youtube:
 # Create the collection, setup fields and other solr pieces
 if cmd_args.create_collections or create_all:
   # Create the "lucidfind" collection
-  solr_params = {"replicationFactor":2,"numShards":1}
+  num_shards = app.config.get("FUSION_COLLECTION_NUM_SHARDS", "1")
+  num_replicas = app.config.get("FUSION_COLLECTION_NUM_REPLICAS", "2")
+  solr_params = {"replicationFactor":int(num_replicas),"numShards":int(num_shards)}
   status = backend.create_collection(lucidfind_collection_id, enable_signals=True, solr_params=solr_params, default_commit_within=60*10*1000)
   if status == False:
     exit(1)

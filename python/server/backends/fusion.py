@@ -431,7 +431,7 @@ class FusionBackend(Backend):
                                   headers={"Content-type": "application/json"})
 
     if resp.status_code != 204:
-      print resp.status_code, resp.json()
+      print "Problem creating query profile: {0}, {1}".format(resp.status_code, resp.json())
     return resp
 
   def create_pipeline(self, pipeline_config, pipe_type="index-pipelines"):

@@ -29,7 +29,8 @@
 
 - Depending on how Node is configured on your machine, you may need to run `sudo npm install -g gulp bower` instead, if you get an error with the first command.
 - Python 2.7 and python-dev
-- Fusion 2.4.1 or later.  Download at http://www.lucidworks.com/products/fusion and install in a directory reachable from this project.
+- Fusion 3.0 beta5 or later.  If you would like to be in the 3.0 beta program [contact us](https://lucidworks.com/company/contact/).  Otherwise, to use Fusion 2.4.x, please
+use the tag ```pre_3_0_cutover``` and download Fusion 2.4.x from the [Lucidworks website](https://lucidworks.com/products/fusion/download/).
 
 
 ## Get Started

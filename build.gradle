@@ -115,11 +115,15 @@ task deployLibsToApi(type: Copy) {
 }
 
 task deployLibs(dependsOn: [deployLibsToConnectors, deployLibsToApi]) {
-  println("Copied libs to connectors and apis")
-
   def searchhubJar = "\napps/libs/searchhub-fusion-plugins-${version}.jar"
-  file("$searchhubFusionHome/apps/jetty/api/webapps/api-extra-classpath.txt").append(searchhubJar)
-  file("$searchhubFusionHome/apps/jetty/connectors/webapps/connectors-extra-classpath.txt").append(searchhubJar)
+  if (file("$searchhubFusionHome/apps/jetty/api/webapps/api-extra-classpath.txt").exists()) {
+    file("$searchhubFusionHome/apps/jetty/api/webapps/api-extra-classpath.txt").append(searchhubJar)
+    println("Copied libs to apis")
+  }
+  if (file("$searchhubFusionHome/apps/jetty/connectors/webapps/connectors-extra-classpath.txt").exists()) {
+    file("$searchhubFusionHome/apps/jetty/connectors/webapps/connectors-extra-classpath.txt").append(searchhubJar)
+    println("Copied libs to connectors")
+  }
 }
 
 task installNPM(type: Exec) {

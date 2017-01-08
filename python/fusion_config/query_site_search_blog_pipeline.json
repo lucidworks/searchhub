@@ -5,7 +5,23 @@
     "id" : "47fmz1dn13yc01wcdi",
     "params" : [ {
       "key" : "fq",
-      "value" : "_lw_data_source_s=website-lucidworks-lucidworks-website",
+      "value" : "_lw_data_source_s:website-lucidworks-lucidworks-website",
+      "policy" : "append"
+    }, {
+      "key" : "defType",
+      "value" : "edismax",
+      "policy" : "append"
+    }, {
+      "key" : "qf",
+      "value" : "title content productName productVersion",
+      "policy" : "append"
+    }, {
+      "key" : "pf",
+      "value" : "title^3 content productName productVersion",
+      "policy" : "append"
+    }, {
+      "key" : "fl",
+      "value" : "id content title",
       "policy" : "append"
     } ],
     "type" : "set-params",

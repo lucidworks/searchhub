@@ -12,6 +12,17 @@ from server.backends.wiki_helper import create_wiki_datasource_configs
 from server.backends.stack_helper import create_stack_datasource_configs
 from urlparse import urljoin
 
+from apiclient.discovery import build
+from apiclient.errors import HttpError
+from oauth2client.tools import argparser
+import requests
+import os
+import argparse
+import json
+import time
+import sys
+import urllib2
+
 from server import app
 
 
@@ -69,6 +80,76 @@ class FusionBackend(Backend):
         app.config.get("FUSION_APP_PASSWORD"),
         lazy=True
       )
+
+  def get_videos(self, id_string, youtube):
+    video_details = []
+    video_information = youtube.videos().list(
+      id= id_string,
+      part="snippet, id"
+    ).execute()
+    for video in video_information["items"]:
+      video_details.append({
+        "publishedOnDate":video["snippet"]["publishedAt"],
+        "datasource_label":"youtube_parser",
+        "project_label":"youtube",
+        "description":video["snippet"]["description"].encode('utf-8'),
+        "content":video["snippet"]["description"].encode('utf-8'),
+        "title":video["snippet"]["title"].encode('utf-8'),
+        "url":("https://www.youtube.com/watch?v=" + video["id"]).encode('utf-8'),
+        "_lw_data_source_s":"website-lucidworks-youtube-lucidworks"
+      })
+    return video_details
+
+  def get_id_string(self, search_response, youtube):
+    id_vals = [d["id"] for d in search_response]
+    id_string = ""
+    for id_val in id_vals:
+      if id_val["kind"] == "youtube#video":
+        id_string += id_val["videoId"]+ ","
+    return id_string
+
+  def get_all_ids(self, final_video_details, search_response, youtube):
+    # Call the search.list method to retrieve results matching the specified
+    # query term.
+    id_string = self.get_id_string(search_response["items"], youtube)
+    video_details = self.get_videos(id_string, youtube)
+    final_video_details += video_details
+    nextPageToken = search_response.get("nextPageToken", [])
+    if nextPageToken == []:
+      return final_video_details
+    else:
+      print ("Getting the next page of results!")
+      search_response = youtube.search().list(
+        channelId="UCPItOdfUk_tjlvqggkY-JsA",
+        part="id",
+        maxResults=25,
+        pageToken=nextPageToken
+      ).execute()
+      return self.get_all_ids(final_video_details, search_response, youtube)
+
+  def run_youtube(self):
+    DEVELOPER_KEY = app.config.get("DEVELOPER_KEY")
+    YOUTUBE_API_SERVICE_NAME = app.config.get("YOUTUBE_API_SERVICE_NAME")
+    YOUTUBE_API_VERSION = app.config.get("YOUTUBE_API_VERSION")
+    youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
+                    developerKey=DEVELOPER_KEY)
+
+    print ("finished making youtube")
+    search_response = youtube.search().list(
+      channelId="UCPItOdfUk_tjlvqggkY-JsA",
+      part="id",
+      maxResults=25,
+    ).execute()
+    print("finished getting search_response")
+    final_video_details = []
+    final_list = self.get_all_ids(final_video_details, search_response, youtube)
+    print(len(final_list))
+    json_vids = json.dumps(final_list)
+    headers = {'content-type': 'application/json'}
+    print("Trying to access solr")
+    r = requests.post("http://localhost:8983/solr/lucidfind/update/json?commit=true", data = json_vids, headers=headers)
+    r.raise_for_status()
+    print("Successfully sent data to solr!")
 
   def toggle_system_metrics(self, enabled=True):
     print "Setting System Metrics indexing to {0}".format(enabled)
@@ -168,7 +249,7 @@ class FusionBackend(Backend):
     if resp.status_code != 200 or errors:
       print "Couldn't create config, trying replace {0}".format(original["name"])
       resp = self.admin_session.post("apollo/solr/{0}/config".format(collection_name),
-                                   data=json.dumps(replace))
+                                     data=json.dumps(replace))
       errors = self.check_bulk_api_for_errors(resp.json())
       if resp.status_code != 200 or errors:
         print "Unable to create config: {0}".format(resp.text)
@@ -180,36 +261,36 @@ class FusionBackend(Backend):
     return True
 
   def remove_request_handler(self, collection_name, req_handler_name):
-      print "Attempting removal of request handler: {0}".format(req_handler_name)
-      remove = {
-          "delete-requesthandler": req_handler_name
-      }
-      resp = self.admin_session.post("apollo/solr/{0}/config".format(collection_name),
-                                 data=json.dumps(remove))
-      errors = self.check_bulk_api_for_errors(resp.json())
-      if resp.status_code != 200 or errors:
-        print "Couldn't remove req handler: {0}".format(req_handler_name)
-        print errors
-        return False
-      else:
-          print "Removed req handler {0}".format(req_handler_name)
-      return True
+    print "Attempting removal of request handler: {0}".format(req_handler_name)
+    remove = {
+      "delete-requesthandler": req_handler_name
+    }
+    resp = self.admin_session.post("apollo/solr/{0}/config".format(collection_name),
+                                   data=json.dumps(remove))
+    errors = self.check_bulk_api_for_errors(resp.json())
+    if resp.status_code != 200 or errors:
+      print "Couldn't remove req handler: {0}".format(req_handler_name)
+      print errors
+      return False
+    else:
+      print "Removed req handler {0}".format(req_handler_name)
+    return True
 
   def remove_search_component(self, collection_name, component_name):
-      print "Attempting removal of search component: {0}".format(component_name)
-      remove = {
-          "delete-searchcomponent": component_name
-      }
-      resp = self.admin_session.post("apollo/solr/{0}/config".format(collection_name),
-                                 data=json.dumps(remove))
-      errors = self.check_bulk_api_for_errors(resp.json())
-      if resp.status_code != 200 or errors:
-        print "Couldn't remove search component: {0}".format(component_name)
-        print errors
-        return False
-      else:
-          print "Removed search comp {0}".format(component_name)
-      return True
+    print "Attempting removal of search component: {0}".format(component_name)
+    remove = {
+      "delete-searchcomponent": component_name
+    }
+    resp = self.admin_session.post("apollo/solr/{0}/config".format(collection_name),
+                                   data=json.dumps(remove))
+    errors = self.check_bulk_api_for_errors(resp.json())
+    if resp.status_code != 200 or errors:
+      print "Couldn't remove search component: {0}".format(component_name)
+      print errors
+      return False
+    else:
+      print "Removed search comp {0}".format(component_name)
+    return True
 
 
   #Returns None if there are no errors, else a list of the errors
@@ -226,8 +307,8 @@ class FusionBackend(Backend):
     Send a signal
     """
     resp = self.app_session.get("apollo/signals/{0}/i".format(collection_id),
-                                  # tack on the i so that we invoke the snowplow endpoint
-                                  params=payload, headers=req_headers)
+                                # tack on the i so that we invoke the snowplow endpoint
+                                params=payload, headers=req_headers)
     if resp.status_code != 200:
       print "Unable to send signal: {0}".format(resp.text)
       return False
@@ -367,14 +448,14 @@ class FusionBackend(Backend):
     print "create experiment: " + id
     success = False
     resp = self.admin_session.post("apollo/experiments/configs", data=json.dumps(experiment_config),
-                                  headers={"Content-type": "application/json"})
+                                   headers={"Content-type": "application/json"})
 
     if resp.status_code != 200:
 
       if resp.status_code == 409:#try a PUT
         print "Trying PUT"
         resp = self.admin_session.put("apollo/experiments/configs/{0}".format(id), data=json.dumps(experiment_config),
-                                  headers={"Content-type": "application/json"})
+                                      headers={"Content-type": "application/json"})
 
         if resp.status_code != 200:
           print resp.status_code, resp.json()
@@ -383,6 +464,7 @@ class FusionBackend(Backend):
       else:
         print resp.status_code, resp.json()
     else:
+      success = True
       success = True
 
     if success:
@@ -589,7 +671,7 @@ class FusionBackend(Backend):
 
 
   def update_logging_scheduler(self):
-    delete_old_logs_json = {  
+    delete_old_logs_json = {
       "id":"delete-old-logs",
       "creatorType":"system",
       "creatorId":"DefaultLogCleanupScheduleRegistrar",
@@ -598,20 +680,20 @@ class FusionBackend(Backend):
       "repeatUnit":"DAY",
       "interval":"1",
       "active":"true",
-      "callParams":{  
+      "callParams":{
         "uri":"solr://logs/update",
         "method":"GET",
-        "queryParams":{  
-           "wt":"json",
-           "stream.body":"<delete><query>timestamp_tdt:[* TO NOW-1DAYS] OR timestamp_dt:[* TO NOW-1DAYS]</query></delete>"
+        "queryParams":{
+          "wt":"json",
+          "stream.body":"<delete><query>timestamp_tdt:[* TO NOW-1DAYS] OR timestamp_dt:[* TO NOW-1DAYS]</query></delete>"
         },
-        "headers":{  
+        "headers":{
 
         }
       }
     }
     start_value = new_admin_session().get("apollo/scheduler/schedules/delete-old-logs")
-    try: 
+    try:
       start_value.raise_for_status()
       start_status = start_value.status_code
       if (start_status == 404):
@@ -623,9 +705,9 @@ class FusionBackend(Backend):
 
       final_value.raise_for_status()
 
-    except: 
+    except:
       print("ERROR: Failed to update the delete logs schedule")
-    
+
     else:
       print("SUCCESS: We have updated the delete logs schedule")
 
@@ -636,7 +718,7 @@ class FusionBackend(Backend):
     if resp.status_code == 200:
       print "Updating schedule for {0}".format(schedule["id"])
       resp = self.admin_session.put("apollo/scheduler/schedules/{0}".format(schedule["id"]), data=json.dumps(schedule),
-                                   headers={"Content-type": "application/json"})
+                                    headers={"Content-type": "application/json"})
       if resp.status_code == 204:
         return None  #TODO: better code here?
       else:
@@ -646,7 +728,7 @@ class FusionBackend(Backend):
     elif resp.status_code == 404:
       print "Creating schedule for {0}".format(schedule["id"])
       resp = self.admin_session.post("apollo/scheduler/schedules", data=json.dumps(schedule),
-                                   headers={"Content-type": "application/json"})
+                                     headers={"Content-type": "application/json"})
       if resp.status_code == 200:
         return resp.json()
       else:
@@ -684,9 +766,9 @@ class FusionBackend(Backend):
           self.create_or_update_schedule(schedule)
 
     else:
-        print resp.status_code
-        print resp.text
-        raise Exception("Couldn't get list of schedules")
+      print resp.status_code
+      print resp.text
+      raise Exception("Couldn't get list of schedules")
     return None
   def get_datasource(self, id):
     resp = self.admin_session.get("apollo/connectors/datasources/{0}".format(id))
@@ -736,7 +818,7 @@ class FusionBackend(Backend):
         print "Stopping {0}".format(ds["id"])
         self.stop_datasource(ds["id"])
     else:
-        raise Exception("Unable to retrieve datasource list")
+      raise Exception("Unable to retrieve datasource list")
 
   def stop_datasource(self, id, abort=False):
     datasource = self.get_datasource(id)

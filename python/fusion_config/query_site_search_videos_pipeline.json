@@ -1,11 +1,11 @@
 {
-  "id" : "site-search-support",
+  "id" : "site-search-videos",
   "stages" : [ {
     "type" : "set-params",
-    "id" : "059v2z9gfstuo9a4i",
+    "id" : "xx07zbjli393yds4i",
     "params" : [ {
       "key" : "fq",
-      "value" : "_lw_data_source_s:website-lucidworks-lucidworks-knowledge-base-website",
+      "value" : "_lw_data_source_s:website-lucidworks-youtube-lucidworks",
       "policy" : "append"
     }, {
       "key" : "defType",
@@ -29,7 +29,7 @@
     "label" : "set-params"
   }, {
     "type" : "solr-query",
-    "id" : "9zdgtw15xwwomvx6r",
+    "id" : "eufnqnapmrou5wmi",
     "allowedRequestHandlers" : [ ],
     "httpMethod" : "POST",
     "allowFederatedSearch" : false,

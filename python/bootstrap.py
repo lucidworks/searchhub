@@ -192,6 +192,36 @@ if cmd_args.create_collections or create_all:
         "methods": [
           "GET"
         ],
+        "path": "/query-pipelines/site-search-blog/collections/{0}/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/site-search-support/collections/{0}/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/site-search-documentation/collections/{0}/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/site-search-videos/collections/{0}/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/site-search-all/collections/{0}/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
         "path": "/query-pipelines/lucidfind-recommendations/collections/{0}/select".format(lucidfind_collection_id)
       },
       {
@@ -244,6 +274,10 @@ status = backend.create_user(username, app.config.get("FUSION_APP_PASSWORD"))
 if status == False:
   exit(1)
 
+if cmd_args.run_youtube:
+  print("Starting the run_youtube")
+  backend.run_youtube()
+
 # Create the collection, setup fields and other solr pieces
 if cmd_args.create_collections or create_all:
   session = new_admin_session()
@@ -278,6 +312,8 @@ if cmd_args.create_pipelines or create_all:
   backend.create_query_profile(lucidfind_collection_id, "site-search-blog", "site-search-blog")
   backend.create_query_profile(lucidfind_collection_id, "site-search-documentation", "site-search-documentation")
   backend.create_query_profile(lucidfind_collection_id, "site-search-support", "site-search-support")
+  backend.create_query_profile(lucidfind_collection_id, "site-search-videos", "site-search-videos")
+  backend.create_query_profile(lucidfind_collection_id, "site-search-all", "site-search-all")
 
 if cmd_args.create_taxonomy or create_all:
   setup_taxonomy(backend, lucidfind_collection_id)

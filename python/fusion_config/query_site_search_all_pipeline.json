@@ -1,11 +1,11 @@
 {
-  "id" : "site-search-support",
+  "id" : "site-search-all",
   "stages" : [ {
     "type" : "set-params",
-    "id" : "059v2z9gfstuo9a4i",
+    "id" : "e1grsryvjza3e4s4i",
     "params" : [ {
       "key" : "fq",
-      "value" : "_lw_data_source_s:website-lucidworks-lucidworks-knowledge-base-website",
+      "value" : "_lw_data_source_s:website-lucidworks-youtube-lucidworks OR _lw_data_source_s:website-lucidworks-lucidworks-docs-website OR _lw_data_source_s:website-lucidworks-lucidworks-knowledge-base-website OR _lw_data_source_s:website-lucidworks-lucidworks-website",
       "policy" : "append"
     }, {
       "key" : "defType",
@@ -29,7 +29,7 @@
     "label" : "set-params"
   }, {
     "type" : "solr-query",
-    "id" : "9zdgtw15xwwomvx6r",
+    "id" : "2aibvx6g1szslqsemi",
     "allowedRequestHandlers" : [ ],
     "httpMethod" : "POST",
     "allowFederatedSearch" : false,

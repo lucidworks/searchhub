@@ -42,7 +42,6 @@ def setup_commit_times(backend, collection_id, time_in_ms=10*60*1000):
 
   backend.set_property(collection_id, data)
 
-
 # Setup an official schema for things we know we are going to have in the data
 def setup_find_fields(backend, collection_id):
   backend.add_field(collection_id, "publishedOnDate", type="tdate", required=True)
@@ -56,7 +55,7 @@ def setup_find_fields(backend, collection_id):
   backend.add_field(collection_id, "keywords", type="text_en", copyDests=["suggest"])
   backend.add_field(collection_id, "comments", type="text_en")
   backend.add_field(collection_id, "mimeType", type="string")
-  backend.add_field(collection_id, "author_facet", type="string", multivalued=True)
+  backend.add_field(collection_id, "author_facet", type="string")
   backend.add_field(collection_id, "author", type="text_en", copyDests=["author_facet"])
   backend.add_field(collection_id, "og_description", type="text_en")
   backend.add_field(collection_id, "description", type="text_en")
@@ -160,11 +159,24 @@ def setup_projects(backend):
           #TODO
           backend.start_datasource(datasource["id"])
 
+def change_passwords_prepfile(backend):
+  print("modifying prepare file modified file now!")
+  password = app.config.get("FUSION_APP_PASSWORD")
+  prepFile = open('../searchhub-fusion-plugins/src/main/java/com/lucidworks/apollo/pipeline/index/stages/searchhub/w2v/PrepareFileModified.java', 'r')
+  prepFileData = prepFile.read()
+  prepFile.close()
+  newPrepFileData = prepFileData.replace("password123", password)
+  newPrepFile = open('../searchhub-fusion-plugins/src/main/java/com/lucidworks/apollo/pipeline/index/stages/searchhub/w2v/PrepareFileModified.java', 'w')
+  newPrepFile.write(newPrepFileData)
+  newPrepFile.close()
+  print("done updating the prepare file modified file")
 
 backend.toggle_system_metrics(False)
 backend.set_log_level("WARN")
 
 backend.update_logging_scheduler()
+
+change_passwords_prepfile(backend)
 
 lucidfind_collection_id = app.config.get("FUSION_COLLECTION", "lucidfind")
 lucidfind_batch_recs_collection_id = app.config.get("FUSION_BATCH_RECS_COLLECTION", "lucidfind_thread_recs")

@@ -1,22 +1,22 @@
 # Lucidworks Search Hub
-  
+
   Search Hub is an application built on top of [Lucidworks Fusion](http://www.lucidworks.com/products/fusion).  
   It is designed to be a showcase of Fusion's search, machine learning and analytical capability
    as well as act as a community service for a large number of Apache Software Foundation projects.  It is the basis of several talks
     by Lucidworks employees (e.g. http://www.slideshare.net/lucidworks/data-science-with-solr-and-spark).  A production version of this software hosted by [Lucidworks](http://www.lucidworks.com) is available
-    at http://searchhub.lucidworks.com. 
-   
+    at http://searchhub.lucidworks.com.
+
    Search Hub contains all you need to download and run your own community search site. It comes with prebuilt definitions to crawl a large number of ASF projects, including
    their mailing lists, websites, wikis, JIRAs and Github repositories.  These prebuilt definitions may also serve as templates for adding additional projects.  The project
    also comes in with a built-in client (based off of [Lucidworks View](http://www.lucidworks.com/products/view)
-   
+
    This application uses [Snowplow](https://github.com/snowplow/snowplow) for tracking on the website.  In particular, it tracks:
    1. Page visits
    1. Time on page (via page pings)
    1. Location
    1. Clicks on documents and facets
    1. Searches
-   
+
    Search Hub is open source under the Apache License, although
    do note Lucidworks Fusion itself is not open source.
 
@@ -78,16 +78,16 @@ cp sample-config.py config.py
 ../venv/bin/python bootstrap.py
 ```
 
-The bootstrap.py step creates a number of objects in Fusion, including collections, pipelines, schedules and data sources.  By default, the start up 
+The bootstrap.py step creates a number of objects in Fusion, including collections, pipelines, schedules and data sources.  By default, the start up
 script does not start the crawler, nor does it enable the schedules.  If you wish to start them, visit the Fusion Admin UI or do one of the following:
- 
+
  To run the data sources once, upon creation (note: this can be quite expensive, as it will start all datasources):
- 
+
  ```bash
  cd python
  ../venv/bin/python bootstrap.py --start_datasources
  ```
- 
+
  To enable the schedules, edit your config.py and set ```ENABLE_SCHEDULES=True``` and then rerun ```python bootstrap.py```
 
 
@@ -124,7 +124,7 @@ To build a container, do the following steps:
 1. Edit your FUSION_CONFIG.js to point to the IP of your container.  You can do also do this afterwards too, by attaching to the running container and editing it.
 1. Build the SearchHub UI (see above) so that the Client assets are properly installed in the Python ```server``` directory
 1. ```cd python```
-1. Create a ```config-docker.py``` file that contains the configuration required to connect to your Fusion instance.  Note, this Docker container we are running now does not run Fusion. 
+1. Create a ```config-docker.py``` file that contains the configuration required to connect to your Fusion instance.  Note, this Docker container we are running now does not run Fusion.
 1. ```docker build -t searchhub .```  -- This builds the Docker container
 1. ```docker run -it --rm -p 8000:80 --name searchhub searchhub``` -- This runs the container and maps to port 8000.  See Docker help for otherways to run Docker containers
 1. Point your browser at http://host:8000/  where host is the IP for your Docker container.
@@ -177,7 +177,7 @@ Pull Requests are welcome for new projects, new configurations and other new ext
 ## Project Layout
 
 The Search Hub project consists of 3 main development areas, plus build infrastructure:
- 
+
 ### Client
 
 Written in Javascript, using AngularJS and Foundation, the Client is located in the ```client``` directory.  It's build is a bit different than most JS builds
@@ -194,10 +194,10 @@ in ```python/fusion_config``` and ```python/project_config``` to, as the name im
 whatever else is needed to make sure Fusion has the appropriate data necessary to function.  The latter file (run.py) is a Flask app that takes
 care of the serving of the Flask application.  It primarily consists of routing information as well as a thin proxy to Fusion.
 
-Most of the Python work is defined by the ```python/server``` directory.  This directory and it's children define how Flask talks to 
+Most of the Python work is defined by the ```python/server``` directory.  This directory and it's children define how Flask talks to
  Fusion and also defines some template helpers for creating various datasources in Fusion.  A good starting place for learning more
  is the ```fusion.py``` file in ```python/server/backends```
- 
+
 ### Fusion Plugins
 
 The ```searchhub-fusion-plugins``` directory contains Java and Scala code for extending and/or utilizing Fusion's backend capabilities.
@@ -207,9 +207,67 @@ On the Java side, the two main functions are:
 1. A Mail downloader.  Since we don't want to tax Apache Software Foundation resources directly when crawling (they have a banning mechanism), we have setup an httpd mod_mbox mirror.  
 The mail downloader is responsible for retrieving the daily mbox messages.  If you wish to have a local mirror for your own purposes, you can use this class to get your own mbox files.
 
-On the Scala side, there are a number of Spark Scala utilities that show how to leverage Lucene analysis in Spark, run common SparkML tasks like LDA and k-Means plus some 
+On the Scala side, there are a number of Spark Scala utilities that show how to leverage Lucene analysis in Spark, run common SparkML tasks like LDA and k-Means plus some
 code for correlating email messages based on message ids.  See Grant Ingersoll's talk at the Dallas Data Science [meetup](http://www.slideshare.net/lucidworks/data-science-with-solr-and-spark) for details.
 To learn more on the Scala side, start with the ```SparkShellHelpers.scala``` file.
+
+
+#### Fusion Machine Learning Plugins Best Practices 
+##### Organization 
+The general structure of a fusion plugin consists of three files 
+
+Job File - This file is placed in searchhub/python/fusion_config and describes the job. It must have the fields type, id and max_rows and must include the actual body of the script you would like to run in the script field. This is where you generate and train your model, zip your files and send them to the fusion blob store. 
+
+Schedule File - This file is also placed in searchhub/python/fusion_config and describes a schedule for when and how often you would like your job to actually be run. 
+
+Index Pipeline - This file is also placed in searchhub/python/fusion_config. It is a list of pipeline stages, including the ML-Stage, that you will use to reindex your data after your blob has been created. 
+
+##### Script Best Practices 
+The script is where you actually generate the zipped file you want to send to the blob store. This zipped file must have a certain structure to automatically work with the inbuild MLStage in Fusion, 
+
+The zip file should contain the following files, 
+IDF Map 
+Model Data 
+(Optional) JSON File containing metadata you would like to include for the index stage (what fields to consider and what the class name of your model is etc.)
+
+In order to correctly send the blob for use in the ML Index Stage you must also send along some metadata about the modelType. You should write a file specifying information about the modelType you would like to send (see W2V Related Terms for an example). 
+
+In order to properly send the file you should use the methods provided in the spark-solr repository, specifically those in com.lucidworks.spark.fusion.FusionPipelineClient. This file will give you methods to send your blob to solr correctly provided you have the files listed above. 
+
+#### Example Plugin: Word2Vec
+
+We have included a job that leverages Spark's mllib capabilities, specifically word2vec. 
+
+The high-level idea behind word2vec is to first discover the 'most important' terms in each document and then use a word2vec model to generate related terms for each of the most important terms. For each important term in each document we generate a few synonyms and add them to a field in each document so that we can use them in a query pipeline. The steps are as follows. 
+
+If you have never run the spark-shell you may beed to navigate into the 'FUSION_HOME/bin` and run `./spark-shell` to start the spark shell for the first time, so that the plugins in searchhub can be really downloaded into Fusion.
+
+##### Get data to train the model off of: 
+
+The model is trained on the data in your fusion instance. If you already have data that you would like to use to train the model you may skip this step and go straight to step 3. If not, read on. 
+
+Searchhub comes prepackaged with the appropriate index pipeline for the included mailing lists and so, we recommend training the model on mailing list data (although it is not difficult to copy the structure of the mailing-list-w2v index pipeline to suit any datasource you would like to train the model off of). 
+
+**Since the model must be trained before it can be used you must crawl some datasources in fusion BEFORE you run the job to actually train the model**. To do this start crawl a mailing list using the mailing-list-default index pipeline. 
+
+##### Train and store the model off of the crawled data: 
+
+We have written a job to train and store the model in your blob store. The job should be automatically populated by the bootstrap. You can see all availible jobs by navigating to 'http://localhost:8764/api/apollo/spark/configurations/'. If you do not see the w2v job there something has gone wrong with the bootstrap. 
+
+The job is schedueld to run once a day. If you would like to modify this schedule you can change the frequency, timeout time etc. at 'SEARCHHUB_HOME/python/fusion_config/w2v_schedule.json`. If you wish to manually start the job when you have finished crawling your datasources you simply need to 'POST' to 'http://localhost:8764/api/apollo/spark/jobs/w2v_job'. See https://doc.lucidworks.com/fusion/2.4/REST_API_Reference/Spark-Jobs-API.html for more information. 
+
+Running the job will automatically build the model and add it to the blob store. Once the job has finished you should see a 'relatedTermModel' at 'http://localhost:8764/api/apollo/blobs/'. This is what we will be using to build the synonyms fields. 
+
+##### Reindex the data with these new field:
+
+Now that we have the model we can easily produce the related terms fields. Simply go to the mailing list datasource you wish to produce these fields for, change the index pipeline to mailing-list-w2v pipeline and recrawl the datasource. Now the datasource will have two new fields, `related_terms` and `related_terms_ss`. The field `related_terms` will only include one closest w2v synonym of the most important terms. While `related_terms_ss` will have the 2 closest w2v synonyms of the 5 most important terms for the document.
+
+If you wish to make changes to the scala script it is in `SEARCHHUB_HOME/python/fusion_config/w2v_job.json`. A more human readable version of the steps is in `SEARCHHUB_HOME/searchhub-fusion-plugins/src/main/scala/com/lucidworks/searchhub/w2v/generateModelData.scala`. Note these steps may also be executed sequentially in the spark-shell in /FUSION_HOME/bin. 
+
+If you wish to index a datasource that is not a mailing-list against the build w2v model you simply need to add a MLStage to the index pipeline for that datasource. In order for this to work, however, ** the 'Machine Learning Model ID' must be the same as the corresponding blob produced by the s2v job. In our case it is 'relatedTermModel'. 
+
+If you have a large document size, you may see the following error `Kryo serialization failed: Buffer overflow.`. Tp fox this error execute the following request, `curl -vvv -X POST -H "Content-type: application/json" -u admin:password123 -d '"512m"' http://localhost:8764/api/apollo/configurations/spark.kryoserializer.buffer.max` to increase the buffer size (to 512 mb in this example). 
+
 
 ### The Build
 
@@ -224,5 +282,5 @@ To add another project, you need to do a few things:
 
 1. In $FUSION_HOME/python/project_config, create/copy/edit a project configuration file.  See accumulo.json as an example.
 1. In $FUSION_HOME/searchhub-fusion-plugins/src/main/resources, edit the mailing_lists.csv to add your project.
-1. If you are adding more mailing lists, you will need to either crawl the ASF's mail archives site (please be polite when doing so) or setup an 
+1. If you are adding more mailing lists, you will need to either crawl the ASF's mail archives site (please be polite when doing so) or setup an
    httpd mod_mbox instance like we have at http://asfmail.lucidworks.io.  If you submit a pull request against this project with your mailing_lists.csv changes, we will consider adding it to our hosted version.

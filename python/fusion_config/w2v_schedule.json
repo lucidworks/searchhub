@@ -1,0 +1,14 @@
+{
+  "id": "w2v_schedule",
+  "creatorType": "human",
+  "creatorId": "admin",
+  "createTime": "2016-05-15T14:50:17.346Z",
+  "startTime": "2016-08-15T20:18:50.000Z",
+  "repeatUnit": "DAY",
+  "interval": 1,
+  "active": true,
+  "callParams": {
+    "uri": "service://spark/jobs/w2v_job",
+    "method": "POST"
+  }
+}

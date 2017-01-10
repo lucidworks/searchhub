@@ -27,21 +27,23 @@ object SparkShellHelpers {
    "fields" -> "id,body,title,subject,publishedOnDate,project,content”)
    */
 
-  val tmpDF = sqlContext.read.format("solr").options(opts).load
+  val tmpDF = sqlContext.read.format("solr").options(opts).load//this is a dataframe of orignal data
   //Change this depending on how many mail messages you have loaded.  The current settings
   //were based on about 200K messages loaded and wanting the results to finish in a minute or two
-  val mailDF = tmpDF.sample(false, 0.2)
+  val mailDF = tmpDF.sample(false, 0.2)//this is a dataframe, sampled 20%
   mailDF.cache()
   //materialize the data so that we don't have to hit Solr every time
   mailDF.count()
 
   val textColumnName = "body"
 
-  val tokenizer = analyzerFn(noHTMLstdAnalyzerSchema)
+  val tokenizer = analyzerFn(noHTMLstdAnalyzerSchema)//tokenizer, String => List[String] = <function1>
 
-  val vectorizer = TfIdfVectorizer.build(mailDF, tokenizer, textColumnName)
+  val vectorizer = TfIdfVectorizer.build(mailDF, tokenizer, textColumnName)//from dataframe 'mailDF', find the column
+  //'textColumnName', and pass it to tokenizer. this is a function
 
   val vectorizedMail = TfIdfVectorizer.vectorize(mailDF, vectorizer, textColumnName)
+  //vectorizedMail is a dataframe, with an additional column body_vect
   vectorizedMail.cache()
   //Build a k-means model of size 20
   val kmeansModel = ManyNewsgroups.buildKmeansModel(vectorizedMail, k = 20, maxIter = 10, textColumnName)

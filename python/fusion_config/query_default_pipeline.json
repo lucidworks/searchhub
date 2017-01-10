@@ -147,6 +147,11 @@
           "field": "productName",
           "minCount": 1,
           "missing": false
+        },
+        {
+          "field": "related_terms_ss",
+          "minCount": 1,
+          "missing": false
         }
       ],
       "skip": false,

@@ -638,8 +638,6 @@ class FusionBackend(Backend):
       print resp.text
       raise Exception("Couldn't create taxonomy for {0}.  Tax: {1}".format(collection_id, taxonomy))
 
-
-
   def update_logging_scheduler(self):
     delete_old_logs_json = {
       "id":"delete-old-logs",

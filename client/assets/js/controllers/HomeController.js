@@ -34,6 +34,7 @@
      */
     function activate() {
       hc.search = doSearch;
+      hc.w2vSearch = doW2vSearch;
       hc.logout = logout;
       hc.postReward = postReward;
       hc.onChangeSort = onChangeSort;
@@ -226,6 +227,17 @@
         status = 'normal';
       }
       hc.status = status;
+    }
+    function doW2vSearch(){
+      console.log("In the w2v Search Function");
+      var results = Orwell.getObservable('queryResults');
+      var relatedTermsList = results.content.facet_counts.facet_fields.related_terms_ss;
+      if (relatedTermsList.indexOf(hc.searchQuery) != -1){
+        console.log("We need to add a thing!");
+      }
+      else {
+        console.log("No terms to expand!")
+      }
     }
 
     /**

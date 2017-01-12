@@ -25,6 +25,7 @@ def create_config(project_name, project_label, includes, excludes, schedule, pip
         "connector": "lucid.anda",
         "type": "web",
         'pipeline': pipeline,
+        "parserId": "default",
         "properties": {
             "refreshOlderThan": -1,
             "f.appendTrailingSlashToLinks": False,
@@ -53,7 +54,6 @@ def create_config(project_name, project_label, includes, excludes, schedule, pip
             "f.discardLinkURLQueries": False,
             "f.respectMetaEquivRedirects": False,
             "fetchDelayMS": 1000,
-            "splitArchives": True,
             "refreshAll": True,
             "f.defaultMIMEType": "application/octet-stream",
             "restrictToTreeAllowSubdomains": False,

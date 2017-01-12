@@ -10,6 +10,7 @@ from werkzeug.exceptions import NotFound
 from server import app
 from base64 import b64encode
 import requests
+import random
 # Basics From https://github.com/ziozzang/flask-as-http-proxy-server/blob/master/proxy.py
 
 proxy = Blueprint('proxy', __name__)
@@ -37,10 +38,8 @@ def parse_host_port(h):
 #@proxy.route('/proxy/<host>/<path:file>', methods=["GET", "POST", "PUT", "DELETE"])
 @app.route('/api/<path:other>', methods=["GET", "POST", "PUT"])
 def proxy_request(other):
-    hostname = app.config.get("FUSION_HOST")
-    port = int(app.config.get("FUSION_PORT"))
-    protocol = app.config.get("FUSION_PROTOCOL", "http")
-
+    fusion_urls = app.config.get("FUSION_URLS", ["http://localhost:8764/api"])
+    fusion_url = fusion_urls[random.randint(0, len(fusion_urls) -1)]
     user = app.config.get("FUSION_APP_USER")
     password = app.config.get("FUSION_APP_PASSWORD")
 
@@ -52,9 +51,9 @@ def proxy_request(other):
           request_headers[h] = request.headers[h]
 
     if request.query_string:
-      path = "/api/%s?%s" % (other, request.query_string)
+      path = "%s?%s" % (other, request.query_string)
     else:
-      path = '/api/' + other
+      path = other
     #print request_headers
     #print "proxy req headers: {0}".format(request_headers)
     if request.method == "POST" or request.method == "PUT":
@@ -93,13 +92,13 @@ def proxy_request(other):
     r = None
     #print path
     if request.method == "POST":
-        r = requests.post("{0}://{1}:{2}{3}".format(protocol, hostname, port, path), data=form_data, headers=request_headers)
+        r = requests.post("{0}{1}".format(fusion_url, path), data=form_data, headers=request_headers)
     elif request.method == "PUT":
         print form_data
         #print request_headers
-        r = requests.put("{0}://{1}:{2}{3}".format(protocol, hostname, port, path), data=form_data, headers=request_headers)
+        r = requests.put("{0}{1}".format(fusion_url, path), data=form_data, headers=request_headers)
     else:
-        r = requests.get("{0}://{1}:{2}{3}".format(protocol, hostname, port, path), headers=request_headers)
+        r = requests.get("{0}{1}".format(fusion_url, path), headers=request_headers)
     the_content_type = r.headers['content-type']
     #print "CT: " + the_content_type
     flask_response = Response(response=r.iter_content(8192), content_type=the_content_type,

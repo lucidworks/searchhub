@@ -29,7 +29,8 @@
 
 - Depending on how Node is configured on your machine, you may need to run `sudo npm install -g gulp bower` instead, if you get an error with the first command.
 - Python 2.7 and python-dev
-- Fusion 2.4.1 or later.  Download at http://www.lucidworks.com/products/fusion and install in a directory reachable from this project.
+- Fusion 3.0 beta5 or later.  If you would like to be in the 3.0 beta program [contact us](https://lucidworks.com/company/contact/).  Otherwise, to use Fusion 2.4.x, please
+use the tag ```pre_3_0_cutover``` and download Fusion 2.4.x from the [Lucidworks website](https://lucidworks.com/products/fusion/download/).
 
 
 ## Get Started
@@ -136,6 +137,24 @@ Some other helpful commands:
 #### WSGI Compliant Server
 
 See docker.sh in the Home directory for how to build and run mod_wsgi_express in a Docker container.
+
+
+#### Scaling
+
+Lucidworks' production instance is built using [Solr Scale Toolkit](https://github.com/lucidworks/solr-scale-tk) -- aka SSTK -- using a Public/Private VPC setup.  
+The public facing Docker application (i.e. the Client Application below) sits in a public subnet with port 80 exposed.  Everything else
+ is in a private subnet and the public subnet can only reach the private subnet via port 8764.
+ 
+The commands used to deploy Fusion using SSTK are as follows:
+
+1. ```fab new_ec2_instances:shub,n=3,instance_type=r4.2xlarge,az=us-east-1e,purpose='Test r4 instance types',vpcSubnetId='subnet-XXXXXXX',vpcSecurityGroupId='sg-XXXXXXX'```
+1. ```fab attach_ebs:shub,size=800,volume_type=gp2```
+1. ```fab setup_solrcloud:shub,zkn=3```
+1. ```fab upload_fusion_plugin_jars:shub,jars='/home/MY_USER/searchhub-fusion-plugins-0.1.jar'``` -- note, you need this file locally on the machine you are running SSTK on 
+1. ```fab fusion_start:shub,ui=3```
+
+Due note, that because of the private Subnet, the machine you are running SSTK on needs access to that machine, so we typically use a proxy node that is locked down and has all of our
+ tools installed on it.
 
 
 # The Client Application

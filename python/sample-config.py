@@ -31,11 +31,14 @@ SECRET_KEY = "secret"
 
 # Fusion Config
 
-FUSION_PROTOCOL = "http" # Optionally set the protocol, else defaults to http
-FUSION_HOST = "localhost"
-FUSION_PORT = 8764
-FUSION_URL = "http://" + FUSION_HOST + ":" + str(FUSION_PORT) + "/api/"
+# Must be a list and we'll randomly select between them
+FUSION_HOSTS = ["localhost", "localhost"]
+FUSION_PORTS = [8764, 8764]
+FUSION_PROTOCOLS = ["http", "http"]
+
 FUSION_COLLECTION = "lucidfind"
+FUSION_COLLECTION_NUM_SHARDS=1
+FUSION_COLLECTION_NUM_REPLICAS=2
 USER_COLLECTION = "users"
 
 FUSION_ADMIN_USERNAME="admin"
@@ -47,6 +50,9 @@ FUSION_APP_PASSWORD = "XXXXX"
 
 APPROVED_HOSTS = set(["localhost:8764"])
 CHUNK_SIZE = 1024
+
+
+
 
 # Mail archives location.  Lucidworks offers a mirror of the Apache archives available at "http://asfmail.lucidworks.io/mail_files/"
 # The ASF also offers the authoritative version, but it is very easy to get banned from it

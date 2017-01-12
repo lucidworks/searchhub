@@ -5,7 +5,7 @@
     "id" : "e1grsryvjza3e4s4i",
     "params" : [ {
       "key" : "fq",
-      "value" : "_lw_data_source_s:website-lucidworks-youtube-lucidworks OR _lw_data_source_s:website-lucidworks-lucidworks-docs-website OR _lw_data_source_s:website-lucidworks-lucidworks-knowledge-base-website OR _lw_data_source_s:website-lucidworks-lucidworks-website",
+      "value" : "_lw_data_source_s:website-lucidworks-youtube-lucidworks OR _lw_data_source_s:website-lucidworks-lucidworks-docs-website OR _lw_data_source_s:website-lucidworks-lucidworks-website OR _lw_data_source_s:website-lucidworks-lucidworks-javadocs-website",
       "policy" : "append"
     }, {
       "key" : "defType",
@@ -21,7 +21,39 @@
       "policy" : "append"
     }, {
       "key" : "fl",
-      "value" : "id content title",
+      "value" : "id content title productVersion productName",
+      "policy" : "append"
+    }, {
+      "key" : "hl",
+      "value" : "true",
+      "policy" : "append"
+    }, {
+      "key" : "hl.fragsize",
+      "value" : "300",
+      "policy" : "append"
+    }, {
+      "key" : "hl.snippets",
+      "value" : "2",
+      "policy" : "append"
+    }, {
+      "key" : "facet",
+      "value" : "on",
+      "policy" : "append"
+    }, {
+      "key" : "facet.field",
+      "value" : "site_search_s",
+      "policy" : "append"
+    }, {
+      "key" : "group",
+      "value" : "true",
+      "policy" : "append"
+    }, {
+      "key" : "group.field",
+      "value" : "site_search_s",
+      "policy" : "append"
+    }, {
+      "key" : "group.limit",
+      "value" : "5",
       "policy" : "append"
     } ],
     "type" : "set-params",

@@ -42,7 +42,12 @@
         "interval": 1
       },
       "includeTags":["article", ".content", "title"],
-      "scrapeLinksBeforeFiltering":true
+      "scrapeLinksBeforeFiltering":true,
+      "additional_mapping": {
+        "source" : "site_search_s",
+        "target" : "blog",
+        "operation" : "set"
+      }
     },
     {
       "name": "revolution-website",
@@ -65,7 +70,12 @@
       },
       "includeTags": [ "article", "title", "meta" ],
       "excludeTagIDs" : [ "accordion" ],
-      "scrapeLinksBeforeFiltering":true
+      "scrapeLinksBeforeFiltering":true,
+      "additional_mapping": {
+        "source" : "site_search_s",
+        "target" : "documentation",
+        "operation" : "set"
+      }
     },
     {
       "name": "lucidworks-knowledge-base-website",
@@ -78,7 +88,39 @@
       },
       "excludes":[".*signin.*", ".*\\?filter.*", ".*\\?sort.*"], 
       "includeTags":["article", "title"],
-      "scrapeLinksBeforeFiltering":true
+      "scrapeLinksBeforeFiltering":true,
+      "additional_mapping": {
+        "source" : "site_search_s",
+        "target" : "support",
+        "operation" : "set"
+      }
+    },
+    {
+      "name": "lucidworks-javadocs-website",
+      "label":"doc.lucidworks.com javadocs Website",
+      "pipeline":"lw-docs-default",
+      "url": "https://doc.lucidworks.com/fusion-pipeline-javadocs/2.4/index-all.html",
+      "multiurl":["https://doc.lucidworks.com/fusion-pipeline-javadocs/2.4/index-all.html", "https://doc.lucidworks.com/fusion-pipeline-javadocs/2.2/index-all.html", "https://doc.lucidworks.com/fusion-pipeline-javadocs/2.1/index-all.html", "https://doc.lucidworks.com/fusion-pipeline-javadocs/2.0/index-all.html"],
+      "schedule": {
+        "repeatUnit": "DAY",
+        "interval": 2
+      },
+      "excludeTags" : [ "noscript" ],
+      "restrictToTreeUseHostAndPath" : false,
+      "includeTags":["article", "title"],
+      "scrapeLinksBeforeFiltering":true,
+      "includeRegexes" : [ ".*javadocs.*" ],
+      "excludeTagClasses" : [ "topNav", "navList", "subNavList", "skipNav" ],
+      "additional_mapping": {
+        "source" : "site_search_s",
+        "target" : "blog",
+        "operation" : "set"
+      },
+      "additional_mapping_2": {
+        "source" : "productName",
+        "target" : "fusion",
+        "operation" : "set"
+      } 
     }
   ]
 }

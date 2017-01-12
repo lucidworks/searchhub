@@ -1,105 +1,97 @@
 {
-  "id": "lw-docs-default",
-  "stages": [
-    {
-      "type": "tika-parser",
-      "id": "9e86b948-9502-4d02-989d-6533c592062f",
-      "includeImages": false,
-      "flattenCompound": false,
-      "addFailedDocs": false,
-      "addOriginalContent": false,
-      "contentField": "_raw_content_",
-      "contentEncoding": "binary",
-      "returnXml": false,
-      "keepOriginalStructure": false,
-      "extractHtmlLinks": true,
-      "extractOtherLinks": false,
-      "csvParsing": true,
-      "skip": false,
-      "condition": "",
-      "label": "tika-parser"
-    },
-    {
-      "type": "field-mapping",
-      "id": "914434ab-1fb0-40ed-811d-280a96929472",
-      "mappings": [
-        {
-          "source": "/(.*?)lat(itude)?$/",
-          "target": "$1_lat_lon",
-          "operation": "move"
-        },
-        {
-          "source": "/(.*?)lon(gitude)?$/",
-          "target": "$1_lat_lon",
-          "operation": "move"
-        },
-        {
-          "source": "lastModified_dt",
-          "target": "publishedOnDate",
-          "operation": "copy"
-        },
-        {
-          "source" : "body",
-          "target" : "content",
-          "operation" : "copy"
-        }
-      ],
-      "reservedFieldsMappingAllowed": false,
-      "skip": false,
-      "condition": "",
-      "label": "field-mapping"
-    },
-    {
-      "type": "regex-extractor",
-      "id": "twzrspyx4ssckgldi",
-      "rules": [
-        {
-          "source": [
-            "resourceName"
-          ],
-          "target": "productVersion",
-          "pattern": "((fusion)/(\\d+.\\d+))|((\\w+|LucidWorksSearch-Docs)-v(\\d+\\.\\d+))",
-          "group": 3
-        },
-        {
-          "source": [
-            "resourceName"
-          ],
-          "target": "productName",
-          "pattern": "((fusion)/(\\d+.\\d+))|((\\w+|LucidWorksSearch-Docs)-v(\\d+\\.\\d+))",
-          "group": 2
-        },
-        {
-          "source": [
-            "resourceName"
-          ],
-          "target": "productName",
-          "pattern": "((fusion)/(\\d+.\\d+))|((\\w+|LucidWorksSearch-Docs)-v(\\d+\\.\\d+))",
-          "group": 5
-        },
-        {
-          "source": [
-            "resourceName"
-          ],
-          "target": "productVersion",
-          "pattern": "((fusion)/(\\d+.\\d+))|((\\w+|LucidWorksSearch-Docs)-v(\\d+\\.\\d+))",
-          "group": 6
-        }
-      ],
-      "skip": false,
-      "label": "Product and Version"
-    },
-    {
-      "type": "solr-index",
-      "id": "7488fd3a-9926-41a1-afa9-53e8daf4598e",
-      "enforceSchema": true,
-      "dateFormats": [],
-      "params": [],
-      "bufferDocsForSolr": true,
-      "skip": false,
-      "condition": "",
-      "label": "solr-index"
-    }
-  ],
-  "properties": {}
+  "id" : "lw-docs-default",
+  "stages" : [ {
+    "type" : "tika-parser",
+    "id" : "9e86b948-9502-4d02-989d-6533c592062f",
+    "includeImages" : false,
+    "flattenCompound" : false,
+    "addFailedDocs" : false,
+    "addOriginalContent" : false,
+    "contentField" : "_raw_content_",
+    "contentEncoding" : "binary",
+    "returnXml" : false,
+    "keepOriginalStructure" : false,
+    "extractHtmlLinks" : true,
+    "extractOtherLinks" : false,
+    "csvParsing" : true,
+    "includeContentTypes" : [ ],
+    "excludeContentTypes" : [ ],
+    "type" : "tika-parser",
+    "skip" : false,
+    "label" : "tika-parser",
+    "condition" : ""
+  }, {
+    "type" : "field-mapping",
+    "id" : "914434ab-1fb0-40ed-811d-280a96929472",
+    "mappings" : [ {
+      "source" : "/(.*?)lat(itude)?$/",
+      "target" : "$1_lat_lon",
+      "operation" : "move"
+    }, {
+      "source" : "/(.*?)lon(gitude)?$/",
+      "target" : "$1_lat_lon",
+      "operation" : "move"
+    }, {
+      "source" : "lastModified_dt",
+      "target" : "publishedOnDate",
+      "operation" : "copy"
+    }, {
+      "source" : "body",
+      "target" : "content",
+      "operation" : "copy"
+    }, {
+      "source" : "title",
+      "target" : "suggest",
+      "operation" : "copy"
+    } ],
+    "reservedFieldsMappingAllowed" : false,
+    "type" : "field-mapping",
+    "skip" : false,
+    "label" : "field-mapping",
+    "condition" : ""
+  }, {
+    "type" : "regex-extractor",
+    "id" : "twzrspyx4ssckgldi",
+    "rules" : [ {
+      "source" : [ "resourceName" ],
+      "target" : "productVersion",
+      "pattern" : "((fusion)/(\\d+.\\d+))|((\\w+|LucidWorksSearch-Docs)-v(\\d+\\.\\d+))",
+      "group" : 3
+    }, {
+      "source" : [ "resourceName" ],
+      "target" : "productName",
+      "pattern" : "((fusion)/(\\d+.\\d+))|((\\w+|LucidWorksSearch-Docs)-v(\\d+\\.\\d+))",
+      "group" : 2
+    }, {
+      "source" : [ "resourceName" ],
+      "target" : "productName",
+      "pattern" : "((fusion)/(\\d+.\\d+))|((\\w+|LucidWorksSearch-Docs)-v(\\d+\\.\\d+))",
+      "group" : 5
+    }, {
+      "source" : [ "resourceName" ],
+      "target" : "productVersion",
+      "pattern" : "((fusion)/(\\d+.\\d+))|((\\w+|LucidWorksSearch-Docs)-v(\\d+\\.\\d+))",
+      "group" : 6
+    }, {
+      "source" : [ "resourceName" ],
+      "target" : "productVersion",
+      "pattern" : "((fusion-pipeline-javadocs)/(\\d+.\\d+))",
+      "group" : 3
+    } ],
+    "type" : "regex-extractor",
+    "skip" : false,
+    "label" : "Product and Version"
+  }, {
+    "type" : "solr-index",
+    "id" : "7488fd3a-9926-41a1-afa9-53e8daf4598e",
+    "enforceSchema" : true,
+    "dateFormats" : [ ],
+    "params" : [ ],
+    "bufferDocsForSolr" : true,
+    "type" : "solr-index",
+    "skip" : false,
+    "label" : "solr-index",
+    "condition" : ""
+  } ],
+  "properties" : { }
 }

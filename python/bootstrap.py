@@ -47,6 +47,7 @@ def setup_commit_times(backend, collection_id, time_in_ms=10*60*1000):
 def setup_find_fields(backend, collection_id):
   backend.add_field(collection_id, "publishedOnDate", type="tdate", required=True)
   backend.add_field(collection_id, "suggest", type="suggesterFT", multivalued=True)
+  backend.add_field(collection_id, "all_suggest", type="suggesterFT", multivalued=True)
   backend.add_field(collection_id, "content", type="text_en")
   backend.add_field(collection_id, "project", type="string", copyDests=["suggest"])
   backend.add_field(collection_id, "project_label", type="string", copyDests=["suggest"])

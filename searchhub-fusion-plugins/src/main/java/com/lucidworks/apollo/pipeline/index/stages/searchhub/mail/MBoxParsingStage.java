@@ -38,7 +38,7 @@ public class MBoxParsingStage extends IndexStage<MBoxParsingStageConfig> {
 
     // TODO: should be cached for better throughput
     MBoxParsingStageConfig config = getConfiguration();
-    MimeMailParser parser = new MimeMailParser(config.getIdPattern(), config.getBotEmailPatterns());
+    MimeMailParser parser = new MimeMailParser(config.getIdPattern(), config.getBotEmailPatterns(), config.getContentField());
     PipelineDocument newDoc = parser.parse(doc);
     if (newDoc == null) {
       return;

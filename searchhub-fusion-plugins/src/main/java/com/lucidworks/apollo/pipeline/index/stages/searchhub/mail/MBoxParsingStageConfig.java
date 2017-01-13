@@ -41,6 +41,11 @@ public class MBoxParsingStageConfig extends StageConfig {
           hints = {UIHints.ADVANCED}, defaultValue = ".*/\\d{6}\\.mbox/raw/%3[Cc].*%3[eE]$")
   private final String idPatternStr;
 
+  @SchemaProperty(title = "Content Field", required = true,
+          description = "The field to look in for the mail message",
+          defaultValue = "body")
+  private final String contentField;
+
   @JsonIgnore
   private final List<Pattern> botEmailPatterns;
 
@@ -50,11 +55,13 @@ public class MBoxParsingStageConfig extends StageConfig {
   @JsonCreator
   public MBoxParsingStageConfig(@JsonProperty("id") String id,
                                 @JsonProperty("idPatternStr") String idPatternStr,
-                                @JsonProperty("botEmails") List<String> botEmails
+                                @JsonProperty("botEmails") List<String> botEmails,
+                                @JsonProperty("contentField") String contentField
   ) {
     super(id);
     log.info("Id Pattern: {}, botEmails: {}", idPatternStr, botEmails);
     this.idPatternStr = idPatternStr;
+    this.contentField = contentField;
 
     if (idPatternStr != null) {
       idPattern = Pattern.compile(idPatternStr);
@@ -88,6 +95,11 @@ public class MBoxParsingStageConfig extends StageConfig {
   @JsonProperty("idPatternStr")
   public String getIdPatternStr() {
     return idPatternStr;
+  }
+
+  @JsonProperty("contentField")
+  public String getContentField() {
+    return contentField;
   }
 
   @JsonIgnore

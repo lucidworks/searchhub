@@ -39,6 +39,9 @@ subprojects {
     flatDir {
       dirs "$searchhubFusionHome" + "/apps/libs/"
     }
+    flatDir {
+      dirs "$searchhubFusionHome" + "/apps/spark/lib/"
+    }
   }
 
   // Global excludes
@@ -74,7 +77,7 @@ subprojects {
 }
 
 task wrapper(type: Wrapper) {
-  gradleVersion = '2.9'
+  gradleVersion = '2.13'
   distributionUrl = "https://downloads.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
 }
 
@@ -100,9 +103,9 @@ jar {
 
 def jarDir = "searchhub-fusion-plugins/build/libs"
 
-task deployLibsToConnectors(type: Copy) {
+task deployLibsToSpark(type: Copy) {
   from jarDir
-  into "$searchhubFusionHome/apps/libs/"
+  into "$searchhubFusionHome/apps/spark/lib/"
   dependsOn "searchhub-fusion-plugins:compileScala"
   dependsOn "jar"
 }
@@ -114,7 +117,7 @@ task deployLibsToApi(type: Copy) {
   dependsOn "jar"
 }
 
-task deployLibs(dependsOn: [deployLibsToConnectors, deployLibsToApi]) {
+task deployLibs(dependsOn: [deployLibsToSpark, deployLibsToApi]) {
   def searchhubJar = "\napps/libs/searchhub-fusion-plugins-${version}.jar"
   if (file("$searchhubFusionHome/apps/jetty/api/webapps/api-extra-classpath.txt").exists()) {
     file("$searchhubFusionHome/apps/jetty/api/webapps/api-extra-classpath.txt").append(searchhubJar)

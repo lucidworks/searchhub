@@ -442,6 +442,7 @@ class FusionBackend(Backend):
 
     if resp.status_code != 200:
       print resp.status_code, resp, json.dumps(pipeline_config)
+      print resp.text
       return resp
     resp = self.admin_session.put("apollo/{0}/{1}/refresh".format(pipe_type, id),
                                   headers={"Content-type": "application/json"})

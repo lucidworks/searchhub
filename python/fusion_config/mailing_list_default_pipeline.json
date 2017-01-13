@@ -5,6 +5,7 @@
       "type": "mbox-parsing",
       "id": "8j7l23xr",
       "skip": false,
+      "contentField": "body",
       "label": "Mail Parsing"
     },
     {
@@ -25,9 +26,7 @@
         "queryParams": {
           "irt": "${in_reply_to}",
           "q": "{!term f=id v=$irt}"
-        },
-        "headers": { },
-        "entity": { }
+        }
       },
       "skip": false,
       "label": "Find Thread Id",

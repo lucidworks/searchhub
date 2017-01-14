@@ -23,7 +23,7 @@ def create_config(project_name, project_label, pipeline, mailing_list):
     "connector": "lucid.anda",
     "type": "web",
     'pipeline': pipeline,
-    "parserId": "default",
+    #"parserId": "default",
     "properties": {
       "refreshOlderThan": -1,
       "f.appendTrailingSlashToLinks": False,

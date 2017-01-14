@@ -5,7 +5,7 @@
       "type": "mbox-parsing",
       "id": "8j7l23xr",
       "skip": false,
-      "contentField": "body",
+      "contentField": "_raw_content_",
       "label": "Mail Parsing"
     },
     {

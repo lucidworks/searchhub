@@ -1,13 +1,14 @@
 {
   "name": "suggest",
   "class": "solr.SuggestComponent",
-  "suggester":  {
+  "suggester": {
     "name": "blended_infix",
     "lookupImpl": "BlendedInfixLookupFactory",
     "dictionaryImpl": "DocumentDictionaryFactory",
     "storeDir": "suggester_infix_dir",
     "blenderType": "position_linear",
     "field": "suggest",
+    "contextField": "site_search_s",
     "suggestAnalyzerFieldType": "suggesterFT",
     "buildOnStartup": "false",
     "buildOnCommit": "false"

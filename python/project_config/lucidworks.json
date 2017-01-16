@@ -17,7 +17,7 @@
       "name": "youtube-lucidworks",
       "label": "Lucidworks Youtube Channel",
       "pipeline": "youtube_parser",
-      "url": "https://www.youtube.com/user/LucidWorksSearch",
+      "url": "https://non-functional-url.nowhere",
       "schedule": {
         "repeatUnit": "WEEK",
         "interval": 1
@@ -113,7 +113,7 @@
       "excludeTagClasses" : [ "topNav", "navList", "subNavList", "skipNav" ],
       "additional_mapping": {
         "source" : "site_search_s",
-        "target" : "blog",
+        "target" : "documentation",
         "operation" : "set"
       },
       "additional_mapping_2": {

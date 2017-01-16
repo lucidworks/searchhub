@@ -21,7 +21,19 @@
       "policy" : "append"
     }, {
       "key" : "fl",
-      "value" : "id content title",
+      "value" : "id content title productVersion productName",
+      "policy" : "append"
+    }, {
+      "key" : "hl",
+      "value" : "true",
+      "policy" : "append"
+    }, {
+      "key" : "hl.fragsize",
+      "value" : "300",
+      "policy" : "append"
+    }, {
+      "key" : "hl.snippets",
+      "value" : "2",
       "policy" : "append"
     } ],
     "type" : "set-params",

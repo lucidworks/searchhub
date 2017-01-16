@@ -319,6 +319,10 @@
       "source" : "twitter:domain",
       "target" : "twitter_domain_ss",
       "operation" : "move"
+    }, {
+      "source" : "title",
+      "target" : "suggest",
+      "operation" : "copy"
     } ],
     "skip" : false,
     "label" : "Custom field mappings for lucidworks site",

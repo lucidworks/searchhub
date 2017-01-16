@@ -1,0 +1,14 @@
+{
+  "id": "suggester_documentation_builder",
+  "creatorType": "bootstrap",
+  "creatorId": "admin",
+  "repeatUnit": "HOUR",
+  "interval": 5,
+  "active": true,
+  "callParams": {
+    "uri": "solr://lucidfind/suggest?suggest=true&suggest.build=true&suggest.dictionary=blended_infix_documentation&wt=json&suggest.q=hi",
+    "method": "GET",
+    "queryParams": {},
+    "headers": {}
+  }
+}

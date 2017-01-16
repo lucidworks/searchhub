@@ -81,78 +81,79 @@ class FusionBackend(Backend):
         lazy=True
       )
 
-def get_videos(id_string, youtube):
-  video_details = []
-  video_information = youtube.videos().list(
-    id= id_string,
-    part="snippet, id"
-  ).execute()
-  for video in video_information["items"]:
-    video_details.append({
-      "publishedOnDate":video["snippet"]["publishedAt"],
-      "datasource_label":"youtube_parser",
-      "project_label":"youtube",
-      "description":video["snippet"]["description"].encode('utf-8'),
-      "content":video["snippet"]["description"].encode('utf-8'),
-      "title":video["snippet"]["title"].encode('utf-8'),
-      "url":("https://www.youtube.com/watch?v=" + video["id"]).encode('utf-8'),
-      "_lw_data_source_s":"website-lucidworks-youtube-lucidworks"
-    })
-  return video_details
-
-def get_id_string(search_response, youtube):
-  id_vals = [d["id"] for d in search_response]
-  id_string = ""
-  for id_val in id_vals:
-    if id_val["kind"] == "youtube#video":
-      id_string += id_val["videoId"]+ ","
-  return id_string
-
-def get_all_ids(final_video_details, search_response, youtube):
-  id_string = get_id_string(search_response["items"], youtube)
-  video_details = get_videos(id_string, youtube)
-  final_video_details += video_details
-  nextPageToken = search_response.get("nextPageToken", [])
-  if nextPageToken == []:
-    return final_video_details
-  else:
-    print ("Getting the next page of results!")
-    search_response = youtube.search().list(
-      channelId="UCPItOdfUk_tjlvqggkY-JsA",
-      part="id",
-      maxResults=25,
-      pageToken=nextPageToken
+  def get_videos(id_string, youtube):
+    video_details = []
+    video_information = youtube.videos().list(
+      id= id_string,
+      part="snippet, id"
     ).execute()
-    return get_all_ids(final_video_details, search_response, youtube)
+    for video in video_information["items"]:
+      video_details.append({
+        "publishedOnDate":video["snippet"]["publishedAt"],
+        "datasource_label":"youtube_parser",
+        "project_label":"youtube",
+        "description":video["snippet"]["description"].encode('utf-8'),
+        "content":video["snippet"]["description"].encode('utf-8'),
+        "title":video["snippet"]["title"].encode('utf-8'),
+        "url":("https://www.youtube.com/watch?v=" + video["id"]).encode('utf-8'),
+        "_lw_data_source_s":"website-lucidworks-youtube-lucidworks"
+      })
+    return video_details
+  
+  def get_id_string(search_response, youtube):
+    id_vals = [d["id"] for d in search_response]
+    id_string = ""
+    for id_val in id_vals:
+      if id_val["kind"] == "youtube#video":
+        id_string += id_val["videoId"]+ ","
+    return id_string
+  
+  def get_all_ids(final_video_details, search_response, youtube):
+    id_string = get_id_string(search_response["items"], youtube)
+    video_details = get_videos(id_string, youtube)
+    final_video_details += video_details
+    nextPageToken = search_response.get("nextPageToken", [])
+    if nextPageToken == []:
+      return final_video_details
+    else:
+      print ("Getting the next page of results!")
+      search_response = youtube.search().list(
+        channelId="UCPItOdfUk_tjlvqggkY-JsA",
+        part="id",
+        maxResults=25,
+        pageToken=nextPageToken
+      ).execute()
+      return get_all_ids(final_video_details, search_response, youtube)
+  
 
   def run_youtube(self):
     DEVELOPER_KEY = app.config.get("DEVELOPER_KEY")
     YOUTUBE_API_SERVICE_NAME = app.config.get("YOUTUBE_API_SERVICE_NAME")
     YOUTUBE_API_VERSION = app.config.get("YOUTUBE_API_VERSION")
 
-DEVELOPER_KEY = "AIzaSyDhPDWg8ghMoJHordyypdIRQHmQEoDsxso"
-YOUTUBE_API_SERVICE_NAME = "youtube"
-YOUTUBE_API_VERSION = "v3"
+    DEVELOPER_KEY = "AIzaSyDhPDWg8ghMoJHordyypdIRQHmQEoDsxso"
+    YOUTUBE_API_SERVICE_NAME = "youtube"
+    YOUTUBE_API_VERSION = "v3"
 
 
-youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
-                developerKey=DEVELOPER_KEY)
+    youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
+                    developerKey=DEVELOPER_KEY)
 
     print ("finished making youtube")
-search_response = youtube.search().list(
-  channelId="UCPItOdfUk_tjlvqggkY-JsA",
-  part="id",
-  maxResults=25,
-).execute()
+    search_response = youtube.search().list(
+      channelId="UCPItOdfUk_tjlvqggkY-JsA",
+      part="id",
+      maxResults=25,
+    ).execute()
     print("finished getting search_response")
-final_video_details = []
-final_list = self.get_all_ids(final_video_details, search_response, youtube)
+    final_video_details = []
+    final_list = self.get_all_ids(final_video_details, search_response, youtube)
     print(len(final_list))
-json_vids = json.dumps(final_list)
-headers = {'content-type': 'application/json'}
+    json_vids = json.dumps(final_list)
+    headers = {'content-type': 'application/json'}
     print("Trying to access solr")
-r = requests.post("http://localhost:8983/solr/lucidfind/update/json?commit=true", data = json_vids, headers=headers)
-r.raise_for_status()
+    r = requests.post("http://localhost:8983/solr/lucidfind/update/json?commit=true", data = json_vids, headers=headers)
+    r.raise_for_status()
     print("Successfully sent data to solr!")
 
   def toggle_system_metrics(self, enabled=True):
@@ -161,7 +162,6 @@ r.raise_for_status()
     if resp.status_code != 204:
       print "Unable to set system metrics collection to {0}".format(enabled)
       print resp
-
 
   def set_log_level(self, log_level="WARN"):
     print "Setting Log Level to {0}".format(log_level)

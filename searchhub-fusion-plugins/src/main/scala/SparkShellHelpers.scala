@@ -1,6 +1,8 @@
 import com.lucidworks.searchhub.analytics.AnalyzerUtils._
 import com.lucidworks.searchhub.analytics._
 import com.lucidworks.spark.util.SolrSupport
+import org.apache.spark.ml.classification.RandomForestClassifier
+import org.apache.spark.ml.param.IntParam
 import org.apache.spark.mllib.linalg.{Vector => SparkVector}
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.sql.functions._
@@ -16,8 +18,7 @@ import org.apache.spark.sql.functions._
 object SparkShellHelpers {
   val sqlContext: SQLContext = ???
   //Setup our Solr connection
-  val opts = Map("zkhost" -> "localhost:9983", "collection" -> "lucidfind", "query" -> "*:*",
-    "fields" -> "id,body,title,subject,publishedOnDate,project,content")
+  val opts = Map("zkhost" -> "localhost:9983/lwfusion/3.0.0/solr", "collection" -> "lucidfind", "query" -> "*:*")
 
   //Try this if you want to get rid of the JIRA bot noise in the index, this tends to lead to better
   //clusters, since the Jenkins/JIRA file handling is pretty primitive so far and thus skews the clusters
@@ -51,9 +52,9 @@ object SparkShellHelpers {
   //kmeansModel.clusterCenters.foreach(v => println(f"${math.sqrt(ManyNewsgroups.normSquaredL2(v))}%.2f")
 
   //Save to Solr if you want
-  mailWithCentroids.write.format("solr").options(Map("zkhost" -> "localhost:9983", "collection" -> "lucidfind", "batch_size" -> "1000")).mode(org.apache.spark.sql.SaveMode.Overwrite).save
+  mailWithCentroids.write.format("solr").options(Map("zkhost" -> "localhost:9983/lwfusion/3.0.0/solr", "collection" -> "lucidfind", "batch_size" -> "1000")).mode(org.apache.spark.sql.SaveMode.Overwrite).save
   // If you want to commit, run these
-  SolrSupport.getCachedCloudClient("localhost:9983").commit("lucidfind")
+  SolrSupport.getCachedCloudClient("localhost:9983/lwfusion/3.0.0/solr").commit("lucidfind")
 
   //Do some cluster analysis to get a feel for what the clusters look like.
   val lenFn = (v: SparkVector) => v.numNonzeros
@@ -76,8 +77,14 @@ object SparkShellHelpers {
 
   val labelColumnName = "project"
   //Do some classification on the projects.  This is like 20 Newsgroups (http://kdd.ics.uci.edu/databases/20newsgroups/20newsgroups.data.html) on steriods
+  val paramGrids: Map[RandomForestClassifier => IntParam, Array[Int]] =
+    Map(
+      ((rf: RandomForestClassifier) => rf.maxDepth) -> Array(5, 10, 20),
+      ((rf: RandomForestClassifier) => rf.maxBins) -> Array(8, 16, 32),
+      ((rf: RandomForestClassifier) => rf.numTrees) -> Array(50, 100)
+    )
   val (randomForestModel, randomForestMetrics) =
-    ManyNewsgroups.trainRandomForestClassifier(trainingData, testData, labelColumnName, textColumnName)
+    ManyNewsgroups.trainRandomForestClassifier(trainingData, testData, labelColumnName, textColumnName, paramGrids)
 
   //For each document, find 5 top terms(by tfidf) and 2 of their synonyms(by w2v model), store them in 'topSyns'
   //output schema looks like following

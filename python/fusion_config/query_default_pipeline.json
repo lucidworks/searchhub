@@ -173,7 +173,7 @@
         },
         {
           "key": "facet.range.gap",
-          "value": "+1DAY",
+          "value": "+1MONTH",
           "policy": "append"
         },
         {

@@ -31,6 +31,8 @@
 - Python 2.7 and python-dev
 - Fusion 3.0 beta5 or later.  If you would like to be in the 3.0 beta program [contact us](https://lucidworks.com/company/contact/).  Otherwise, to use Fusion 2.4.x, please
 use the tag ```pre_3_0_cutover``` and download Fusion 2.4.x from the [Lucidworks website](https://lucidworks.com/products/fusion/download/).
+- If you want to crawl the Github sources, you'll need a Github API key: https://github.com/blog/1509-personal-api-tokens
+- If you want to crawl Twitter, you will need Twitter keys: https://dev.twitter.com/oauth/overview
 
 
 ## Get Started
@@ -74,7 +76,7 @@ Setup Python Flask:
 source venv/bin/activate
 cd python
 cp sample-config.py config.py
-#fill in config.py as appropriate. You will need Twitter keys to make Twitter work.
+#fill in config.py as appropriate. You will need Twitter keys to make Twitter work.  You will need a Github key to make Github work.
 ../venv/bin/python bootstrap.py
 ```
 

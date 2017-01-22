@@ -65,10 +65,12 @@ ASF_MAIL_ARCHIVE_BASE_URL = "http://asfmail.lucidworks.io/mail_files/"
 #JIRA
 #jiraKey
 # Github
+# See https://github.com/blog/1509-personal-api-tokens
 GITHUB_KEY="XXXXXXXX"
 
 
 # Twitter Config
+# See https://dev.twitter.com/oauth/overview and related documentation on how to obtain these.
 TWITTER_CONSUMER_KEY = "XXXXXXXX"
 TWITTER_CONSUMER_SECRET = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 TWITTER_ACCESS_TOKEN = "YYYYYYYY"

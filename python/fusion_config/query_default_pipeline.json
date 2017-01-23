@@ -56,7 +56,7 @@
         },
         {
           "key": "fl",
-          "value": "id title og_image",
+          "value": "id title og_image parent_s",
           "policy": "default"
         }
       ],

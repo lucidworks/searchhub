@@ -46,7 +46,7 @@ def create_config(project_name, project_label, pipeline, website):
       "f.allowAllCertificates": False,
       "collection": "lucidfind", #TODO: don't hardcode
       "forceRefresh": False,
-      "f.obeyRobots": False,
+      "f.obeyRobots": True,
       "fetchDelayMSPerHost": True,
       "indexCrawlDBToSolr": False,
       "fetchThreads": 1,

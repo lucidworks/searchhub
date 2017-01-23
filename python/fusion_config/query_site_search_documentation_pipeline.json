@@ -40,7 +40,7 @@
       "policy" : "append"
     }, {
       "key" : "fl",
-      "value" : "id title productVersion productName",
+      "value" : "id title productVersion productName og_image",
       "policy" : "append"
     }, {
       "key" : "hl",
@@ -53,6 +53,10 @@
     }, {
       "key" : "hl.snippets",
       "value" : "2",
+      "policy" : "append"
+    }, {
+      "key" : "hl.fl",
+      "value" : "title content",
       "policy" : "append"
     } ],
     "type" : "set-params",

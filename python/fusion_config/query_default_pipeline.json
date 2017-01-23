@@ -36,7 +36,7 @@
         },
         {
           "key": "pf",
-          "value": "title^10 subject^10 keywords^20 body content filename",
+          "value": "title^3 subject^3 keywords^6 body content filename",
           "policy": "append"
         },
         {
@@ -53,6 +53,11 @@
           "key": "bq",
           "value": "publishedOnDate:[NOW/DAY-1YEAR TO NOW/DAY+1YEAR]",
           "policy": "append"
+        },
+        {
+          "key": "fl",
+          "value": "id title og_image",
+          "policy": "default"
         }
       ],
       "skip": false,
@@ -63,14 +68,21 @@
       "id": "tovo0f6r",
       "params": [
         {
-          "key": "hl",
-          "value": "true",
-          "policy": "append"
-        },
-        {
-          "key": "hl.fl",
-          "value": "title,content,body,subject",
-          "policy": "append"
+          "key" : "hl",
+          "value" : "true",
+          "policy" : "append"
+        }, {
+          "key" : "hl.fragsize",
+          "value" : "300",
+          "policy" : "append"
+        }, {
+          "key" : "hl.snippets",
+          "value" : "2",
+          "policy" : "append"
+        }, {
+          "key" : "hl.fl",
+          "value" : "title content body subject question_txt",
+          "policy" : "append"
         }
       ],
       "skip": false,
@@ -84,19 +96,19 @@
       "queryFields": [
         {
           "field": "title",
-          "boost": 10
+          "boost": 3
         },
         {
           "field": "subject",
-          "boost": 10
+          "boost": 3
         },
         {
           "field": "keywords",
-          "boost": 20
+          "boost": 6
         },
         {
           "field": "suggest",
-          "boost": 10
+          "boost": 3
         },
         {
           "field": "body"
@@ -118,82 +130,43 @@
       "fieldFacets": [
         {
           "field": "{!ex=ds}datasource_label",
-          "limit": 100,
+          "limit": 10,
           "minCount": 0,
           "missing": false
         },
         {
           "field": "{!ex=prj}project_label",
-          "limit": 100,
+          "limit": 10,
           "minCount": 0,
           "missing": false
         },
         {
           "field": "{!ex=auth}author_facet",
+          "limit": 10,
           "minCount": 1,
           "missing": false
         },
         {
           "field": "isBot",
+          "limit": 10,
           "minCount": 1,
           "missing": false
         },
         {
           "field": "productVersion",
+          "limit": 10,
           "minCount": 1,
           "missing": false
         },
         {
           "field": "productName",
+          "limit": 10,
           "minCount": 1,
           "missing": false
         }
       ],
       "skip": false,
       "label": "facet"
-    },
-    {
-      "type": "set-params",
-      "id": "e65666f6-0054-4f42-9b45-0492a251d39d",
-      "params": [
-        {
-          "key": "facet.range",
-          "value": "publishedOnDate",
-          "policy": "append"
-        },
-        {
-          "key": "facet.range.start",
-          "value": "NOW/DAY-1YEAR",
-          "policy": "append"
-        },
-        {
-          "key": "facet.range.end",
-          "value": "NOW/DAY+1YEAR",
-          "policy": "append"
-        },
-        {
-          "key": "facet.range.gap",
-          "value": "+1MONTH",
-          "policy": "append"
-        },
-        {
-          "key": "facet.range.other",
-          "value": "all",
-          "policy": "append"
-        },
-        {
-          "key": "facet.limit",
-          "value": "120",
-          "policy": "append"
-        },
-        {
-          "key": "facet.mincount",
-          "value": "1",
-          "policy": "append"
-        }
-      ],
-      "skip": false,
-      "label": "Other Facets"
     },
     {
       "type": "solr-query",

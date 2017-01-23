@@ -58,6 +58,12 @@ CHUNK_SIZE = 1024
 # The ASF also offers the authoritative version, but it is very easy to get banned from it
 ASF_MAIL_ARCHIVE_BASE_URL = "http://asfmail.lucidworks.io/mail_files/"
 
+# FOR USE WITH THE get_youtube.py standalone crawler
+# Set DEVELOPER_KEY to the API key value from the APIs & auth > Registered apps
+# tab of
+#   https://cloud.google.com/console
+# Please ensure that you have enabled the YouTube Data API for your project.
+YOUTUBE_DEVELOPER_KEY="XXXXXXXXXX"
 
 # For project datasource that require passwords per instance (i.e. a JIRA password or Github), the helper classes look for a key in this file that contains the password
 # instead of putting it unencrypted in the DB.  Eventually this will be replaced by a keystore

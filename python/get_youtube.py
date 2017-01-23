@@ -8,23 +8,25 @@ import time
 import sys
 import urllib2
 import math
+from server import app
 
+#TODO: convert this to work w/ the Fusion backend instead of one off
 if __name__ == "__main__":
     # Set DEVELOPER_KEY to the API key value from the APIs & auth > Registered apps
     # tab of
     #   https://cloud.google.com/console
     # Please ensure that you have enabled the YouTube Data API for your project.
-    DEVELOPER_KEY = ""
+    DEVELOPER_KEY = app.config.get("YOUTUBE_DEVELOPER_KEY")
     YOUTUBE_API_SERVICE_NAME = "youtube"
     YOUTUBE_API_VERSION = "v3"
     YOUTUBE_CHANNEL_ID = "UCPItOdfUk_tjlvqggkY-JsA" #Lucidworks video channel
     YOUTUBE_MAX_RESULTS = "30"
     
-    FUSION_UI_URL = "http://localhost:8764/"
-    FUSION_INDEXING_API = "api/apollo/index-pipelines/default/collections/"
-    FUSION_COLLECTION = "lucidfind"
-    FUSION_USERNAME = "admin"
-    FUSION_PASSWORD = ""
+    FUSION_UI_URL = app.config['FUSION_URLS'][0]
+    FUSION_INDEXING_API = "apollo/index-pipelines/default/collections/"
+    FUSION_COLLECTION = app.config.get("FUSION_COLLECTION", "lucidfind")
+    FUSION_USERNAME = app.config.get("FUSION_ADMIN_USERNAME", "admin")
+    FUSION_PASSWORD = app.config.get("FUSION_ADMIN_PASSWORD")
 
     yt_search_url = "https://www.googleapis.com/"
     yt_search_url += YOUTUBE_API_SERVICE_NAME + "/" 
@@ -71,7 +73,7 @@ if __name__ == "__main__":
             video_list.append({
                 "publishedOnDate":video["snippet"]["publishedAt"],
                 "datasource_label":"youtube_parser", 
-                "project_label":"youtube",
+                "project_label":"YouTube",
                 "description":video["snippet"]["description"].encode('utf-8'),
                 "content":video["snippet"]["description"].encode('utf-8'),
                 "title":video["snippet"]["title"].encode('utf-8'), 
@@ -89,5 +91,7 @@ if __name__ == "__main__":
             r.raise_for_status()
         
         headers = {'content-type': 'application/json'}
+        print "Sending video list to {0}".format(fusion_url)
+        #REPLACE WITH Fusion backend support
         fusion_update = requests.post(fusion_url, data=json.dumps(video_list), headers=headers, auth=(FUSION_USERNAME, FUSION_PASSWORD))
-        print("Successfully sent page " + str(page) + " to Fusion")        
+        print("Successfully sent page {0} to Fusion: {1}".format(page, fusion_update))

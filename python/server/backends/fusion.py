@@ -457,7 +457,7 @@ class FusionBackend(Backend):
       for schedule in schedules:
         self.create_or_update_schedule(schedule)
     # Generate Githubs
-    if "githubs" in project:
+    if "githubs" in project and app.config.get('GITHUB_KEY') and app.config.get('GITHUB_KEY') is not "XXXXXXXX":
       github_configs, schedules = create_github_datasource_configs(project)
       for config in github_configs:
         self.update_datasource(**config)

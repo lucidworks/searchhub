@@ -11,6 +11,7 @@ from server import app
 from base64 import b64encode
 import requests
 import random
+import time
 # Basics From https://github.com/ziozzang/flask-as-http-proxy-server/blob/master/proxy.py
 
 proxy = Blueprint('proxy', __name__)
@@ -38,6 +39,7 @@ def parse_host_port(h):
 #@proxy.route('/proxy/<host>/<path:file>', methods=["GET", "POST", "PUT", "DELETE"])
 @app.route('/api/<path:other>', methods=["GET", "POST", "PUT"])
 def proxy_request(other):
+    start = time.time()
     fusion_urls = app.config.get("FUSION_URLS", ["http://localhost:8764/api"])
     fusion_url = fusion_urls[random.randint(0, len(fusion_urls) -1)]
     user = app.config.get("FUSION_APP_USER")
@@ -101,6 +103,9 @@ def proxy_request(other):
         r = requests.get("{0}{1}".format(fusion_url, path), headers=request_headers)
     the_content_type = r.headers['content-type']
     #print "CT: " + the_content_type
+    end = time.time()
+    elapsed = end - start
+    print "Time to process proxy request: {0}".format(elapsed)
     flask_response = Response(response=r.iter_content(8192), content_type=the_content_type,
                               status=r.status_code)
     return flask_response

@@ -40,7 +40,7 @@
       "policy" : "append"
     }, {
       "key" : "fl",
-      "value" : "id content title productVersion productName",
+      "value" : "id title productVersion productName",
       "policy" : "append"
     }, {
       "key" : "hl",

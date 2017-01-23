@@ -42,7 +42,7 @@
         "interval": 1
       },
       "includeTags":["article", ".content", "title"],
-      "excludeRegexes" : [ ".*blog/page.*", ".*category/projects.*", ".*blog/tag.*", ".*category/blogposts.*", ".*blog/category.*" ],
+      "excludes" : [ ".*blog\\/\\?cat_name.*", ".*\\/page\\/.*", ".*blog\\/\\?pn.*" ],
       "scrapeLinksBeforeFiltering":true,
       "additional_mapping": {
         "source" : "site_search_s",

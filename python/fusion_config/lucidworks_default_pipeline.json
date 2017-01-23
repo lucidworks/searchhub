@@ -1,4 +1,3 @@
-
 {
   "id" : "lw-com-website-default",
   "stages" : [ {
@@ -14,11 +13,13 @@
     "keepOriginalStructure" : false,
     "extractHtmlLinks" : true,
     "extractOtherLinks" : false,
-    "csvParsing" : true,
+    "includeContentTypes" : [ ],
+    "excludeContentTypes" : [ ],
+    "type" : "tika-parser",
     "skip" : false,
     "label" : "tika-parser",
-    "type" : "tika-parser",
-    "sourceField" : "_raw_content_"
+    "sourceField" : "_raw_content_",
+    "csvParsing" : true
   }, {
     "type" : "field-mapping",
     "id" : "conn_mapping",
@@ -86,8 +87,7 @@
       "source" : "Author",
       "target" : "author",
       "operation" : "move"
-    },
-      {
+    }, {
       "source" : "meta:author",
       "target" : "author",
       "operation" : "move"
@@ -246,28 +246,59 @@
       "source" : "/ignored_(.*)/",
       "operation" : "keep"
     } ],
+    "reservedFieldsMappingAllowed" : false,
+    "type" : "field-mapping",
     "skip" : false,
-    "label" : "field-mapping",
-    "type" : "field-mapping"
+    "label" : "field-mapping"
   }, {
     "type" : "regex-extractor",
     "id" : "nhppsyvi",
     "rules" : [ {
       "source" : [ "id_copy" ],
       "target" : "category",
+      "writeMode" : "append",
       "pattern" : "http://n3vm203/([^/\\r\\n]+)/?(.*)?",
+      "returnIfNoMatch" : "null",
       "group" : 1
+    }, {
+      "source" : [ "title" ],
+      "target" : "title",
+      "writeMode" : "overwrite",
+      "pattern" : "(.*) \\| Lucidworks",
+      "returnIfNoMatch" : "null",
+      "group" : 1
+    }, {
+      "source" : [ "url" ],
+      "target" : "year_s",
+      "writeMode" : "overwrite",
+      "pattern" : ".*com\\/(\\d\\d\\d\\d)\\/(\\d\\d)\\/(\\d\\d)\\/.*",
+      "returnIfNoMatch" : "null",
+      "group" : 1
+    }, {
+      "source" : [ "url" ],
+      "target" : "month_i",
+      "writeMode" : "overwrite",
+      "pattern" : ".*com\\/(\\d\\d\\d\\d)\\/(\\d\\d)\\/(\\d\\d)\\/.*",
+      "returnIfNoMatch" : "null",
+      "group" : 2
+    }, {
+      "source" : [ "url" ],
+      "target" : "day_i",
+      "writeMode" : "overwrite",
+      "pattern" : ".*com\\/(\\d\\d\\d\\d)\\/(\\d\\d)\\/(\\d\\d)\\/.*",
+      "returnIfNoMatch" : "null",
+      "group" : 3
     } ],
+    "type" : "regex-extractor",
     "skip" : false,
-    "label" : "Extract category from url",
-    "type" : "regex-extractor"
+    "label" : ""
   }, {
     "type" : "javascript-index",
     "id" : "bomeu3di",
     "script" : "function(doc) {\n  if (doc.hasField(\"category\")) {\n    if (doc.getFirstFieldValue(\"category\").equals(\"blog\")) {\n      doc.setField(\"type\", \"post\");\n    } else {\n      doc.setField(\"type\", \"page\");\n    }\n  } else {\n    doc.setField(\"type\", \"page\")\n  }\n  \n  return doc;\n}",
+    "type" : "javascript-index",
     "skip" : false,
-    "label" : "Set field type to page or post",
-    "type" : "javascript-index"
+    "label" : "Set field type to page or post"
   }, {
     "type" : "field-mapping",
     "id" : "n1hy3nmi",
@@ -324,16 +355,20 @@
       "target" : "suggest",
       "operation" : "copy"
     } ],
+    "reservedFieldsMappingAllowed" : false,
+    "type" : "field-mapping",
     "skip" : false,
-    "label" : "Custom field mappings for lucidworks site",
-    "type" : "field-mapping"
+    "label" : "Custom field mappings for lucidworks site"
   }, {
     "type" : "solr-index",
     "id" : "conn_solr",
     "enforceSchema" : true,
+    "dateFormats" : [ ],
+    "params" : [ ],
     "bufferDocsForSolr" : true,
+    "type" : "solr-index",
     "skip" : false,
-    "label" : "solr-index",
-    "type" : "solr-index"
-  } ]
+    "label" : "solr-index"
+  } ],
+  "properties" : { }
 }

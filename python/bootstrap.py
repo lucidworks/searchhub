@@ -274,10 +274,6 @@ status = backend.create_user(username, app.config.get("FUSION_APP_PASSWORD"))
 if status == False:
   exit(1)
 
-if cmd_args.run_youtube:
-  print("Starting the run_youtube")
-  backend.run_youtube()
-
 # Create the collection, setup fields and other solr pieces
 if cmd_args.create_collections or create_all:
   # Create the "lucidfind" collection

@@ -17,7 +17,7 @@
       "policy" : "append"
     }, {
       "key" : "fl",
-      "value" : "id title productVersion productName og_image",
+      "value" : "id title productVersion productName og_image parent_s",
       "policy" : "append"
     }, {
       "key" : "hl",
@@ -33,7 +33,7 @@
       "policy" : "append"
     }, {
       "key" : "hl.fl",
-      "value" : "title,content",
+      "value" : "title content body subject question_txt",
       "policy" : "append"
     }, {
       "key" : "facet",

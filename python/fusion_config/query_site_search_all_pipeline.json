@@ -46,6 +46,7 @@
         "og_image",
         "parent_s"
       ],
+      "minimumMatch": "2<75%",
       "skip": false,
       "label": "search-fields"
     },
@@ -108,12 +109,27 @@
         },
         {
           "key": "group.limit",
-          "value": "10",
+          "value": "20",
           "policy": "append"
         },
         {
           "key": "isBot",
           "value": "false",
+          "policy": "append"
+        },
+        {
+          "key": "bq",
+          "value": "productName:fusion",
+          "policy": "append"
+        },
+        {
+          "key": "bq",
+          "value": "productVersion:3.0^10",
+          "policy": "append"
+        },
+        {
+          "key": "bq",
+          "value": "productVersion:2.4^5",
           "policy": "append"
         }
       ],

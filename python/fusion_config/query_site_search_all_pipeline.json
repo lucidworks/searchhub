@@ -71,6 +71,11 @@
       "id": "e1grsryvjza3e4s4i",
       "params": [
         {
+          "key": "fq",
+          "value": "isBot:false",
+          "policy": "append"
+        },
+        {
           "key": "defType",
           "value": "edismax",
           "policy": "append"

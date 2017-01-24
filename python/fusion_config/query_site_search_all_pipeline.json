@@ -35,6 +35,9 @@
         },
         {
           "field": "productVersion"
+        },
+        {
+          "field": "body"
         }
       ],
       "returnFields": [

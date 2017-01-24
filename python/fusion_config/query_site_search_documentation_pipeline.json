@@ -32,7 +32,7 @@
       "policy" : "append"
     }, {
       "key" : "qf",
-      "value" : "title content productName productVersion",
+      "value" : "title^3 body content productName productVersion",
       "policy" : "append"
     }, {
       "key" : "pf",

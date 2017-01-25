@@ -162,6 +162,9 @@
           "boosts" : [ {
             "value" : "https://doc.lucidworks.com/index.html",
             "boost" : 5.0
+          }, {
+            "value" : "https://lucidworks.com/download/",
+            "boost" : 100.0
           } ]
         } ],
         "type" : "boosts",

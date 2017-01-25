@@ -80,7 +80,8 @@ if __name__ == "__main__":
                 "suggest":video["snippet"]["title"].encode('utf-8'), 
                 "id":("https://www.youtube.com/watch?v=" + video["id"]).encode('utf-8'), 
                 "_lw_data_source_s":"website-lucidworks-youtube-lucidworks",
-                "site_search_s":"video"
+                "site_search_s":"video",
+                "isBot":"false"
             })
             
         #setup for next page

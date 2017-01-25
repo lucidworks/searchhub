@@ -143,8 +143,31 @@
       ],
       "skip": false,
       "label": "set-params"
-    },
-    {
+      }, {
+        "type" : "boosts",
+        "id" : "couvfmvxjd41dzpvi",
+        "queryParam" : "q",
+        "rules" : [ {
+          "keyword" : "download",
+          "mode" : "match",
+          "field" : "id",
+          "boosts" : [ {
+            "value" : "https://lucidworks.com/download/",
+            "boost" : 100.0
+          } ]
+        }, {
+          "keyword" : "fusion",
+          "mode" : "match",
+          "field" : "id",
+          "boosts" : [ {
+            "value" : "https://doc.lucidworks.com/index.html",
+            "boost" : 5.0
+          } ]
+        } ],
+        "type" : "boosts",
+        "skip" : false,
+        "label" : "boosts"
+      }, {
       "type": "solr-query",
       "id": "2aibvx6g1szslqsemi",
       "allowedRequestHandlers": [],

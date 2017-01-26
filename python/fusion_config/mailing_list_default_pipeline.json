@@ -42,6 +42,10 @@
         {
           "source": "_rpc_.*",
           "operation": "delete"
+        },
+        {
+          "source": "body_display",
+          "operation": "delete"
         }
       ],
       "reservedFieldsMappingAllowed": false,

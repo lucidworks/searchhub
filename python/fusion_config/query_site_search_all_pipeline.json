@@ -121,56 +121,65 @@
           "policy": "append"
         },
         {
-          "key": "isBot",
-          "value": "false",
+          "key": "bq",
+          "value": "(productName:fusion)",
           "policy": "append"
         },
         {
           "key": "bq",
-          "value": "productName:fusion",
+          "value": "(productVersion:3.0)^10",
           "policy": "append"
         },
         {
           "key": "bq",
-          "value": "productVersion:3.0^10",
+          "value": "(productVersion:2.4)^5",
           "policy": "append"
         },
         {
-          "key": "bq",
-          "value": "productVersion:2.4^5",
+          "key": "mm.autoRelax",
+          "value": "true",
           "policy": "append"
         }
       ],
       "skip": false,
       "label": "set-params"
-      }, {
-        "type" : "boosts",
-        "id" : "couvfmvxjd41dzpvi",
-        "queryParam" : "q",
-        "rules" : [ {
-          "keyword" : "download",
-          "mode" : "match",
-          "field" : "id",
-          "boosts" : [ {
-            "value" : "https://lucidworks.com/download/",
-            "boost" : 100.0
-          } ]
-        }, {
-          "keyword" : "fusion",
-          "mode" : "match",
-          "field" : "id",
-          "boosts" : [ {
-            "value" : "https://doc.lucidworks.com/index.html",
-            "boost" : 5.0
-          }, {
-            "value" : "https://lucidworks.com/download/",
-            "boost" : 100.0
-          } ]
-        } ],
-        "type" : "boosts",
-        "skip" : false,
-        "label" : "boosts"
-      }, {
+    },
+    {
+      "type": "boosts",
+      "id": "couvfmvxjd41dzpvi",
+      "queryParam": "q",
+      "rules": [
+        {
+          "keyword": "download",
+          "mode": "match",
+          "field": "id",
+          "boosts": [
+            {
+              "value": "https://lucidworks.com/download/",
+              "boost": 100
+            }
+          ]
+        },
+        {
+          "keyword": "fusion",
+          "mode": "match",
+          "field": "id",
+          "boosts": [
+            {
+              "value": "https://doc.lucidworks.com/index.html",
+              "boost": 5
+            },
+            {
+              "value": "https://lucidworks.com/download/",
+              "boost": 100
+            }
+          ]
+        }
+      ],
+      "skip": false,
+      "label": "boosts"
+    },
+    {
       "type": "solr-query",
       "id": "2aibvx6g1szslqsemi",
       "allowedRequestHandlers": [],

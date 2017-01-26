@@ -140,7 +140,8 @@ public class MimeMailParser {
     doc.setField(BaseDocument.FIELD_MODIFIED_DATE, mail.getSentDateStr());
     doc.setField(FIELD_IN_REPLY_TO, mail.getInReplyTo());
     doc.setField(BaseDocument.FIELD_CONTENT, mail.getNewContent());
-    doc.setField(BaseDocument.FIELD_CONTENT_DISPLAY, mail.getDisplayContent());
+    //TODO: don't do this, as Lucene/Solr has changed and rejects, by default, docs w/ large string size
+    //doc.setField(BaseDocument.FIELD_CONTENT_DISPLAY, mail.getDisplayContent());
 
     //Thread information
     doc.setField(FIELD_THREAD_ID, "unknown");

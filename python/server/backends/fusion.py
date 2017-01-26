@@ -69,20 +69,45 @@ class FusionSession(requests.Session):
 class FusionBackend(Backend):
   def __init__(self):
     if app.config.get("FUSION_ADMIN_USERNAME"):
-      self.admin_session = FusionSession(
-        self.get_random_fusion_url(),
+      self.admin_session = self.get_fusion_session(
         app.config.get("FUSION_ADMIN_USERNAME"),
         app.config.get("FUSION_ADMIN_PASSWORD")
       )
 
     if app.config.get("FUSION_APP_USER"):
-      self.app_session = FusionSession(
-        self.get_random_fusion_url(),
+      self.app_session = self.get_fusion_session(
         app.config.get("FUSION_APP_USER"),
-        app.config.get("FUSION_APP_PASSWORD"),
-        lazy=True
+        app.config.get("FUSION_APP_PASSWORD")
       )
+    if self.admin_session is None or self.app_session is None:
+      print "Admin: {0}.  App: {1}".format(self.admin_session, self.app_session)
+      raise Exception("Unable to establish a connection with any of the Fusion nodes in {0}".format(app.config.get("FUSION_URLS")))
 
+
+  def get_fusion_session(self, user, password, lazy=False):
+    fusion_urls = list(app.config.get("FUSION_URLS"))
+    session = None
+    i = 0
+    list_len = len(fusion_urls) #calc outside of the loop, as we are going to be removing values from the loop as we go
+    while (i < list_len):
+      #Note: the requests library has built in retry of the underlying connection, so this loop of retries is about trying alternate URLs
+      node_choice = random.randint(0, len(fusion_urls) - 1)# randint is inclusive of both sides
+      fusion_url = fusion_urls[node_choice]
+      if fusion_url is not None:
+          del fusion_urls[node_choice] # Remove it from the list b/c if it fails, we don't want to try again and if we succeed, it doesn't matter
+          try:
+            session = FusionSession(fusion_url, user, password, lazy)
+            print "Esttablished a Fusion session with {0}".format(fusion_url)
+            break
+          except:
+            print "Connecting to {0} failed, trying a different URL from: {1} (if empty, we give up!)".format(fusion_url, fusion_urls)
+      else:
+        print "No more URLs to try, giving up for: {0} w/ data: {1}".format(path)
+        break
+
+      i += 1
+
+    return session
 
   def get_random_fusion_url(self):
     fusionUrls = app.config.get("FUSION_URLS")

@@ -1,17 +1,23 @@
 {
   "id" : "site-search-documentation",
   "stages" : [ {
+    "type" : "run-query-pipeline",
+    "id" : "c5lz8e5xms9u7syvi",
+    "pipelineToRun" : "site-search-base",
+    "type" : "run-query-pipeline",
+    "skip" : false,
+    "label" : "run-query-pipeline"
+  }, {
     "type" : "set-params",
-    "id" : "j90y8a5jbijurf6r",
+    "id" : "100weprtl0udi",
     "params" : [ {
-      "key" : "fl",
-      "value" : "title content body subject accepted_answer_txt answer_txt",
+      "key" : "fq",
+      "value" : "site_search_s:documentation",
       "policy" : "append"
     } ],
     "type" : "set-params",
     "skip" : false,
-    "label" : "set-params",
-    "condition" : "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\""
+    "label" : "QueryParams - FilterQuery"
   }, {
     "type" : "facet",
     "id" : "6v3va7o48epzaor",
@@ -28,101 +34,6 @@
     "skip" : false,
     "label" : "facet"
   }, {
-    "type" : "set-params",
-    "id" : "pwp7dw5osmjz6w29",
-    "params" : [ {
-      "key" : "fq",
-      "value" : "_lw_data_source_s:website-lucidworks-lucidworks-docs-website OR _lw_data_source_s:website-lucidworks-lucidworks-javadocs-website",
-      "policy" : "append"
-    }, {
-      "key" : "fq",
-      "value" : "productName:fusion",
-      "policy" : "append"
-    }, {
-      "key" : "defType",
-      "value" : "edismax",
-      "policy" : "append"
-    }, {
-      "key" : "qf",
-      "value" : "title^3 body content productName productVersion",
-      "policy" : "append"
-    }, {
-      "key" : "pf",
-      "value" : "title^3 content productName productVersion",
-      "policy" : "append"
-    }, {
-      "key" : "fl",
-      "value" : "id title productVersion productName og_image",
-      "policy" : "append"
-    }, {
-      "key" : "hl",
-      "value" : "true",
-      "policy" : "append"
-    }, {
-      "key" : "hl.fragsize",
-      "value" : "300",
-      "policy" : "append"
-    }, {
-      "key" : "hl.snippets",
-      "value" : "2",
-      "policy" : "append"
-    }, {
-      "key" : "hl.fl",
-      "value" : "title content",
-      "policy" : "append"
-    },
-    {
-        "key": "bq",
-        "value": "productName:fusion",
-        "policy": "append"
-      },
-      {
-        "key": "bq",
-        "value": "productVersion:3.0^10",
-        "policy": "append"
-      },
-      {
-        "key": "bq",
-        "value": "productVersion:2.4^5",
-        "policy": "append"
-      },
-      {
-        "key": "mm.autoRelax",
-        "value": "true",
-        "policy": "append"
-      }
-    ],
-    "type" : "set-params",
-    "skip" : false,
-    "label" : "set-params"
-    }, {
-      "type" : "boosts",
-      "id" : "couvfmvxjd41dzpvi",
-      "queryParam" : "q",
-      "rules" : [ {
-        "keyword" : "download",
-        "mode" : "match",
-        "field" : "id",
-        "boosts" : [ {
-          "value" : "https://lucidworks.com/download/",
-          "boost" : 100.0
-        } ]
-      }, {
-        "keyword" : "fusion",
-        "mode" : "match",
-        "field" : "id",
-        "boosts" : [ {
-          "value" : "https://doc.lucidworks.com/index.html",
-          "boost" : 5.0
-        }, {
-          "value" : "https://lucidworks.com/download/",
-          "boost" : 100.0
-        } ]
-      } ],
-      "type" : "boosts",
-      "skip" : false,
-      "label" : "boosts"
-    }, {
     "type" : "solr-query",
     "id" : "fy9epi3g56v5597ldi",
     "allowedRequestHandlers" : [ ],

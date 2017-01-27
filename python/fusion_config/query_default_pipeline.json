@@ -58,11 +58,6 @@
           "key": "bq",
           "value": "publishedOnDate:[NOW/DAY-1YEAR TO NOW/DAY+1YEAR]",
           "policy": "append"
-        },
-        {
-          "key": "fl",
-          "value": "id title productVersion productName og_image parent_s author project_label datasource_label",
-          "policy": "default"
         }
       ],
       "skip": false,
@@ -125,7 +120,7 @@
           "field": "filename"
         }
       ],
-      "returnFields": [],
+      "returnFields" : [ "id", "title", "productVersion", "productName", "og_image", "parent_s", "author", "project_label", "datasource_label" ],
       "skip": false,
       "label": "search-fields"
     },

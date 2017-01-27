@@ -1,18 +1,6 @@
 {
   "id" : "site-search-base",
   "stages" : [ {
-    "type" : "set-params",
-    "id" : "ykzta24zy5fp3nmi",
-    "params" : [ {
-      "key" : "fl",
-      "value" : "title content body subject accepted_answer_txt answer_txt",
-      "policy" : "append"
-    } ],
-    "type" : "set-params",
-    "skip" : false,
-    "label" : "QueryParams - Wildcard Queries",
-    "condition" : "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\""
-  }, {
     "type" : "landing-pages",
     "id" : "947tuzztj4y0newmi",
     "queryParam" : "q",

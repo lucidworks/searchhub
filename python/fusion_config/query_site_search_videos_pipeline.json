@@ -12,12 +12,24 @@
     "id" : "bl1fllzwrra32qpvi",
     "params" : [ {
       "key" : "fq",
-      "value" : "site_search_s:videos",
+      "value" : "site_search_s:video",
       "policy" : "append"
     } ],
     "type" : "set-params",
     "skip" : false,
     "label" : "QueryParams - FilterQuery"
+  }, {
+    "type" : "set-params",
+    "id" : "ykzta24zy5fp3nmi",
+    "params" : [ {
+      "key" : "fl",
+      "value" : "title content body subject accepted_answer_txt answer_txt",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "QueryParams - Wildcard Queries",
+    "condition" : "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\""
   }, {
     "type" : "solr-query",
     "id" : "eufnqnapmrou5wmi",

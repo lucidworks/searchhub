@@ -34,6 +34,18 @@
     "skip" : false,
     "label" : "facet"
   }, {
+    "type" : "set-params",
+    "id" : "ykzta24zy5fp3nmi",
+    "params" : [ {
+      "key" : "fl",
+      "value" : "title content body subject accepted_answer_txt answer_txt",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "QueryParams - Wildcard Queries",
+    "condition" : "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\""
+  }, {
     "type" : "solr-query",
     "id" : "fy9epi3g56v5597ldi",
     "allowedRequestHandlers" : [ ],

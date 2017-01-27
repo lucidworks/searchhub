@@ -73,6 +73,11 @@
         "key": "bq",
         "value": "productVersion:2.4^5",
         "policy": "append"
+      },
+      {
+        "key": "mm.autoRelax",
+        "value": "true",
+        "policy": "append"
       }
     ],
     "type" : "set-params",

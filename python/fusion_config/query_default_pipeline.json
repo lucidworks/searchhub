@@ -56,7 +56,7 @@
         },
         {
           "key": "fl",
-          "value": "id title productVersion productName og_image parent_s",
+          "value": "id title productVersion productName og_image parent_s author project_label datasource_label",
           "policy": "default"
         }
       ],
@@ -81,7 +81,7 @@
           "policy" : "append"
         }, {
           "key" : "hl.fl",
-          "value" : "title content body subject question_txt",
+          "value" : "title content body subject accepted_answer_txt answer_txt",
           "policy" : "append"
         }
       ],

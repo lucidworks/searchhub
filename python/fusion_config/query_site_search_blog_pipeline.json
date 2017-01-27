@@ -39,7 +39,24 @@
       "key" : "hl.fl",
       "value" : "title content",
       "policy" : "append"
-    } ],
+    }, {
+      "key": "bq",
+      "value": "(productName:fusion)",
+      "policy": "append"
+    }, {
+      "key": "bq",
+      "value": "(productVersion:3.0)^10",
+      "policy": "append"
+    }, {
+      "key": "bq",
+      "value": "(productVersion:2.4)^5",
+      "policy": "append"
+    }, {
+      "key": "mm.autoRelax",
+      "value": "true",
+      "policy": "append"
+    }
+  ],
     "type" : "set-params",
     "skip" : false,
     "label" : "set-params"

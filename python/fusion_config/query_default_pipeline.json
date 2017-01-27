@@ -14,6 +14,11 @@
           "key": "sort",
           "value": "publishedOnDate desc",
           "policy": "default"
+        },
+        {
+          "key" : "fl",
+          "value" : "title content body subject accepted_answer_txt answer_txt",
+          "policy" : "append"
         }
       ],
       "skip": false,

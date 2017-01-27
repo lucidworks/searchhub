@@ -2,6 +2,18 @@
   "id" : "site-search-blog",
   "stages" : [ {
     "type" : "set-params",
+    "id" : "j90y8a5jbijurf6r",
+    "params" : [ {
+      "key" : "fl",
+      "value" : "title content body subject accepted_answer_txt answer_txt",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "set-params",
+    "condition" : "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\""
+  }, {
+    "type" : "set-params",
     "id" : "47fmz1dn13yc01wcdi",
     "params" : [ {
       "key" : "fq",

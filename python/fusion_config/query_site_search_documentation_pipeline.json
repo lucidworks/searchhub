@@ -1,6 +1,18 @@
 {
   "id" : "site-search-documentation",
   "stages" : [ {
+    "type" : "set-params",
+    "id" : "j90y8a5jbijurf6r",
+    "params" : [ {
+      "key" : "fl",
+      "value" : "title content body subject accepted_answer_txt answer_txt",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "set-params",
+    "condition" : "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\""
+  }, {
     "type" : "facet",
     "id" : "6v3va7o48epzaor",
     "fieldFacets" : [ {

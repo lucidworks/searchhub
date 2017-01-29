@@ -17,7 +17,7 @@
         },
         {
           "key" : "fl",
-          "value" : "title content body subject accepted_answer_txt answer_txt",
+          "value" : "title content body subject accepted_answer_txt answer_txt question_txt",
           "policy" : "append"
         }
       ],

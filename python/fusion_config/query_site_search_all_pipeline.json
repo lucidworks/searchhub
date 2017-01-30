@@ -1,193 +1,52 @@
 {
-  "id": "site-search-all",
-  "stages": [
-    {
-      "type": "landing-pages",
-      "id": "rfz1r8givt23d3rf6r",
-      "queryParam": "q",
-      "matchCount": 1,
-      "rules": [
-        {
-          "keyword": "fusion",
-          "mode": "exact",
-          "url": "http://newlucidworks.wpengine.com/fusion/"
-        }
-      ],
-      "skip": false,
-      "label": "landing-pages"
-    },
-    {
-      "type": "search-fields",
-      "id": "0iby6ziko87uy2e29",
-      "rows": 10,
-      "start": 0,
-      "queryFields": [
-        {
-          "field": "title",
-          "boost": 10
-        },
-        {
-          "field": "content"
-        },
-        {
-          "field": "productName",
-          "boost": 2
-        },
-        {
-          "field": "productVersion"
-        },
-        {
-          "field": "body"
-        }
-      ],
-      "returnFields": [
-        "id",
-        "score",
-        "title",
-        "productVersion",
-        "productName",
-        "og_image",
-        "parent_s"
-      ],
-      "minimumMatch": "2<75%",
-      "skip": false,
-      "label": "search-fields"
-    },
-    {
-      "type": "facet",
-      "id": "0918piqywtlxlayvi",
-      "fieldFacets": [
-        {
-          "field": "site_search_s",
-          "minCount": 1,
-          "missing": false
-        }
-      ],
-      "skip": false,
-      "label": "facet"
-    },
-    {
-      "type": "set-params",
-      "id": "e1grsryvjza3e4s4i",
-      "params": [
-        {
-          "key": "fq",
-          "value": "isBot:false",
-          "policy": "append"
-        },
-        {
-          "key": "defType",
-          "value": "edismax",
-          "policy": "append"
-        },
-        {
-          "key": "pf",
-          "value": "title^3 content productName productVersion",
-          "policy": "append"
-        },
-        {
-          "key": "hl",
-          "value": "true",
-          "policy": "append"
-        },
-        {
-          "key": "hl.fragsize",
-          "value": "300",
-          "policy": "append"
-        },
-        {
-          "key": "hl.snippets",
-          "value": "2",
-          "policy": "append"
-        },
-        {
-          "key": "hl.fl",
-          "value": "title content body subject question_txt",
-          "policy": "append"
-        },
-        {
-          "key": "group",
-          "value": "true",
-          "policy": "append"
-        },
-        {
-          "key": "group.field",
-          "value": "site_search_s",
-          "policy": "append"
-        },
-        {
-          "key": "group.limit",
-          "value": "20",
-          "policy": "append"
-        },
-        {
-          "key": "bq",
-          "value": "(productName:fusion)",
-          "policy": "append"
-        },
-        {
-          "key": "bq",
-          "value": "(productVersion:3.0)^10",
-          "policy": "append"
-        },
-        {
-          "key": "bq",
-          "value": "(productVersion:2.4)^5",
-          "policy": "append"
-        },
-        {
-          "key": "mm.autoRelax",
-          "value": "true",
-          "policy": "append"
-        }
-      ],
-      "skip": false,
-      "label": "set-params"
-    },
-    {
-      "type": "boosts",
-      "id": "couvfmvxjd41dzpvi",
-      "queryParam": "q",
-      "rules": [
-        {
-          "keyword": "download",
-          "mode": "match",
-          "field": "id",
-          "boosts": [
-            {
-              "value": "https://lucidworks.com/download/",
-              "boost": 100
-            }
-          ]
-        },
-        {
-          "keyword": "fusion",
-          "mode": "match",
-          "field": "id",
-          "boosts": [
-            {
-              "value": "https://doc.lucidworks.com/index.html",
-              "boost": 5
-            },
-            {
-              "value": "https://lucidworks.com/download/",
-              "boost": 100
-            }
-          ]
-        }
-      ],
-      "skip": false,
-      "label": "boosts"
-    },
-    {
-      "type": "solr-query",
-      "id": "2aibvx6g1szslqsemi",
-      "allowedRequestHandlers": [],
-      "httpMethod": "POST",
-      "allowFederatedSearch": false,
-      "skip": false,
-      "label": "solr-query"
-    }
-  ],
-  "properties": {}
+  "id" : "site-search-all",
+  "stages" : [ {
+    "type" : "run-query-pipeline",
+    "id" : "cy9aw8ouu7m0zr529",
+    "pipelineToRun" : "site-search-base",
+    "type" : "run-query-pipeline",
+    "skip" : false,
+    "label" : "run-query-pipeline"
+  }, {
+    "type" : "set-params",
+    "id" : "e1grsryvjza3e4s4i",
+    "params" : [ {
+      "key" : "group",
+      "value" : "true",
+      "policy" : "append"
+    }, {
+      "key" : "group.field",
+      "value" : "site_search_s",
+      "policy" : "append"
+    }, {
+      "key" : "group.limit",
+      "value" : "10",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "QueryParams - Grouping"
+  }, {
+    "type" : "set-params",
+    "id" : "ykzta24zy5fp3nmi",
+    "params" : [ {
+      "key" : "fl",
+      "value" : "title content body subject accepted_answer_txt answer_txt",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "QueryParams - Wildcard Queries",
+    "condition" : "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\""
+  }, {
+    "type" : "solr-query",
+    "id" : "2aibvx6g1szslqsemi",
+    "allowedRequestHandlers" : [ ],
+    "httpMethod" : "POST",
+    "allowFederatedSearch" : false,
+    "type" : "solr-query",
+    "skip" : false,
+    "label" : "solr-query"
+  } ],
+  "properties" : { }
 }

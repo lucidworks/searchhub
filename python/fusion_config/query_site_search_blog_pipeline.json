@@ -1,76 +1,36 @@
 {
   "id" : "site-search-blog",
   "stages" : [ {
+    "type" : "run-query-pipeline",
+    "id" : "e8czo7r5d8n9izfr",
+    "pipelineToRun" : "site-search-base",
+    "type" : "run-query-pipeline",
+    "skip" : false,
+    "label" : "run-query-pipeline"
+  }, {
     "type" : "set-params",
-    "id" : "47fmz1dn13yc01wcdi",
+    "id" : "rrukkxs29r53o9a4i",
     "params" : [ {
       "key" : "fq",
-      "value" : "_lw_data_source_s:website-lucidworks-lucidworks-website",
-      "policy" : "append"
-    }, {
-      "key" : "defType",
-      "value" : "edismax",
-      "policy" : "append"
-    }, {
-      "key" : "qf",
-      "value" : "title content productName productVersion",
-      "policy" : "append"
-    }, {
-      "key" : "pf",
-      "value" : "title^3 content productName productVersion",
-      "policy" : "append"
-    }, {
-      "key" : "fl",
-      "value" : "id title productVersion productName og_image",
-      "policy" : "append"
-    }, {
-      "key" : "hl",
-      "value" : "true",
-      "policy" : "append"
-    }, {
-      "key" : "hl.fragsize",
-      "value" : "300",
-      "policy" : "append"
-    }, {
-      "key" : "hl.snippets",
-      "value" : "2",
-      "policy" : "append"
-    }, {
-      "key" : "hl.fl",
-      "value" : "title content",
+      "value" : "site_search_s:blog",
       "policy" : "append"
     } ],
     "type" : "set-params",
     "skip" : false,
-    "label" : "set-params"
-    }, {
-      "type" : "boosts",
-      "id" : "couvfmvxjd41dzpvi",
-      "queryParam" : "q",
-      "rules" : [ {
-        "keyword" : "download",
-        "mode" : "match",
-        "field" : "id",
-        "boosts" : [ {
-          "value" : "https://lucidworks.com/download/",
-          "boost" : 100.0
-        } ]
-      }, {
-        "keyword" : "fusion",
-        "mode" : "match",
-        "field" : "id",
-        "boosts" : [ {
-          "value" : "https://doc.lucidworks.com/index.html",
-          "boost" : 5.0
-        }, {
-          "value" : "https://lucidworks.com/download/",
-          "boost" : 100.0
-        } ]
-      } ],
-      "type" : "boosts",
-      "skip" : false,
-      "label" : "boosts"
-    }, {
+    "label" : "QueryParams - FilterQuery"
+  }, {
+    "type" : "set-params",
+    "id" : "ykzta24zy5fp3nmi",
+    "params" : [ {
+      "key" : "fl",
+      "value" : "title content body subject accepted_answer_txt answer_txt",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "QueryParams - Wildcard Queries",
+    "condition" : "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\""
+  }, {
     "type" : "solr-query",
     "id" : "uft581ubvcth85mi",
     "allowedRequestHandlers" : [ ],

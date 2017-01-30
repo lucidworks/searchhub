@@ -1,48 +1,35 @@
 {
   "id" : "site-search-videos",
   "stages" : [ {
+    "type" : "run-query-pipeline",
+    "id" : "bgfok9pgqvfmxcg14i",
+    "pipelineToRun" : "site-search-base",
+    "type" : "run-query-pipeline",
+    "skip" : false,
+    "label" : "run-query-pipeline"
+  }, {
     "type" : "set-params",
-    "id" : "xx07zbjli393yds4i",
+    "id" : "bl1fllzwrra32qpvi",
     "params" : [ {
       "key" : "fq",
-      "value" : "_lw_data_source_s:website-lucidworks-youtube-lucidworks",
-      "policy" : "append"
-    }, {
-      "key" : "defType",
-      "value" : "edismax",
-      "policy" : "append"
-    }, {
-      "key" : "qf",
-      "value" : "title content productName productVersion",
-      "policy" : "append"
-    }, {
-      "key" : "pf",
-      "value" : "title^3 content productName productVersion",
-      "policy" : "append"
-    }, {
-      "key" : "fl",
-      "value" : "id title productVersion productName og_image",
-      "policy" : "append"
-    }, {
-      "key" : "hl",
-      "value" : "true",
-      "policy" : "append"
-    }, {
-      "key" : "hl.fragsize",
-      "value" : "300",
-      "policy" : "append"
-    }, {
-      "key" : "hl.snippets",
-      "value" : "2",
-      "policy" : "append"
-    }, {
-      "key" : "hl.fl",
-      "value" : "title content",
+      "value" : "site_search_s:video",
       "policy" : "append"
     } ],
     "type" : "set-params",
     "skip" : false,
-    "label" : "set-params"
+    "label" : "QueryParams - FilterQuery"
+  }, {
+    "type" : "set-params",
+    "id" : "ykzta24zy5fp3nmi",
+    "params" : [ {
+      "key" : "fl",
+      "value" : "title content body subject accepted_answer_txt answer_txt",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "QueryParams - Wildcard Queries",
+    "condition" : "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\""
   }, {
     "type" : "solr-query",
     "id" : "eufnqnapmrou5wmi",

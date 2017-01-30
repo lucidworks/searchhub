@@ -14,6 +14,11 @@
           "key": "sort",
           "value": "publishedOnDate desc",
           "policy": "default"
+        },
+        {
+          "key" : "fl",
+          "value" : "title content body subject accepted_answer_txt answer_txt question_txt",
+          "policy" : "append"
         }
       ],
       "skip": false,
@@ -53,11 +58,6 @@
           "key": "bq",
           "value": "publishedOnDate:[NOW/DAY-1YEAR TO NOW/DAY+1YEAR]",
           "policy": "append"
-        },
-        {
-          "key": "fl",
-          "value": "id title productVersion productName og_image parent_s",
-          "policy": "default"
         }
       ],
       "skip": false,
@@ -81,7 +81,7 @@
           "policy" : "append"
         }, {
           "key" : "hl.fl",
-          "value" : "title content body subject question_txt",
+          "value" : "title content body subject accepted_answer_txt answer_txt",
           "policy" : "append"
         }
       ],
@@ -120,7 +120,7 @@
           "field": "filename"
         }
       ],
-      "returnFields": [],
+      "returnFields" : [ "id", "title", "productVersion", "productName", "og_image", "parent_s", "author", "project_label", "datasource_label" ],
       "skip": false,
       "label": "search-fields"
     },

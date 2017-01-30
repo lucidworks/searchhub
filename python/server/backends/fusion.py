@@ -73,15 +73,18 @@ class FusionBackend(Backend):
         app.config.get("FUSION_ADMIN_USERNAME"),
         app.config.get("FUSION_ADMIN_PASSWORD")
       )
+      if self.admin_session is None:
+        print "Admin: {0}.  App: {1}".format(self.admin_session, self.app_session)
+        raise Exception("Unable to establish a connection with any of the Fusion nodes in {0}".format(app.config.get("FUSION_URLS")))
 
     if app.config.get("FUSION_APP_USER"):
       self.app_session = self.get_fusion_session(
         app.config.get("FUSION_APP_USER"),
         app.config.get("FUSION_APP_PASSWORD")
       )
-    if self.admin_session is None or self.app_session is None:
-      print "Admin: {0}.  App: {1}".format(self.admin_session, self.app_session)
-      raise Exception("Unable to establish a connection with any of the Fusion nodes in {0}".format(app.config.get("FUSION_URLS")))
+      if self.app_session is None:
+        print "Admin: {0}.  App: {1}".format(self.admin_session, self.app_session)
+        raise Exception("Unable to establish a connection with any of the Fusion nodes in {0}".format(app.config.get("FUSION_URLS")))
 
 
   def get_fusion_session(self, user, password, lazy=False):

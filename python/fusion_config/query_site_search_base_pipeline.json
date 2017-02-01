@@ -34,7 +34,7 @@
       "field" : "body",
       "boost" : 1.0
     } ],
-    "returnFields" : [ "id", "score", "title", "productVersion", "productName", "og_image", "parent_s" ],
+    "returnFields" : [ "id", "score", "title", "productVersion", "productName", "og_image", "parent_s", "publishedOnDate", "article_published_time" ],
     "minimumMatch" : "2<75%",
     "type" : "search-fields",
     "skip" : false,

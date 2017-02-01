@@ -127,7 +127,7 @@
   }, {
     "type" : "solr-query",
     "id" : "e6cd45gr7z8v2qehfr",
-    "allowedRequestHandlers" : [ ],
+    "allowedRequestHandlers" : [ "get", "select" ],
     "httpMethod" : "POST",
     "allowFederatedSearch" : false,
     "type" : "solr-query",

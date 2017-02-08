@@ -120,7 +120,7 @@
           "field": "filename"
         }
       ],
-      "returnFields" : [ "id", "title", "productVersion", "productName", "og_image", "parent_s", "author", "project_label", "datasource_label" ],
+      "returnFields" : [ "id", "title", "productVersion", "productName", "og_image", "parent_s", "author", "project_label", "datasource_label", "publishedOnDate", "article_published_time" ],
       "skip": false,
       "label": "search-fields"
     },

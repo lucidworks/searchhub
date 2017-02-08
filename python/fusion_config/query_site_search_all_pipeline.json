@@ -41,7 +41,7 @@
   }, {
     "type" : "solr-query",
     "id" : "2aibvx6g1szslqsemi",
-    "allowedRequestHandlers" : [ ],
+    "allowedRequestHandlers" : [ "get", "select" ],
     "httpMethod" : "POST",
     "allowFederatedSearch" : false,
     "type" : "solr-query",

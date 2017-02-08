@@ -34,7 +34,7 @@
       "field" : "body",
       "boost" : 1.0
     } ],
-    "returnFields" : [ "id", "score", "title", "productVersion", "productName", "og_image", "parent_s" ],
+    "returnFields" : [ "id", "score", "title", "productVersion", "productName", "og_image", "parent_s", "publishedOnDate", "article_published_time" ],
     "minimumMatch" : "2<75%",
     "type" : "search-fields",
     "skip" : false,
@@ -127,7 +127,7 @@
   }, {
     "type" : "solr-query",
     "id" : "e6cd45gr7z8v2qehfr",
-    "allowedRequestHandlers" : [ ],
+    "allowedRequestHandlers" : [ "get", "select" ],
     "httpMethod" : "POST",
     "allowFederatedSearch" : false,
     "type" : "solr-query",

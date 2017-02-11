@@ -6,6 +6,6 @@ node_modules/gulp/bin/gulp.js build --production
 cd python
 echo "Building Docker Container"
 docker build -t searchhub .
-docker create -p 80:80 --name searchhub searchhub
+#
 sudo service docker-searchhub stop
 sudo service docker-searchhub start

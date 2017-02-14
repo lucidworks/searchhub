@@ -325,7 +325,7 @@ if cmd_args.create_pipelines or create_all:
 if cmd_args.create_taxonomy or create_all:
   setup_taxonomy(backend, lucidfind_collection_id)
 
-if cmd_args.setup_synonyms:
+if cmd_args.setup_synonyms or create_all:
   setup_synonyms(backend, lucidfind_collection_id)
 
 # Configure each Project.

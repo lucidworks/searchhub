@@ -109,6 +109,10 @@ def setup_taxonomy(backend, collection_id):
   taxonomy = json.load(open('fusion_config/taxonomy.json'))
   status = backend.create_taxonomy(collection_id, taxonomy)
 
+def setup_synonyms(backend, collection_id):
+  synonyms_file = open('fusion_config/synonyms.txt', "rb")
+  status = backend.replace_synonyms_txt(collection_id, synonyms_file)
+
 # Schedule all non-datasource by looking in fusion_config for schedule declarations
 def setup_schedules(backend):
   files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_schedule.json")]
@@ -320,6 +324,9 @@ if cmd_args.create_pipelines or create_all:
 
 if cmd_args.create_taxonomy or create_all:
   setup_taxonomy(backend, lucidfind_collection_id)
+
+if cmd_args.setup_synonyms:
+  setup_synonyms(backend, lucidfind_collection_id)
 
 # Configure each Project.
 if cmd_args.create_projects or create_all:

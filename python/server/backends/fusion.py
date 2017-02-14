@@ -566,9 +566,58 @@ class FusionBackend(Backend):
       print resp.status_code
       print resp.text
       raise Exception("Couldn't create taxonomy for {0}.  Tax: {1}".format(collection_id, taxonomy))
+            
+  def replace_synonyms_txt(self, collection_id, synonyms_file):
+    resp = self.admin_session.get("apollo/collections/{0}/solr-config/synonyms.txt".format(collection_id))
 
-
-
+    print "Replacing all synonyms for {0} with synonyms.txt".format(collection_id)
+    put_resp = self.admin_session.put("apollo/collections/{0}/solr-config/synonyms.txt?reload=true".format(collection_id), data=synonyms_file,
+                                   headers={"Content-type": "text/plain"})
+    
+    if put_resp.status_code == 204:
+        print "Synonyms file replacement successful"
+        return None
+    else:
+        raise Exception("Expected 204 response, got something else")
+            
+  def delete_all_synonyms(self, collection_id):
+    get_resp = self.admin_session.get("apollo/collections/{0}/synonyms/synonyms.txt".format(collection_id))
+    if get_resp.json()["path"] == "synonyms.txt":
+      if get_resp.json()["state"] == "NOT_READY":
+        raise Exception("Synonyms editor api for synonyms.txt is in NOT_READY state")
+        #put_resp = self.admin_session.put("apollo/collections/{0}/synonyms/synonyms.txt".format(collection_id), data=json.dumps({"state":"READY"}),
+        #                               headers={"Content-type": "application/json"})
+    else:
+      raise Exception("File synonyms.txt not found")
+      
+    print "Retrieving all synonyms for {0}".format(collection_id)
+    resp = self.admin_session.get("apollo/collections/{0}/synonyms/synonyms.txt/items".format(collection_id))
+    
+    print "Deleting all synonyms for {0}".format(collection_id)
+    for item in resp.json()["items"]:
+        delete_resp = self.admin_session.delete("apollo/collections/{0}/synonyms/synonyms.txt/items/{1}".format(collection_id, item["id"]))
+    
+    commit_resp = self.admin_session.get("apollo/collections/{0}/synonyms/synonyms.txt/items?commit=true".format(collection_id))
+    # Need to commit changes after deletes
+            
+    return None
+      
+  def add_synonym(self, collection_id, synonym):
+    print "Adding synonyms for {0}".format(collection_id)
+    
+    resp = self.admin_session.post("apollo/collections/{0}/synonyms/synonyms.txt/items?commit=true".format(collection_id), data=json.dumps(synonym),
+                                   headers={"Content-type": "application/json"})
+    commit_resp = self.admin_session.get("apollo/collections/{0}/synonyms/synonyms.txt/items?commit=true".format(collection_id))
+    
+    if resp.status_code == 404:
+      return None
+    elif resp.status_code == 200:
+      return resp.json()
+    else:
+      print resp.status_code
+      print resp.text
+      raise Exception("Couldn't create synonym for {0}.  Tax: {1}".format(collection_id, taxonomy))
+  
   def update_logging_scheduler(self):
     delete_old_logs_json = {
       "id":"delete-old-logs",

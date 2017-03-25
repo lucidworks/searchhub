@@ -14,12 +14,14 @@
       }
     ]
   },
-  "queryAnalyzer":{
-    "tokenizer":{
+  "queryAnalyzer": {
+    "tokenizer": {
       "class": "solr.KeywordTokenizerFactory"
     },
-    "filter": {
-      "class": "solr.LowerCaseFilterFactory"
-    }
+    "filters": [
+      {
+        "class": "solr.LowerCaseFilterFactory"
+      }
+    ]
   }
 }

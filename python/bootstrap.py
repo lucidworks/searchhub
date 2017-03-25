@@ -337,6 +337,7 @@ if cmd_args.create_experiments or create_all:
   setup_experiments(backend)
   
 if cmd_args.create_typeahead_collection:
+  collection_id = "shub-typeahead"
   status = backend.create_collection("shub-typeahead", enable_signals=False, enable_search_logs=False, enable_dynamic_schema=False)
   if status == False:
     exit(1)
@@ -353,9 +354,20 @@ if cmd_args.create_typeahead_collection:
       backend.create_pipeline(json.load(open(join("./typeahead_config", file))), pipe_type="query-pipelines")
     else:
       backend.create_pipeline(json.load(open(join("./typeahead_config", file))))
+      
+  print ("Creating fields")
+  backend.add_field(collection_id, "name_contains", type="ngram", stored="true", multivalued="false")
+  backend.add_field(collection_id, "name_edge", type="edge_ngram", stored="true", multivalued="false")
+  backend.add_field(collection_id, "name_en", type="text_en", stored="true", multivalued="false")
+  backend.add_field(collection_id, "name_no_vowels", type="text_no_vowels", stored="true", multivalued="false")
+  backend.add_field(collection_id, "name_phonetic_en", type="phonetic_en", stored="true", multivalued="false")
+  backend.add_field(collection_id, "name_sort", type="string_sort", stored="false", multivalued="false")
+  backend.add_field(collection_id, "spell", type="text_general", stored="false", multivalued="false")
+  
+  backend.add_field(collection_id, "name", type="text_general", multivalued="false", stored="true", copyDests=["name_edge", "name_contains", "name_no_vowels", "name_phonetic_en", "name_en", "name_sort", "spell"])
 
-
-
+  print ("Finished creating fields")
+  
 if cmd_args.start_schedules:
   start_schedules(backend)
 

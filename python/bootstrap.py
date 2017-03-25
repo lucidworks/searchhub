@@ -307,7 +307,7 @@ if cmd_args.create_collections or create_all:
   if status == False:
     exit(1)
   setup_user_fields(backend, user_collection_id)
-
+  
 #create the pipelines
 if cmd_args.create_pipelines or create_all:
   setup_pipelines(backend)
@@ -335,6 +335,26 @@ if cmd_args.create_schedules or create_all:
 
 if cmd_args.create_experiments or create_all:
   setup_experiments(backend)
+  
+if cmd_args.create_typeahead_collection:
+  status = backend.create_collection("shub-typeahead", enable_signals=False, enable_search_logs=False, enable_dynamic_schema=False)
+  if status == False:
+    exit(1)
+    
+  files = [f for f in listdir("./typeahead_config") if isfile(join("./typeahead_config", f)) and f.endswith("_field_type.json")]
+  for file in files:
+    print ("Creating typeahead field_type for %s" % file)
+    backend.add_field_type("shub-typeahead", json.load(open(join("./typeahead_config", file))))
+
+  pipe_files = [f for f in listdir("./typeahead_config") if isfile(join("./typeahead_config", f)) and f.endswith("_pipeline.json")]
+  for file in pipe_files:
+    print ("Creating Pipeline for %s" % file)
+    if file.find("query") != -1:
+      backend.create_pipeline(json.load(open(join("./typeahead_config", file))), pipe_type="query-pipelines")
+    else:
+      backend.create_pipeline(json.load(open(join("./typeahead_config", file))))
+
+
 
 if cmd_args.start_schedules:
   start_schedules(backend)

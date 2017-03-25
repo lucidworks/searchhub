@@ -365,7 +365,10 @@ if cmd_args.create_typeahead_collection:
   backend.add_field(collection_id, "spell", type="text_general", stored="false", multivalued="false")
   
   backend.add_field(collection_id, "name", type="text_general", multivalued="false", stored="true", copyDests=["name_edge", "name_contains", "name_no_vowels", "name_phonetic_en", "name_en", "name_sort", "spell"])
-
+  backend.add_field(collection_id, "type", type="string", stored="true")
+  backend.add_field(collection_id, "synonyms", type="text_general", stored="true", multivalued="true")
+  backend.add_field(collection_id, "bh_search_score", type="int", stored="true")
+  backend.add_field(collection_id, "bh_rank", type="int", stored="true")
   print ("Finished creating fields")
   
 if cmd_args.start_schedules:

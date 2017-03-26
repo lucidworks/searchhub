@@ -2,6 +2,7 @@
 from __future__ import print_function
 
 import json
+import requests
 # Bootstrap the database
 from server import app, cmd_args, create_all
 
@@ -370,6 +371,18 @@ if cmd_args.create_typeahead_collection:
   backend.add_field(collection_id, "bh_search_score", type="int", stored="true")
   backend.add_field(collection_id, "bh_rank", type="int", stored="true")
   print ("Finished creating fields")
+  
+  print ("Creating datasource")
+  datasource_files = [f for f in listdir("./typeahead_config") if isfile(join("./typeahead_config", f)) and f.endswith("_datasource.json")]
+  fusion_update_url = app.config['FUSION_URLS'][0] + "apollo/connectors/datasources"
+  FUSION_USERNAME = app.config.get("FUSION_ADMIN_USERNAME", "admin")
+  FUSION_PASSWORD = app.config.get("FUSION_ADMIN_PASSWORD")
+  for file in datasource_files:
+    resp = requests.post(fusion_update_url,
+                                 data=json.dumps(json.load(open(join("./typeahead_config", file)))),
+                                 headers={'Content-type': 'application/json'},
+                                 auth=(FUSION_USERNAME, FUSION_PASSWORD))
+  print ("Finished creating datasource")
   
 if cmd_args.start_schedules:
   start_schedules(backend)

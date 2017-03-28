@@ -26,6 +26,7 @@
 
 - [Node.js](http://nodejs.org) 5.x: Use the installer for your OS, e.g. ```brew install homebrew/versions/node5```
 - [Git](http://git-scm.com/downloads): Use the installer for your OS.
+- virtualenv: Use the installer for your OS
 
 - Depending on how Node is configured on your machine, you may need to run `sudo npm install -g gulp bower` instead, if you get an error with the first command.
 - Python 2.7 and python-dev
@@ -33,7 +34,6 @@
 use the tag ```pre_3_0_cutover``` and download Fusion 2.4.x from the [Lucidworks website](https://lucidworks.com/products/fusion/download/).
 - If you want to crawl the Github sources, you'll need a Github API key: https://github.com/blog/1509-personal-api-tokens
 - If you want to crawl Twitter, you will need Twitter keys: https://dev.twitter.com/oauth/overview
-
 
 ## Get Started
 
@@ -62,7 +62,7 @@ Run the Installer to install NPM, Bower and Python dependencies
   This is important since ```deployLibs``` (task called by the install task) installed the MBoxParsingStage into Fusion.
 
 
-Build the UI: This will copy the client files into python/server
+Build the UI: This will copy the client files into python/server. NOTE: This is deprecated. 
 
 ```bash
 ./gradlew buildUI
@@ -79,7 +79,7 @@ cp sample-config.py config.py
 #fill in config.py as appropriate. You will need Twitter keys to make Twitter work.  You will need a Github key to make Github work.
 ../venv/bin/python bootstrap.py
 ```
-
+NOTE: Before you can successfully run the bootstrap you must create a lucidfind user in the fusion admin panel. 
 The bootstrap.py step creates a number of objects in Fusion, including collections, pipelines, schedules and data sources.  By default, the start up 
 script does not start the crawler, nor does it enable the schedules.  If you wish to start them, visit the Fusion Admin UI or do one of the following:
  

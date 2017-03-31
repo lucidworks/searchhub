@@ -1,0 +1,152 @@
+{
+  "id" : "typeahead_test-grouped",
+  "stages" : [  {
+    "type" : "set-params",
+    "id" : "g6wdn29",
+    "params" : [ {
+      "key" : "group",
+      "value" : "on",
+      "policy" : "default"
+    }, {
+      "key" : "group.sort",
+      "value" : "${bh_sort_func} desc",
+      "policy" : "default"
+    }, {
+      "key" : "group.limit",
+      "value" : "3",
+      "policy" : "default"
+    }, {
+      "key" : "group.field",
+      "value" : "type",
+      "policy" : "default"
+    }, {
+      "key" : "spellcheck.maxCollations",
+      "value" : "5",
+      "policy" : "default"
+    }, {
+      "key" : "spellcheck.maxCollationTries",
+      "value" : "10",
+      "policy" : "default"
+    }, {
+      "key" : "spellcheck.maxResultsForSuggest",
+      "value" : "50",
+      "policy" : "default"
+    }, {
+      "key" : "spellcheck.collateExtendedResults",
+      "value" : "true",
+      "policy" : "default"
+    }, {
+      "key" : "spellcheck.dictionary",
+      "value" : "default",
+      "policy" : "default"
+    }, {
+      "key" : "spellcheck.extendedResults",
+      "value" : "true",
+      "policy" : "default"
+    }, {
+      "key" : "spellcheck.count",
+      "value" : "5",
+      "policy" : "default"
+    }, {
+      "key" : "spellcheck.alternativeTermCount",
+      "value" : "5",
+      "policy" : "default"
+    }, {
+      "key" : "spellcheck.collate",
+      "value" : "true",
+      "policy" : "default"
+    }, {
+      "key" : "spellcheck",
+      "value" : "on",
+      "policy" : "default"
+    }, {
+      "key" : "hl.fl",
+      "value" : "name,name_en,name_edge,name_contains,synonyms,name_no_vowels,name_phonetic_en",
+      "policy" : "default"
+    }, {
+      "key" : "hl",
+      "value" : "on",
+      "policy" : "default"
+    }, {
+      "key" : "defType",
+      "value" : "edismax",
+      "policy" : "default"
+    }, {
+      "key" : "qf",
+      "value" : "name name_en synonyms name_edge what_is_this^5.0 brand_series_model",
+      "policy" : "default"
+    }, {
+      "key" : "sort",
+      "value" : "type desc",
+      "policy" : "default"
+    }, {
+      "key" : "fl",
+      "value" : "id,name,type,url,bh_*,b_*,image,category_id,manufacturer_id,article_type,sku_no,score",
+      "policy" : "append"
+    }, {
+      "key" : "bh_length_factor",
+      "value" : "div(1,$q_length)",
+      "policy" : "default"
+    }, {
+      "key" : "bh_q1_mm",
+      "value" : "10",
+      "policy" : "default"
+    }, {
+      "key" : "bh_q1_qf",
+      "value" : "name_en^10 name_edge^5",
+      "policy" : "default"
+    }, {
+      "key" : "bh_q2_mm",
+      "value" : "0",
+      "policy" : "default"
+    }, {
+      "key" : "bh_q2_qf",
+      "value" : "name_edge",
+      "policy" : "default"
+    }, {
+      "key" : "bh_sort_func",
+      "value" : "product(sqrt(def(bh_search_score,1)),10000,div(1,def(bh_rank,10000)))",
+      "policy" : "default"
+    }, {
+      "key" : "fl",
+      "value" : "bh_sort_val:$bh_sort_func",
+      "policy" : "append"
+    }, {
+      "key" : "mm",
+      "value" : "100%",
+      "policy" : "default"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "set-params"
+  }, {
+    "type" : "javascript-query",
+    "id" : "wd7cda9iyeb2vb1emi",
+    "script" : "// <canon e> (no space after e)\n//    q1=canon\n//    q2=e\n// <canon e > (space after e)\n//    q1=canon e\n\n\n\nvar q = request.getFirstParam('q');\nrequest.putSingleParam('q_length',q.length);\n\nif (request.getFirstParam('bh_preprocess_q') == 'on' && q != null) {\n  var last_space_pos = q.lastIndexOf(' ');\n  //request.putSingleParam('last_space_pos', last_space_pos);\n\n  var q1 = q;\n  var q2 = '';\n  if ((last_space_pos > 0) && (last_space_pos < q.length)) {\n    // if query has a space in the middle (not end)\n    q1 = q.substring(0,last_space_pos);\n    q2 = q.substring(last_space_pos+1);\n  }\n\n  request.putSingleParam('q1', q1);\n  request.putSingleParam('q2', q2);\n\n  var new_q = '';\n\n  if (request.getFirstParam('boost') != null) { new_q = '{!boost b=$boost}'}\n  \n  q1_qf = request.getFirstParam('bh_q1_qf');\n  q1_mm = request.getFirstParam('bh_q1_mm');\n\n  q2_qf = request.getFirstParam('bh_q2_qf');\n  q2_mm = request.getFirstParam('bh_q2_mm');\n\n  // mm='\" + q1_mm + \"' qf='\" + q1_qf + \"'\n  new_q += \"{!lucene}({!edismax q.operators='' v=$q1})\";\n  if (q2 != '') {\n    new_q += \" AND {!edismax mm='\" + q2_mm + \"' qf='\" + q2_qf + \"' q.operators='' v=$q2}\";\n  }\n\n  // 'q' it up!\n  request.putSingleParam('orig_q', q);\n  request.putSingleParam('hl.q', q);\n  request.putSingleParam('spellcheck.q', q);\n  request.putSingleParam('q', new_q);\n}\n\n",
+    "type" : "javascript-query",
+    "skip" : false,
+    "label" : "Prepare Solr Query",
+    "condition" : ""
+  }, {
+    "type" : "facet",
+    "id" : "xidlsor",
+    "fieldFacets" : [ {
+      "field" : "type",
+      "minCount" : 1,
+      "missing" : false
+    } ],
+    "type" : "facet",
+    "skip" : true,
+    "label" : "facet"
+  }, {
+    "type" : "solr-query",
+    "id" : "7gxbhuxr",
+    "allowedRequestHandlers" : [ "file", "hub", "browse", "spell" ],
+    "httpMethod" : "GET",
+    "allowFederatedSearch" : false,
+    "type" : "solr-query",
+    "skip" : false,
+    "label" : "solr-query"
+  } ],
+  "properties" : { }
+}

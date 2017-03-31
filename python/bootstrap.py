@@ -2,6 +2,7 @@
 from __future__ import print_function
 
 import json
+import requests
 # Bootstrap the database
 from server import app, cmd_args, create_all
 
@@ -307,7 +308,7 @@ if cmd_args.create_collections or create_all:
   if status == False:
     exit(1)
   setup_user_fields(backend, user_collection_id)
-
+  
 #create the pipelines
 if cmd_args.create_pipelines or create_all:
   setup_pipelines(backend)
@@ -335,7 +336,54 @@ if cmd_args.create_schedules or create_all:
 
 if cmd_args.create_experiments or create_all:
   setup_experiments(backend)
+  
+if cmd_args.create_typeahead_collection:
+  collection_id = "shub-typeahead"
+  status = backend.create_collection("shub-typeahead", enable_signals=False, enable_search_logs=False, enable_dynamic_schema=False)
+  if status == False:
+    exit(1)
+    
+  files = [f for f in listdir("./typeahead_config") if isfile(join("./typeahead_config", f)) and f.endswith("_field_type.json")]
+  for file in files:
+    print ("Creating typeahead field_type for %s" % file)
+    backend.add_field_type("shub-typeahead", json.load(open(join("./typeahead_config", file))))
 
+  pipe_files = [f for f in listdir("./typeahead_config") if isfile(join("./typeahead_config", f)) and f.endswith("_pipeline.json")]
+  for file in pipe_files:
+    print ("Creating Pipeline for %s" % file)
+    if file.find("query") != -1:
+      backend.create_pipeline(json.load(open(join("./typeahead_config", file))), pipe_type="query-pipelines")
+    else:
+      backend.create_pipeline(json.load(open(join("./typeahead_config", file))))
+      
+  print ("Creating fields")
+  backend.add_field(collection_id, "name_contains", type="ngram", stored="true", multivalued="false")
+  backend.add_field(collection_id, "name_edge", type="edge_ngram", stored="true", multivalued="false")
+  backend.add_field(collection_id, "name_en", type="text_en", stored="true", multivalued="false")
+  backend.add_field(collection_id, "name_no_vowels", type="text_no_vowels", stored="true", multivalued="false")
+  backend.add_field(collection_id, "name_phonetic_en", type="phonetic_en", stored="true", multivalued="false")
+  backend.add_field(collection_id, "name_sort", type="string_sort", stored="false", multivalued="false")
+  backend.add_field(collection_id, "spell", type="text_general", stored="false", multivalued="false")
+  
+  backend.add_field(collection_id, "name", type="text_general", multivalued="false", stored="true", copyDests=["name_edge", "name_contains", "name_no_vowels", "name_phonetic_en", "name_en", "name_sort", "spell"])
+  backend.add_field(collection_id, "type", type="string", stored="true")
+  backend.add_field(collection_id, "synonyms", type="text_general", stored="true", multivalued="true")
+  backend.add_field(collection_id, "bh_search_score", type="int", stored="true")
+  backend.add_field(collection_id, "bh_rank", type="int", stored="true")
+  print ("Finished creating fields")
+  
+  print ("Creating datasource")
+  datasource_files = [f for f in listdir("./typeahead_config") if isfile(join("./typeahead_config", f)) and f.endswith("_datasource.json")]
+  fusion_update_url = app.config['FUSION_URLS'][0] + "apollo/connectors/datasources"
+  FUSION_USERNAME = app.config.get("FUSION_ADMIN_USERNAME", "admin")
+  FUSION_PASSWORD = app.config.get("FUSION_ADMIN_PASSWORD")
+  for file in datasource_files:
+    resp = requests.post(fusion_update_url,
+                                 data=json.dumps(json.load(open(join("./typeahead_config", file)))),
+                                 headers={'Content-type': 'application/json'},
+                                 auth=(FUSION_USERNAME, FUSION_PASSWORD))
+  print ("Finished creating datasource")
+  
 if cmd_args.start_schedules:
   start_schedules(backend)
 

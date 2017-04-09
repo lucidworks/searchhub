@@ -187,6 +187,12 @@ if cmd_args.create_collections or create_all:
         "methods": [
           "GET"
         ],
+        "path": "/query-pipelines/typeahead_test-grouped/collections/shub-typeahead/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
         "path": "/query-pipelines/lucidfind-default/collections/{0}/select".format(lucidfind_collection_id)
       },
       {

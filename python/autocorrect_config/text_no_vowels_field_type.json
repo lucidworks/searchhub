@@ -1,0 +1,31 @@
+{
+  "name": "text_no_vowels",
+  "class": "solr.TextField",
+  "positionIncrementGap": "100",
+  "analyzer": {
+    "tokenizer": {
+      "class": "solr.StandardTokenizerFactory"
+    },
+    "filters": [
+      {
+        "class": "solr.StopFilterFactory",
+        "ignoreCase": "true",
+        "words": "stopwords.txt"
+      },
+      {
+        "class": "solr.LowerCaseFilterFactory"
+      },
+      {
+        "class": "solr.PatternReplaceFilterFactory",
+        "replacement": "",
+        "replace": "all",
+        "pattern": "([aeiouy])"
+      },
+      {
+        "class": "solr.LengthFilterFactory",
+        "max": "7",
+        "min": "1"
+      }
+    ]
+  }
+}

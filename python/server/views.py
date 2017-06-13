@@ -125,9 +125,13 @@ def iterform(multidict):
 # Route all Signals from Snowplow accordingly
 @app.route('/snowplow/<path:path>', methods=["GET"])
 def track_event(path):
-    # TODO: put in spam prevention
+    print("We are in the track event GET!")
+    print("The path is " + path)
+    # TODO: put in spam prevention. Where is it getting this request??!
     app_id = request.args.get("aid")
+    # print("The app id is " + app_id)
     signal = request.args
+    print("The signals is " + str(signal))
     if app_id == "searchHub" and signal:
         coll_id = app.config.get("FUSION_COLLECTION", "lucidfind")
         result = backend.send_signal(coll_id, signal)
@@ -138,11 +142,12 @@ def track_event(path):
 
 @app.route('/snowplow_post/<path:foo>', methods=["POST"])
 def track_post_event(foo):
+    print("WE ARE IN THE TRACK POST EVENT!! ")
     # TODO: put in spam prevention
     # NOTE: when POSTing, we can have multiple events per POST
     json_payload = request.get_json()
-
     data = json_payload["data"]
+
     for item in data:
         app_id = item["aid"]
         if app_id == "searchHub":
@@ -157,10 +162,22 @@ def track_post_event(foo):
                 form_data = urllib.urlencode(form_data)
                 request_headers["Content-Length"] = str(len(form_data))
             # The snowplow payload needs to set these to override the underlying python requests setting
-            item["ip"] = request.remote_addr
-            item["ua"] = request.user_agent
+            print("THE PAYLOADS ARE")
+            print("The overall request thing is")
+            print(request.get_json())
+            print("The request environ is ")
+            print(request.environ['REMOTE_ADDR'])
+            print("The remote address address is")
+            print(request.remote_addr)
+            # print("The user agent address is ")
+            # print(request.user_agent)
+            # print("\n")
+            # item["ip"] = request.remote_addr
+            # item["ua"] = request.user_agent
             result = backend.send_signal(coll_id, item, request_headers)
+            # print("We have found our result! It is" + str(result))
         else:
+            print("We don't have the right app id! ")
             print "Unable to send signal: app_id: {0}, signal: {1}".format(app_id, item)
     #Snowplow requires you respond with a 1x1 pixel
     return ""#send_from_directory(os.path.join(app.root_path, 'assets/img/'), 'onebyone.png')

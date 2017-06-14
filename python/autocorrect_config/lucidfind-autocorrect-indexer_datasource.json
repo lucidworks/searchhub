@@ -4,7 +4,7 @@
   "modified": "2017-03-25T20:13:07.345Z",
   "connector": "lucid.solr",
   "type": "solr",
-  "pipeline": "website-typeahead-default",
+  "pipeline": "autocorrect-typeahead-default",
   "properties": {
     "initial_mapping": {
       "mappings": [
@@ -37,7 +37,7 @@
     "solr_field_list": "id, title, site_search_s",
     "solr_sort_spec": "id asc",
     "solr_request_handler": "/select",
-    "collection": "website-typeahead",
+    "collection": "autocorrect-typeahead",
     "source_collection": "lucidfind",
     "solr_page_size": 100
   }

@@ -181,6 +181,12 @@ if cmd_args.create_collections or create_all:
         "methods": [
           "GET"
         ],
+        "path": "/query-pipelines/autocorrect-typeahead/collections/{0}/suggest".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
         "path": "/query-pipelines/shub-typeahead/collections/{0}/suggest".format(lucidfind_collection_id)
       },
       {
@@ -384,20 +390,10 @@ if cmd_args.create_typeahead_collection:
                                  auth=(FUSION_USERNAME, FUSION_PASSWORD))
   print ("Finished creating datasource")
 
-# Changes on following files
-# __init__.py
-# line 39 added parser arg
-#
-# ./autocorrect_config/grouped_query_autocorrect_pipeline.json
-# line 2,12,16,76,84
-#
-# ./autocorrect_config/lucidfind-autocorrect-indexer_datasource.json
-# line 2,7,35,40,41
-
 # begining of autocorrect module
 if cmd_args.activate_autocorrect_typeahead:
   # collection id changed and the folder from where the files are loaded. Rest is the same.
-  collection_id = "website-typeahead"
+  collection_id = "autocorrect-typeahead"
   status = backend.create_collection(collection_id, enable_signals=False, enable_search_logs=False, enable_dynamic_schema=False)
   if status == False:
     exit(1)

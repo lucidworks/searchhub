@@ -1,5 +1,5 @@
 {
-  "id" : "website-typeahead-autocorrect",
+  "id" : "autocorrect-typeahead",
   "stages" : [  {
     "type" : "set-params",
     "id" : "g6wdn29",
@@ -13,7 +13,7 @@
       "policy" : "default"
     }, {
       "key" : "group.limit",
-      "value" : "10",
+      "value" : "3",
       "policy" : "default"
     }, {
       "key" : "group.field",

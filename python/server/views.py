@@ -140,11 +140,21 @@ def track_event(path):
 def track_post_event(foo):
     # TODO: put in spam prevention
     # NOTE: when POSTing, we can have multiple events per POST
+    headers = request.headers;
+    print("The headers are")
+    print(headers)
     json_payload = request.get_json()
-
+    print("We are in the track post event!")
     data = json_payload["data"]
+    correct_ip = json_payload["correct_ip"]
+    correct_agent = json_payload["correct_agent"]
+    print("The correct ip is")
+    print(correct_ip)
+    print("The correct agent is")
+    print(correct_agent)
     for item in data:
         app_id = item["aid"]
+        # correct_ip = item["correct_ip"]
         if app_id == "searchHub":
             coll_id = app.config.get("FUSION_COLLECTION", "lucidfind")
             request_headers = {}
@@ -157,8 +167,9 @@ def track_post_event(foo):
                 form_data = urllib.urlencode(form_data)
                 request_headers["Content-Length"] = str(len(form_data))
             # The snowplow payload needs to set these to override the underlying python requests setting
-            item["ip"] = request.remote_addr
-            item["ua"] = request.user_agent
+            item["ip"] = correct_ip
+            item["ua"] = correct_agent
+            print(request_headers)
             result = backend.send_signal(coll_id, item, request_headers)
         else:
             print "Unable to send signal: app_id: {0}, signal: {1}".format(app_id, item)

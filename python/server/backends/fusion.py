@@ -225,6 +225,8 @@ class FusionBackend(Backend):
     """
     Send a signal
     """
+    # print("FUSION.PY: We are sending the signal!")
+    # print("The payload is" + str(payload))
     resp = self.app_session.get("apollo/signals/{0}/i".format(collection_id),
                                   # tack on the i so that we invoke the snowplow endpoint
                                   params=payload, headers=req_headers)

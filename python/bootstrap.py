@@ -187,6 +187,12 @@ if cmd_args.create_collections or create_all:
         "methods": [
           "GET"
         ],
+        "path": "/query-pipelines/typeahead_test-grouped/collections/shub-typeahead/select".format(lucidfind_collection_id)
+      },
+      {
+        "methods": [
+          "GET"
+        ],
         "path": "/query-pipelines/lucidfind-default/collections/{0}/select".format(lucidfind_collection_id)
       },
       {
@@ -370,6 +376,8 @@ if cmd_args.create_typeahead_collection:
   backend.add_field(collection_id, "synonyms", type="text_general", stored="true", multivalued="true")
   backend.add_field(collection_id, "bh_search_score", type="int", stored="true")
   backend.add_field(collection_id, "bh_rank", type="int", stored="true")
+  backend.add_field(collection_id, "productVersion", type="string", stored="true")
+  backend.add_field(collection_id, "resourceName", type="string", multivalued="true")
   print ("Finished creating fields")
   
   print ("Creating datasource")

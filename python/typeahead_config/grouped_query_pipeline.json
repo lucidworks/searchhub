@@ -61,7 +61,7 @@
       "policy" : "default"
     }, {
       "key" : "hl.fl",
-      "value" : "name,name_en,name_edge,name_contains,synonyms,name_no_vowels,name_phonetic_en",
+      "value" : "name_edge",
       "policy" : "default"
     }, {
       "key" : "hl",
@@ -81,7 +81,7 @@
       "policy" : "default"
     }, {
       "key" : "fl",
-      "value" : "id,name,type,url,bh_*,b_*,image,category_id,manufacturer_id,article_type,sku_no,score",
+      "value" : "id,name,type,score,parent_s,productVersion",
       "policy" : "append"
     }, {
       "key" : "bh_length_factor",
@@ -115,6 +115,14 @@
       "key" : "mm",
       "value" : "100%",
       "policy" : "default"
+    }, {
+      "key" : "hl.simple.pre",
+      "value" : "\\<b>",
+      "policy" : "append"
+    }, {
+      "key" : "hl.simple.post",
+      "value" : "\\</b>",
+      "policy" : "append"
     } ],
     "type" : "set-params",
     "skip" : false,

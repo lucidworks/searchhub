@@ -1,0 +1,61 @@
+{
+  "id" : "shub-typeahead-default",
+  "stages" : [ {
+    "type" : "field-mapping",
+    "id" : "fe153fda-2e2d-4095-95f5-a2684f465cd6",
+    "mappings" : [ ],
+    "reservedFieldsMappingAllowed" : false,
+    "type" : "field-mapping",
+    "skip" : false,
+    "label" : "field-mapping"
+  }, {
+    "type" : "solr-dynamic-field-name-mapping",
+    "id" : "7c1c2e54-ef9d-41a9-aa01-55979b90d785",
+    "duplicateSingleValuedFields" : false,
+    "fieldsToExclude" : [ ],
+    "advancedTextFieldsIndexing" : true,
+    "maxTextLengthForAdvancedIndexing" : 100,
+    "type" : "solr-dynamic-field-name-mapping",
+    "skip" : false,
+    "label" : "solr-dynamic-field-name-mapping"
+  }, {
+    "type" : "regex-extractor",
+    "id" : "qr",
+    "rules" : [ {
+      "source" : [ "resourceName" ],
+      "target" : "productVersion",
+      "writeMode" : "append",
+      "pattern" : "((fusion)/(\\d+.\\d+))|((\\w+|LucidWorksSearch-Docs)-v(\\d+\\.\\d+))",
+      "returnIfNoMatch" : "null",
+      "group" : 3
+    }, {
+      "source" : [ "resourceName" ],
+      "target" : "productVersion",
+      "writeMode" : "append",
+      "pattern" : "((fusion)/(\\d+.\\d+))|((\\w+|LucidWorksSearch-Docs)-v(\\d+\\.\\d+))",
+      "returnIfNoMatch" : "null",
+      "group" : 6
+    }, {
+      "source" : [ "resourceName" ],
+      "target" : "productVersion",
+      "writeMode" : "append",
+      "pattern" : "((fusion-pipeline-javadocs)/(\\d+.\\d+))",
+      "returnIfNoMatch" : "null",
+      "group" : 3
+    } ],
+    "type" : "regex-extractor",
+    "skip" : false,
+    "label" : "regex-extractor"
+  }, {
+    "type" : "solr-index",
+    "id" : "1a3a4e98-7c68-4592-8df1-dcb95f44a11e",
+    "enforceSchema" : true,
+    "dateFormats" : [ ],
+    "params" : [ ],
+    "bufferDocsForSolr" : false,
+    "type" : "solr-index",
+    "skip" : false,
+    "label" : "solr-index"
+  } ],
+  "properties" : { }
+}

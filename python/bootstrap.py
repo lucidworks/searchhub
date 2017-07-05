@@ -333,8 +333,8 @@ if cmd_args.create_projects or create_all:
   print("Creating Projects")
   setup_projects(backend)
 
-if cmd_args.create_batch_jobs or create_all:
-  setup_batch_jobs(backend)
+#if cmd_args.create_batch_jobs or create_all:
+#  setup_batch_jobs(backend)
 
 #create the schedules
 if cmd_args.create_schedules or create_all:

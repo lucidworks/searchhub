@@ -21,7 +21,7 @@ def create_config(project_name, project_label, pipeline, website):
     pipeline = website["pipeline"]  # individual mailing lists may override
   config = {
     'id': "website-{0}-{1}".format(project_name, website["name"]),
-    "connector": "lucid.anda",
+    "connector": "lucid.web",
     "type": "web",
     'pipeline': pipeline,
     "parserId": "default",

@@ -9,7 +9,7 @@ public class TwoHopItemSimRecommenderJobConfig extends SparkJobConfig {
 
   @JsonCreator
   public TwoHopItemSimRecommenderJobConfig(@JsonProperty("id") String id) {
-    super(id, TYPE);
+    super(id);
   }
 
 }

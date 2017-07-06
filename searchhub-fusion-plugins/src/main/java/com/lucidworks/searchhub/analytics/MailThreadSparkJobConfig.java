@@ -12,6 +12,6 @@ public class MailThreadSparkJobConfig extends SparkJobConfig {
 
   @JsonCreator
   public MailThreadSparkJobConfig(@JsonProperty("id") String id) {
-    super(id, TYPE);
+    super(id);
   }
 }

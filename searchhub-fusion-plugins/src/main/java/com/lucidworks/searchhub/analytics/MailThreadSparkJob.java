@@ -3,7 +3,8 @@ package com.lucidworks.searchhub.analytics;
 import com.lucidworks.spark.job.SparkJob;
 import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaSparkContext;
-import org.apache.spark.sql.DataFrame;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SQLContext;
 import org.apache.spark.sql.SaveMode;
 
@@ -28,7 +29,7 @@ public class MailThreadSparkJob extends SparkJob<Long, MailThreadSparkJobConfig>
     options.put("query", "*:*");
     Boolean overrideThreadIds = true;
 
-    DataFrame mailDataFrame = sqlContext.read().format("solr").options(options).load();
+    Dataset<Row> mailDataFrame = sqlContext.read().format("solr").options(options).load();
     mailDataFrame = MailThreadJob.createThreadGroups(mailDataFrame, MailThreadJob.accumulators(ctx), overrideThreadIds);
     long numDocs = MailThreadJob.countThreads(mailDataFrame);
     mailDataFrame.write().format("solr").options(options).mode(SaveMode.Overwrite).save();

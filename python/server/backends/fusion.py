@@ -80,7 +80,7 @@ class FusionBackend(Backend):
     if app.config.get("FUSION_APP_USER"):
       self.app_session = self.get_fusion_session(
         app.config.get("FUSION_APP_USER"),
-        app.config.get("FUSION_APP_PASSWORD")
+        app.config.get("FUSION_APP_PASSWORD"), True
       )
       if self.app_session is None:
         print "Admin: {0}.  App: {1}".format(self.admin_session, self.app_session)

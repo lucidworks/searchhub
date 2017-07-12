@@ -1,0 +1,27 @@
+{
+  "name": "ngram",
+  "class": "solr.TextField",
+  "positionIncrementGap": "100",
+  "indexAnalyzer": {
+    "tokenizer": {
+      "class": "solr.NGramTokenizerFactory",
+      "maxGramSize": "20",
+      "minGramSize": "2"
+    },
+    "filters": [
+      {
+        "class": "solr.LowerCaseFilterFactory"
+      }
+    ]
+  },
+  "queryAnalyzer": {
+    "tokenizer": {
+      "class": "solr.KeywordTokenizerFactory"
+    },
+    "filters": [
+      {
+        "class": "solr.LowerCaseFilterFactory"
+      }
+    ]
+  }
+}

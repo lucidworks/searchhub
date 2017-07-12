@@ -1,0 +1,35 @@
+{
+  "name": "edge_ngram_query",
+  "class": "solr.TextField",
+  "positionIncrementGap": "100",
+  "indexAnalyzer": {
+    "tokenizer": {
+      "class": "solr.StandardTokenizerFactory"
+    },
+    "filters": [
+      {
+        "class": "solr.LowerCaseFilterFactory"
+      },
+      {
+        "class": "solr.EdgeNGramFilterFactory",
+        "maxGramSize": "20",
+        "minGramSize": "1"
+      }
+    ]
+  },
+  "queryAnalyzer": {
+    "tokenizer": {
+      "class": "solr.StandardTokenizerFactory"
+    },
+    "filters": [
+      {
+        "class": "solr.LowerCaseFilterFactory"
+      },
+      {
+        "class": "solr.EdgeNGramFilterFactory",
+        "maxGramSize": "20",
+        "minGramSize": "2"
+      }
+    ]
+  }
+}

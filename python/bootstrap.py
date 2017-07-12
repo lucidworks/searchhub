@@ -181,6 +181,30 @@ if cmd_args.create_collections or create_all:
         "methods": [
           "GET"
         ],
+        "path": "/query-pipelines/query-similarites/collections/query-similarites/select"
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/query-recommendation-matching/collections/query-recommendation-matching/select"
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/query-similarites/collections/query-similarites/suggest"
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/query-recommendation-matching/collections/query-recommendation-matching/suggest"
+      },
+      {
+        "methods": [
+          "GET"
+        ],
         "path": "/query-pipelines/shub-typeahead/collections/{0}/suggest".format(lucidfind_collection_id)
       },
       {
@@ -391,7 +415,73 @@ if cmd_args.create_typeahead_collection:
                                  headers={'Content-type': 'application/json'},
                                  auth=(FUSION_USERNAME, FUSION_PASSWORD))
   print ("Finished creating datasource")
+
+# ***********************************************************************
+# Start of query similarity module
+if cmd_args.setup_query_recommendations:
+  # collection id changed and the folder from where the files are loaded. Rest is the same.
+  collection_id = "query-recommendation-matching"
+  status = backend.create_collection(collection_id, enable_signals=False, enable_search_logs=False, enable_dynamic_schema=False)
+  if status == False:
+    exit(1)
+
+  status = backend.create_collection("query-similarites", enable_signals=False, enable_search_logs=False, enable_dynamic_schema=False)
+  if status == False:
+    exit(1)
+    
+  files = [f for f in listdir("./query-recommendation_config") if isfile(join("./query-recommendation_config", f)) and f.endswith("_field_type.json")]
+  for file in files:
+    print ("Creating typeahead field_type for %s" % file)
+    backend.add_field_type(collection_id, json.load(open(join("./query-recommendation_config", file))))
+
+  pipe_files = [f for f in listdir("./query-recommendation_config") if isfile(join("./query-recommendation_config", f)) and f.endswith("_pipeline.json")]
+  for file in pipe_files:
+    print ("Creating Pipeline for %s" % file)
+    if file.find("query") != -1:
+      backend.create_pipeline(json.load(open(join("./query-recommendation_config", file))), pipe_type="query-pipelines")
+    else:
+      backend.create_pipeline(json.load(open(join("./query-recommendation_config", file))))
+
+  # set the fields to ngram_query and edge_ngram_query to enable handling typos in queries.
+  print ("Creating fields")
+  backend.add_field(collection_id, "name_contains", type="ngram_query", stored="true", multivalued="false")
+  backend.add_field(collection_id, "name_edge", type="edge_ngram_query", stored="true", multivalued="false")
+  backend.add_field(collection_id, "name_en", type="text_en", stored="true", multivalued="false")
+
+  backend.add_field(collection_id, "name", type="text_general", multivalued="false", stored="true", copyDests=["name_edge", "name_contains", "name_en"])
+  print ("Finished creating fields")
   
+  # change of the path where files are located. i.e. ./query-recommendation_config
+  print ("Creating datasource")
+  datasource_files = [f for f in listdir("./query-recommendation_config") if isfile(join("./query-recommendation_config", f)) and f.endswith("_datasource.json")]
+  fusion_update_url = app.config['FUSION_URLS'][0] + "apollo/connectors/datasources"
+  print ("Fusion update url:",fusion_update_url)
+  FUSION_USERNAME = app.config.get("FUSION_ADMIN_USERNAME", "admin")
+  FUSION_PASSWORD = app.config.get("FUSION_ADMIN_PASSWORD")
+  print ("username:",FUSION_USERNAME,"password:",FUSION_PASSWORD)
+  for file in datasource_files:
+    print ("file:",file)
+    resp = requests.post(fusion_update_url,
+                                 data=json.dumps(json.load(open(join("./query-recommendation_config", file)))),
+                                 headers={'Content-type': 'application/json'},
+                                 auth=(FUSION_USERNAME, FUSION_PASSWORD))
+  print ("Finished creating datasource")
+
+  print ("Creating spark job")
+  job_files = [f for f in listdir("./query-recommendation_config") if isfile(join("./query-recommendation_config", f)) and f.endswith("_job.json")]
+  fusion_update_url = app.config['FUSION_URLS'][0] + "apollo/spark/configurations"
+  print ("Fusion update url:",fusion_update_url)
+  for file in job_files:
+      print ("file:",file)
+      resp = requests.post(fusion_update_url,
+                                   data=json.dumps(json.load(open(join("./query-recommendation_config", file)))),
+                                   headers={'Content-type': 'application/json'},
+                                   auth=(FUSION_USERNAME, FUSION_PASSWORD))
+  print ("Finished creating spark jobs")
+  print ("Pipelines and collection setup for the query-recommendation")
+  print ("*************************************\nCrawl the datasource and run query-recommendation job!\n*************************************")
+  # end of the query-recommendation module
+
 if cmd_args.start_schedules:
   start_schedules(backend)
 

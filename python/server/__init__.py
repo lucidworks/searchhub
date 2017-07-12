@@ -36,7 +36,7 @@ parser.add_argument('--start_schedules', action='store_true',
                             help='Activate all schedules.  Only SearchHub schedules will be activated')
 parser.add_argument('--stop_schedules', action='store_true',
                             help='Stop all active schedules.  Only SearchHub schedules will be de-activated')
-parser.add_argument('--activate_autocorrect_typeahead', action='store_true',
+parser.add_argument('--setup_autocorrect_typeahead', action='store_true',
                             help='create/start the autocorrect+typeahead collection')
 cmd_args = parser.parse_args()
 

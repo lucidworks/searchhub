@@ -391,7 +391,7 @@ if cmd_args.create_typeahead_collection:
   print ("Finished creating datasource")
 
 # begining of autocorrect module
-if cmd_args.activate_autocorrect_typeahead:
+if cmd_args.setup_autocorrect_typeahead:
   # collection id changed and the folder from where the files are loaded. Rest is the same.
   collection_id = "autocorrect-typeahead"
   status = backend.create_collection(collection_id, enable_signals=False, enable_search_logs=False, enable_dynamic_schema=False)
@@ -432,6 +432,7 @@ if cmd_args.activate_autocorrect_typeahead:
   print ("Creating datasource")
   datasource_files = [f for f in listdir("./autocorrect_config") if isfile(join("./autocorrect_config", f)) and f.endswith("_datasource.json")]
   fusion_update_url = app.config['FUSION_URLS'][0] + "apollo/connectors/datasources"
+  print ("Fusion update url:",fusion_update_url)
   FUSION_USERNAME = app.config.get("FUSION_ADMIN_USERNAME", "admin")
   FUSION_PASSWORD = app.config.get("FUSION_ADMIN_PASSWORD")
   for file in datasource_files:

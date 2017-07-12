@@ -78,10 +78,10 @@ def setup_find_fields(backend, collection_id):
 
 # Setup experiments we have specified 
 def setup_experiments(backend):    
-  job_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_experiment.json")]    
+  job_files = [f for f in listdir("./fusion_config/experiment_configs") if isfile(join("./fusion_config/experiment_configs", f)) and f.endswith("_experiment.json")]    
   for file in job_files:    
     print ("Creating Experiment for %s" % file)   
-    backend.create_experiment(json.load(open(join("./fusion_config", file))))
+    backend.create_experiment(json.load(open(join("./fusion_config/experiment_configs", file))))
 
 # Setup schema for user collection
 def setup_user_fields(backend, collection_id):
@@ -93,20 +93,20 @@ def setup_user_fields(backend, collection_id):
 
 # Loop over the Fusion config and add any pipelines defined there.
 def setup_pipelines(backend):
-  pipe_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_pipeline.json")]
+  pipe_files = [f for f in listdir("./fusion_config/pipeline_configs") if isfile(join("./fusion_config/pipeline_configs", f)) and f.endswith("_pipeline.json")]
   for file in pipe_files:
     print ("Creating Pipeline for %s" % file)
     if file.find("query") != -1:
-      backend.create_pipeline(json.load(open(join("./fusion_config", file))), pipe_type="query-pipelines")
+      backend.create_pipeline(json.load(open(join("./fusion_config/pipeline_configs", file))), pipe_type="query-pipelines")
     else:
-      backend.create_pipeline(json.load(open(join("./fusion_config", file))))
+      backend.create_pipeline(json.load(open(join("./fusion_config/pipeline_configs", file))))
 
 # Loop over batch jobs in the fusion config and add any jobs defined there 
 def setup_batch_jobs(backend):
-  job_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_job.json")]
+  job_files = [f for f in listdir("./fusion_config/job_configs") if isfile(join("./fusion_config/job_configs", f)) and f.endswith("_job.json")]
   for file in job_files:
     print ("Creating Job for %s" % file)
-    backend.create_batch_job(json.load(open(join("./fusion_config", file))))
+    backend.create_batch_job(json.load(open(join("./fusion_config/job_configs", file))))
 
 # Create the taxonomy, which can be used to alter requests based on hierarchy
 def setup_taxonomy(backend, collection_id):
@@ -116,10 +116,10 @@ def setup_taxonomy(backend, collection_id):
 
 # Schedule all non-datasource by looking in fusion_config for schedule declarations
 def setup_schedules(backend):
-  files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_schedule.json")]
+  files = [f for f in listdir("./fusion_config/schedule_configs") if isfile(join("./fusion_config/schedule_configs", f)) and f.endswith("_schedule.json")]
   for file in files:
     print("Creating Schedule for %s" % file)
-    backend.create_or_update_schedule(json.load(open(join("./fusion_config", file))))
+    backend.create_or_update_schedule(json.load(open(join("./fusion_config/schedule_configs", file))))
 
 # bootstrap.py --start_schedules
 def start_schedules(backend):

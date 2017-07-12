@@ -6,13 +6,17 @@ import requests
 # Bootstrap the database
 from server import app, cmd_args, create_all
 
-# TODO some migration logic
+# TODO some migration logic and code clean up 
 
 # Bootstrap the Fusion configs (collection, datasources, pipelines, etc)
 import json
 from os import listdir
 from os.path import isfile, join
 from server import backend
+
+
+# ------------------------------------------------------------------------------------------------ # 
+# FUNCTION SETUP 
 
 # Use the Solr Config API to bootstrap search_components and request handlers
 def setup_request_handlers(backend, collection_id):
@@ -98,12 +102,11 @@ def setup_pipelines(backend):
       backend.create_pipeline(json.load(open(join("./fusion_config", file))))
 
 # Loop over batch jobs in the fusion config and add any jobs defined there 
-# TODO: A lot of this is probably deprecated in fusion 3.1 we need to figure out how to do this correctly 
-# def setup_batch_jobs(backend):
-#   job_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_job.json")]
-#   for file in job_files:
-#     print ("Creating Batch Job for %s" % file)
-#     backend.create_batch_job(json.load(open(join("./fusion_config", file))))
+def setup_batch_jobs(backend):
+  job_files = [f for f in listdir("./fusion_config") if isfile(join("./fusion_config", f)) and f.endswith("_job.json")]
+  for file in job_files:
+    print ("Creating Job for %s" % file)
+    backend.create_batch_job(json.load(open(join("./fusion_config", file))))
 
 # Create the taxonomy, which can be used to alter requests based on hierarchy
 def setup_taxonomy(backend, collection_id):
@@ -214,19 +217,22 @@ def setup_typeahead_datasource(backend):
   print ("Finished creating datasource")
 
 # ------------------------------------------------------------------------------------------------ # 
+# ACTUAL WORK 
 
 # Setting the system metrics and logging level 
 backend.toggle_system_metrics(False)
 backend.set_log_level("WARN")
 
+# Updating the logging schedule to delete logs when appropriate 
 backend.update_logging_scheduler()
 
-# Setup the variables we will be using that are user related
+# Setting up the variables we will be using that are user related
 lucidfind_collection_id = app.config.get("FUSION_COLLECTION", "lucidfind")
 lucidfind_batch_recs_collection_id = app.config.get("FUSION_BATCH_RECS_COLLECTION", "lucidfind_thread_recs")
 user_collection_id = app.config.get("USER_COLLECTION", "users")
 username = app.config.get("FUSION_APP_USER", "lucidfind")
 
+# Updating the permissions for the search user 
 # TODO: Make this less gross. This is pretty ugly right now. 
 if cmd_args.create_collections or create_all:
   update_permissions = {
@@ -335,24 +341,21 @@ if cmd_args.create_collections or create_all:
       }
     ]
   }
-  # Update the search role with the pipelines we will need to access on search 
   backend.update_role("search", update_permissions)
 
-# Add the appropriate user 
+# Adding the appropriate (lucidfind) user 
 status = backend.create_user(username, app.config.get("FUSION_APP_PASSWORD"))
 if status == False:
   exit(1)
 
-# Create the lucidfind collection and its request handlers 
+# Creating the lucidfind collection and its request handlers 
 if cmd_args.create_collections or create_all:
-  # Create the "lucidfind" collection
-
-  # Set shard variables
+  # Setting shard, replica and solr param variables
   num_shards = app.config.get("FUSION_COLLECTION_NUM_SHARDS", "1")
   num_replicas = app.config.get("FUSION_COLLECTION_NUM_REPLICAS", "2")
   solr_params = {"replicationFactor":int(num_replicas),"numShards":int(num_shards)}
 
-  # Set up the collection 
+  # Creating the lucidfind collection
   status = backend.create_collection(lucidfind_collection_id, enable_signals=True, solr_params=solr_params, default_commit_within=60*10*1000)
   if status == False:
     exit(1)
@@ -371,13 +374,22 @@ if cmd_args.create_collections or create_all:
   if status == False:
     exit(1)
 
-  # Create the "users" collection for registration
+  # Creating the "users" collection for registration
   status = backend.create_collection(user_collection_id, enable_signals=False, enable_search_logs=False, enable_dynamic_schema=False)
   if status == False:
     exit(1)
   setup_user_fields(backend, user_collection_id)
   
-# Create the pipelines and profiles 
+  # Creating the collection we will be using for weights aggregation
+  status = backend.create_collection("lucidfind_email_subject_weights", enable_signals=False, enable_search_logs=False, enable_dynamic_schema=False)
+  if status == False: 
+    exit(1)
+
+  # Creating the collection we will be using for the recommendations 
+  status = backend.create_collection("lucidfind_subjects_for_emails", enable_signals=False, enable_search_logs=False, enable_dynamic_schema=False)
+  status = backend.create_collection("lucidfind_subjects_for_subjects", enable_signals=False, enable_search_logs=False, enable_dynamic_schema=False)
+
+# Creating the pipelines and profiles 
 if cmd_args.create_pipelines or create_all:
   setup_pipelines(backend)
   backend.create_query_profile(lucidfind_collection_id, "lucidfind-default", "lucidfind-default")
@@ -387,32 +399,32 @@ if cmd_args.create_pipelines or create_all:
   backend.create_query_profile(lucidfind_collection_id, "site-search-videos", "site-search-videos")
   backend.create_query_profile(lucidfind_collection_id, "site-search-all", "site-search-all")
 
+# Creating the taxonomy
 if cmd_args.create_taxonomy or create_all:
   setup_taxonomy(backend, lucidfind_collection_id)
 
-# Configure each Project.
+# Configuring each Project.
 if cmd_args.create_projects or create_all:
   setup_projects(backend)
 
-# TODO: Figure out which of these jobs are salvageable and how to appropriately modify the configs for them 
-# if cmd_args.create_batch_jobs or create_all:
-#  setup_batch_jobs(backend)
+# Setting up recommender and aggregation for recommender jobs
+if cmd_args.create_batch_jobs or create_all:
+ setup_batch_jobs(backend)
 
-# Create the schedules
+# Creating the schedules
 if cmd_args.create_schedules or create_all:
   setup_schedules(backend)
 
-# Create the experiments 
+# Creating the experiments 
 if cmd_args.create_experiments or create_all:
   setup_experiments(backend)
   
-# Create the typeahead collection 
+# Creating the typeahead collection 
 if cmd_args.create_typeahead_collection:
-  # TODO: Encapsulate this in its own function 
   setup_typeahead_collection(backend)
   setup_typeahead_datasource(backend)
  
-# Start/Stop the schedules and datasources   
+# Starting/Stopping the schedules and datasources using the bootstrap   
 if cmd_args.start_schedules:
   start_schedules(backend)
 

@@ -36,6 +36,7 @@ object TfIdfVectorizer {
     val maxSupport = maxSupportFraction * numDocs
     val tokenCountsDF =
       withWords.groupBy(tokenField).count().filter(col("count") > minSupport && col("count") < maxSupport)
+    import df.sqlContext.implicits._
     val idfs = tokenCountsDF.map(r => (r.getString(0), math.log(1 + (numDocs / (1 + r.getLong(1)))))).collect().toMap
     val dictionary = idfs.keys.toArray.zipWithIndex.toMap
     TfIdfVectorizer(tokenizer, dictionary, idfs)

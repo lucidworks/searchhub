@@ -1,3 +1,4 @@
+// DEPRECATED: This job simply groups by the from and the subject and does a count to generate "threads". 
 {
   "id": "mail_thread_signal_creation_job",
   "type": "script",

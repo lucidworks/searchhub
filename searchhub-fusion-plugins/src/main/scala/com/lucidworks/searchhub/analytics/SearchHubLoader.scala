@@ -21,12 +21,13 @@ object SearchHubLoader {
   def loadFromSolr(config: Config): DataFrame = config.sqlContext.read.format("solr").options(config.options).load
 
   def loadMessages(config: Config): RDD[MailMessage] = {
+    import config.sqlContext.implicits._
     config.options.get("localMirrorBaseDir") match {
       case (Some(baseDir)) => loadFromLocalDir(baseDir,
         config.sqlContext.sparkContext,
         config.options.getOrElse("sampleSize", "1000").toInt,
         config.options.getOrElse("seed", "1234").toLong)
-      case None => loadFromSolr(config).map(MailMessage.fromRow)
+      case None => loadFromSolr(config).map(MailMessage.fromRow).rdd
     }
   }
 

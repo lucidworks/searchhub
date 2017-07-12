@@ -1,3 +1,4 @@
+// DEPRECATED: This code was used to send signals against the recommendations that appeared in Lucidworks View. It is not needed anymore 
 (function () {
   'use strict';
   angular

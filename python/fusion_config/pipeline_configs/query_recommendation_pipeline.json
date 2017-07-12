@@ -1,35 +1,42 @@
 {
-  "id": "lucidfind-recommendations",
-  "stages": [
-    {
-      "type": "set-params",
-      "id": "jrxkgaw8j56k73nmi",
-      "params": [
-        {
-          "key": "rows",
-          "value": "5",
-          "policy": "append"
-        }
-      ],
-      "skip": false,
-      "label": "set-params"
-    },
-    {
-      "type": "javascript-query",
-      "id": "sv954l7jxghj16ecdi",
-      "script": "var docId = request.getFirstParam(\"docId\");\nvar q = \"{!mlt qf=body,suggest,subject,title mintf=2 mindf=5 minwl=3}\" + docId\nrequest.putSingleParam(\"q\", q);",
-      "skip": false,
-      "label": "javascript-query"
-    },
-    {
-      "type": "solr-query",
-      "id": "3742f43a-9e33-4968-957b-dc5182f1393c",
-      "allowedRequestHandlers": [],
-      "httpMethod": "POST",
-      "allowFederatedSearch": false,
-      "skip": false,
-      "label": "solr-query"
-    }
-  ],
-  "properties": {}
+  "id" : "lucidfind-recommendations",
+  "stages" : [ {
+    "type" : "set-params",
+    "id" : "jrxkgaw8j56k73nmi",
+    "params" : [ {
+      "key" : "rows",
+      "value" : "5",
+      "policy" : "append"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "label" : "set-params",
+    "secretSourceStageId" : "jrxkgaw8j56k73nmi"
+  }, {
+    "type" : "more-like-this",
+    "id" : "jmm",
+    "moreLikeThisFields" : [ "body", "suggest", "subject", "title" ],
+    "useQueryParser" : true,
+    "mintf" : 2,
+    "mindf" : 5,
+    "maxdf" : 10000,
+    "minwl" : 3,
+    "docId" : "docId",
+    "type" : "more-like-this",
+    "skip" : false,
+    "secretSourceStageId" : "jmm"
+  }, {
+    "type" : "solr-query",
+    "id" : "3742f43a-9e33-4968-957b-dc5182f1393c",
+    "allowedRequestHandlers" : [ ],
+    "httpMethod" : "POST",
+    "allowFederatedSearch" : false,
+    "type" : "solr-query",
+    "skip" : false,
+    "label" : "solr-query",
+    "secretSourceStageId" : "3742f43a-9e33-4968-957b-dc5182f1393c"
+  } ],
+  "properties" : {
+    "secretSourcePipelineId" : "lucidfind-recommendations"
+  }
 }

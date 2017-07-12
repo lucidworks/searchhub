@@ -10,7 +10,7 @@ import org.apache.spark.sql.SaveMode;
 
 import java.util.HashMap;
 import java.util.Map;
-
+// DEPRECATED: Old mail thread job that does not work 
 public class MailThreadSparkJob extends SparkJob<Long, MailThreadSparkJobConfig> {
 
   public MailThreadSparkJob(String jobId, MailThreadSparkJobConfig jobConfig) {

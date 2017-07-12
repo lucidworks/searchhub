@@ -1,0 +1,6 @@
+// DEPRECATED: Seems like there used to be some kind of job declaration that is deprecated now. 
+{
+  "id": "thread_recommender_job",
+  "type": "item-similarity-recommender",
+  "maxRows": 1
+}

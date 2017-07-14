@@ -70,7 +70,7 @@
         "interval": 2
       },
       "includeTags": [ "article", "title", "meta" ],
-      "excludeTagIDs" : [ "accordion" ],
+      "excludeTags" : [ "li" ],
       "scrapeLinksBeforeFiltering":true,
       "additional_mapping": {
         "source" : "site_search_s",

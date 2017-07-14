@@ -42,6 +42,8 @@
         "interval": 1
       },
       "includeTags":["article", ".content", "title"],
+      "excludeTags" : [ "li" ],
+      "excludeTagClasses" : [ "announcement-bar", "navbar-header", "download-cta", "SiteFooter" ],
       "excludes" : [ ".*\\?cat_name.*", ".*\\/page\\/.*", ".*\\?pn.*", ".*replytocom.*" ],
       "scrapeLinksBeforeFiltering":true,
       "additional_mapping": {

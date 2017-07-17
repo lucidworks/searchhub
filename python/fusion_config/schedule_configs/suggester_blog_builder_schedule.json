@@ -1,5 +1,6 @@
 {
   "id": "suggester_blog_builder",
+  "type":"rest-call",
   "creatorType": "bootstrap",
   "creatorId": "admin",
   "repeatUnit": "HOUR",

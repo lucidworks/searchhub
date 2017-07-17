@@ -635,6 +635,7 @@ class FusionBackend(Backend):
       print("SUCCESS: We have updated the delete logs schedule")
 
 
+  # TODO: COMBINE THESE TWO FUNCTIONS! 
   def create_or_update_datasource_schedule(self, schedule):
     # NOTE: This function is used for the datasource configurations specifically. The endpoints now have changed. 
     resp = self.admin_session.get("apollo/jobs/datasource:{0}/schedule".format(schedule["id"]))
@@ -649,6 +650,7 @@ class FusionBackend(Backend):
         headers={"Content-type": "application/json"}
       )
       resp2.raise_for_status()
+    
     except: 
       raise Exception("We have a status code of " + resp.status_code)
 
@@ -656,24 +658,26 @@ class FusionBackend(Backend):
     # NOTE: This function is used for the specific schedules we want to create in the "schedule configs" directory. 
     # The create_or_update_datasource_schedules will be starting the schedules for the specific datasources.
     # check to see if it exists already 
-    resp = self.admin_session.get("apollo/scheduler/schedules/{0}".format(schedule["id"]))
+
+    # the more accurate endpoint is TASKS 
+    resp = self.admin_session.get("apollo/tasks/{0}".format(schedule["id"]))
     if resp.status_code == 200:
       print "Updating schedule for {0}".format(schedule["id"])
-      resp = self.admin_session.put("apollo/scheduler/schedules/{0}".format(schedule["id"]), data=json.dumps(schedule),
+      try: 
+        resp = self.admin_session.put("apollo/tasks/{0}".format(schedule["id"]), data=json.dumps(schedule),
                                     headers={"Content-type": "application/json"})
-      if resp.status_code == 204:
-        return None  #TODO: better code here?
-      else:
+        resp.raise_for_status()
+      except: 
         print resp.status_code
         print resp.text
         raise Exception("Couldn't update schedule for {0}.  Schedule: {1}".format(schedule["id"], schedule))
     elif resp.status_code == 404:
       print "Creating schedule for {0}".format(schedule["id"])
-      resp = self.admin_session.post("apollo/scheduler/schedules", data=json.dumps(schedule),
+      try: 
+        resp = self.admin_session.post("apollo/scheduler/schedules", data=json.dumps(schedule),
                                      headers={"Content-type": "application/json"})
-      if resp.status_code == 200:
-        return resp.json()
-      else:
+        resp.raise_for_status()
+      except:
         print resp.status_code
         print resp.text
         raise Exception("Couldn't create schedule for {0}.  Schedule: {1}".format(schedule["id"], schedule))

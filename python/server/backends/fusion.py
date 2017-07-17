@@ -100,7 +100,7 @@ class FusionBackend(Backend):
           del fusion_urls[node_choice] # Remove it from the list b/c if it fails, we don't want to try again and if we succeed, it doesn't matter
           try:
             session = FusionSession(fusion_url, user, password, lazy)
-            print "Established a Fusion session with {0}".format(fusion_url)
+            print "Esttablished a Fusion session with {0}".format(fusion_url)
             break
           except:
             print "Connecting to {0} failed, trying a different URL from: {1} (if empty, we give up!)".format(fusion_url, fusion_urls)
@@ -637,9 +637,6 @@ class FusionBackend(Backend):
 
   def create_or_update_schedule(self, schedule):
     # check to see if it exists already
-    # NOTE: All this stuff has changed in 3.1. Instead of the scheduler endpoint we want to use 
-    # the /job/datasource:id endpoint instead. 
-    # TODO: This will be a pretty large rework and so should definitely be in its own commit (maybe even its own branch) 
     resp = self.admin_session.get("apollo/scheduler/schedules/{0}".format(schedule["id"]))
     if resp.status_code == 200:
       print "Updating schedule for {0}".format(schedule["id"])

@@ -140,9 +140,19 @@ def track_event(path):
 def track_post_event(foo):
     # TODO: put in spam prevention
     # NOTE: when POSTing, we can have multiple events per POST
+    headers = request.headers;
     json_payload = request.get_json()
-
     data = json_payload["data"]
+
+    try:
+        correct_ip = json_payload["correct_ip"]
+        correct_agent = json_payload["correct_agent"]
+        print("SNOWPLOW EVENT: request coming from website")
+    except:
+        print("SNOWPLOW EVENT: request coming directly from searchhub ")
+        correct_ip = request.remote_addr
+        correct_agent = request.user_agent
+
     for item in data:
         app_id = item["aid"]
         if app_id == "searchHub":
@@ -157,8 +167,9 @@ def track_post_event(foo):
                 form_data = urllib.urlencode(form_data)
                 request_headers["Content-Length"] = str(len(form_data))
             # The snowplow payload needs to set these to override the underlying python requests setting
-            item["ip"] = request.remote_addr
-            item["ua"] = request.user_agent
+            item["ip"] = correct_ip
+            item["ua"] = correct_agent
+            print(request_headers)
             result = backend.send_signal(coll_id, item, request_headers)
         else:
             print "Unable to send signal: app_id: {0}, signal: {1}".format(app_id, item)

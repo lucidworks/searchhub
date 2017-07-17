@@ -8,7 +8,7 @@ def create_schedule(details, id):
   the_time = time(random.randint(0,23), random.randint(0, 59), 0, 1) # Stagger our schedules for sanity sake
   the_date_time = datetime.combine(today, the_time)
   schedule = {
-    "id": "schedule-{0}".format(id),
+    "id": "{0}".format(id),
     "creatorType": "bootstrap",
     "repeatUnit": details["repeatUnit"],
     "interval": details["interval"],

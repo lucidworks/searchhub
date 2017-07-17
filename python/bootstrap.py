@@ -114,7 +114,7 @@ def setup_taxonomy(backend, collection_id):
   taxonomy = json.load(open('fusion_config/taxonomy.json'))
   status = backend.create_taxonomy(collection_id, taxonomy)
 
-# Schedule all non-datasource by looking in fusion_config for schedule declarations
+# Schedule all non-datasource by looking in fusion_config for specific schedule declarations
 def setup_schedules(backend):
   files = [f for f in listdir("./fusion_config/schedule_configs") if isfile(join("./fusion_config/schedule_configs", f)) and f.endswith("_schedule.json")]
   for file in files:
@@ -411,7 +411,7 @@ if cmd_args.create_projects or create_all:
 if cmd_args.create_batch_jobs or create_all:
  setup_batch_jobs(backend)
 
-# Creating the schedules
+# Creating the individual schedules
 if cmd_args.create_schedules or create_all:
   setup_schedules(backend)
 

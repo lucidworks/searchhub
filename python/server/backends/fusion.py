@@ -100,7 +100,7 @@ class FusionBackend(Backend):
           del fusion_urls[node_choice] # Remove it from the list b/c if it fails, we don't want to try again and if we succeed, it doesn't matter
           try:
             session = FusionSession(fusion_url, user, password, lazy)
-            print "Esttablished a Fusion session with {0}".format(fusion_url)
+            print "Established a Fusion session with {0}".format(fusion_url)
             break
           except:
             print "Connecting to {0} failed, trying a different URL from: {1} (if empty, we give up!)".format(fusion_url, fusion_urls)
@@ -464,41 +464,41 @@ class FusionBackend(Backend):
       if "jira" in project:
         jira_config, sched = create_jira_datasource_config(project)
         self.update_datasource(**jira_config)
-        self.create_or_update_schedule(sched)
+        self.create_or_update_datasource_schedule(sched)
     # Generate Mailboxes
     if "mailing_lists" in project:
       mailbox_configs, schedules = create_mailinglist_datasource_configs(project)
       for config in mailbox_configs:
         self.update_datasource(**config)
       for schedule in schedules:
-        self.create_or_update_schedule(schedule)
+        self.create_or_update_datasource_schedule(schedule)
     # Generate Wikis
     if "wikis" in project:
       wiki_configs, schedules = create_wiki_datasource_configs(project)
       for config in wiki_configs:
         self.update_datasource(**config)
       for schedule in schedules:
-        self.create_or_update_schedule(schedule)
+        self.create_or_update_datasource_schedule(schedule)
     # Generate Githubs
     if "githubs" in project and app.config.get('GITHUB_KEY') and app.config.get('GITHUB_KEY') is not "XXXXXXXX":
       github_configs, schedules = create_github_datasource_configs(project)
       for config in github_configs:
         self.update_datasource(**config)
       for schedule in schedules:
-        self.create_or_update_schedule(schedule)
+        self.create_or_update_datasource_schedule(schedule)
     # Generate Websites
     if "websites" in project:
       website_configs, schedules = create_website_datasource_configs(project)
       for config in website_configs:
         self.update_datasource(**config)
       for schedule in schedules:
-        self.create_or_update_schedule(schedule)
+        self.create_or_update_datasource_schedule(schedule)
     if "stacks" in project:
       stack_configs, schedules = create_stack_datasource_configs(project)
       for config in stack_configs:
         self.update_datasource(**config)
       for schedule in schedules:
-        self.create_or_update_schedule(schedule)
+        self.create_or_update_datasource_schedule(schedule)
     #TODO: should we return schedules?
     # TODO: flatten this out
     # Add in the PUTS
@@ -635,8 +635,27 @@ class FusionBackend(Backend):
       print("SUCCESS: We have updated the delete logs schedule")
 
 
+  def create_or_update_datasource_schedule(self, schedule):
+    # NOTE: This function is used for the datasource configurations specifically. The endpoints now have changed. 
+    resp = self.admin_session.get("apollo/jobs/datasource:{0}/schedule".format(schedule["id"]))
+    # print resp.text
+    triggers = '{"triggers":[{"type": "interval", "enabled": "true", "startTime":"' + str(schedule["startTime"]) + '", "interval":"' + str(schedule["interval"]) + '", "repeatUnit":"' + str(schedule["repeatUnit"]) + '"}]}'
+    # triggers = '{"triggers": [{"type": "cron", "enabled": "true", "value": "*/10 * * * *"}]}'
+    try:
+      resp.raise_for_status()
+      print "Adding a schedule for " + schedule["id"]
+      resp2 = self.admin_session.put("apollo/jobs/datasource:{0}/schedule".format(schedule["id"]), 
+        data=triggers, 
+        headers={"Content-type": "application/json"}
+      )
+      resp2.raise_for_status()
+    except: 
+      raise Exception("We have a status code of " + resp.status_code)
+
   def create_or_update_schedule(self, schedule):
-    # check to see if it exists already
+    # NOTE: This function is used for the specific schedules we want to create in the "schedule configs" directory. 
+    # The create_or_update_datasource_schedules will be starting the schedules for the specific datasources.
+    # check to see if it exists already 
     resp = self.admin_session.get("apollo/scheduler/schedules/{0}".format(schedule["id"]))
     if resp.status_code == 200:
       print "Updating schedule for {0}".format(schedule["id"])

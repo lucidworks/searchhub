@@ -594,9 +594,22 @@ class FusionBackend(Backend):
       print resp.status_code
       print resp.text
       raise Exception("Couldn't create taxonomy for {0}.  Tax: {1}".format(collection_id, taxonomy))
-
-
-
+            
+  def replace_synonyms_txt(self, collection_id, synonyms_file):
+    resp = self.admin_session.get("apollo/collections/{0}/solr-config/synonyms.txt".format(collection_id))
+    if resp.status_code != 200:
+        raise Exception("Expected 200 response, got {0}".format(resp.status_code))
+        
+    print "Replacing all synonyms for {0} with synonyms.txt".format(collection_id)
+    put_resp = self.admin_session.put("apollo/collections/{0}/solr-config/synonyms.txt?reload=true".format(collection_id), data=synonyms_file,
+                                   headers={"Content-type": "text/plain"})
+    
+    if put_resp.status_code == 204:
+        print "Synonyms file replacement successful"
+        return None
+    else:
+        raise Exception("Expected 204 response, {0}".format(resp.status_code))
+              
   def update_logging_scheduler(self):
     delete_old_logs_json = {
       "id":"delete-old-logs",

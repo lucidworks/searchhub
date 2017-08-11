@@ -181,7 +181,7 @@ if cmd_args.create_collections or create_all:
         "methods": [
           "GET"
         ],
-        "path": "/query-pipelines/query-similarites/collections/query-similarites/select"
+        "path": "/query-pipelines/query-similarities/collections/query-similarities/select"
       },
       {
         "methods": [
@@ -193,7 +193,7 @@ if cmd_args.create_collections or create_all:
         "methods": [
           "GET"
         ],
-        "path": "/query-pipelines/query-similarites/collections/query-similarites/suggest"
+        "path": "/query-pipelines/query-similarities/collections/query-similarities/suggest"
       },
       {
         "methods": [
@@ -425,7 +425,7 @@ if cmd_args.setup_query_recommendations:
   if status == False:
     exit(1)
 
-  status = backend.create_collection("query-similarites", enable_signals=False, enable_search_logs=False, enable_dynamic_schema=False)
+  status = backend.create_collection("query-similarities", enable_signals=False, enable_search_logs=False, enable_dynamic_schema=False)
   if status == False:
     exit(1)
     

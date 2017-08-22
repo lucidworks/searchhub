@@ -114,8 +114,9 @@ object ManyNewsgroups {
 
     // measure metrics on unseen-by-cross-validation held-out test data.
     val classifiedData = bestModel.transform(testData)
+    import trainingData.sqlContext.implicits._
     val predictionsAndLabels: RDD[(Double, Double)] =
-      classifiedData.select(predictionCol, labelIndexCol).map(r => (r.getDouble(0), r.getDouble(1)))
+      classifiedData.select(predictionCol, labelIndexCol).map { r: org.apache.spark.sql.Row => (r.getDouble(0), r.getDouble(1)) }.rdd
     val metrics = new MulticlassMetrics(predictionsAndLabels)
     (bestModel, metrics)
   }

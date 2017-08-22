@@ -41,6 +41,8 @@ public class MimeMailParser {
   public static final String FIELD_THREAD_ID = "threadId";
   public static final String FIELD_SENT_DATE = "publishedOnDate";
 
+  public static final String RAW_CONTENT = "_raw_content_";
+
   //Config vars
   private final List<Pattern> botEmailPatterns;
   private final Pattern idPattern;

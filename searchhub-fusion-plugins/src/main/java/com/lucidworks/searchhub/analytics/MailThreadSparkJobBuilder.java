@@ -4,8 +4,8 @@ import com.lucidworks.apollo.Name;
 import com.lucidworks.spark.job.SparkJob;
 import com.lucidworks.spark.job.SparkJobBuilder;
 
-
-@Name("mail-threading")
+// DEPRECATED: Old mail threading job that does not work 
+// @Name("mail-threading")
 public class MailThreadSparkJobBuilder implements SparkJobBuilder<MailThreadSparkJobConfig> {
   @Override
   public SparkJob<?, MailThreadSparkJobConfig> buildSparkJob(String jobId, MailThreadSparkJobConfig config) {

@@ -20,7 +20,7 @@ def create_config(project_name, project_label, pipeline, wiki):
     pipeline = wiki["pipeline"]  # individual mailing lists may override
   config = {
     'id': "wiki-{0}-{1}".format(project_name, wiki["name"]),
-    "connector": "lucid.anda",
+    "connector": "lucid.web",
     "type": "web",
     'pipeline': pipeline,
     "parserId": "default",

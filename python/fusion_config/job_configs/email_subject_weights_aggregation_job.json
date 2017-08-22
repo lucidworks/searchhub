@@ -1,0 +1,16 @@
+{
+  "type" : "aggregation",
+  "id" : "email_subject_weights_aggregation",
+  "definition" : {
+    "id" : "email_subject_weights_aggregation",
+    "groupingFields" : [ "from_email", "subject_simple" ],
+    "selectQuery" : "*:*",
+    "outputPipeline" : "_system",
+    "outputCollection" : "lucidfind_email_subject_weights",
+    "sourceRemove" : false,
+    "sourceCatchup" : false,
+    "outputRollup" : false
+  },
+  "inputCollection" : "lucidfind",
+  "rows" : 10000
+}

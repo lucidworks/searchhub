@@ -22,7 +22,7 @@ def create_config(project_name, project_label, includes, excludes, schedule, pip
         stack_links.append("http://stackoverflow.com/questions/tagged/" + stack["tag"])
     config = {
         'id': "stack-{0}".format(project_name),
-        "connector": "lucid.anda",
+        "connector": "lucid.web",
         "type": "web",
         'pipeline': pipeline,
         "parserId": "default",

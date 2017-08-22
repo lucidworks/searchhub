@@ -80,7 +80,7 @@ class FusionBackend(Backend):
     if app.config.get("FUSION_APP_USER"):
       self.app_session = self.get_fusion_session(
         app.config.get("FUSION_APP_USER"),
-        app.config.get("FUSION_APP_PASSWORD")
+        app.config.get("FUSION_APP_PASSWORD"), True
       )
       if self.app_session is None:
         print "Admin: {0}.  App: {1}".format(self.admin_session, self.app_session)
@@ -423,32 +423,27 @@ class FusionBackend(Backend):
                                    headers={"Content-type": "application/json"})
 
     if resp.status_code != 200:
-
-      if resp.status_code == 409:#try a PUT
-        print "Trying PUT"
-        resp = self.admin_session.put("apollo/experiments/configs/{0}".format(id), data=json.dumps(experiment_config),
-                                      headers={"Content-type": "application/json"})
-
-        if resp.status_code != 200:
-          print resp.status_code, resp.json()
-        else:
+      if resp.status_code == 409:
+        try: 
+          print "Trying PUT"
+          resp = self.admin_session.put("apollo/experiments/configs/{0}".format(id), data=json.dumps(experiment_config),
+                                        headers={"Content-type": "application/json"})
+          resp.raise_for_status()
           success = True
-      else:
-        print resp.status_code, resp.json()
+        except: 
+          print("ERROR: Failed to add or update experiment " + json.dumps(experiment_config))
     else:
-      success = True
       success = True
 
     if success:
-      #start the job
+      # Try to start the job if it hasnt already started 
       print "Starting {} experiment".format(id)
-      resp = self.admin_session.post("apollo/experiments/jobs/{0}".format(id), data=None)
-      if resp.status_code != 200:
-        print "Unable to start job"
-        print resp.status_code, resp.json()
-
-
-    return resp
+      try: 
+        resp = self.admin_session.post("apollo/experiments/jobs/{0}".format(id), data=None)
+        resp.raise_for_status()
+      except:
+        print("ERROR: Unable to start job.") 
+        print("Status: " + str(resp.status_code) + " Reason: " + resp.json()['localizedMessage'] )
 
   def create_or_update_datasources(self, project, includeJIRA=False):
     twitter_config = None
@@ -598,6 +593,7 @@ class FusionBackend(Backend):
 
 
   def update_logging_scheduler(self):
+    # TODO: Take this out to its own location. 
     delete_old_logs_json = {
       "id":"delete-old-logs",
       "creatorType":"system",
@@ -619,19 +615,19 @@ class FusionBackend(Backend):
         }
       }
     }
-    start_value = self.admin_session.get("apollo/scheduler/schedules/delete-old-logs")
     try:
-      start_value.raise_for_status()
+      start_value = self.admin_session.get("apollo/scheduler/schedules/delete-old-logs")
       start_status = start_value.status_code
+      print start_status
       if (start_status == 404):
         print("We have to create a new delete-old-logs schedule")
-        final_value = self.admin_session.post("apollo/scheduler/schedules/delete-old-logs", data=json.dumps(delete_old_logs_json))
+        final_value = self.admin_session.post("apollo/scheduler/schedules", data=json.dumps(delete_old_logs_json))
+        print final_value.status_code
       else:
         print("We have to update the existing delete-old-logs schedule")
         final_value = self.admin_session.put("apollo/scheduler/schedules/delete-old-logs", data=json.dumps(delete_old_logs_json))
-
+      
       final_value.raise_for_status()
-
     except:
       print("ERROR: Failed to update the delete logs schedule")
 

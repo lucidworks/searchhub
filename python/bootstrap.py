@@ -241,6 +241,30 @@ if cmd_args.create_collections or create_all:
         "methods": [
           "GET"
         ],
+        "path": "/query-pipelines/query-similarities/collections/query-similarities/select"
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/query-recommendation-matching/collections/query-recommendation-matching/select"
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/query-similarities/collections/query-similarities/suggest"
+      },
+      {
+        "methods": [
+          "GET"
+        ],
+        "path": "/query-pipelines/query-recommendation-matching/collections/query-recommendation-matching/suggest"
+      },
+      {
+        "methods": [
+          "GET"
+        ],
         "path": "/query-pipelines/shub-typeahead/collections/{0}/suggest".format(lucidfind_collection_id)
       },
       {
@@ -421,6 +445,122 @@ if cmd_args.create_experiments or create_all:
   
 # Creating the typeahead collection 
 if cmd_args.create_typeahead_collection:
+query_recommendation
+  collection_id = "shub-typeahead"
+  status = backend.create_collection("shub-typeahead", enable_signals=False, enable_search_logs=False, enable_dynamic_schema=False)
+  if status == False:
+    exit(1)
+    
+  files = [f for f in listdir("./typeahead_config") if isfile(join("./typeahead_config", f)) and f.endswith("_field_type.json")]
+  for file in files:
+    print ("Creating typeahead field_type for %s" % file)
+    backend.add_field_type("shub-typeahead", json.load(open(join("./typeahead_config", file))))
+
+  pipe_files = [f for f in listdir("./typeahead_config") if isfile(join("./typeahead_config", f)) and f.endswith("_pipeline.json")]
+  for file in pipe_files:
+    print ("Creating Pipeline for %s" % file)
+    if file.find("query") != -1:
+      backend.create_pipeline(json.load(open(join("./typeahead_config", file))), pipe_type="query-pipelines")
+    else:
+      backend.create_pipeline(json.load(open(join("./typeahead_config", file))))
+      
+  print ("Creating fields")
+  backend.add_field(collection_id, "name_contains", type="ngram", stored="true", multivalued="false")
+  backend.add_field(collection_id, "name_edge", type="edge_ngram", stored="true", multivalued="false")
+  backend.add_field(collection_id, "name_en", type="text_en", stored="true", multivalued="false")
+  backend.add_field(collection_id, "name_no_vowels", type="text_no_vowels", stored="true", multivalued="false")
+  backend.add_field(collection_id, "name_phonetic_en", type="phonetic_en", stored="true", multivalued="false")
+  backend.add_field(collection_id, "name_sort", type="string_sort", stored="false", multivalued="false")
+  backend.add_field(collection_id, "spell", type="text_general", stored="false", multivalued="false")
+  
+  backend.add_field(collection_id, "name", type="text_general", multivalued="false", stored="true", copyDests=["name_edge", "name_contains", "name_no_vowels", "name_phonetic_en", "name_en", "name_sort", "spell"])
+  backend.add_field(collection_id, "type", type="string", stored="true")
+  backend.add_field(collection_id, "synonyms", type="text_general", stored="true", multivalued="true")
+  backend.add_field(collection_id, "bh_search_score", type="int", stored="true")
+  backend.add_field(collection_id, "bh_rank", type="int", stored="true")
+  backend.add_field(collection_id, "productVersion", type="string", stored="true")
+  backend.add_field(collection_id, "resourceName", type="string", multivalued="true")
+  print ("Finished creating fields")
+  
+  print ("Creating datasource")
+  datasource_files = [f for f in listdir("./typeahead_config") if isfile(join("./typeahead_config", f)) and f.endswith("_datasource.json")]
+  fusion_update_url = app.config['FUSION_URLS'][0] + "apollo/connectors/datasources"
+  FUSION_USERNAME = app.config.get("FUSION_ADMIN_USERNAME", "admin")
+  FUSION_PASSWORD = app.config.get("FUSION_ADMIN_PASSWORD")
+  for file in datasource_files:
+    resp = requests.post(fusion_update_url,
+                                 data=json.dumps(json.load(open(join("./typeahead_config", file)))),
+                                 headers={'Content-type': 'application/json'},
+                                 auth=(FUSION_USERNAME, FUSION_PASSWORD))
+  print ("Finished creating datasource")
+
+# ***********************************************************************
+# Start of query similarity module
+if cmd_args.setup_query_recommendations:
+  # collection id changed and the folder from where the files are loaded. Rest is the same.
+  collection_id = "query-recommendation-matching"
+  status = backend.create_collection(collection_id, enable_signals=False, enable_search_logs=False, enable_dynamic_schema=False)
+  if status == False:
+    exit(1)
+
+  status = backend.create_collection("query-similarities", enable_signals=False, enable_search_logs=False, enable_dynamic_schema=False)
+  if status == False:
+    exit(1)
+    
+  files = [f for f in listdir("./query-recommendation_config") if isfile(join("./query-recommendation_config", f)) and f.endswith("_field_type.json")]
+  for file in files:
+    print ("Creating typeahead field_type for %s" % file)
+    backend.add_field_type(collection_id, json.load(open(join("./query-recommendation_config", file))))
+
+  pipe_files = [f for f in listdir("./query-recommendation_config") if isfile(join("./query-recommendation_config", f)) and f.endswith("_pipeline.json")]
+  for file in pipe_files:
+    print ("Creating Pipeline for %s" % file)
+    if file.find("query") != -1:
+      backend.create_pipeline(json.load(open(join("./query-recommendation_config", file))), pipe_type="query-pipelines")
+    else:
+      backend.create_pipeline(json.load(open(join("./query-recommendation_config", file))))
+
+  # set the fields to ngram_query and edge_ngram_query to enable handling typos in queries.
+  print ("Creating fields")
+  backend.add_field(collection_id, "name_contains", type="ngram_query", stored="true", multivalued="false")
+  backend.add_field(collection_id, "name_edge", type="edge_ngram_query", stored="true", multivalued="false")
+  backend.add_field(collection_id, "name_en", type="text_en", stored="true", multivalued="false")
+
+  backend.add_field(collection_id, "name", type="text_general", multivalued="false", stored="true", copyDests=["name_edge", "name_contains", "name_en"])
+  print ("Finished creating fields")
+  
+  # change of the path where files are located. i.e. ./query-recommendation_config
+  print ("Creating datasource")
+  datasource_files = [f for f in listdir("./query-recommendation_config") if isfile(join("./query-recommendation_config", f)) and f.endswith("_datasource.json")]
+  fusion_update_url = app.config['FUSION_URLS'][0] + "apollo/connectors/datasources"
+  print ("Fusion update url:",fusion_update_url)
+  FUSION_USERNAME = app.config.get("FUSION_ADMIN_USERNAME", "admin")
+  FUSION_PASSWORD = app.config.get("FUSION_ADMIN_PASSWORD")
+  print ("username:",FUSION_USERNAME,"password:",FUSION_PASSWORD)
+  for file in datasource_files:
+    print ("file:",file)
+    resp = requests.post(fusion_update_url,
+                                 data=json.dumps(json.load(open(join("./query-recommendation_config", file)))),
+                                 headers={'Content-type': 'application/json'},
+                                 auth=(FUSION_USERNAME, FUSION_PASSWORD))
+  print ("Finished creating datasource")
+
+  print ("Creating spark job")
+  job_files = [f for f in listdir("./query-recommendation_config") if isfile(join("./query-recommendation_config", f)) and f.endswith("_job.json")]
+  fusion_update_url = app.config['FUSION_URLS'][0] + "apollo/spark/configurations"
+  print ("Fusion update url:",fusion_update_url)
+  for file in job_files:
+      print ("file:",file)
+      resp = requests.post(fusion_update_url,
+                                   data=json.dumps(json.load(open(join("./query-recommendation_config", file)))),
+                                   headers={'Content-type': 'application/json'},
+                                   auth=(FUSION_USERNAME, FUSION_PASSWORD))
+  print ("Finished creating spark jobs")
+  print ("Pipelines and collection setup for the query-recommendation")
+  print ("*************************************\nCrawl the datasource and run query-recommendation job!\n*************************************")
+  # end of the query-recommendation module
+
+=======
   setup_typeahead_collection(backend)
   setup_typeahead_datasource(backend)
  

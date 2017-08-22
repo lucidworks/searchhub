@@ -445,7 +445,6 @@ if cmd_args.create_experiments or create_all:
   
 # Creating the typeahead collection 
 if cmd_args.create_typeahead_collection:
-query_recommendation
   collection_id = "shub-typeahead"
   status = backend.create_collection("shub-typeahead", enable_signals=False, enable_search_logs=False, enable_dynamic_schema=False)
   if status == False:
@@ -559,8 +558,6 @@ if cmd_args.setup_query_recommendations:
   print ("Pipelines and collection setup for the query-recommendation")
   print ("*************************************\nCrawl the datasource and run query-recommendation job!\n*************************************")
   # end of the query-recommendation module
-
-=======
   setup_typeahead_collection(backend)
   setup_typeahead_datasource(backend)
  

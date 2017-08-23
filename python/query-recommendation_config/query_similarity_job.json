@@ -3,7 +3,7 @@
   "id" : "query-recommendation",
   "modelId" : "query-recommendation",
   "saveModel" : false,
-  "trainingCollection" : "shubsignals-collection",
+  "trainingCollection" : "lucidfind_signals",
   "trainingDataFrameConfigOptions" : { },
   "outputQuerySimCollection" : "query-similarities",
   "trainingDataFilterQuery" : "*:*",

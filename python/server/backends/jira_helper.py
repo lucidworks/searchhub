@@ -22,7 +22,7 @@ def create_jira_datasource_config(project):
         pipeline = "jira-default"
 
     config = {"id": "jira-{0}-{1}".format(project["name"], jira["name"]),
-              "connector": "lucid.anda",
+              "connector": "lucid.web",
               "type": "jira",
               "pipeline": pipeline,
               "properties": {

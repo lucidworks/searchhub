@@ -24,7 +24,7 @@ def create_config(project_name, project_label, pipeline, repo):
     if "pipeline" in repo:
         pipeline = repo["pipeline"]  # individual mailing lists may override
     config = {"id": "github-{0}-{1}".format(project_name, repo["name"]),
-              "connector": "lucid.anda",
+              "connector": "lucid.github",
               "type": "github",
               "pipeline": pipeline,
               "properties": {

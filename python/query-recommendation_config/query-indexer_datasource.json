@@ -1,10 +1,10 @@
 {
-  "id": "lucidfind-typeahead-indexer",
+  "id": "query-recommendation-matching-indexer",
   "created": "2017-03-25T20:13:07.345Z",
   "modified": "2017-03-25T20:13:07.345Z",
   "connector": "lucid.solr",
   "type": "solr",
-  "pipeline": "shub-typeahead-default",
+  "pipeline": "query-recommendation-matching-default",
   "properties": {
     "initial_mapping": {
       "mappings": [
@@ -14,12 +14,7 @@
           "operation": "move"
         },
         {
-          "source": "site_search_s",
-          "target": "type",
-          "operation": "copy"
-        },
-        {
-          "source": "title",
+          "source": "itemId",
           "target": "name",
           "operation": "copy"
         }
@@ -32,13 +27,13 @@
     },
     "solr_query": "*:*",
     "commit_on_finish": true,
-    "zk_host_string": "SERVER_NAME:9983/ZOOKEEPER",
-    "verify_access": false,
-    "solr_field_list": "id, title, site_search_s, parent_s, resourceName",
+    "zk_host_string": "localhost:9983/lwfusion/3.1.0/solr",
+    "verify_access": true,
+    "solr_field_list": "id, itemId",
     "solr_sort_spec": "id asc",
     "solr_request_handler": "/select",
-    "collection": "shub-typeahead",
-    "source_collection": "lucidfind",
+    "collection": "query-recommendation-matching",
+    "source_collection": "query-similarities",
     "solr_page_size": 100
   }
 }

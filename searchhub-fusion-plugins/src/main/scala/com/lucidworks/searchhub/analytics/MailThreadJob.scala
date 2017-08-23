@@ -5,7 +5,7 @@ import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.{Row, DataFrame}
 import org.slf4j.LoggerFactory
 
-
+// DEPRECATED: Scala for old mail threading job that did not work
 object MailThreadJob {
   val log = LoggerFactory.getLogger("MailThreadJob")
 

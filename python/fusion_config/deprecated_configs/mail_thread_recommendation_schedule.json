@@ -1,3 +1,4 @@
+// DEPRECATED: Schedule for the mail thread two hop recommender 
 {
     "id": "mail_threads_recommendation",
     "creatorType": "human",

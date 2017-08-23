@@ -1,0 +1,46 @@
+{
+  "id" : "query-similarities",
+  "stages" : [ {
+    "type" : "set-params",
+    "id" : "o5",
+    "params" : [ {
+      "key" : "sort",
+      "value" : "sim desc",
+      "policy" : "default"
+    } ],
+    "type" : "set-params",
+    "skip" : false,
+    "secretSourceStageId" : "o5"
+  }, {
+    "type" : "search-fields",
+    "id" : "d3fe246e-dc6d-4e15-9d5c-ffb0c63c3baf",
+    "rows" : 3,
+    "start" : 0,
+    "queryFields" : [ {
+      "field" : "itemId"
+    } ],
+    "returnFields" : [ "itemId", "otherItemId", "sim" ],
+    "type" : "search-fields",
+    "skip" : false,
+    "secretSourceStageId" : "d3fe246e-dc6d-4e15-9d5c-ffb0c63c3baf"
+  }, {
+    "type" : "facet",
+    "id" : "4cba69d2-1d19-4cc2-8ab1-cff91128ff49",
+    "fieldFacets" : [ ],
+    "type" : "facet",
+    "skip" : false,
+    "secretSourceStageId" : "4cba69d2-1d19-4cc2-8ab1-cff91128ff49"
+  }, {
+    "type" : "solr-query",
+    "id" : "81a61f1e-823a-4d85-8b08-99c6d1637507",
+    "allowedRequestHandlers" : [ ],
+    "httpMethod" : "POST",
+    "allowFederatedSearch" : false,
+    "type" : "solr-query",
+    "skip" : false,
+    "secretSourceStageId" : "81a61f1e-823a-4d85-8b08-99c6d1637507"
+  } ],
+  "properties" : {
+    "secretSourcePipelineId" : "query-similarities"
+  }
+}

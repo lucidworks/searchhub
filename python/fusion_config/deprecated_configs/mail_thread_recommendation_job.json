@@ -1,3 +1,4 @@
+// DEPRECATED: Spark job that was used to generate two hop recommendations using a simple two hop recommender declared in Spark. 
 {
   "id": "mail_thread_recommendation_job",
   "type": "script",

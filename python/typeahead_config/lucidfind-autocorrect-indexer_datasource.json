@@ -32,7 +32,7 @@
     "solr_field_list": "id, title",
     "solr_sort_spec": "id asc",
     "solr_request_handler": "/select",
-    "collection": "shub-typeahead",
+    "collection": "autocorrect-typeahead",
     "source_collection": "lucidfind",
     "solr_page_size": 100
   }

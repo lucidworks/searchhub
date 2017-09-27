@@ -1,0 +1,26 @@
+{
+  "name": "string_sort",
+  "omitNorms": "true",
+  "sortMissingLast": "true",
+  "class": "solr.TextField",
+  "positionIncrementGap": "100",
+  "analyzer": {
+    "tokenizer": {
+      "class": "solr.KeywordTokenizerFactory"
+    },
+    "filters": [
+      {
+        "class": "solr.LowerCaseFilterFactory"
+      },
+      {
+        "class": "solr.TrimFilterFactory"
+      },
+      {
+        "class": "solr.PatternReplaceFilterFactory",
+        "replacement": "",
+        "replace": "all",
+        "pattern": "([^a-z])"
+      }
+    ]
+  }
+}

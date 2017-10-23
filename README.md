@@ -30,7 +30,7 @@
 
 - Depending on how Node is configured on your machine, you may need to run `sudo npm install -g gulp bower` instead, if you get an error with the first command.
 - Python 2.7 and python-dev
-- Fusion 3.0 beta5 or later.  If you would like to be in the 3.0 beta program [contact us](https://lucidworks.com/company/contact/).  Otherwise, to use Fusion 2.4.x, please
+- Fusion 3.1.  Otherwise, to use Fusion 3.0.x use the tag ```3_0_cutover``` and download Fusion 3.0.x from the [Lucidworks website](https://lucidworks.com/products/fusion/download/) to use Fusion 2.4.x
 use the tag ```pre_3_0_cutover``` and download Fusion 2.4.x from the [Lucidworks website](https://lucidworks.com/products/fusion/download/).
 - If you want to crawl the Github sources, you'll need a Github API key: https://github.com/blog/1509-personal-api-tokens
 - If you want to crawl Twitter, you will need Twitter keys: https://dev.twitter.com/oauth/overview

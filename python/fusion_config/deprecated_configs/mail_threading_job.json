@@ -1,3 +1,4 @@
+// DEPRECATED: Tim potters code for generating threads. Not sure how or if it works. 
 {
   "id": "mail_threading_scheduled",
   "type": "script",

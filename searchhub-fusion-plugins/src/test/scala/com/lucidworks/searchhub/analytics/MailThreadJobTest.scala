@@ -5,7 +5,7 @@ import org.apache.spark.{SparkContext, SparkConf}
 import org.scalatest.FunSuite
 
 case class DummyMailMessage(id: String, in_reply_to: String, threadId: String, subject_simple: String)
-
+// DEPRECATED: Test for old mail threading job
 class MailThreadJobTest extends FunSuite {
   val rawMsgs = List(
     DummyMailMessage("<1204067533.21932.4.camel@cartman>", null, "<1204067533.21932.4.camel@cartman>", "documentation"),

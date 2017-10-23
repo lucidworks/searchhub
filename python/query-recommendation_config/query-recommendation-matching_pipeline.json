@@ -1,0 +1,55 @@
+{
+  "id" : "query-recommendation-matching",
+  "stages" : [ {
+    "type" : "recommendation",
+    "id" : "d489fd27-fce1-462a-b250-7db064df7b7f",
+    "numRecommendations" : 10,
+    "numSignals" : 100,
+    "aggrType" : "*",
+    "boostId" : "id",
+    "boostingMethod" : "query-param",
+    "boostingParam" : "bq",
+    "type" : "recommendation",
+    "skip" : true,
+    "secretSourceStageId" : "d489fd27-fce1-462a-b250-7db064df7b7f"
+  }, {
+    "type" : "search-fields",
+    "id" : "dc8dd6e6-d379-4ae8-b5cd-0439679ec3a0",
+    "rows" : 1,
+    "start" : 0,
+    "sort" : "",
+    "queryFields" : [ {
+      "field" : "name_edge",
+      "boost" : 40.0
+    }, {
+      "field" : "name",
+      "boost" : 50.0
+    }, {
+      "field" : "name_contains",
+      "boost" : 5.0
+    } ],
+    "returnFields" : [ "name", "score" ],
+    "type" : "search-fields",
+    "skip" : false,
+    "secretSourceStageId" : "dc8dd6e6-d379-4ae8-b5cd-0439679ec3a0"
+  }, {
+    "type" : "facet",
+    "id" : "62af5204-4741-46a8-8c6c-5ac0902ab448",
+    "fieldFacets" : [ ],
+    "type" : "facet",
+    "skip" : false,
+    "secretSourceStageId" : "62af5204-4741-46a8-8c6c-5ac0902ab448"
+  }, {
+    "type" : "solr-query",
+    "id" : "87ccafa4-41ba-4b01-891d-30c2efc569e6",
+    "allowedRequestHandlers" : [ ],
+    "httpMethod" : "POST",
+    "allowFederatedSearch" : false,
+    "type" : "solr-query",
+    "skip" : false,
+    "secretSourceStageId" : "87ccafa4-41ba-4b01-891d-30c2efc569e6"
+  } ],
+  "properties" : {
+    "secretSourcePipelineId" : "query-recommendation-matching"
+  }
+}

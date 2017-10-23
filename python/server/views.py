@@ -33,25 +33,37 @@ def root():
 def apache(path):
     query = request.args.get("q")
     splits = path.split(",")
-    fq = ""
+    
+    # DEPRECATED 
+    # fq = ""
+
+    facet_list = [] 
     if splits:
-        fq = ",fq:('0':(key:'{!!tag=prj}project_label',tag:prj,transformer:localParams,values:(" #format this into the args
-        i = 0
+        # DEPRECATED 
+        # fq = ",fq:('0':(key:'{!!tag=prj}project_label',tag:prj,transformer:localParams,values:(" #format this into the args
+        # i = 0
+
         for split in splits:
             split = split.strip()
             if split in project_label_map:
-                #print(split)
-                # '0':'Apache Lucene','1':'Apache HBase')))
-                if i > 0:
-                    fq += ","
-                fq += "'" + str(i) + "':'" + project_label_map[split] + "'"
-                i += 1
-        fq += ")))"
-    #print "path: '" + path + "' q: '" + query + "'"
-    #print fq
-    args = {"query": "(q:'{0}',rows:10,start:0,wt:json{1})".format(query, fq)}
-    return redirect("/search?{0}".format(urllib.urlencode(args)))
+                print("in the splits!")
+                print(split)
 
+                facet_list.append(project_label_map[split])
+                
+                # DEPRECATED 
+                # if i > 0:
+                #     fq += ","
+                # fq += "'" + str(i) + "':'" + project_label_map[split] + "'"
+                # i += 1
+        # fq += ")))"
+    # DEPRECATED 
+    # print "path: '" + path + "' q: '" + query + "'"
+    # args = {"query": "(q:'{0}',rows:10,start:0,wt:json{1})".format(query, fq)}
+    
+    facet_string = "|".join(facet_list)
+    redirect_url = "https://lucidworks.com/resources/searchhub/#hub/" + query + "/1/sortbyrelevancy/facetstring=&facets[project_label]=" + facet_string
+    return redirect(redirect_url)
 
 @app.route('/search')
 def search():

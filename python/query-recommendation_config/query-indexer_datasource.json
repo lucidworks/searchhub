@@ -1,0 +1,39 @@
+{
+  "id": "query-recommendation-matching-indexer",
+  "created": "2017-03-25T20:13:07.345Z",
+  "modified": "2017-03-25T20:13:07.345Z",
+  "connector": "lucid.solr",
+  "type": "solr",
+  "pipeline": "query-recommendation-matching-default",
+  "properties": {
+    "initial_mapping": {
+      "mappings": [
+        {
+          "source": "_version_",
+          "target": "external_version_s",
+          "operation": "move"
+        },
+        {
+          "source": "itemId",
+          "target": "name",
+          "operation": "copy"
+        }
+      ],
+      "reservedFieldsMappingAllowed": false,
+      "skip": false,
+      "id": "FromMap",
+      "label": "field-mapping",
+      "type": "field-mapping"
+    },
+    "solr_query": "*:*",
+    "commit_on_finish": true,
+    "zk_host_string": "localhost:9983/lwfusion/3.1.0/solr",
+    "verify_access": true,
+    "solr_field_list": "id, itemId",
+    "solr_sort_spec": "id asc",
+    "solr_request_handler": "/select",
+    "collection": "query-recommendation-matching",
+    "source_collection": "query-similarities",
+    "solr_page_size": 100
+  }
+}

@@ -31,10 +31,10 @@ def create_twitter_datasource_configs(project):
 
   config = {
     'id': "twitter-{0}".format(project["name"]),
-    'connector': "lucid.twitter.stream",
+    'connector': "lucid.twitter-stream",
     'pipeline': project["twitter_pipeline"],
     'type': "twitter_stream",
-    "parserId": "default",
+    "parserId": "searchhub",
     'properties': {
       'collection': app.config.get('FUSION_COLLECTION'),
       'consumer_key': twitter_consumer_key,

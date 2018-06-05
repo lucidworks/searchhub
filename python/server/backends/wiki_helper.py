@@ -23,7 +23,7 @@ def create_config(project_name, project_label, pipeline, wiki):
     "connector": "lucid.web",
     "type": "web",
     'pipeline': pipeline,
-    "parserId": "default",
+    "parserId": "searchhub",
     "properties": {
       "refreshOlderThan": -1,
       "f.appendTrailingSlashToLinks": False,

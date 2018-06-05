@@ -1,0 +1,23 @@
+{
+  "searchComponent":{"suggest":{
+      "name":"suggest",
+      "suggester":{
+        "contextField":"site_search_s",
+        "buildOnStartup":"false",
+        "name":"blended_infix",
+        "lookupImpl":"BlendedInfixLookupFactory",
+        "dictionaryImpl":"DocumentDictionaryFactory",
+        "blenderType":"position_linear",
+        "suggestAnalyzerFieldType":"suggesterFT",
+        "buildOnCommit":"false",
+        "field":"suggest",
+        "storeDir":"suggester_infix_dir"},
+      "class":"solr.SuggestComponent"}},
+  "requestHandler":{"/suggest":{
+      "components":["suggest"],
+      "name":"/suggest",
+      "defaults":{
+        "suggest":true,
+        "suggest.dictionary":"blended_infix",
+        "suggest.count":5},
+      "class":"solr.SearchHandler"}}}

@@ -1,8 +1,0 @@
-<div class="parentLink" ng-if="!vm.expanded">{{vm.doc.id}}</div>
-<div class="parentLink" ng-if="vm.expanded"><a ng-href="{{vm.doc.id}}" target="_blank" ng-click="vm.postClickSignal(this, doc.id + '_original', $index, doc.score, doc.threadId, doc.subject_simple)">{{vm.doc.id}}</a></div>
-<h5><span class="field-header">Project</span>:
-  <field value="::vm.doc.project_label" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="project_label"></field>
-  <span class="field-header">Source</span>:
-  <field value="::vm.doc.datasource_label" highlight="::vm.highlight[doc.id]" maxlength="200" hkey="datasource_label"></field>
-  <span class="field-header">Publish Date</span>: <field value="::vm.doc.publishedOnDate | date: 'medium'"  maxlength="200"></field>
-</h5>

@@ -62,6 +62,9 @@ class Backend(object):
   def create_or_update_schedule(self, schedule):
     raise NotImplementedError()
 
+  def create_rest_call_job(self, schedule):
+    raise NotImplementedError()
+
   def create_experiment(self, experiment_config):
     raise NotImplementedError()
 

@@ -31,6 +31,9 @@ SECRET_KEY = "secret"
 
 # Fusion Config
 
+# The name of the application to bootstrap into
+FUSION_APPLICATION = "searchhub"
+
 # Must be a list and we'll randomly select between them
 FUSION_HOSTS = ["localhost", "localhost"]
 FUSION_PORTS = [8764, 8764]
@@ -39,7 +42,7 @@ FUSION_PROTOCOLS = ["http", "http"]
 FUSION_COLLECTION = "lucidfind"
 FUSION_COLLECTION_NUM_SHARDS=1
 FUSION_COLLECTION_NUM_REPLICAS=2
-USER_COLLECTION = "users"
+USER_COLLECTION = "users_shub"
 
 FUSION_ADMIN_USERNAME="admin"
 FUSION_ADMIN_PASSWORD="XXXXXX"

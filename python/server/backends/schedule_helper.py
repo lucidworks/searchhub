@@ -8,17 +8,14 @@ def create_schedule(details, id):
   the_time = time(random.randint(0,23), random.randint(0, 59), 0, 1) # Stagger our schedules for sanity sake
   the_date_time = datetime.combine(today, the_time)
   schedule = {
-    "id": "schedule-{0}".format(id),
-    "creatorType": "bootstrap",
-    "repeatUnit": details["repeatUnit"],
-    "interval": details["interval"],
-    "startTime": the_date_time.isoformat() + "Z",
-    "active": active,
-    "callParams": {
-      "uri": "service://connectors/jobs/{0}".format(id),
-      "method": "POST",
-      "queryParams": {},
-      "headers": {}
-    }
+    "resource": "datasource:{0}".format(id),
+    "enabled": active,
+    "triggers": [{
+      "type": "interval",
+      "enabled": active,
+      "repeatUnit": details["repeatUnit"],
+      "interval": details["interval"],
+      "startTime": the_date_time.isoformat() + "Z"
+    }]
   }
   return schedule

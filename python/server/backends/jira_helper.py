@@ -25,6 +25,7 @@ def create_jira_datasource_config(project):
               "connector": "lucid.web",
               "type": "jira",
               "pipeline": pipeline,
+              "parserId": "searchhub",
               "properties": {
                   "collection": "lucidfind",
                   "startLinks": [jira["url"]]},

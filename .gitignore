@@ -1,3 +1,4 @@
+myenv.sh
 .DS_Store
 node_modules
 npm-debug.log
@@ -18,3 +19,4 @@ python/server/flask_templates/index.html
 venv
 docker-*.sh
 update-*.sh
+searchhub.zip

@@ -1,18 +1,18 @@
 #!flask/bin/python
 from __future__ import print_function
 
-import json
-import requests
-# Bootstrap the database
-from server import app, cmd_args, create_all
-
-# TODO some migration logic and code clean up 
-
 # Bootstrap the Fusion configs (collection, datasources, pipelines, etc)
 import json
+import requests
 from os import listdir
 from os.path import isfile, join
+
+# Bootstrap the database
+from server import app, cmd_args, create_all
 from server import backend
+
+
+# TODO some migration logic and code clean up
 
 
 # ------------------------------------------------------------------------------------------------ # 
@@ -79,7 +79,7 @@ def setup_find_fields(backend, collection_id):
 # Setup experiments we have specified 
 def setup_experiments(backend):    
   job_files = [f for f in listdir("./fusion_config/experiment_configs") if isfile(join("./fusion_config/experiment_configs", f)) and f.endswith("_experiment.json")]    
-  for file in job_files:    
+  for file in job_files:                                                           ins
     print ("Creating Experiment for %s" % file)   
     backend.create_experiment(json.load(open(join("./fusion_config/experiment_configs", file))))
 
@@ -115,11 +115,23 @@ def setup_taxonomy(backend, collection_id):
   status = backend.create_taxonomy(collection_id, taxonomy)
 
 # Schedule all non-datasource by looking in fusion_config for schedule declarations
-def setup_schedules(backend):
-  files = [f for f in listdir("./fusion_config/schedule_configs") if isfile(join("./fusion_config/schedule_configs", f)) and f.endswith("_schedule.json")]
+def setup_rest_call_jobs(backend):
+  files = [f for f in listdir("./fusion_config/rest_call_job_configs") if isfile(join("./fusion_config/rest_call_job_configs", f))]
   for file in files:
-    print("Creating Schedule for %s" % file)
-    backend.create_or_update_schedule(json.load(open(join("./fusion_config/schedule_configs", file))))
+    print("Creating REST Call Job for %s" % file)
+    to_load_json = json.load(open(join("./fusion_config/rest_call_job_configs", file)))
+    backend.create_rest_call_job(to_load_json)
+    schedule = {
+      "resource": "{0}".format(to_load_json["id"]),
+      "enabled": True,
+      "triggers": [{
+        "type": "interval",
+        "enabled": True,
+        "repeatUnit": "HOUR",
+        "interval": 5
+      }]
+    }
+    backend.create_or_update_schedule(schedule)
 
 # bootstrap.py --start_schedules
 def start_schedules(backend):
@@ -437,7 +449,7 @@ if cmd_args.create_batch_jobs or create_all:
 
 # Creating the schedules
 if cmd_args.create_schedules or create_all:
-  setup_schedules(backend)
+  setup_rest_call_jobs(backend)
 
 # Creating the experiments 
 if cmd_args.create_experiments or create_all:

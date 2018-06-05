@@ -27,6 +27,7 @@ def create_config(project_name, project_label, pipeline, repo):
               "connector": "lucid.github",
               "type": "github",
               "pipeline": pipeline,
+              "parserId": "searchhub",
               "properties": {
                   "collection": "lucidfind",  # TODO: don't hardcode
                   "startLinks": [repo["url"]],

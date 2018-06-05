@@ -123,7 +123,7 @@ task deployLibs(dependsOn: [deployLibsToSpark, deployLibsToApi]) {
     file("$searchhubFusionHome/apps/jetty/api/webapps/api-extra-classpath.txt").append(searchhubJar)
     println("Copied libs to apis")
   }
-  if (file("$searchhubFusionHome/apps/jetty/connectors/webapps/connectors-extra-classpath.txt").exists()) {
+  if (file("$searchhubFusionHome/apps/jetty/connectors-classic/webapps/connectors-extra-classpath.txt").exists()) {
     file("$searchhubFusionHome/apps/jetty/connectors/webapps/connectors-extra-classpath.txt").append(searchhubJar)
     println("Copied libs to connectors")
   }

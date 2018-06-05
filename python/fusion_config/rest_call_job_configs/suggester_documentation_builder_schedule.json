@@ -1,0 +1,10 @@
+{
+  "type": "rest-call",
+  "id": "suggester_documentation_builder",
+  "callParams": {
+    "uri": "solr://lucidfind/suggest?suggest=true&suggest.build=true&suggest.dictionary=blended_infix_documentation&wt=json&suggest.q=hi",
+    "method": "get",
+    "queryParams": {},
+    "headers": {}
+  }
+}

@@ -75,8 +75,18 @@ cd "$DEMO_HOME/setup"
 echo "Installing the Application"
 echo ""
 cd "$DEMO_HOME/setup/app"
+# Work around bug that doesn't properly import connectors
+echo "Installing Connector JARs"
+echo ""
+curl -X PUT -H 'Content-type: application/zip' --data-binary @blobs/lucidworks.twitter-stream-4.1.0-SNAPSHOT.zip "$FUSION_API/blobs/lucidworks.twitter-stream-4.1.0-SNAPSHOT.zip?resourceType=plugin:connector"
+curl -X PUT -H 'Content-type: application/zip' --data-binary @blobs/lucidworks.github-4.1.0-SNAPSHOT.zip "$FUSION_API/blobs/lucidworks.github-4.1.0-SNAPSHOT.zip?resourceType=plugin:connector"
+curl -X PUT -H 'Content-type: application/zip' --data-binary @blobs/lucidworks.jira-4.1.0-SNAPSHOT.zip "$FUSION_API/blobs/lucidworks.jira-4.1.0-SNAPSHOT.zip?resourceType=plugin:connector"
+
 zip -r tmp.zip objects.json blobs/* configsets/*
-curl -H "Content-Type:multipart/form-data" -X POST -F 'importData=@tmp.zip' "$FUSION_API/objects/import?importPolicy=overwrite"
+echo "Installing the Application"
+echo ""
+
+curl -H "Content-Type:multipart/form-data" -X POST -F 'importData=@tmp.zip' -F 'variableValues=@../../password_file.json' "$FUSION_API/objects/import?importPolicy=overwrite"
 rm tmp.zip
 cd "$DEMO_HOME/setup"
 

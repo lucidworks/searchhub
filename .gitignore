@@ -20,3 +20,4 @@ venv
 docker-*.sh
 update-*.sh
 searchhub.zip
+password_file.json

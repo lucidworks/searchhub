@@ -1,0 +1,89 @@
+<!-- Retrieving content -->
+<search:platform var="platform" conf="platforms.fusion"></search:platform>
+
+<search:query var="query" parameters="*"></search:query>
+
+<!-- Specify which facets to retrieve -->
+<search:query var="dashboardQuery" parameters="*" results-per-page="0" facets="facet1,facet2,facet3,facet4">
+    <query:custom name="facet.mincount" value="1"></query:custom>
+</search:query>
+
+<search:response var="response" platform="platform" query="dashboardQuery">
+    <widget:spinner></widget:spinner>
+</search:response>
+
+<!-- Include Page Header -->
+<layout:include file="views/partials/header.tpl.html"></layout:include>
+
+<layout:center-content>
+
+
+    <!-- DASHBOARD PAGE CONTENT -->
+    <layout:grid>
+        <layout:block>
+
+            <!-- Dashboard Row -->
+            <layout:grid>
+                <layout:block>
+                    <layout:box styling="text-center" padding-bottom="0">
+                        <search:breadcrumbs response="response" group-by-field="true"></search:breadcrumbs>
+                    </layout:box>
+                </layout:block>
+            </layout:grid>
+
+            <!-- Dashboard Row -->
+            <layout:grid>
+                <layout:block lg="3-5">
+                    <layout:box styling="stretch-content">
+                        <div styling="panel">
+                            <h3 styling="title">Chart 1</h3>
+                            <chart:display response="response" height="285" query="dashboardQuery" show-count="true">
+                                <series:facet name="facet1" type="pie" response="response" query="query" number-to-show="10" single-filter-mode="true"></series:facet>
+                            </chart:display>
+                        </div>
+                    </layout:box>
+                </layout:block>
+
+                <layout:block lg="2-5">
+                    <layout:box styling="stretch-content">
+                        <div styling="panel" id="chart-gender-dist">
+                            <h3 styling="title"></span>Chart 2</h3>
+                            <chart:display response="response" height="285" query="dashboardQuery" show-count="true">
+                                <series:facet name="facet2" type="pie" response="response" query="query" number-to-show="10" single-filter-mode="true"></series:facet>
+                            </chart:display>
+                        </div>
+                    </layout:box>
+                </layout:block>
+            </layout:grid>
+
+            <!-- Dashboard Row -->
+            <layout:grid>
+                <layout:block>
+                    <layout:box>
+                        <div styling="panel">
+                            <h3 styling="title">Creation Date</h3>
+                            <chart:display response="response" type="column" query="dashboardQuery" show-count="false" show-labels="true" single-filter-mode>
+                                <series:facet name="facet3" query="query"></series:facet>
+                            </chart:display>
+                        </div>
+                    </layout:box>
+                </layout:block>
+            </layout:grid>
+
+
+            <!-- Link Over To Search Results Page -->
+            <layout:grid>
+                <layout:block>
+                    <layout:box>
+                        <a styling="panel panel-block-link" ng-href="#/trials?{{ query | getUrlForQuery }}">
+                            <h2>{{response.hits | actual | numberFormat:'###,###'}} documents match the above criteria. <span>View Now.</span>
+                            </h2>
+                        </a>
+                    </layout:box>
+                </layout:block>
+            </layout:grid>
+
+        </layout:block>
+    </layout:grid>
+
+</layout:center-content>

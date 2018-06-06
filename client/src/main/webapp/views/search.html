@@ -1,0 +1,125 @@
+<!-- -------------------------------------------- -->
+<!-- Build the data model                         -->
+<!-- -------------------------------------------- -->
+
+<!-- Define a search platform to fetch data from -->
+<search:platform var="platform" conf="platforms.fusion"></search:platform>
+
+<!-- Search query based on the user's input -->
+<search:query var="query" parameters="*"></search:query>
+
+<!-- Send query to platform and retrieve documents back -->
+<search:response var="response" platform="platform" query="query">
+    <widget:spinner></widget:spinner>
+</search:response>
+
+
+<!-- -------------------------------------------- -->
+<!-- Define the view                              -->
+<!-- -------------------------------------------- -->
+
+<helper:title title="Fusion Search"></helper:title>
+
+<!-- HEADER -->
+<layout:include file="views/partials/header.tpl.html" action="search"></layout:include>
+
+<!-- CONTENT -->
+<layout:grid styling="row-offcanvas">
+
+    <!-- Animate page when response received -->
+    <layout:animate animation="animate-fadeInUp" on="response" layout-grid>
+
+        <!-- CONTENT > SIDEBAR -->
+        <layout:block md="1-3" lg="1-4" drawer="left" id="sidebar" styling="blocksidebar-light">
+            <layout:sidebar>
+                <layout:box>
+
+                    <!-- List facets and give them intuitive labels -->
+                    <search:facet-list response="response" platform="platform" query="query" styling="facet-list facet-list-wrappedheader" facet-names="*">
+                        <search:facet collapsible="true" max-characters="40" show="12" show-more="24"></search:facet>
+                    </search:facet-list>
+
+                </layout:box>
+            </layout:sidebar>
+        </layout:block>
+
+        <!-- CONTENT > RESULTS -->
+        <layout:block md="2-3" lg="3-4" styling="bg-white">
+            <layout:box padding-left="2" padding-right="2">
+
+                <!-- Results Wrapper -->
+                <layout:block>
+                    <layout:grid>
+
+                        <!-- Tabs, View Options, Response Stats, Selected Facets -->
+                        <layout:block padding-top="1">
+                            <layout:grid>
+                                <layout:block md="3-4">
+
+                                    <!-- Specify a facet to show tabs from -->
+                                    <search:tabs response="response" field-name="tabField" all-label="All" platform="platform" query="query"
+                                                 tabs="cat1=Category 1,cat2=Category 2,cat3=Category 3"></search:tabs>
+
+                                </layout:block>
+                                <layout:block md="1-4" styling="center-content sortoptions-block">
+                                    <layout:controls class="right">
+                                        <search:sort response="response" fields="field1=Field 1,field2=Field 2"></search:sort>
+                                    </layout:controls>
+                                </layout:block>
+                            </layout:grid>
+
+                            <div padding-top="1">
+                                <search:response-statistics response="response"></search:response-statistics>
+                                <p class="response-statistics">(Fusion took {{ response.time }}ms)</p>
+                                <search:breadcrumbs query="query" group-by-field="true" exclude="tabField"></search:breadcrumbs>
+                            </div>
+
+                        </layout:block>
+
+                        <!-- Results -->
+                        <layout:block>
+
+                            <!-- SEARCH > RESULTS -->
+
+                            <!-- Show messages from Fusion -->
+                            <search:message-list response="response" title="You might also want to look at"></search:message-list>
+
+                            <!--Track Clicks-->
+                            <track:clicks query=query>
+
+                                <!-- Show all search results, in DEBUG mode -->
+                                <search:result-list response="response" styling="cards-sm-1 cards-lg-1 cards-xl-1"></search:result-list>
+
+                                <!-- Then pick out a few specific fields to show -->
+                                <!--
+                                <search:result-list response="response">
+                                    <search:result>
+                                        <search:field name="title_t" styling="title" urlfield="url"></search:field>
+                                        <search:field name="body_t" max-characters="250" show-more="Show More" styling="description"></search:field>
+                                        <search:field name="id" styling="label-left" label="Link" urlfield="id"></search:field>
+                                    </search:result>
+                                </search:result-list>
+                                -->
+
+                            </track:clicks>
+                            <!--End Track Clicks-->
+
+                            <!-- Pagination -->
+                            <layout:block styling="textcenter">
+                                <search-pagination response="response" max-pages="5" show-last="true">
+                                </search-pagination>
+                            </layout:block>
+
+                            <!-- No results message -->
+                            <search:no-results response="response"></search:no-results>
+                        </layout:block>
+
+                    </layout:grid>
+                </layout:block>
+            </layout:box>
+        </layout:block>
+
+    </layout:animate>
+
+</layout:grid>
+

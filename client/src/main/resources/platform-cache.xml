@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache name="platform-cache">
+    <diskStore path="java.io.tmpdir"/>
+    <defaultCache maxElementsInMemory="100" copyOnRead="true" copyOnWrite="true" eternal="false" timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="true" diskSpoolBufferSizeMB="30" maxElementsOnDisk="10000000" diskPersistent="false" diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="LRU" statistics="false"/>
+</ehcache>

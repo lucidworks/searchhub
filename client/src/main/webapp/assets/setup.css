@@ -1,0 +1,30 @@
+/*------------------------------------*/
+/*    SETUP                           */
+/*------------------------------------*/
+
+/* Login form */
+body.login div.login-content form.setup {
+    position: absolute;
+    content: '';
+    top: 50%;
+    left: 50%;
+    margin: -250px 0 0 -270px;
+    width: 580px;
+    height: 500px;
+}
+
+div.branding {
+    margin-bottom: 80px;
+}
+
+.tk-stl-form-stacked input[type="text"] {
+    margin: 0;
+}
+
+div.input {
+    margin-bottom: 1em;
+}
+
+.tk-stl-button {
+    margin-top: 1em;
+}

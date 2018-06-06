@@ -1,0 +1,32 @@
+.filter {
+  opacity: 1;
+}
+.filter.ng-enter {
+  -webkit-transition: 1s;
+  transition: 1s;
+  opacity: 0;
+}
+.filter.ng-enter-active {
+  opacity: 1;
+}
+
+.breadcrumb {
+  opacity: 1;
+}
+.breadcrumb.ng-enter {
+  transition-delay: 0.2s;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  opacity: 0.6;
+}
+.breadcrumb.ng-enter-active {
+  opacity: 1;
+}
+.breadcrumb.ng-leave {
+  -webkit-transition: 0.1s;
+  opacity: 0;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>searchhub</artifactId>
+    <packaging>${packaging.type}</packaging>
+
+    <parent>
+        <groupId>twigkit</groupId>
+        <artifactId>twigkit.app.js</artifactId>
+        <version>4.0.0-SNAPSHOT</version>
+    </parent>
+
+    <!-- Set the build name -->
+    <build>
+        <finalName>${project.name}</finalName>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>twigkit.com</id>
+            <name>Twigkit</name>
+            <url>http://twigkit.artifactoryonline.com/twigkit/repo</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <dependencies>
+
+        <!-- Logger implementation -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+
+        <!-- Logging bridging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.7.9</version>
+        </dependency>
+
+
+        <!-- Servlet APIs -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+
+
+        <!-- Twigkit adapters -->
+        <dependency>
+            <groupId>twigkit</groupId>
+            <artifactId>twigkit.fusion</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <!-- Security Provider-->
+        <dependency>
+            <groupId>twigkit</groupId>
+            <artifactId>twigkit.security.provider.fusion</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+
+        <!-- Fusion Signals Tracking -->
+        <dependency>
+            <groupId>twigkit</groupId>
+            <artifactId>twigkit.activity.tracker</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>twigkit</groupId>
+            <artifactId>twigkit.message.service.fusion.producer</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <!-- Twigkit web services -->
+        <dependency>
+            <groupId>twigkit</groupId>
+            <artifactId>twigkit.webservices</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <!-- Twigkit media module -->
+        <dependency>
+            <groupId>twigkit</groupId>
+            <artifactId>twigkit.media</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+             
+        <!-- Twigkit collaboration module -->
+        <!--<dependency>
+            <groupId>twigkit</groupId>
+            <artifactId>twigkit.social.db.derby</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>-->
+
+        <!-- Twigkit workflow module -->
+        <dependency>
+            <groupId>twigkit</groupId>
+            <artifactId>twigkit.workflow</artifactId>
+            <version>${project.parent.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.lucene</groupId>
+                    <artifactId>lucene-analyzers-common</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.lucene</groupId>
+                    <artifactId>lucene-highlighter</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.lucene</groupId>
+                    <artifactId>lucene-queryparser</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+    </dependencies>
+</project>

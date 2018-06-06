@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE urlrewrite
+    PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+    "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+
+
+<urlrewrite>
+    <!-- Ignore requests with suffix file names -->
+    <rule>
+        <name>Ignore file, non-jsp and non-query requests</name>
+        <condition type="request-uri" next="or">^/twigkit/.*</condition>
+        <from>.*</from>
+        <to last="true">$0</to>
+    </rule>
+
+    <rule>
+        <from>^/login/</from>
+        <to last="true">/login.jsp</to>
+    </rule>
+
+    <rule>
+        <from>^/setup/</from>
+        <to last="true">/WEB-INF/pages/setup.html</to>
+    </rule>
+
+
+    <!-- Views -->
+    <rule>
+        <from>^.*</from>
+        <to last="true">/$0</to>
+    </rule>
+</urlrewrite>

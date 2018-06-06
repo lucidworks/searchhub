@@ -1,0 +1,17 @@
+[
+  {
+    "snippet": "<layout:block>$0</layout:block>",
+    "caption": "layout:block",
+    "docHTML": "A layout block for positioning content"
+  },
+  {
+    "snippet": "<layout:box>$0</layout:box>",
+    "caption": "layout:box",
+    "docHTML": "Adds padding around content"
+  },
+  {
+    "snippet": "<layout:grid>$0</layout:grid>",
+    "caption": "layout:grid",
+    "docHTML": "Grid container for blocks"
+  }
+]

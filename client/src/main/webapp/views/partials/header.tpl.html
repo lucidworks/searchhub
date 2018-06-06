@@ -1,0 +1,46 @@
+<layout:grid styling="header">
+
+    <!-- logo -->
+    <layout:block medium="3-24" styling="hidemedium">
+        <layout:box>
+            <layout:logo image="assets/logo.png"></layout:logo>
+        </layout:box>
+    </layout:block>
+
+    <layout:block tiny="4-24" medium="3-24">
+        <layout:box>
+            <search:offcanvas-toggle target="#sidebar"></search:offcanvas-toggle>
+        </layout:box>
+    </layout:block>
+
+    <!-- search -->
+    <layout:block tiny="20-24" medium="1-2">
+        <layout:box>
+            <search:box placeholder="Find documents..." action="{{action}}" social="true">
+
+                <!-- Query Suggestions -->
+                <!--<query-suggestions completion-service="services.suggestions.terms" action="/search"></query-suggestions>-->
+
+                <!-- Or Instant Results -->
+                <!--<layout:box>-->
+                    <!--<instant:result-list platform="platform">-->
+                        <!--<search:result>-->
+                            <!--<search:field name="title" label="" styling="label-inline" urlfield="url"></search:field>-->
+                        <!--</search:result>-->
+                    <!--</instant:result-list>-->
+                <!--</layout:box>-->
+
+            </search:box>
+        </layout:box>
+    </layout:block>
+
+</layout:grid>
+
+<!-- NAVBAR -->
+<layout:grid id="navbar">
+    <layout:block>
+        <search:tabs response="response" tabs="dashboard=At a glance,search=Search"
+                     styling="navbar" class="tk-stl-navbar"></search:tabs>
+
+    </layout:block>
+</layout:grid>

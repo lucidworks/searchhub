@@ -1,0 +1,40 @@
+// Instant Search Results
+.tk-stl-instant-results {
+    .instant-result-image {
+        padding: 0 0.5em;
+        display: inline-block;
+        float: left;
+
+        img {
+            width: 50px;
+            max-width: 100%;
+            padding-top: 5px;
+            margin-right: 10px;
+        }
+    }
+
+    ul li {
+        &:hover {
+            background: @color-primary;
+
+            a {
+                color: @color-white;
+            }
+        }
+
+        a {
+            display: block;
+            padding: 0 0 0.5em 0;
+            transition: none;
+        }
+
+        .field {
+            display: inline-block;
+            float: left;
+            width: auto;
+            margin-top: 13px;
+            margin-left: 10px;
+
+        }
+    }
+}

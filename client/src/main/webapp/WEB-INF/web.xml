@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="twigkit" version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+    <display-name>Twigkit</display-name>
+
+
+    <!-- Spring Security -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring-security.xml</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <listener>
+        <listener-class>
+            org.springframework.web.context.request.RequestContextListener
+        </listener-class>
+    </listener>
+    <!-- Spring Security ends -->
+
+
+    <!-- Guice -->
+    <filter>
+        <filter-name>guiceFilter</filter-name>
+        <filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>guiceFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- wro4j -->
+    <filter>
+        <filter-name>WebResourceOptimizer</filter-name>
+        <filter-class>ro.isdc.wro.http.WroFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>WebResourceOptimizer</filter-name>
+        <url-pattern>/wro/*</url-pattern>
+    </filter-mapping>
+
+
+    <!-- URL Rewrite Filter -->
+    <filter>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+        <init-param>
+            <param-name>confPath</param-name>
+            <param-value>/WEB-INF/url-rules.xml</param-value>
+        </init-param>
+        <init-param>
+            <param-name>statusPath</param-name>
+            <param-value>/twigkit/url-rules</param-value>
+        </init-param>
+        <init-param>
+            <param-name>statusEnabled</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <listener>
+        <listener-class>twigkit.ui.jsp.StartListener</listener-class>
+    </listener>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/pages/error/404.html</location>
+    </error-page>
+
+</web-app>

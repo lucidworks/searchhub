@@ -1,0 +1,154 @@
+// ---------------------------------------------------------
+// Navigation
+// ---------------------------------------------------------
+
+.tk-stl-header {background: @color-secondary;}
+
+.tk-header-logo img {
+    margin: 11px 0 0 5px;
+    width: 136px;
+    min-width: 136px;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: @color-secondary;
+}
+
+:focus {outline: 0;}
+
+.tk-stl-centercontent-inner {max-width: 1200px;}
+
+.tk-stl-navbar {
+    background: @color-tertiary;
+    background: -moz-linear-gradient(left, @color-tertiary 0%, @color-primary 100%);
+    background: -webkit-linear-gradient(left, @color-tertiary 0%,@color-primary 100%);
+    background: linear-gradient(to right, @color-tertiary 0%,@color-primary 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@color-tertiary', endColorstr='@color-primary',GradientType=1 );
+    border-top: 1px solid rgba(255,255,255,0.15);
+}
+
+.tk-stl-navbar-item a {opacity:0.5;}
+.tk-stl-navbar-item:hover, .tk-stl-navbar-item:focus, .tk-stl-navbar-item.active {box-shadow: none; opacity: 1;}
+.tk-stl-navbar-item:hover a, .tk-stl-navbar-item.active a {opacity: 1;}
+
+.tk-stl-navbar-item.active a {
+background: rgba(255,255,255,0.075);
+border-top:1px solid rgba(255,255,255,0.175);
+margin-top:-1px;
+}
+
+.tk-stl-navbar-item a .label {border:0;}
+
+// ---------------------------------------------------------
+// Search Page
+// ---------------------------------------------------------
+
+.tk-stl-blocksidebar-light .facet-list h3 {color: @color-secondary;}
+.tk-stl-blocksidebar-light .facet-list ol.filter-list {margin-bottom: 1em;}
+.tk-stl-blocksidebar-light .facet-list .tk-stl-show-more a {color: #999; font-style: italic;}
+.facet-list li.facet li.tk-facet-search-container {margin:-0.25em 0 0.25em 0;}
+.tk-facet-search-container input::-webkit-input-placeholder, .tk-facet-search-container input::placeholder {color: #c1cbd6;}
+.tk-stl-blocksidebar-light .tk-facet-search-container input {padding-left: 12px;}
+
+.tk-stl-tabs > li.active {
+    border-bottom-color: @color-white;
+    background: @color-white;
+}
+
+// Sort
+.tk-stl-sortoptions-block {
+    justify-content: flex-end;
+    border-bottom:1px solid #d9d9d9;
+    padding: 0.5em 0em;
+}
+
+.tk-stl-sortoptions li a {font-weight: 400;}
+
+.response-statistics {
+    float: left;
+    margin: 0.5em 1em 0.5em 0;
+    font-weight: 400;
+}
+
+// Results
+.result {
+    line-height: 1.4;
+    margin-bottom:1em;
+    padding-bottom:1em;
+}
+
+.result * {word-break:break-word;}
+.result p {font-size:1em;}
+.result .tk-stl-title p {margin-bottom:0.25em; font-size:1.2em;}
+
+.result .tk-stl-title p a {
+    font-weight: 700;
+    color:@color-secondary;
+}
+
+.tk-stl-url a {
+    color:#4CAF50; // green
+    font-size:0.9em;
+}
+
+// People
+ol.people.result-list {
+    margin:0;
+    padding:0;
+}
+
+ol.people.result-list li {
+    border-bottom:1px solid #d9d9d9;
+    margin:0 0 1em 0;
+    padding:0 0 1em 0;
+}
+
+ol.people.result-list li:last-child {
+    border-bottom:0;
+    margin:0;
+    padding:0;
+}
+
+// ---------------------------------------------------------
+// Dashboard Page
+// ---------------------------------------------------------
+
+// Visualisation Panels
+.tk-stl-panel {
+    border-color: @color-quinary;
+    border-width: 1px;
+
+    h1 {
+        margin: 0;
+        font-size: 3em;
+        color: @color-secondary;
+    }
+}
+
+// Dashboard Link to Search Results Page
+a.tk-stl-panel-block-link {
+    border-color: @color-primary;
+}
+
+a.tk-stl-panel-block-link h2 span {
+    color: @color-primary;
+}
+
+// Single Filter Overlays
+.tk-stl-single-filter-mode-wrapper .tk-stl-single-filter-overlay {
+    background: @color-quaternary;
+}
+
+.tk-stl-single-filter-mode-wrapper .tk-stl-single-filter-overlay h2 {
+    color: @color-tertiary;
+}
+
+.tk-stl-single-filter-mode-wrapper .tk-stl-single-filter-overlay h3 {
+    color: @color-primary;
+}
+
+.tk-stl-single-filter-mode-wrapper .tk-stl-single-filter-overlay h4 {
+    display: none;
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups xmlns="http://www.isdc.ro/wro">
+
+    <group name="main">
+        <css>classpath:generated/lib/appkit-ui/dist/less/phoenix.all.less</css>
+        <css>/styles/twigkit.less</css>
+        <css>/styles/animations.css</css>
+
+        <js>/scripts/app.js</js>
+        <js>/scripts/routes.js</js>
+        <js>/scripts/controllers/main.js</js>
+
+    </group>
+
+    <group name="vendor">
+        <js>classpath:generated/lib/angular/angular.js</js>
+        <js>classpath:generated/lib/angular-resource/angular-resource.js</js>
+        <js>classpath:generated/lib/angular-touch/angular-touch.js</js>
+        <js>classpath:generated/lib/angular-animate/angular-animate.js</js>
+        <js>classpath:generated/lib/angular-cookies/angular-cookies.js</js>
+        <js>classpath:generated/lib/angular-sanitize/angular-sanitize.js</js>
+        <js>classpath:generated/lib/appkit-ui/dist/js/lightning.min.js</js>
+        <js>classpath:generated/lib/angular-ui-router/release/angular-ui-router.js</js>
+    </group>
+
+</groups>

@@ -1,0 +1,53 @@
+<configuration scan="true">
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- On Windows machines setting withJansi to true enables ANSI
+         color code interpretation by the Jansi library. This requires
+         org.fusesource.jansi:jansi:1.8 on the class path.  Note that
+         Unix-based operating systems such as Linux and Mac OS X
+         support ANSI color codes by default. -->
+        <withJansi>false</withJansi>
+        <encoder>
+            <!-- Color pattern for *nix platforms and Jansi color code interpretation on Windows -->
+            <pattern>%d{HH:mm:ss.SSS} %highlight(%-5level) %cyan(%logger{36}) - %msg %n</pattern>
+            <!-- Windows pattern without ANSI color codes -->
+            <!--<pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg %n</pattern>-->
+        </encoder>
+    </appender>
+
+    <appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./logs/twigkit.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+
+            <!-- Daily rollover. Make sure the path matches the one in the file element or else
+             the rollover logs are placed in the working directory. -->
+            <fileNamePattern>./logs/twigkit_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>5MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+
+            <!-- keep 30 days' worth of history -->
+            <maxHistory>30</maxHistory>
+
+        </rollingPolicy>
+        <encoder>
+
+            <!-- Color pattern for *nix platforms and Jansi color code interpretation on Windows -->
+            <pattern>%d{HH:mm:ss.SSS} %highlight(%-5level) %cyan(%logger{36}) - %msg %n</pattern>
+
+            <!-- Windows pattern without ANSI color codes -->
+            <!--<pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg %n</pattern>-->
+
+        </encoder>
+    </appender>
+
+    <logger name="twigkit" level="DEBUG"/>
+    <logger name="twigkit.security.util.RemoteUserUtil" level="ERROR"/>
+
+
+    <root level="ERROR">
+        <appender-ref ref="logfile"/>
+        <appender-ref ref="stdout"/>
+    </root>
+</configuration>

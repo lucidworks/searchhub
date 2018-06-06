@@ -1,0 +1,13 @@
+{
+  "name": "app",
+  "version": "0.0.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "appkit-ui": "http://appkit.lucidworks.com/repo/4.0.0-SNAPSHOT/appkit-ui.tar.gz"
+  },
+  "repository": {},
+  "engines": {
+    "node": ">=0.10.0"
+  }
+}

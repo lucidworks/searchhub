@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 while [ -h "$SETUP_SCRIPT" ] ; do
   ls=`ls -ld "$SETUP_SCRIPT"`
   # Drop everything prior to ->
@@ -12,11 +13,18 @@ done
 
 DEMO_HOME=`dirname "$SETUP_SCRIPT"`
 DEMO_HOME=`cd "$DEMO_HOME"; pwd`
-set -x
 
 source "$DEMO_HOME/myenv.sh"
 
-echo "Exporting the App just in case to /tmp/searchhub.zip"
-curl "$FUSION_API/objects/export?app.ids=searchhub&blob.ids=lucidworks.jira-4.1.0-SNAPSHOT.zip&blob.ids=lucidworks.github-4.1.0-SNAPSHOT.zip&blob.ids=lucidworks.twitter-stream-4.1.0-SNAPSHOT.zip" > "/tmp/searchhub.zip"
+
 curl  -X DELETE "$FUSION_API/webapps/searchhub"
-curl  -X DELETE "$FUSION_API/apps/searchhub"
+cd "$DEMO_HOME/client"
+mvn -o package
+cd "$DEMO_HOME/setup"
+
+curl -H 'Content-type: application/json' -X POST -d "@searchhub_appstudio.json" "$FUSION_API/webapps"
+echo "deploying war"
+curl -H 'Content-type: application/zip' -X PUT "$FUSION_API/webapps/searchhub/war" --data-binary "@../client/dist/searchhub.war"
+
+#cd "$FUSION_HOME/"
+#bin/webapps restart

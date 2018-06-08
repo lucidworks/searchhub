@@ -71,8 +71,6 @@ fi
 
 cd "$DEMO_HOME/setup"
 
-
-echo "Installing the Application"
 echo ""
 cd "$DEMO_HOME/setup/app"
 # Work around bug that doesn't properly import connectors
@@ -82,7 +80,7 @@ curl -X PUT -H 'Content-type: application/zip' --data-binary @blobs/lucidworks.t
 curl -X PUT -H 'Content-type: application/zip' --data-binary @blobs/lucidworks.github-4.1.0-SNAPSHOT.zip "$FUSION_API/blobs/lucidworks.github-4.1.0-SNAPSHOT.zip?resourceType=plugin:connector"
 curl -X PUT -H 'Content-type: application/zip' --data-binary @blobs/lucidworks.jira-4.1.0-SNAPSHOT.zip "$FUSION_API/blobs/lucidworks.jira-4.1.0-SNAPSHOT.zip?resourceType=plugin:connector"
 
-zip -r tmp.zip objects.json blobs/* configsets/*
+zip -q -r tmp.zip objects.json blobs/* configsets/*
 echo "Installing the Application"
 echo ""
 

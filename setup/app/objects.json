@@ -1,157 +1,6 @@
 {
   "objects" : {
     "collections" : [ {
-      "id" : "lucidfind_stored_parameters",
-      "createdAt" : "2018-06-04T19:41:02.713Z",
-      "searchClusterId" : "default",
-      "commitWithin" : 600000,
-      "solrParams" : {
-        "name" : "lucidfind_stored_parameters",
-        "numShards" : 2,
-        "replicationFactor" : 1,
-        "maxShardsPerNode" : 2
-      },
-      "type" : "TAXONOMY",
-      "relatedCollectionId" : "lucidfind",
-      "metadata" : { }
-    }, {
-      "id" : "lucidfind_email_subject_weights_signals_aggr",
-      "createdAt" : "2018-06-04T19:40:27.259Z",
-      "searchClusterId" : "default",
-      "commitWithin" : 10000,
-      "solrParams" : {
-        "name" : "lucidfind_email_subject_weights_signals_aggr",
-        "numShards" : 2,
-        "replicationFactor" : 1,
-        "maxShardsPerNode" : 2
-      },
-      "type" : "SIGNALS_AGGREGATION",
-      "relatedCollectionId" : "lucidfind_email_subject_weights",
-      "metadata" : { }
-    }, {
-      "id" : "lucidfind_subjects_for_subjects_signals_aggr",
-      "createdAt" : "2018-06-04T19:40:53.576Z",
-      "searchClusterId" : "default",
-      "commitWithin" : 10000,
-      "solrParams" : {
-        "name" : "lucidfind_subjects_for_subjects_signals_aggr",
-        "numShards" : 2,
-        "replicationFactor" : 1,
-        "maxShardsPerNode" : 2
-      },
-      "type" : "SIGNALS_AGGREGATION",
-      "relatedCollectionId" : "lucidfind_subjects_for_subjects",
-      "metadata" : { }
-    }, {
-      "id" : "lucidfind_email_subject_weights",
-      "createdAt" : "2018-06-04T19:40:19.461Z",
-      "searchClusterId" : "default",
-      "commitWithin" : 10000,
-      "solrParams" : {
-        "name" : "lucidfind_email_subject_weights",
-        "numShards" : 1,
-        "replicationFactor" : 1
-      },
-      "type" : "DATA",
-      "metadata" : { }
-    }, {
-      "id" : "lucidfind_subjects_for_subjects_signals",
-      "createdAt" : "2018-06-04T19:40:49.251Z",
-      "searchClusterId" : "default",
-      "commitWithin" : 10000,
-      "solrParams" : {
-        "name" : "lucidfind_subjects_for_subjects_signals",
-        "numShards" : 2,
-        "replicationFactor" : 1,
-        "maxShardsPerNode" : 2,
-        "configTemplate" : "solr/conf/insights.zip"
-      },
-      "type" : "SIGNALS",
-      "relatedCollectionId" : "lucidfind_subjects_for_subjects",
-      "metadata" : { }
-    }, {
-      "id" : "users_shub_signals_aggr",
-      "createdAt" : "2018-06-04T19:40:11.195Z",
-      "searchClusterId" : "default",
-      "commitWithin" : 10000,
-      "solrParams" : {
-        "name" : "users_shub_signals_aggr",
-        "numShards" : 2,
-        "replicationFactor" : 1,
-        "maxShardsPerNode" : 2
-      },
-      "type" : "SIGNALS_AGGREGATION",
-      "relatedCollectionId" : "users_shub",
-      "metadata" : { }
-    }, {
-      "id" : "lucidfind_subjects_for_emails_signals",
-      "createdAt" : "2018-06-04T19:40:36.055Z",
-      "searchClusterId" : "default",
-      "commitWithin" : 10000,
-      "solrParams" : {
-        "name" : "lucidfind_subjects_for_emails_signals",
-        "numShards" : 2,
-        "replicationFactor" : 1,
-        "maxShardsPerNode" : 2,
-        "configTemplate" : "solr/conf/insights.zip"
-      },
-      "type" : "SIGNALS",
-      "relatedCollectionId" : "lucidfind_subjects_for_emails",
-      "metadata" : { }
-    }, {
-      "id" : "lucidfind_subjects_for_subjects",
-      "createdAt" : "2018-06-04T19:40:45.419Z",
-      "searchClusterId" : "default",
-      "commitWithin" : 10000,
-      "solrParams" : {
-        "name" : "lucidfind_subjects_for_subjects",
-        "numShards" : 1,
-        "replicationFactor" : 1
-      },
-      "type" : "DATA",
-      "metadata" : { }
-    }, {
-      "id" : "lucidfind_subjects_for_emails",
-      "createdAt" : "2018-06-04T19:40:32.227Z",
-      "searchClusterId" : "default",
-      "commitWithin" : 10000,
-      "solrParams" : {
-        "name" : "lucidfind_subjects_for_emails",
-        "numShards" : 1,
-        "replicationFactor" : 1
-      },
-      "type" : "DATA",
-      "metadata" : { }
-    }, {
-      "id" : "lucidfind_subjects_for_emails_signals_aggr",
-      "createdAt" : "2018-06-04T19:40:40.142Z",
-      "searchClusterId" : "default",
-      "commitWithin" : 10000,
-      "solrParams" : {
-        "name" : "lucidfind_subjects_for_emails_signals_aggr",
-        "numShards" : 2,
-        "replicationFactor" : 1,
-        "maxShardsPerNode" : 2
-      },
-      "type" : "SIGNALS_AGGREGATION",
-      "relatedCollectionId" : "lucidfind_subjects_for_emails",
-      "metadata" : { }
-    }, {
-      "id" : "lucidfind_email_subject_weights_signals",
-      "createdAt" : "2018-06-04T19:40:23.167Z",
-      "searchClusterId" : "default",
-      "commitWithin" : 10000,
-      "solrParams" : {
-        "name" : "lucidfind_email_subject_weights_signals",
-        "numShards" : 2,
-        "replicationFactor" : 1,
-        "maxShardsPerNode" : 2,
-        "configTemplate" : "solr/conf/insights.zip"
-      },
-      "type" : "SIGNALS",
-      "relatedCollectionId" : "lucidfind_email_subject_weights",
-      "metadata" : { }
-    }, {
       "id" : "users_shub",
       "createdAt" : "2018-06-04T19:40:03.314Z",
       "searchClusterId" : "default",
@@ -192,12 +41,38 @@
       "relatedCollectionId" : "lucidfind",
       "metadata" : { }
     }, {
+      "id" : "lucidfind_stored_parameters",
+      "createdAt" : "2018-06-04T19:41:02.713Z",
+      "searchClusterId" : "default",
+      "commitWithin" : 600000,
+      "solrParams" : {
+        "name" : "lucidfind_stored_parameters",
+        "numShards" : 2,
+        "replicationFactor" : 1,
+        "maxShardsPerNode" : 2
+      },
+      "type" : "TAXONOMY",
+      "relatedCollectionId" : "lucidfind",
+      "metadata" : { }
+    }, {
       "id" : "lucidfind_thread_recs",
       "createdAt" : "2018-06-04T19:39:50.597Z",
       "searchClusterId" : "default",
       "commitWithin" : 10000,
       "solrParams" : {
         "name" : "lucidfind_thread_recs",
+        "numShards" : 1,
+        "replicationFactor" : 1
+      },
+      "type" : "DATA",
+      "metadata" : { }
+    }, {
+      "id" : "lucidfind_email_subject_weights",
+      "createdAt" : "2018-06-04T19:40:19.461Z",
+      "searchClusterId" : "default",
+      "commitWithin" : 10000,
+      "solrParams" : {
+        "name" : "lucidfind_email_subject_weights",
         "numShards" : 1,
         "replicationFactor" : 1
       },
@@ -218,48 +93,28 @@
       "relatedCollectionId" : "lucidfind",
       "metadata" : { }
     }, {
-      "id" : "lucidfind_thread_recs_signals",
-      "createdAt" : "2018-06-04T19:39:54.322Z",
+      "id" : "lucidfind_subjects_for_subjects",
+      "createdAt" : "2018-06-04T19:40:45.419Z",
       "searchClusterId" : "default",
       "commitWithin" : 10000,
       "solrParams" : {
-        "name" : "lucidfind_thread_recs_signals",
-        "numShards" : 2,
-        "replicationFactor" : 1,
-        "maxShardsPerNode" : 2,
-        "configTemplate" : "solr/conf/insights.zip"
+        "name" : "lucidfind_subjects_for_subjects",
+        "numShards" : 1,
+        "replicationFactor" : 1
       },
-      "type" : "SIGNALS",
-      "relatedCollectionId" : "lucidfind_thread_recs",
+      "type" : "DATA",
       "metadata" : { }
     }, {
-      "id" : "lucidfind_thread_recs_signals_aggr",
-      "createdAt" : "2018-06-04T19:39:58.456Z",
+      "id" : "lucidfind_subjects_for_emails",
+      "createdAt" : "2018-06-04T19:40:32.227Z",
       "searchClusterId" : "default",
       "commitWithin" : 10000,
       "solrParams" : {
-        "name" : "lucidfind_thread_recs_signals_aggr",
-        "numShards" : 2,
-        "replicationFactor" : 1,
-        "maxShardsPerNode" : 2
+        "name" : "lucidfind_subjects_for_emails",
+        "numShards" : 1,
+        "replicationFactor" : 1
       },
-      "type" : "SIGNALS_AGGREGATION",
-      "relatedCollectionId" : "lucidfind_thread_recs",
-      "metadata" : { }
-    }, {
-      "id" : "users_shub_signals",
-      "createdAt" : "2018-06-04T19:40:07.052Z",
-      "searchClusterId" : "default",
-      "commitWithin" : 10000,
-      "solrParams" : {
-        "name" : "users_shub_signals",
-        "numShards" : 2,
-        "replicationFactor" : 1,
-        "maxShardsPerNode" : 2,
-        "configTemplate" : "solr/conf/insights.zip"
-      },
-      "type" : "SIGNALS",
-      "relatedCollectionId" : "users_shub",
+      "type" : "DATA",
       "metadata" : { }
     } ],
     "indexPipelines" : [ {
@@ -3105,7 +2960,7 @@
         "name" : "signals",
         "collectionId" : "users_shub",
         "params" : { },
-        "enabled" : true
+        "enabled" : false
       }, {
         "name" : "searchLogs",
         "collectionId" : "users_shub",
@@ -3204,24 +3059,24 @@
         },
         "enabled" : false
       } ],
-      "lucidfind_email_subject_weights_signals_aggr" : [ {
+      "lucidfind_subjects_for_subjects" : [ {
         "name" : "partitionByTime",
-        "collectionId" : "lucidfind_email_subject_weights_signals_aggr",
+        "collectionId" : "lucidfind_subjects_for_subjects",
         "params" : { },
         "enabled" : false
       }, {
         "name" : "signals",
-        "collectionId" : "lucidfind_email_subject_weights_signals_aggr",
+        "collectionId" : "lucidfind_subjects_for_subjects",
         "params" : { },
         "enabled" : false
       }, {
         "name" : "searchLogs",
-        "collectionId" : "lucidfind_email_subject_weights_signals_aggr",
+        "collectionId" : "lucidfind_subjects_for_subjects",
         "params" : { },
-        "enabled" : false
+        "enabled" : true
       }, {
         "name" : "recommendations",
-        "collectionId" : "lucidfind_email_subject_weights_signals_aggr",
+        "collectionId" : "lucidfind_subjects_for_subjects",
         "params" : {
           "idField" : "id",
           "itemsForUser" : true,
@@ -3231,24 +3086,24 @@
         },
         "enabled" : false
       } ],
-      "lucidfind_subjects_for_subjects_signals_aggr" : [ {
+      "lucidfind_subjects_for_emails" : [ {
         "name" : "partitionByTime",
-        "collectionId" : "lucidfind_subjects_for_subjects_signals_aggr",
+        "collectionId" : "lucidfind_subjects_for_emails",
         "params" : { },
         "enabled" : false
       }, {
         "name" : "signals",
-        "collectionId" : "lucidfind_subjects_for_subjects_signals_aggr",
+        "collectionId" : "lucidfind_subjects_for_emails",
         "params" : { },
         "enabled" : false
       }, {
         "name" : "searchLogs",
-        "collectionId" : "lucidfind_subjects_for_subjects_signals_aggr",
+        "collectionId" : "lucidfind_subjects_for_emails",
         "params" : { },
-        "enabled" : false
+        "enabled" : true
       }, {
         "name" : "recommendations",
-        "collectionId" : "lucidfind_subjects_for_subjects_signals_aggr",
+        "collectionId" : "lucidfind_subjects_for_emails",
         "params" : {
           "idField" : "id",
           "itemsForUser" : true,
@@ -3267,7 +3122,7 @@
         "name" : "signals",
         "collectionId" : "lucidfind_thread_recs",
         "params" : { },
-        "enabled" : true
+        "enabled" : false
       }, {
         "name" : "searchLogs",
         "collectionId" : "lucidfind_thread_recs",
@@ -3294,7 +3149,7 @@
         "name" : "signals",
         "collectionId" : "lucidfind_email_subject_weights",
         "params" : { },
-        "enabled" : true
+        "enabled" : false
       }, {
         "name" : "searchLogs",
         "collectionId" : "lucidfind_email_subject_weights",
@@ -3303,33 +3158,6 @@
       }, {
         "name" : "recommendations",
         "collectionId" : "lucidfind_email_subject_weights",
-        "params" : {
-          "idField" : "id",
-          "itemsForUser" : true,
-          "itemsForQuery" : false,
-          "itemsForItem" : true,
-          "queriesForQuery" : false
-        },
-        "enabled" : false
-      } ],
-      "lucidfind_subjects_for_subjects_signals" : [ {
-        "name" : "partitionByTime",
-        "collectionId" : "lucidfind_subjects_for_subjects_signals",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "signals",
-        "collectionId" : "lucidfind_subjects_for_subjects_signals",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "searchLogs",
-        "collectionId" : "lucidfind_subjects_for_subjects_signals",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "recommendations",
-        "collectionId" : "lucidfind_subjects_for_subjects_signals",
         "params" : {
           "idField" : "id",
           "itemsForUser" : true,
@@ -3357,249 +3185,6 @@
       }, {
         "name" : "recommendations",
         "collectionId" : "lucidfind_signals_aggr",
-        "params" : {
-          "idField" : "id",
-          "itemsForUser" : true,
-          "itemsForQuery" : false,
-          "itemsForItem" : true,
-          "queriesForQuery" : false
-        },
-        "enabled" : false
-      } ],
-      "users_shub_signals_aggr" : [ {
-        "name" : "partitionByTime",
-        "collectionId" : "users_shub_signals_aggr",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "signals",
-        "collectionId" : "users_shub_signals_aggr",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "searchLogs",
-        "collectionId" : "users_shub_signals_aggr",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "recommendations",
-        "collectionId" : "users_shub_signals_aggr",
-        "params" : {
-          "idField" : "id",
-          "itemsForUser" : true,
-          "itemsForQuery" : false,
-          "itemsForItem" : true,
-          "queriesForQuery" : false
-        },
-        "enabled" : false
-      } ],
-      "lucidfind_subjects_for_emails_signals" : [ {
-        "name" : "partitionByTime",
-        "collectionId" : "lucidfind_subjects_for_emails_signals",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "signals",
-        "collectionId" : "lucidfind_subjects_for_emails_signals",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "searchLogs",
-        "collectionId" : "lucidfind_subjects_for_emails_signals",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "recommendations",
-        "collectionId" : "lucidfind_subjects_for_emails_signals",
-        "params" : {
-          "idField" : "id",
-          "itemsForUser" : true,
-          "itemsForQuery" : false,
-          "itemsForItem" : true,
-          "queriesForQuery" : false
-        },
-        "enabled" : false
-      } ],
-      "lucidfind_subjects_for_subjects" : [ {
-        "name" : "partitionByTime",
-        "collectionId" : "lucidfind_subjects_for_subjects",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "signals",
-        "collectionId" : "lucidfind_subjects_for_subjects",
-        "params" : { },
-        "enabled" : true
-      }, {
-        "name" : "searchLogs",
-        "collectionId" : "lucidfind_subjects_for_subjects",
-        "params" : { },
-        "enabled" : true
-      }, {
-        "name" : "recommendations",
-        "collectionId" : "lucidfind_subjects_for_subjects",
-        "params" : {
-          "idField" : "id",
-          "itemsForUser" : true,
-          "itemsForQuery" : false,
-          "itemsForItem" : true,
-          "queriesForQuery" : false
-        },
-        "enabled" : false
-      } ],
-      "lucidfind_subjects_for_emails" : [ {
-        "name" : "partitionByTime",
-        "collectionId" : "lucidfind_subjects_for_emails",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "signals",
-        "collectionId" : "lucidfind_subjects_for_emails",
-        "params" : { },
-        "enabled" : true
-      }, {
-        "name" : "searchLogs",
-        "collectionId" : "lucidfind_subjects_for_emails",
-        "params" : { },
-        "enabled" : true
-      }, {
-        "name" : "recommendations",
-        "collectionId" : "lucidfind_subjects_for_emails",
-        "params" : {
-          "idField" : "id",
-          "itemsForUser" : true,
-          "itemsForQuery" : false,
-          "itemsForItem" : true,
-          "queriesForQuery" : false
-        },
-        "enabled" : false
-      } ],
-      "lucidfind_subjects_for_emails_signals_aggr" : [ {
-        "name" : "partitionByTime",
-        "collectionId" : "lucidfind_subjects_for_emails_signals_aggr",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "signals",
-        "collectionId" : "lucidfind_subjects_for_emails_signals_aggr",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "searchLogs",
-        "collectionId" : "lucidfind_subjects_for_emails_signals_aggr",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "recommendations",
-        "collectionId" : "lucidfind_subjects_for_emails_signals_aggr",
-        "params" : {
-          "idField" : "id",
-          "itemsForUser" : true,
-          "itemsForQuery" : false,
-          "itemsForItem" : true,
-          "queriesForQuery" : false
-        },
-        "enabled" : false
-      } ],
-      "lucidfind_thread_recs_signals" : [ {
-        "name" : "partitionByTime",
-        "collectionId" : "lucidfind_thread_recs_signals",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "signals",
-        "collectionId" : "lucidfind_thread_recs_signals",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "searchLogs",
-        "collectionId" : "lucidfind_thread_recs_signals",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "recommendations",
-        "collectionId" : "lucidfind_thread_recs_signals",
-        "params" : {
-          "idField" : "id",
-          "itemsForUser" : true,
-          "itemsForQuery" : false,
-          "itemsForItem" : true,
-          "queriesForQuery" : false
-        },
-        "enabled" : false
-      } ],
-      "lucidfind_thread_recs_signals_aggr" : [ {
-        "name" : "partitionByTime",
-        "collectionId" : "lucidfind_thread_recs_signals_aggr",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "signals",
-        "collectionId" : "lucidfind_thread_recs_signals_aggr",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "searchLogs",
-        "collectionId" : "lucidfind_thread_recs_signals_aggr",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "recommendations",
-        "collectionId" : "lucidfind_thread_recs_signals_aggr",
-        "params" : {
-          "idField" : "id",
-          "itemsForUser" : true,
-          "itemsForQuery" : false,
-          "itemsForItem" : true,
-          "queriesForQuery" : false
-        },
-        "enabled" : false
-      } ],
-      "users_shub_signals" : [ {
-        "name" : "partitionByTime",
-        "collectionId" : "users_shub_signals",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "signals",
-        "collectionId" : "users_shub_signals",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "searchLogs",
-        "collectionId" : "users_shub_signals",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "recommendations",
-        "collectionId" : "users_shub_signals",
-        "params" : {
-          "idField" : "id",
-          "itemsForUser" : true,
-          "itemsForQuery" : false,
-          "itemsForItem" : true,
-          "queriesForQuery" : false
-        },
-        "enabled" : false
-      } ],
-      "lucidfind_email_subject_weights_signals" : [ {
-        "name" : "partitionByTime",
-        "collectionId" : "lucidfind_email_subject_weights_signals",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "signals",
-        "collectionId" : "lucidfind_email_subject_weights_signals",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "searchLogs",
-        "collectionId" : "lucidfind_email_subject_weights_signals",
-        "params" : { },
-        "enabled" : false
-      }, {
-        "name" : "recommendations",
-        "collectionId" : "lucidfind_email_subject_weights_signals",
         "params" : {
           "idField" : "id",
           "itemsForUser" : true,
@@ -3957,11 +3542,6 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
-      "subject" : "group:a63f78da-377b-4922-be70-ec9a6a1ff26f",
-      "object" : "spark:users_shub_user_query_history_aggregation",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:mailing-list-cassandra-cassandra-user",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
@@ -3975,11 +3555,6 @@
       "subject" : "datasource:github-tika-tika-github",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "group:a63f78da-377b-4922-be70-ec9a6a1ff26f",
-      "object" : "spark:users_shub_user_item_preferences_aggregation",
-      "linkType" : "hasPart",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:website-zookeeper-zookeeper-website",
@@ -4012,11 +3587,6 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
-      "subject" : "datasource:twitter-solr",
-      "object" : "collection:lucidfind",
-      "linkType" : "relatesTo",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:website-lucidworks-revolution-website",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -4037,11 +3607,6 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
-      "subject" : "group:b9354f12-a86d-4b7f-9c1d-33353997a6b1",
-      "object" : "spark:lucidfind_thread_recs_session_rollup",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:wiki-zookeeper-zookeeper-wiki",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -4052,19 +3617,9 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
-      "subject" : "group:302fee4b-4c0d-4f21-b03b-9895cce17706",
-      "object" : "spark:lucidfind_subjects_for_subjects_head_tail",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:mailing-list-groovy-groovy-users",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "group:302fee4b-4c0d-4f21-b03b-9895cce17706",
-      "object" : "spark:lucidfind_subjects_for_subjects_click_signals_aggregation",
-      "linkType" : "hasPart",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:github-solr-solr-github",
@@ -4112,11 +3667,6 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
-      "subject" : "group:18751ba1-54e9-4c5d-8902-0232c151103b",
-      "object" : "spark:lucidfind_subjects_for_emails_click_signals_aggregation",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:mailing-list-zookeeper-zookeeper-user",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -4142,11 +3692,6 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
-      "subject" : "group:18751ba1-54e9-4c5d-8902-0232c151103b",
-      "object" : "spark:lucidfind_subjects_for_emails_head_tail",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:website-opensource_com-opensource-website",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
@@ -4170,11 +3715,6 @@
       "subject" : "datasource:mailing-list-tez-tez-user",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "group:18751ba1-54e9-4c5d-8902-0232c151103b",
-      "object" : "collection:lucidfind_subjects_for_emails_signals_aggr",
-      "linkType" : "hasPart",
       "originator" : "unspecified"
     }, {
       "subject" : "index-pipeline:twitter-default",
@@ -4212,29 +3752,9 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
-      "subject" : "group:b9354f12-a86d-4b7f-9c1d-33353997a6b1",
-      "object" : "spark:lucidfind_thread_recs_user_item_preferences_aggregation",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "group:302fee4b-4c0d-4f21-b03b-9895cce17706",
-      "object" : "collection:lucidfind_subjects_for_subjects_signals_aggr",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "group:b9354f12-a86d-4b7f-9c1d-33353997a6b1",
-      "object" : "collection:lucidfind_thread_recs_signals",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
       "subject" : "query-profile:lucidfind-default",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "group:302fee4b-4c0d-4f21-b03b-9895cce17706",
-      "object" : "collection:lucidfind_subjects_for_subjects_signals",
-      "linkType" : "hasPart",
       "originator" : "unspecified"
     }, {
       "subject" : "index-profile:lucidfind_subjects_for_emails",
@@ -4332,11 +3852,6 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
-      "subject" : "group:acb36fa7-2f69-46f9-b641-a57f916e8cc5",
-      "object" : "spark:lucidfind_email_subject_weights_user_item_preferences_aggregation",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:mailing-list-zookeeper-zookeeper-dev",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -4367,19 +3882,9 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
-      "subject" : "group:18751ba1-54e9-4c5d-8902-0232c151103b",
-      "object" : "spark:lucidfind_subjects_for_emails_user_query_history_aggregation",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
       "subject" : "query-profile:site-search-all",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "datasource:twitter-lucidworks",
-      "object" : "index-pipeline:twitter-default",
-      "linkType" : "dependsOn",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:website-solr-solr-website",
@@ -4467,19 +3972,9 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
-      "subject" : "group:acb36fa7-2f69-46f9-b641-a57f916e8cc5",
-      "object" : "spark:lucidfind_email_subject_weights_session_rollup",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:website-axis-axis-website",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "group:b9354f12-a86d-4b7f-9c1d-33353997a6b1",
-      "object" : "spark:lucidfind_thread_recs_user_query_history_aggregation",
-      "linkType" : "hasPart",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:website-oozie-oozie-website",
@@ -4500,26 +3995,6 @@
       "subject" : "index-profile:lucidfind_email_subject_weights",
       "object" : "collection:lucidfind_email_subject_weights",
       "linkType" : "relatesTo",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "group:b9354f12-a86d-4b7f-9c1d-33353997a6b1",
-      "object" : "collection:lucidfind_thread_recs_signals_aggr",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "group:a63f78da-377b-4922-be70-ec9a6a1ff26f",
-      "object" : "collection:users_shub_signals_aggr",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "group:302fee4b-4c0d-4f21-b03b-9895cce17706",
-      "object" : "spark:lucidfind_subjects_for_subjects_user_item_preferences_aggregation",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "datasource:twitter-lucidworks",
-      "object" : "parser:searchhub",
-      "linkType" : "dependsOn",
       "originator" : "unspecified"
     }, {
       "subject" : "index-pipeline:mailing-list-default",
@@ -4553,11 +4028,6 @@
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:wiki-tika-tika-wiki",
-      "object" : "app:searchhub",
-      "linkType" : "inContextOf",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "datasource:twitter-solr",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
       "originator" : "unspecified"
@@ -4610,11 +4080,6 @@
       "subject" : "datasource:website-uima-uima-website",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "group:b9354f12-a86d-4b7f-9c1d-33353997a6b1",
-      "object" : "spark:lucidfind_thread_recs_click_signals_aggregation",
-      "linkType" : "hasPart",
       "originator" : "unspecified"
     }, {
       "subject" : "query-profile:lucidfind-default",
@@ -4692,11 +4157,6 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
-      "subject" : "group:acb36fa7-2f69-46f9-b641-a57f916e8cc5",
-      "object" : "collection:lucidfind_email_subject_weights_signals_aggr",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:mailing-list-tez-tez-dev",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -4750,11 +4210,6 @@
       "subject" : "datasource:mailing-list-hbase-hbase-dev",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "group:a63f78da-377b-4922-be70-ec9a6a1ff26f",
-      "object" : "collection:users_shub_signals",
-      "linkType" : "hasPart",
       "originator" : "unspecified"
     }, {
       "subject" : "query-pipeline:lucidfind-default",
@@ -4942,11 +4397,6 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
-      "subject" : "group:18751ba1-54e9-4c5d-8902-0232c151103b",
-      "object" : "spark:lucidfind_subjects_for_emails_session_rollup",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:website-groovy-groovy-website",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -4992,11 +4442,6 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
-      "subject" : "datasource:twitter-solr",
-      "object" : "parser:searchhub",
-      "linkType" : "dependsOn",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:mailing-list-tomcat-tomcat-dev",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
@@ -5020,16 +4465,6 @@
       "subject" : "query-pipeline:site-search-support",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "group:acb36fa7-2f69-46f9-b641-a57f916e8cc5",
-      "object" : "collection:lucidfind_email_subject_weights_signals",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "group:b9354f12-a86d-4b7f-9c1d-33353997a6b1",
-      "object" : "spark:lucidfind_thread_recs_head_tail",
-      "linkType" : "hasPart",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:website-thrift-thrift-website",
@@ -5070,11 +4505,6 @@
       "subject" : "query-profile:site-search-all",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "group:acb36fa7-2f69-46f9-b641-a57f916e8cc5",
-      "object" : "spark:lucidfind_email_subject_weights_click_signals_aggregation",
-      "linkType" : "hasPart",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:website-lucidworks-revolution-website",
@@ -5127,11 +4557,6 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
-      "subject" : "group:18751ba1-54e9-4c5d-8902-0232c151103b",
-      "object" : "collection:lucidfind_subjects_for_emails_signals",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:github-zookeeper-zookeeper-github",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
@@ -5157,16 +4582,6 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
-      "subject" : "group:a63f78da-377b-4922-be70-ec9a6a1ff26f",
-      "object" : "spark:users_shub_head_tail",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "datasource:twitter-lucidworks",
-      "object" : "app:searchhub",
-      "linkType" : "inContextOf",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:website-manifoldcf-manifoldcf-website",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
@@ -5185,11 +4600,6 @@
       "subject" : "query-pipeline:lucidfind_logs-default",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "group:302fee4b-4c0d-4f21-b03b-9895cce17706",
-      "object" : "spark:lucidfind_subjects_for_subjects_user_query_history_aggregation",
-      "linkType" : "hasPart",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:mailing-list-accumulo-accumulo-dev",
@@ -5387,11 +4797,6 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
-      "subject" : "group:acb36fa7-2f69-46f9-b641-a57f916e8cc5",
-      "object" : "spark:lucidfind_email_subject_weights_head_tail",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:github-spark-spark-github",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
@@ -5427,11 +4832,6 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
-      "subject" : "group:302fee4b-4c0d-4f21-b03b-9895cce17706",
-      "object" : "spark:lucidfind_subjects_for_subjects_session_rollup",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:mailing-list-groovy-groovy-users",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
@@ -5447,19 +4847,9 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
-      "subject" : "datasource:twitter-lucidworks",
-      "object" : "collection:lucidfind",
-      "linkType" : "relatesTo",
-      "originator" : "unspecified"
-    }, {
       "subject" : "index-pipeline:stack-overflow-default",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "datasource:twitter-solr",
-      "object" : "index-pipeline:twitter-default",
-      "linkType" : "dependsOn",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:website-hbase-hbase-website",
@@ -5575,11 +4965,6 @@
       "subject" : "datasource:mailing-list-hadoop-hadoop-common-dev",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "group:18751ba1-54e9-4c5d-8902-0232c151103b",
-      "object" : "spark:lucidfind_subjects_for_emails_user_item_preferences_aggregation",
-      "linkType" : "hasPart",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:mailing-list-hive-hive-user",
@@ -5702,11 +5087,6 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
-      "subject" : "group:acb36fa7-2f69-46f9-b641-a57f916e8cc5",
-      "object" : "spark:lucidfind_email_subject_weights_user_query_history_aggregation",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
       "subject" : "collection:lucidfind_thread_recs",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -5724,11 +5104,6 @@
     }, {
       "subject" : "group:898005da-34b4-44f8-bcbc-3d55ba6dddb9",
       "object" : "spark:lucidfind_head_tail",
-      "linkType" : "hasPart",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "group:a63f78da-377b-4922-be70-ec9a6a1ff26f",
-      "object" : "spark:users_shub_session_rollup",
       "linkType" : "hasPart",
       "originator" : "unspecified"
     }, {
@@ -5860,11 +5235,6 @@
       "subject" : "index-pipeline:jira-default",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "group:a63f78da-377b-4922-be70-ec9a6a1ff26f",
-      "object" : "spark:users_shub_click_signals_aggregation",
-      "linkType" : "hasPart",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:website-accumulo-accumulo-website",
@@ -6016,42 +5386,6 @@
       } ],
       "default" : false
     }, {
-      "resource" : "spark:lucidfind_subjects_for_subjects_head_tail",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 1,
-        "timeUnit" : "day",
-        "startTime" : "2018-06-05T19:40:58.300Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
-      "resource" : "spark:lucidfind_email_subject_weights_click_signals_aggregation",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 15,
-        "timeUnit" : "minute",
-        "startTime" : "2018-06-04T19:55:31.588Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
-      "resource" : "spark:lucidfind_subjects_for_subjects_click_signals_aggregation",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 15,
-        "timeUnit" : "minute",
-        "startTime" : "2018-06-04T19:55:57.972Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
       "resource" : "datasource:mailing-list-bigtop-bigtop-dev",
       "enabled" : false,
       "triggers" : [ {
@@ -6072,18 +5406,6 @@
         "interval" : 1,
         "timeUnit" : "hour",
         "startTime" : "2018-06-04T05:00:00.001Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
-      "resource" : "spark:lucidfind_subjects_for_emails_user_item_preferences_aggregation",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 1,
-        "timeUnit" : "day",
-        "startTime" : "2018-06-04T19:57:44.780Z",
         "type" : "interval"
       } ],
       "default" : false
@@ -6124,18 +5446,6 @@
       } ],
       "default" : false
     }, {
-      "resource" : "spark:users_shub_click_signals_aggregation",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 15,
-        "timeUnit" : "minute",
-        "startTime" : "2018-06-04T19:55:15.451Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
       "resource" : "datasource:mailing-list-manifoldcf-manifoldcf-dev",
       "enabled" : false,
       "triggers" : [ {
@@ -6168,30 +5478,6 @@
         "interval" : 2,
         "timeUnit" : "hour",
         "startTime" : "2018-06-04T11:13:00.001Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
-      "resource" : "spark:lucidfind_subjects_for_subjects_user_query_history_aggregation",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 1,
-        "timeUnit" : "day",
-        "startTime" : "2018-06-04T19:59:58.170Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
-      "resource" : "spark:lucidfind_thread_recs_session_rollup",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 15,
-        "timeUnit" : "minute",
-        "startTime" : "2018-06-04T19:55:02.623Z",
         "type" : "interval"
       } ],
       "default" : false
@@ -6256,18 +5542,6 @@
       } ],
       "default" : false
     }, {
-      "resource" : "spark:lucidfind_thread_recs_user_query_history_aggregation",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 1,
-        "timeUnit" : "day",
-        "startTime" : "2018-06-04T19:59:02.742Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
       "resource" : "datasource:website-httpd-httpd-website",
       "enabled" : false,
       "triggers" : [ {
@@ -6300,18 +5574,6 @@
         "interval" : 2,
         "timeUnit" : "hour",
         "startTime" : "2018-06-04T19:51:00.001Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
-      "resource" : "spark:lucidfind_email_subject_weights_session_rollup",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 15,
-        "timeUnit" : "minute",
-        "startTime" : "2018-06-04T19:55:31.640Z",
         "type" : "interval"
       } ],
       "default" : false
@@ -6360,18 +5622,6 @@
         "interval" : 2,
         "timeUnit" : "hour",
         "startTime" : "2018-06-04T12:39:00.001Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
-      "resource" : "spark:lucidfind_thread_recs_head_tail",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 1,
-        "timeUnit" : "day",
-        "startTime" : "2018-06-05T19:40:02.827Z",
         "type" : "interval"
       } ],
       "default" : false
@@ -6496,18 +5746,6 @@
       } ],
       "default" : false
     }, {
-      "resource" : "spark:lucidfind_email_subject_weights_head_tail",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 1,
-        "timeUnit" : "day",
-        "startTime" : "2018-06-05T19:40:31.796Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
       "resource" : "datasource:website-bigtop-bigtop-website",
       "enabled" : false,
       "triggers" : [ {
@@ -6564,18 +5802,6 @@
         "interval" : 2,
         "timeUnit" : "hour",
         "startTime" : "2018-06-04T03:04:00.001Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
-      "resource" : "spark:lucidfind_subjects_for_subjects_session_rollup",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 15,
-        "timeUnit" : "minute",
-        "startTime" : "2018-06-04T19:55:58.053Z",
         "type" : "interval"
       } ],
       "default" : false
@@ -6640,18 +5866,6 @@
       } ],
       "default" : false
     }, {
-      "resource" : "spark:lucidfind_subjects_for_emails_session_rollup",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 15,
-        "timeUnit" : "minute",
-        "startTime" : "2018-06-04T19:55:44.721Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
       "resource" : "datasource:mailing-list-axis-axis-java-dev",
       "enabled" : false,
       "triggers" : [ {
@@ -6684,18 +5898,6 @@
         "interval" : 1,
         "timeUnit" : "hour",
         "startTime" : "2018-06-04T01:27:00.001Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
-      "resource" : "spark:users_shub_session_rollup",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 15,
-        "timeUnit" : "minute",
-        "startTime" : "2018-06-04T19:55:15.508Z",
         "type" : "interval"
       } ],
       "default" : false
@@ -6748,18 +5950,6 @@
       } ],
       "default" : false
     }, {
-      "resource" : "spark:lucidfind_thread_recs_click_signals_aggregation",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 15,
-        "timeUnit" : "minute",
-        "startTime" : "2018-06-04T19:55:02.579Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
       "resource" : "datasource:website-tez-tez-website",
       "enabled" : false,
       "triggers" : [ {
@@ -6792,18 +5982,6 @@
         "interval" : 2,
         "timeUnit" : "hour",
         "startTime" : "2018-06-04T22:33:00.001Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
-      "resource" : "spark:lucidfind_subjects_for_emails_head_tail",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 1,
-        "timeUnit" : "day",
-        "startTime" : "2018-06-05T19:40:44.929Z",
         "type" : "interval"
       } ],
       "default" : false
@@ -6880,18 +6058,6 @@
       } ],
       "default" : false
     }, {
-      "resource" : "spark:lucidfind_subjects_for_subjects_user_item_preferences_aggregation",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 1,
-        "timeUnit" : "day",
-        "startTime" : "2018-06-04T19:57:58.111Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
       "resource" : "datasource:mailing-list-solr-solr-user",
       "enabled" : false,
       "triggers" : [ {
@@ -6936,18 +6102,6 @@
         "interval" : 2,
         "timeUnit" : "hour",
         "startTime" : "2018-06-04T10:16:00.001Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
-      "resource" : "spark:users_shub_user_query_history_aggregation",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 1,
-        "timeUnit" : "day",
-        "startTime" : "2018-06-04T19:59:15.634Z",
         "type" : "interval"
       } ],
       "default" : false
@@ -7084,18 +6238,6 @@
       } ],
       "default" : false
     }, {
-      "resource" : "spark:lucidfind_email_subject_weights_user_item_preferences_aggregation",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 1,
-        "timeUnit" : "day",
-        "startTime" : "2018-06-04T19:57:31.689Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
       "resource" : "datasource:mailing-list-thrift-thrift-dev",
       "enabled" : false,
       "triggers" : [ {
@@ -7156,18 +6298,6 @@
       } ],
       "default" : false
     }, {
-      "resource" : "spark:lucidfind_subjects_for_emails_click_signals_aggregation",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 15,
-        "timeUnit" : "minute",
-        "startTime" : "2018-06-04T19:55:44.659Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
       "resource" : "datasource:website-drill-drill-website",
       "enabled" : false,
       "triggers" : [ {
@@ -7212,18 +6342,6 @@
         "interval" : 2,
         "timeUnit" : "hour",
         "startTime" : "2018-06-04T23:48:00.001Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
-      "resource" : "spark:lucidfind_subjects_for_emails_user_query_history_aggregation",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 1,
-        "timeUnit" : "day",
-        "startTime" : "2018-06-04T19:59:44.829Z",
         "type" : "interval"
       } ],
       "default" : false
@@ -7308,18 +6426,6 @@
         "interval" : 2,
         "timeUnit" : "hour",
         "startTime" : "2018-06-04T08:57:00.001Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
-      "resource" : "spark:users_shub_user_item_preferences_aggregation",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 1,
-        "timeUnit" : "day",
-        "startTime" : "2018-06-04T19:57:15.580Z",
         "type" : "interval"
       } ],
       "default" : false
@@ -7416,18 +6522,6 @@
         "interval" : 1,
         "timeUnit" : "hour",
         "startTime" : "2018-06-04T16:08:00.001Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
-      "resource" : "spark:lucidfind_email_subject_weights_user_query_history_aggregation",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 1,
-        "timeUnit" : "day",
-        "startTime" : "2018-06-04T19:59:31.744Z",
         "type" : "interval"
       } ],
       "default" : false
@@ -7648,18 +6742,6 @@
       } ],
       "default" : false
     }, {
-      "resource" : "spark:lucidfind_thread_recs_user_item_preferences_aggregation",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 1,
-        "timeUnit" : "day",
-        "startTime" : "2018-06-04T19:57:02.683Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
       "resource" : "datasource:website-oozie-oozie-website",
       "enabled" : false,
       "triggers" : [ {
@@ -7740,18 +6822,6 @@
         "interval" : 1,
         "timeUnit" : "hour",
         "startTime" : "2018-06-04T07:50:00.001Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
-      "resource" : "spark:users_shub_head_tail",
-      "enabled" : true,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : true,
-        "interval" : 1,
-        "timeUnit" : "day",
-        "startTime" : "2018-06-05T19:40:15.683Z",
         "type" : "interval"
       } ],
       "default" : false
@@ -7865,38 +6935,6 @@
       "default" : false
     } ],
     "sparkJobs" : [ {
-      "type" : "headTailAnalysis",
-      "id" : "lucidfind_email_subject_weights_head_tail",
-      "randomSeed" : 1234,
-      "trainingCollection" : "lucidfind_email_subject_weights_signals",
-      "outputCollection" : "lucidfind_email_subject_weights_signals_aggr",
-      "overwriteOutput" : true,
-      "trainingDataFilterQuery" : "type:click OR type:response",
-      "fieldToVectorize" : "query",
-      "trainingDataFrameConfigOptions" : { },
-      "analyzerConfigQuery" : "{ \"analyzers\": [ { \"name\": \"StdTokLowerStem\",\"charFilters\": [ { \"type\": \"htmlstrip\" } ],\"tokenizer\": { \"type\": \"standard\" },\"filters\": [{ \"type\": \"lowercase\" },{ \"type\": \"englishminimalstem\" }] }],\"fields\": [{ \"regex\": \".+\", \"analyzer\": \"StdTokLowerStem\" } ]}",
-      "countField" : "count_i",
-      "mainType" : "click",
-      "filterType" : "response",
-      "signalTypeField" : "type",
-      "minCountMain" : 1,
-      "minCountFilter" : 20,
-      "queryLenThreshold" : 2,
-      "userHead" : -1.0,
-      "userTail" : -1.0,
-      "topQ" : [ 100.0, 0.01 ],
-      "trafficPerc" : [ 0.25, 0.5, 0.75 ],
-      "lastTraffic" : [ 0.01 ],
-      "trafficCount" : [ 5.0 ],
-      "overlapThreshold" : 4,
-      "lenScale" : 6,
-      "overlapNumBoost" : 10.0,
-      "headQueryCntBoost" : 1.0,
-      "tailRewrite" : true,
-      "dataFormat" : "solr",
-      "trainingDataSamplingFraction" : 1.0,
-      "stopwordsList" : [ ]
-    }, {
       "type" : "aggregation",
       "id" : "email_subject_weights_aggregation",
       "definition" : {
@@ -7915,29 +6953,9 @@
       "skipCheckEnabled" : true
     }, {
       "type" : "sql_template",
-      "id" : "lucidfind_subjects_for_subjects_user_query_history_aggregation",
-      "inputCollection" : "lucidfind_subjects_for_subjects_signals",
-      "outputCollection" : "lucidfind_subjects_for_subjects_signals_aggr",
-      "sql" : "WITH signal_type_groups AS (\n    SELECT SUM(count_i) AS typed_aggr_count_i,\n           user_id,\n           query,\n           type,\n           time_decay(count_i, timestamp_tdt, \"30 days\", ref_time, weight_d) AS typed_weight_d\n      FROM ${inputCollection}\n     WHERE type IN (${signalTypes})\n  GROUP BY query, user_id, type\n ) SELECT SUM(typed_aggr_count_i) AS aggr_count_i,\n          user_id AS user_id_s,\n          query AS query_s,\n          weighted_sum(typed_weight_d, type, '${signalTypeWeights}') AS weight_d\n     FROM signal_type_groups\n GROUP BY user_id, query",
-      "parameters" : [ {
-        "key" : "signalTypeWeights",
-        "value" : "click:1.0,cart:10.0,purchase:25.0"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : true,
-      "outputRollup" : true,
-      "hiddenParameters" : [ {
-        "key" : "signalTypes",
-        "value" : "_regex/signalTypeWeights/([\\w\\-\\.]*):([\\d\\.\\-]*)(,|$)/'$1'$3/g"
-      } ],
-      "skipCheckEnabled" : true,
-      "notes" : "Computes an aggregated weight for each user / query combination found in the signals collection. The weight for each group is computed using an exponential time-decay on signal count (30 day half-life) and a weighted sum based on the signal type. Use the 'signalTypeWeights' parameter to set the correct signal types and weights for your dataset. The results of this job can be used to boost queries for a user based on their past queries."
-    }, {
-      "type" : "sql_template",
-      "id" : "lucidfind_email_subject_weights_user_item_preferences_aggregation",
-      "inputCollection" : "lucidfind_email_subject_weights_signals",
-      "outputCollection" : "lucidfind_email_subject_weights_signals_aggr",
+      "id" : "lucidfind_user_item_preferences_aggregation",
+      "inputCollection" : "lucidfind_signals",
+      "outputCollection" : "lucidfind_signals_aggr",
       "sql" : "WITH signal_type_groups AS (\n    SELECT SUM(count_i) AS typed_aggr_count_i,\n           doc_id,\n           user_id,\n           type,\n           time_decay(count_i, timestamp_tdt, \"30 days\", ref_time, weight_d) AS typed_weight_d\n      FROM ${inputCollection}\n     WHERE type IN (${signalTypes})\n  GROUP BY user_id, doc_id, type\n ) SELECT SUM(typed_aggr_count_i) AS aggr_count_i,\n          doc_id AS doc_id_s,\n          user_id AS user_id_s,\n          weighted_sum(typed_weight_d, type, '${signalTypeWeights}') AS weight_d\n     FROM signal_type_groups\n GROUP BY doc_id, user_id",
       "parameters" : [ {
         "key" : "signalTypeWeights",
@@ -7953,165 +6971,6 @@
       } ],
       "skipCheckEnabled" : true,
       "notes" : "Computes an aggregated weight for each user / item combination found in the signals collection. The weight for each group is computed using an exponential time-decay on signal count (30 day half-life) and a weighted sum based on the signal type. Use the 'signalTypeWeights' parameter to set the correct signal types and weights for your dataset. The results of this job can be used as input to the ALS recommendation job."
-    }, {
-      "type" : "sql_template",
-      "id" : "lucidfind_thread_recs_session_rollup",
-      "inputCollection" : "lucidfind_thread_recs_signals",
-      "outputCollection" : "lucidfind_thread_recs_signals",
-      "sql" : "WITH session_agg AS (\n     SELECT COUNT(1) AS activity_count,\n            MIN(timestamp_tdt) AS start,\n            MAX(timestamp_tdt) AS end,\n            timediff(MAX(timestamp_tdt), MIN(timestamp_tdt), \"MINUTES\") AS duration,\n            'session' AS type,\n            first(user_id) AS user,\n            session_keywords(query) AS keywords,\n            session\n       FROM ${inputCollection}\n      WHERE timestamp_tdt IS NOT NULL\n        AND type != 'session'\n        AND session IS NOT NULL\n        AND session NOT IN (SELECT session FROM ${inputCollection} WHERE type = 'session' AND session IS NOT NULL)\n   GROUP BY session\n     HAVING timediff(current_timestamp(), MAX(timestamp_tdt), \"SECONDS\") >= ${elapsedSecsSinceLastActivity} OR timediff(current_timestamp(), MIN(timestamp_tdt), \"SECONDS\") >= ${elapsedSecsSinceSessionStart})\n SELECT activity_count, start, end, duration, type, user, keywords, session FROM session_agg",
-      "parameters" : [ {
-        "key" : "elapsedSecsSinceLastActivity",
-        "value" : "360"
-      }, {
-        "key" : "elapsedSecsSinceSessionStart",
-        "value" : "3600"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : false,
-      "outputRollup" : false,
-      "hiddenParameters" : [ {
-        "key" : "outputProjectedFieldsOnly",
-        "value" : "true"
-      } ],
-      "skipCheckEnabled" : false,
-      "notes" : "Aggregate related user activity into a session signal containing activity count, duration, and keywords (based on user search terms). This job is used by the Fusion Insights application to show reports about user sessions. Use the 'elapsedSecsSinceLastActivity' and 'elapsedSecsSinceSessionStart' parameters to determine when a user session is considered to be complete."
-    }, {
-      "type" : "sql_template",
-      "id" : "lucidfind_subjects_for_subjects_user_item_preferences_aggregation",
-      "inputCollection" : "lucidfind_subjects_for_subjects_signals",
-      "outputCollection" : "lucidfind_subjects_for_subjects_signals_aggr",
-      "sql" : "WITH signal_type_groups AS (\n    SELECT SUM(count_i) AS typed_aggr_count_i,\n           doc_id,\n           user_id,\n           type,\n           time_decay(count_i, timestamp_tdt, \"30 days\", ref_time, weight_d) AS typed_weight_d\n      FROM ${inputCollection}\n     WHERE type IN (${signalTypes})\n  GROUP BY user_id, doc_id, type\n ) SELECT SUM(typed_aggr_count_i) AS aggr_count_i,\n          doc_id AS doc_id_s,\n          user_id AS user_id_s,\n          weighted_sum(typed_weight_d, type, '${signalTypeWeights}') AS weight_d\n     FROM signal_type_groups\n GROUP BY doc_id, user_id",
-      "parameters" : [ {
-        "key" : "signalTypeWeights",
-        "value" : "click:1.0,cart:10.0,purchase:25.0"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : true,
-      "outputRollup" : true,
-      "hiddenParameters" : [ {
-        "key" : "signalTypes",
-        "value" : "_regex/signalTypeWeights/([\\w\\-\\.]*):([\\d\\.\\-]*)(,|$)/'$1'$3/g"
-      } ],
-      "skipCheckEnabled" : true,
-      "notes" : "Computes an aggregated weight for each user / item combination found in the signals collection. The weight for each group is computed using an exponential time-decay on signal count (30 day half-life) and a weighted sum based on the signal type. Use the 'signalTypeWeights' parameter to set the correct signal types and weights for your dataset. The results of this job can be used as input to the ALS recommendation job."
-    }, {
-      "type" : "headTailAnalysis",
-      "id" : "lucidfind_thread_recs_head_tail",
-      "randomSeed" : 1234,
-      "trainingCollection" : "lucidfind_thread_recs_signals",
-      "outputCollection" : "lucidfind_thread_recs_signals_aggr",
-      "overwriteOutput" : true,
-      "trainingDataFilterQuery" : "type:click OR type:response",
-      "fieldToVectorize" : "query",
-      "trainingDataFrameConfigOptions" : { },
-      "analyzerConfigQuery" : "{ \"analyzers\": [ { \"name\": \"StdTokLowerStem\",\"charFilters\": [ { \"type\": \"htmlstrip\" } ],\"tokenizer\": { \"type\": \"standard\" },\"filters\": [{ \"type\": \"lowercase\" },{ \"type\": \"englishminimalstem\" }] }],\"fields\": [{ \"regex\": \".+\", \"analyzer\": \"StdTokLowerStem\" } ]}",
-      "countField" : "count_i",
-      "mainType" : "click",
-      "filterType" : "response",
-      "signalTypeField" : "type",
-      "minCountMain" : 1,
-      "minCountFilter" : 20,
-      "queryLenThreshold" : 2,
-      "userHead" : -1.0,
-      "userTail" : -1.0,
-      "topQ" : [ 100.0, 0.01 ],
-      "trafficPerc" : [ 0.25, 0.5, 0.75 ],
-      "lastTraffic" : [ 0.01 ],
-      "trafficCount" : [ 5.0 ],
-      "overlapThreshold" : 4,
-      "lenScale" : 6,
-      "overlapNumBoost" : 10.0,
-      "headQueryCntBoost" : 1.0,
-      "tailRewrite" : true,
-      "dataFormat" : "solr",
-      "trainingDataSamplingFraction" : 1.0,
-      "stopwordsList" : [ ]
-    }, {
-      "type" : "headTailAnalysis",
-      "id" : "lucidfind_subjects_for_emails_head_tail",
-      "randomSeed" : 1234,
-      "trainingCollection" : "lucidfind_subjects_for_emails_signals",
-      "outputCollection" : "lucidfind_subjects_for_emails_signals_aggr",
-      "overwriteOutput" : true,
-      "trainingDataFilterQuery" : "type:click OR type:response",
-      "fieldToVectorize" : "query",
-      "trainingDataFrameConfigOptions" : { },
-      "analyzerConfigQuery" : "{ \"analyzers\": [ { \"name\": \"StdTokLowerStem\",\"charFilters\": [ { \"type\": \"htmlstrip\" } ],\"tokenizer\": { \"type\": \"standard\" },\"filters\": [{ \"type\": \"lowercase\" },{ \"type\": \"englishminimalstem\" }] }],\"fields\": [{ \"regex\": \".+\", \"analyzer\": \"StdTokLowerStem\" } ]}",
-      "countField" : "count_i",
-      "mainType" : "click",
-      "filterType" : "response",
-      "signalTypeField" : "type",
-      "minCountMain" : 1,
-      "minCountFilter" : 20,
-      "queryLenThreshold" : 2,
-      "userHead" : -1.0,
-      "userTail" : -1.0,
-      "topQ" : [ 100.0, 0.01 ],
-      "trafficPerc" : [ 0.25, 0.5, 0.75 ],
-      "lastTraffic" : [ 0.01 ],
-      "trafficCount" : [ 5.0 ],
-      "overlapThreshold" : 4,
-      "lenScale" : 6,
-      "overlapNumBoost" : 10.0,
-      "headQueryCntBoost" : 1.0,
-      "tailRewrite" : true,
-      "dataFormat" : "solr",
-      "trainingDataSamplingFraction" : 1.0,
-      "stopwordsList" : [ ]
-    }, {
-      "type" : "headTailAnalysis",
-      "id" : "lucidfind_subjects_for_subjects_head_tail",
-      "randomSeed" : 1234,
-      "trainingCollection" : "lucidfind_subjects_for_subjects_signals",
-      "outputCollection" : "lucidfind_subjects_for_subjects_signals_aggr",
-      "overwriteOutput" : true,
-      "trainingDataFilterQuery" : "type:click OR type:response",
-      "fieldToVectorize" : "query",
-      "trainingDataFrameConfigOptions" : { },
-      "analyzerConfigQuery" : "{ \"analyzers\": [ { \"name\": \"StdTokLowerStem\",\"charFilters\": [ { \"type\": \"htmlstrip\" } ],\"tokenizer\": { \"type\": \"standard\" },\"filters\": [{ \"type\": \"lowercase\" },{ \"type\": \"englishminimalstem\" }] }],\"fields\": [{ \"regex\": \".+\", \"analyzer\": \"StdTokLowerStem\" } ]}",
-      "countField" : "count_i",
-      "mainType" : "click",
-      "filterType" : "response",
-      "signalTypeField" : "type",
-      "minCountMain" : 1,
-      "minCountFilter" : 20,
-      "queryLenThreshold" : 2,
-      "userHead" : -1.0,
-      "userTail" : -1.0,
-      "topQ" : [ 100.0, 0.01 ],
-      "trafficPerc" : [ 0.25, 0.5, 0.75 ],
-      "lastTraffic" : [ 0.01 ],
-      "trafficCount" : [ 5.0 ],
-      "overlapThreshold" : 4,
-      "lenScale" : 6,
-      "overlapNumBoost" : 10.0,
-      "headQueryCntBoost" : 1.0,
-      "tailRewrite" : true,
-      "dataFormat" : "solr",
-      "trainingDataSamplingFraction" : 1.0,
-      "stopwordsList" : [ ]
-    }, {
-      "type" : "sql_template",
-      "id" : "users_shub_user_query_history_aggregation",
-      "inputCollection" : "users_shub_signals",
-      "outputCollection" : "users_shub_signals_aggr",
-      "sql" : "WITH signal_type_groups AS (\n    SELECT SUM(count_i) AS typed_aggr_count_i,\n           user_id,\n           query,\n           type,\n           time_decay(count_i, timestamp_tdt, \"30 days\", ref_time, weight_d) AS typed_weight_d\n      FROM ${inputCollection}\n     WHERE type IN (${signalTypes})\n  GROUP BY query, user_id, type\n ) SELECT SUM(typed_aggr_count_i) AS aggr_count_i,\n          user_id AS user_id_s,\n          query AS query_s,\n          weighted_sum(typed_weight_d, type, '${signalTypeWeights}') AS weight_d\n     FROM signal_type_groups\n GROUP BY user_id, query",
-      "parameters" : [ {
-        "key" : "signalTypeWeights",
-        "value" : "click:1.0,cart:10.0,purchase:25.0"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : true,
-      "outputRollup" : true,
-      "hiddenParameters" : [ {
-        "key" : "signalTypes",
-        "value" : "_regex/signalTypeWeights/([\\w\\-\\.]*):([\\d\\.\\-]*)(,|$)/'$1'$3/g"
-      } ],
-      "skipCheckEnabled" : true,
-      "notes" : "Computes an aggregated weight for each user / query combination found in the signals collection. The weight for each group is computed using an exponential time-decay on signal count (30 day half-life) and a weighted sum based on the signal type. Use the 'signalTypeWeights' parameter to set the correct signal types and weights for your dataset. The results of this job can be used to boost queries for a user based on their past queries."
     }, {
       "type" : "sql_template",
       "id" : "lucidfind_user_query_history_aggregation",
@@ -8165,6 +7024,30 @@
       "trainingDataSamplingFraction" : 1.0,
       "stopwordsList" : [ ]
     }, {
+      "type" : "sql_template",
+      "id" : "lucidfind_click_signals_aggregation",
+      "inputCollection" : "lucidfind_signals",
+      "outputCollection" : "lucidfind_signals_aggr",
+      "sql" : "WITH sigs_with_filters AS (\n   SELECT c.query as query,\n          c.doc_id,\n          q.filters_s as filters,\n          c.type,\n          c.ref_time,\n          c.count_i,\n          c.timestamp_tdt,\n          c.weight_d\n     FROM ${inputCollection} c\n LEFT JOIN (SELECT id, filters_s FROM ${inputCollection} WHERE type='response') q ON q.id = c.fusion_query_id\n    WHERE c.type IN (${signalTypes})\n ), signal_type_groups AS (\n     SELECT SUM(count_i) AS typed_aggr_count_i,\n            query,\n            doc_id,\n            type,\n            filters,\n            time_decay(count_i, timestamp_tdt, \"30 days\", ref_time, weight_d) AS typed_weight_d\n       FROM sigs_with_filters\n   GROUP BY doc_id, query, filters, type\n ) SELECT SUM(typed_aggr_count_i) AS aggr_count_i,\n          query AS query_s,\n          query AS query_t,\n          doc_id AS doc_id_s,\n          filters AS filters_s,\n          SPLIT(filters, ' \\\\$ ') AS filters_ss,\n          weighted_sum(typed_weight_d, type, '${signalTypeWeights}') AS weight_d\n     FROM signal_type_groups\n GROUP BY query, doc_id, filters",
+      "rollupSql" : "SELECT query_s,\n          query_s as query_t,\n          doc_id_s,\n          filters_s,\n          first(aggr_type_s) AS aggr_type_s,\n          SPLIT(filters_s, ' \\\\$ ') AS filters_ss,\n          SUM(weight_d) AS weight_d,\n          SUM(aggr_count_i) AS aggr_count_i\n     FROM lucidfind_signals_aggr\n GROUP BY query_s, doc_id_s, filters_s",
+      "parameters" : [ {
+        "key" : "signalTypeWeights",
+        "value" : "click:1.0,cart:10.0,purchase:25.0"
+      } ],
+      "selectQuery" : "*:*",
+      "sourceRemove" : false,
+      "sourceCatchup" : true,
+      "outputRollup" : true,
+      "hiddenParameters" : [ {
+        "key" : "signalTypes",
+        "value" : "_regex/signalTypeWeights/([\\w\\-\\.]*):([\\d\\.\\-]*)(,|$)/'$1'$3/g"
+      }, {
+        "key" : "optimizeOutput",
+        "value" : "4"
+      } ],
+      "skipCheckEnabled" : true,
+      "notes" : "Computes an aggregated weight for each query / item combination found in the signals collection. The weight for each group is computed using an exponential time-decay on signal count (30 day half-life) and a weighted sum based on the signal type. Use the 'signalTypeWeights' parameter to set the correct signal types and weights for your dataset. The results of this job can be used to boost documents at query time using the boosting stage."
+    }, {
       "type" : "als_recommender",
       "id" : "email_subject_recommender",
       "modelId" : "email_subject_recommender",
@@ -8193,414 +7076,6 @@
       "alwaysTrain" : true,
       "deleteOldRecs" : true,
       "itemMetadataJoinField" : "subject_simple"
-    }, {
-      "type" : "sql_template",
-      "id" : "lucidfind_user_item_preferences_aggregation",
-      "inputCollection" : "lucidfind_signals",
-      "outputCollection" : "lucidfind_signals_aggr",
-      "sql" : "WITH signal_type_groups AS (\n    SELECT SUM(count_i) AS typed_aggr_count_i,\n           doc_id,\n           user_id,\n           type,\n           time_decay(count_i, timestamp_tdt, \"30 days\", ref_time, weight_d) AS typed_weight_d\n      FROM ${inputCollection}\n     WHERE type IN (${signalTypes})\n  GROUP BY user_id, doc_id, type\n ) SELECT SUM(typed_aggr_count_i) AS aggr_count_i,\n          doc_id AS doc_id_s,\n          user_id AS user_id_s,\n          weighted_sum(typed_weight_d, type, '${signalTypeWeights}') AS weight_d\n     FROM signal_type_groups\n GROUP BY doc_id, user_id",
-      "parameters" : [ {
-        "key" : "signalTypeWeights",
-        "value" : "click:1.0,cart:10.0,purchase:25.0"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : true,
-      "outputRollup" : true,
-      "hiddenParameters" : [ {
-        "key" : "signalTypes",
-        "value" : "_regex/signalTypeWeights/([\\w\\-\\.]*):([\\d\\.\\-]*)(,|$)/'$1'$3/g"
-      } ],
-      "skipCheckEnabled" : true,
-      "notes" : "Computes an aggregated weight for each user / item combination found in the signals collection. The weight for each group is computed using an exponential time-decay on signal count (30 day half-life) and a weighted sum based on the signal type. Use the 'signalTypeWeights' parameter to set the correct signal types and weights for your dataset. The results of this job can be used as input to the ALS recommendation job."
-    }, {
-      "type" : "sql_template",
-      "id" : "users_shub_click_signals_aggregation",
-      "inputCollection" : "users_shub_signals",
-      "outputCollection" : "users_shub_signals_aggr",
-      "sql" : "WITH sigs_with_filters AS (\n   SELECT c.query as query,\n          c.doc_id,\n          q.filters_s as filters,\n          c.type,\n          c.ref_time,\n          c.count_i,\n          c.timestamp_tdt,\n          c.weight_d\n     FROM ${inputCollection} c\n LEFT JOIN (SELECT id, filters_s FROM ${inputCollection} WHERE type='response') q ON q.id = c.fusion_query_id\n    WHERE c.type IN (${signalTypes})\n ), signal_type_groups AS (\n     SELECT SUM(count_i) AS typed_aggr_count_i,\n            query,\n            doc_id,\n            type,\n            filters,\n            time_decay(count_i, timestamp_tdt, \"30 days\", ref_time, weight_d) AS typed_weight_d\n       FROM sigs_with_filters\n   GROUP BY doc_id, query, filters, type\n ) SELECT SUM(typed_aggr_count_i) AS aggr_count_i,\n          query AS query_s,\n          query AS query_t,\n          doc_id AS doc_id_s,\n          filters AS filters_s,\n          SPLIT(filters, ' \\\\$ ') AS filters_ss,\n          weighted_sum(typed_weight_d, type, '${signalTypeWeights}') AS weight_d\n     FROM signal_type_groups\n GROUP BY query, doc_id, filters",
-      "rollupSql" : "SELECT query_s,\n          query_s as query_t,\n          doc_id_s,\n          filters_s,\n          first(aggr_type_s) AS aggr_type_s,\n          SPLIT(filters_s, ' \\\\$ ') AS filters_ss,\n          SUM(weight_d) AS weight_d,\n          SUM(aggr_count_i) AS aggr_count_i\n     FROM users_shub_signals_aggr\n GROUP BY query_s, doc_id_s, filters_s",
-      "parameters" : [ {
-        "key" : "signalTypeWeights",
-        "value" : "click:1.0,cart:10.0,purchase:25.0"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : true,
-      "outputRollup" : true,
-      "hiddenParameters" : [ {
-        "key" : "signalTypes",
-        "value" : "_regex/signalTypeWeights/([\\w\\-\\.]*):([\\d\\.\\-]*)(,|$)/'$1'$3/g"
-      }, {
-        "key" : "optimizeOutput",
-        "value" : "4"
-      } ],
-      "skipCheckEnabled" : true,
-      "notes" : "Computes an aggregated weight for each query / item combination found in the signals collection. The weight for each group is computed using an exponential time-decay on signal count (30 day half-life) and a weighted sum based on the signal type. Use the 'signalTypeWeights' parameter to set the correct signal types and weights for your dataset. The results of this job can be used to boost documents at query time using the boosting stage."
-    }, {
-      "type" : "sql_template",
-      "id" : "lucidfind_subjects_for_emails_click_signals_aggregation",
-      "inputCollection" : "lucidfind_subjects_for_emails_signals",
-      "outputCollection" : "lucidfind_subjects_for_emails_signals_aggr",
-      "sql" : "WITH sigs_with_filters AS (\n   SELECT c.query as query,\n          c.doc_id,\n          q.filters_s as filters,\n          c.type,\n          c.ref_time,\n          c.count_i,\n          c.timestamp_tdt,\n          c.weight_d\n     FROM ${inputCollection} c\n LEFT JOIN (SELECT id, filters_s FROM ${inputCollection} WHERE type='response') q ON q.id = c.fusion_query_id\n    WHERE c.type IN (${signalTypes})\n ), signal_type_groups AS (\n     SELECT SUM(count_i) AS typed_aggr_count_i,\n            query,\n            doc_id,\n            type,\n            filters,\n            time_decay(count_i, timestamp_tdt, \"30 days\", ref_time, weight_d) AS typed_weight_d\n       FROM sigs_with_filters\n   GROUP BY doc_id, query, filters, type\n ) SELECT SUM(typed_aggr_count_i) AS aggr_count_i,\n          query AS query_s,\n          query AS query_t,\n          doc_id AS doc_id_s,\n          filters AS filters_s,\n          SPLIT(filters, ' \\\\$ ') AS filters_ss,\n          weighted_sum(typed_weight_d, type, '${signalTypeWeights}') AS weight_d\n     FROM signal_type_groups\n GROUP BY query, doc_id, filters",
-      "rollupSql" : "SELECT query_s,\n          query_s as query_t,\n          doc_id_s,\n          filters_s,\n          first(aggr_type_s) AS aggr_type_s,\n          SPLIT(filters_s, ' \\\\$ ') AS filters_ss,\n          SUM(weight_d) AS weight_d,\n          SUM(aggr_count_i) AS aggr_count_i\n     FROM lucidfind_subjects_for_emails_signals_aggr\n GROUP BY query_s, doc_id_s, filters_s",
-      "parameters" : [ {
-        "key" : "signalTypeWeights",
-        "value" : "click:1.0,cart:10.0,purchase:25.0"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : true,
-      "outputRollup" : true,
-      "hiddenParameters" : [ {
-        "key" : "signalTypes",
-        "value" : "_regex/signalTypeWeights/([\\w\\-\\.]*):([\\d\\.\\-]*)(,|$)/'$1'$3/g"
-      }, {
-        "key" : "optimizeOutput",
-        "value" : "4"
-      } ],
-      "skipCheckEnabled" : true,
-      "notes" : "Computes an aggregated weight for each query / item combination found in the signals collection. The weight for each group is computed using an exponential time-decay on signal count (30 day half-life) and a weighted sum based on the signal type. Use the 'signalTypeWeights' parameter to set the correct signal types and weights for your dataset. The results of this job can be used to boost documents at query time using the boosting stage."
-    }, {
-      "type" : "sql_template",
-      "id" : "lucidfind_subjects_for_emails_user_query_history_aggregation",
-      "inputCollection" : "lucidfind_subjects_for_emails_signals",
-      "outputCollection" : "lucidfind_subjects_for_emails_signals_aggr",
-      "sql" : "WITH signal_type_groups AS (\n    SELECT SUM(count_i) AS typed_aggr_count_i,\n           user_id,\n           query,\n           type,\n           time_decay(count_i, timestamp_tdt, \"30 days\", ref_time, weight_d) AS typed_weight_d\n      FROM ${inputCollection}\n     WHERE type IN (${signalTypes})\n  GROUP BY query, user_id, type\n ) SELECT SUM(typed_aggr_count_i) AS aggr_count_i,\n          user_id AS user_id_s,\n          query AS query_s,\n          weighted_sum(typed_weight_d, type, '${signalTypeWeights}') AS weight_d\n     FROM signal_type_groups\n GROUP BY user_id, query",
-      "parameters" : [ {
-        "key" : "signalTypeWeights",
-        "value" : "click:1.0,cart:10.0,purchase:25.0"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : true,
-      "outputRollup" : true,
-      "hiddenParameters" : [ {
-        "key" : "signalTypes",
-        "value" : "_regex/signalTypeWeights/([\\w\\-\\.]*):([\\d\\.\\-]*)(,|$)/'$1'$3/g"
-      } ],
-      "skipCheckEnabled" : true,
-      "notes" : "Computes an aggregated weight for each user / query combination found in the signals collection. The weight for each group is computed using an exponential time-decay on signal count (30 day half-life) and a weighted sum based on the signal type. Use the 'signalTypeWeights' parameter to set the correct signal types and weights for your dataset. The results of this job can be used to boost queries for a user based on their past queries."
-    }, {
-      "type" : "sql_template",
-      "id" : "lucidfind_subjects_for_emails_session_rollup",
-      "inputCollection" : "lucidfind_subjects_for_emails_signals",
-      "outputCollection" : "lucidfind_subjects_for_emails_signals",
-      "sql" : "WITH session_agg AS (\n     SELECT COUNT(1) AS activity_count,\n            MIN(timestamp_tdt) AS start,\n            MAX(timestamp_tdt) AS end,\n            timediff(MAX(timestamp_tdt), MIN(timestamp_tdt), \"MINUTES\") AS duration,\n            'session' AS type,\n            first(user_id) AS user,\n            session_keywords(query) AS keywords,\n            session\n       FROM ${inputCollection}\n      WHERE timestamp_tdt IS NOT NULL\n        AND type != 'session'\n        AND session IS NOT NULL\n        AND session NOT IN (SELECT session FROM ${inputCollection} WHERE type = 'session' AND session IS NOT NULL)\n   GROUP BY session\n     HAVING timediff(current_timestamp(), MAX(timestamp_tdt), \"SECONDS\") >= ${elapsedSecsSinceLastActivity} OR timediff(current_timestamp(), MIN(timestamp_tdt), \"SECONDS\") >= ${elapsedSecsSinceSessionStart})\n SELECT activity_count, start, end, duration, type, user, keywords, session FROM session_agg",
-      "parameters" : [ {
-        "key" : "elapsedSecsSinceLastActivity",
-        "value" : "360"
-      }, {
-        "key" : "elapsedSecsSinceSessionStart",
-        "value" : "3600"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : false,
-      "outputRollup" : false,
-      "hiddenParameters" : [ {
-        "key" : "outputProjectedFieldsOnly",
-        "value" : "true"
-      } ],
-      "skipCheckEnabled" : false,
-      "notes" : "Aggregate related user activity into a session signal containing activity count, duration, and keywords (based on user search terms). This job is used by the Fusion Insights application to show reports about user sessions. Use the 'elapsedSecsSinceLastActivity' and 'elapsedSecsSinceSessionStart' parameters to determine when a user session is considered to be complete."
-    }, {
-      "type" : "sql_template",
-      "id" : "users_shub_user_item_preferences_aggregation",
-      "inputCollection" : "users_shub_signals",
-      "outputCollection" : "users_shub_signals_aggr",
-      "sql" : "WITH signal_type_groups AS (\n    SELECT SUM(count_i) AS typed_aggr_count_i,\n           doc_id,\n           user_id,\n           type,\n           time_decay(count_i, timestamp_tdt, \"30 days\", ref_time, weight_d) AS typed_weight_d\n      FROM ${inputCollection}\n     WHERE type IN (${signalTypes})\n  GROUP BY user_id, doc_id, type\n ) SELECT SUM(typed_aggr_count_i) AS aggr_count_i,\n          doc_id AS doc_id_s,\n          user_id AS user_id_s,\n          weighted_sum(typed_weight_d, type, '${signalTypeWeights}') AS weight_d\n     FROM signal_type_groups\n GROUP BY doc_id, user_id",
-      "parameters" : [ {
-        "key" : "signalTypeWeights",
-        "value" : "click:1.0,cart:10.0,purchase:25.0"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : true,
-      "outputRollup" : true,
-      "hiddenParameters" : [ {
-        "key" : "signalTypes",
-        "value" : "_regex/signalTypeWeights/([\\w\\-\\.]*):([\\d\\.\\-]*)(,|$)/'$1'$3/g"
-      } ],
-      "skipCheckEnabled" : true,
-      "notes" : "Computes an aggregated weight for each user / item combination found in the signals collection. The weight for each group is computed using an exponential time-decay on signal count (30 day half-life) and a weighted sum based on the signal type. Use the 'signalTypeWeights' parameter to set the correct signal types and weights for your dataset. The results of this job can be used as input to the ALS recommendation job."
-    }, {
-      "type" : "sql_template",
-      "id" : "users_shub_session_rollup",
-      "inputCollection" : "users_shub_signals",
-      "outputCollection" : "users_shub_signals",
-      "sql" : "WITH session_agg AS (\n     SELECT COUNT(1) AS activity_count,\n            MIN(timestamp_tdt) AS start,\n            MAX(timestamp_tdt) AS end,\n            timediff(MAX(timestamp_tdt), MIN(timestamp_tdt), \"MINUTES\") AS duration,\n            'session' AS type,\n            first(user_id) AS user,\n            session_keywords(query) AS keywords,\n            session\n       FROM ${inputCollection}\n      WHERE timestamp_tdt IS NOT NULL\n        AND type != 'session'\n        AND session IS NOT NULL\n        AND session NOT IN (SELECT session FROM ${inputCollection} WHERE type = 'session' AND session IS NOT NULL)\n   GROUP BY session\n     HAVING timediff(current_timestamp(), MAX(timestamp_tdt), \"SECONDS\") >= ${elapsedSecsSinceLastActivity} OR timediff(current_timestamp(), MIN(timestamp_tdt), \"SECONDS\") >= ${elapsedSecsSinceSessionStart})\n SELECT activity_count, start, end, duration, type, user, keywords, session FROM session_agg",
-      "parameters" : [ {
-        "key" : "elapsedSecsSinceLastActivity",
-        "value" : "360"
-      }, {
-        "key" : "elapsedSecsSinceSessionStart",
-        "value" : "3600"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : false,
-      "outputRollup" : false,
-      "hiddenParameters" : [ {
-        "key" : "outputProjectedFieldsOnly",
-        "value" : "true"
-      } ],
-      "skipCheckEnabled" : false,
-      "notes" : "Aggregate related user activity into a session signal containing activity count, duration, and keywords (based on user search terms). This job is used by the Fusion Insights application to show reports about user sessions. Use the 'elapsedSecsSinceLastActivity' and 'elapsedSecsSinceSessionStart' parameters to determine when a user session is considered to be complete."
-    }, {
-      "type" : "sql_template",
-      "id" : "lucidfind_email_subject_weights_session_rollup",
-      "inputCollection" : "lucidfind_email_subject_weights_signals",
-      "outputCollection" : "lucidfind_email_subject_weights_signals",
-      "sql" : "WITH session_agg AS (\n     SELECT COUNT(1) AS activity_count,\n            MIN(timestamp_tdt) AS start,\n            MAX(timestamp_tdt) AS end,\n            timediff(MAX(timestamp_tdt), MIN(timestamp_tdt), \"MINUTES\") AS duration,\n            'session' AS type,\n            first(user_id) AS user,\n            session_keywords(query) AS keywords,\n            session\n       FROM ${inputCollection}\n      WHERE timestamp_tdt IS NOT NULL\n        AND type != 'session'\n        AND session IS NOT NULL\n        AND session NOT IN (SELECT session FROM ${inputCollection} WHERE type = 'session' AND session IS NOT NULL)\n   GROUP BY session\n     HAVING timediff(current_timestamp(), MAX(timestamp_tdt), \"SECONDS\") >= ${elapsedSecsSinceLastActivity} OR timediff(current_timestamp(), MIN(timestamp_tdt), \"SECONDS\") >= ${elapsedSecsSinceSessionStart})\n SELECT activity_count, start, end, duration, type, user, keywords, session FROM session_agg",
-      "parameters" : [ {
-        "key" : "elapsedSecsSinceLastActivity",
-        "value" : "360"
-      }, {
-        "key" : "elapsedSecsSinceSessionStart",
-        "value" : "3600"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : false,
-      "outputRollup" : false,
-      "hiddenParameters" : [ {
-        "key" : "outputProjectedFieldsOnly",
-        "value" : "true"
-      } ],
-      "skipCheckEnabled" : false,
-      "notes" : "Aggregate related user activity into a session signal containing activity count, duration, and keywords (based on user search terms). This job is used by the Fusion Insights application to show reports about user sessions. Use the 'elapsedSecsSinceLastActivity' and 'elapsedSecsSinceSessionStart' parameters to determine when a user session is considered to be complete."
-    }, {
-      "type" : "sql_template",
-      "id" : "lucidfind_thread_recs_user_item_preferences_aggregation",
-      "inputCollection" : "lucidfind_thread_recs_signals",
-      "outputCollection" : "lucidfind_thread_recs_signals_aggr",
-      "sql" : "WITH signal_type_groups AS (\n    SELECT SUM(count_i) AS typed_aggr_count_i,\n           doc_id,\n           user_id,\n           type,\n           time_decay(count_i, timestamp_tdt, \"30 days\", ref_time, weight_d) AS typed_weight_d\n      FROM ${inputCollection}\n     WHERE type IN (${signalTypes})\n  GROUP BY user_id, doc_id, type\n ) SELECT SUM(typed_aggr_count_i) AS aggr_count_i,\n          doc_id AS doc_id_s,\n          user_id AS user_id_s,\n          weighted_sum(typed_weight_d, type, '${signalTypeWeights}') AS weight_d\n     FROM signal_type_groups\n GROUP BY doc_id, user_id",
-      "parameters" : [ {
-        "key" : "signalTypeWeights",
-        "value" : "click:1.0,cart:10.0,purchase:25.0"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : true,
-      "outputRollup" : true,
-      "hiddenParameters" : [ {
-        "key" : "signalTypes",
-        "value" : "_regex/signalTypeWeights/([\\w\\-\\.]*):([\\d\\.\\-]*)(,|$)/'$1'$3/g"
-      } ],
-      "skipCheckEnabled" : true,
-      "notes" : "Computes an aggregated weight for each user / item combination found in the signals collection. The weight for each group is computed using an exponential time-decay on signal count (30 day half-life) and a weighted sum based on the signal type. Use the 'signalTypeWeights' parameter to set the correct signal types and weights for your dataset. The results of this job can be used as input to the ALS recommendation job."
-    }, {
-      "type" : "sql_template",
-      "id" : "lucidfind_email_subject_weights_click_signals_aggregation",
-      "inputCollection" : "lucidfind_email_subject_weights_signals",
-      "outputCollection" : "lucidfind_email_subject_weights_signals_aggr",
-      "sql" : "WITH sigs_with_filters AS (\n   SELECT c.query as query,\n          c.doc_id,\n          q.filters_s as filters,\n          c.type,\n          c.ref_time,\n          c.count_i,\n          c.timestamp_tdt,\n          c.weight_d\n     FROM ${inputCollection} c\n LEFT JOIN (SELECT id, filters_s FROM ${inputCollection} WHERE type='response') q ON q.id = c.fusion_query_id\n    WHERE c.type IN (${signalTypes})\n ), signal_type_groups AS (\n     SELECT SUM(count_i) AS typed_aggr_count_i,\n            query,\n            doc_id,\n            type,\n            filters,\n            time_decay(count_i, timestamp_tdt, \"30 days\", ref_time, weight_d) AS typed_weight_d\n       FROM sigs_with_filters\n   GROUP BY doc_id, query, filters, type\n ) SELECT SUM(typed_aggr_count_i) AS aggr_count_i,\n          query AS query_s,\n          query AS query_t,\n          doc_id AS doc_id_s,\n          filters AS filters_s,\n          SPLIT(filters, ' \\\\$ ') AS filters_ss,\n          weighted_sum(typed_weight_d, type, '${signalTypeWeights}') AS weight_d\n     FROM signal_type_groups\n GROUP BY query, doc_id, filters",
-      "rollupSql" : "SELECT query_s,\n          query_s as query_t,\n          doc_id_s,\n          filters_s,\n          first(aggr_type_s) AS aggr_type_s,\n          SPLIT(filters_s, ' \\\\$ ') AS filters_ss,\n          SUM(weight_d) AS weight_d,\n          SUM(aggr_count_i) AS aggr_count_i\n     FROM lucidfind_email_subject_weights_signals_aggr\n GROUP BY query_s, doc_id_s, filters_s",
-      "parameters" : [ {
-        "key" : "signalTypeWeights",
-        "value" : "click:1.0,cart:10.0,purchase:25.0"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : true,
-      "outputRollup" : true,
-      "hiddenParameters" : [ {
-        "key" : "signalTypes",
-        "value" : "_regex/signalTypeWeights/([\\w\\-\\.]*):([\\d\\.\\-]*)(,|$)/'$1'$3/g"
-      }, {
-        "key" : "optimizeOutput",
-        "value" : "4"
-      } ],
-      "skipCheckEnabled" : true,
-      "notes" : "Computes an aggregated weight for each query / item combination found in the signals collection. The weight for each group is computed using an exponential time-decay on signal count (30 day half-life) and a weighted sum based on the signal type. Use the 'signalTypeWeights' parameter to set the correct signal types and weights for your dataset. The results of this job can be used to boost documents at query time using the boosting stage."
-    }, {
-      "type" : "sql_template",
-      "id" : "lucidfind_subjects_for_subjects_click_signals_aggregation",
-      "inputCollection" : "lucidfind_subjects_for_subjects_signals",
-      "outputCollection" : "lucidfind_subjects_for_subjects_signals_aggr",
-      "sql" : "WITH sigs_with_filters AS (\n   SELECT c.query as query,\n          c.doc_id,\n          q.filters_s as filters,\n          c.type,\n          c.ref_time,\n          c.count_i,\n          c.timestamp_tdt,\n          c.weight_d\n     FROM ${inputCollection} c\n LEFT JOIN (SELECT id, filters_s FROM ${inputCollection} WHERE type='response') q ON q.id = c.fusion_query_id\n    WHERE c.type IN (${signalTypes})\n ), signal_type_groups AS (\n     SELECT SUM(count_i) AS typed_aggr_count_i,\n            query,\n            doc_id,\n            type,\n            filters,\n            time_decay(count_i, timestamp_tdt, \"30 days\", ref_time, weight_d) AS typed_weight_d\n       FROM sigs_with_filters\n   GROUP BY doc_id, query, filters, type\n ) SELECT SUM(typed_aggr_count_i) AS aggr_count_i,\n          query AS query_s,\n          query AS query_t,\n          doc_id AS doc_id_s,\n          filters AS filters_s,\n          SPLIT(filters, ' \\\\$ ') AS filters_ss,\n          weighted_sum(typed_weight_d, type, '${signalTypeWeights}') AS weight_d\n     FROM signal_type_groups\n GROUP BY query, doc_id, filters",
-      "rollupSql" : "SELECT query_s,\n          query_s as query_t,\n          doc_id_s,\n          filters_s,\n          first(aggr_type_s) AS aggr_type_s,\n          SPLIT(filters_s, ' \\\\$ ') AS filters_ss,\n          SUM(weight_d) AS weight_d,\n          SUM(aggr_count_i) AS aggr_count_i\n     FROM lucidfind_subjects_for_subjects_signals_aggr\n GROUP BY query_s, doc_id_s, filters_s",
-      "parameters" : [ {
-        "key" : "signalTypeWeights",
-        "value" : "click:1.0,cart:10.0,purchase:25.0"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : true,
-      "outputRollup" : true,
-      "hiddenParameters" : [ {
-        "key" : "signalTypes",
-        "value" : "_regex/signalTypeWeights/([\\w\\-\\.]*):([\\d\\.\\-]*)(,|$)/'$1'$3/g"
-      }, {
-        "key" : "optimizeOutput",
-        "value" : "4"
-      } ],
-      "skipCheckEnabled" : true,
-      "notes" : "Computes an aggregated weight for each query / item combination found in the signals collection. The weight for each group is computed using an exponential time-decay on signal count (30 day half-life) and a weighted sum based on the signal type. Use the 'signalTypeWeights' parameter to set the correct signal types and weights for your dataset. The results of this job can be used to boost documents at query time using the boosting stage."
-    }, {
-      "type" : "sql_template",
-      "id" : "lucidfind_subjects_for_subjects_session_rollup",
-      "inputCollection" : "lucidfind_subjects_for_subjects_signals",
-      "outputCollection" : "lucidfind_subjects_for_subjects_signals",
-      "sql" : "WITH session_agg AS (\n     SELECT COUNT(1) AS activity_count,\n            MIN(timestamp_tdt) AS start,\n            MAX(timestamp_tdt) AS end,\n            timediff(MAX(timestamp_tdt), MIN(timestamp_tdt), \"MINUTES\") AS duration,\n            'session' AS type,\n            first(user_id) AS user,\n            session_keywords(query) AS keywords,\n            session\n       FROM ${inputCollection}\n      WHERE timestamp_tdt IS NOT NULL\n        AND type != 'session'\n        AND session IS NOT NULL\n        AND session NOT IN (SELECT session FROM ${inputCollection} WHERE type = 'session' AND session IS NOT NULL)\n   GROUP BY session\n     HAVING timediff(current_timestamp(), MAX(timestamp_tdt), \"SECONDS\") >= ${elapsedSecsSinceLastActivity} OR timediff(current_timestamp(), MIN(timestamp_tdt), \"SECONDS\") >= ${elapsedSecsSinceSessionStart})\n SELECT activity_count, start, end, duration, type, user, keywords, session FROM session_agg",
-      "parameters" : [ {
-        "key" : "elapsedSecsSinceLastActivity",
-        "value" : "360"
-      }, {
-        "key" : "elapsedSecsSinceSessionStart",
-        "value" : "3600"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : false,
-      "outputRollup" : false,
-      "hiddenParameters" : [ {
-        "key" : "outputProjectedFieldsOnly",
-        "value" : "true"
-      } ],
-      "skipCheckEnabled" : false,
-      "notes" : "Aggregate related user activity into a session signal containing activity count, duration, and keywords (based on user search terms). This job is used by the Fusion Insights application to show reports about user sessions. Use the 'elapsedSecsSinceLastActivity' and 'elapsedSecsSinceSessionStart' parameters to determine when a user session is considered to be complete."
-    }, {
-      "type" : "sql_template",
-      "id" : "lucidfind_thread_recs_user_query_history_aggregation",
-      "inputCollection" : "lucidfind_thread_recs_signals",
-      "outputCollection" : "lucidfind_thread_recs_signals_aggr",
-      "sql" : "WITH signal_type_groups AS (\n    SELECT SUM(count_i) AS typed_aggr_count_i,\n           user_id,\n           query,\n           type,\n           time_decay(count_i, timestamp_tdt, \"30 days\", ref_time, weight_d) AS typed_weight_d\n      FROM ${inputCollection}\n     WHERE type IN (${signalTypes})\n  GROUP BY query, user_id, type\n ) SELECT SUM(typed_aggr_count_i) AS aggr_count_i,\n          user_id AS user_id_s,\n          query AS query_s,\n          weighted_sum(typed_weight_d, type, '${signalTypeWeights}') AS weight_d\n     FROM signal_type_groups\n GROUP BY user_id, query",
-      "parameters" : [ {
-        "key" : "signalTypeWeights",
-        "value" : "click:1.0,cart:10.0,purchase:25.0"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : true,
-      "outputRollup" : true,
-      "hiddenParameters" : [ {
-        "key" : "signalTypes",
-        "value" : "_regex/signalTypeWeights/([\\w\\-\\.]*):([\\d\\.\\-]*)(,|$)/'$1'$3/g"
-      } ],
-      "skipCheckEnabled" : true,
-      "notes" : "Computes an aggregated weight for each user / query combination found in the signals collection. The weight for each group is computed using an exponential time-decay on signal count (30 day half-life) and a weighted sum based on the signal type. Use the 'signalTypeWeights' parameter to set the correct signal types and weights for your dataset. The results of this job can be used to boost queries for a user based on their past queries."
-    }, {
-      "type" : "sql_template",
-      "id" : "lucidfind_subjects_for_emails_user_item_preferences_aggregation",
-      "inputCollection" : "lucidfind_subjects_for_emails_signals",
-      "outputCollection" : "lucidfind_subjects_for_emails_signals_aggr",
-      "sql" : "WITH signal_type_groups AS (\n    SELECT SUM(count_i) AS typed_aggr_count_i,\n           doc_id,\n           user_id,\n           type,\n           time_decay(count_i, timestamp_tdt, \"30 days\", ref_time, weight_d) AS typed_weight_d\n      FROM ${inputCollection}\n     WHERE type IN (${signalTypes})\n  GROUP BY user_id, doc_id, type\n ) SELECT SUM(typed_aggr_count_i) AS aggr_count_i,\n          doc_id AS doc_id_s,\n          user_id AS user_id_s,\n          weighted_sum(typed_weight_d, type, '${signalTypeWeights}') AS weight_d\n     FROM signal_type_groups\n GROUP BY doc_id, user_id",
-      "parameters" : [ {
-        "key" : "signalTypeWeights",
-        "value" : "click:1.0,cart:10.0,purchase:25.0"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : true,
-      "outputRollup" : true,
-      "hiddenParameters" : [ {
-        "key" : "signalTypes",
-        "value" : "_regex/signalTypeWeights/([\\w\\-\\.]*):([\\d\\.\\-]*)(,|$)/'$1'$3/g"
-      } ],
-      "skipCheckEnabled" : true,
-      "notes" : "Computes an aggregated weight for each user / item combination found in the signals collection. The weight for each group is computed using an exponential time-decay on signal count (30 day half-life) and a weighted sum based on the signal type. Use the 'signalTypeWeights' parameter to set the correct signal types and weights for your dataset. The results of this job can be used as input to the ALS recommendation job."
-    }, {
-      "type" : "sql_template",
-      "id" : "lucidfind_thread_recs_click_signals_aggregation",
-      "inputCollection" : "lucidfind_thread_recs_signals",
-      "outputCollection" : "lucidfind_thread_recs_signals_aggr",
-      "sql" : "WITH sigs_with_filters AS (\n   SELECT c.query as query,\n          c.doc_id,\n          q.filters_s as filters,\n          c.type,\n          c.ref_time,\n          c.count_i,\n          c.timestamp_tdt,\n          c.weight_d\n     FROM ${inputCollection} c\n LEFT JOIN (SELECT id, filters_s FROM ${inputCollection} WHERE type='response') q ON q.id = c.fusion_query_id\n    WHERE c.type IN (${signalTypes})\n ), signal_type_groups AS (\n     SELECT SUM(count_i) AS typed_aggr_count_i,\n            query,\n            doc_id,\n            type,\n            filters,\n            time_decay(count_i, timestamp_tdt, \"30 days\", ref_time, weight_d) AS typed_weight_d\n       FROM sigs_with_filters\n   GROUP BY doc_id, query, filters, type\n ) SELECT SUM(typed_aggr_count_i) AS aggr_count_i,\n          query AS query_s,\n          query AS query_t,\n          doc_id AS doc_id_s,\n          filters AS filters_s,\n          SPLIT(filters, ' \\\\$ ') AS filters_ss,\n          weighted_sum(typed_weight_d, type, '${signalTypeWeights}') AS weight_d\n     FROM signal_type_groups\n GROUP BY query, doc_id, filters",
-      "rollupSql" : "SELECT query_s,\n          query_s as query_t,\n          doc_id_s,\n          filters_s,\n          first(aggr_type_s) AS aggr_type_s,\n          SPLIT(filters_s, ' \\\\$ ') AS filters_ss,\n          SUM(weight_d) AS weight_d,\n          SUM(aggr_count_i) AS aggr_count_i\n     FROM lucidfind_thread_recs_signals_aggr\n GROUP BY query_s, doc_id_s, filters_s",
-      "parameters" : [ {
-        "key" : "signalTypeWeights",
-        "value" : "click:1.0,cart:10.0,purchase:25.0"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : true,
-      "outputRollup" : true,
-      "hiddenParameters" : [ {
-        "key" : "signalTypes",
-        "value" : "_regex/signalTypeWeights/([\\w\\-\\.]*):([\\d\\.\\-]*)(,|$)/'$1'$3/g"
-      }, {
-        "key" : "optimizeOutput",
-        "value" : "4"
-      } ],
-      "skipCheckEnabled" : true,
-      "notes" : "Computes an aggregated weight for each query / item combination found in the signals collection. The weight for each group is computed using an exponential time-decay on signal count (30 day half-life) and a weighted sum based on the signal type. Use the 'signalTypeWeights' parameter to set the correct signal types and weights for your dataset. The results of this job can be used to boost documents at query time using the boosting stage."
-    }, {
-      "type" : "sql_template",
-      "id" : "lucidfind_email_subject_weights_user_query_history_aggregation",
-      "inputCollection" : "lucidfind_email_subject_weights_signals",
-      "outputCollection" : "lucidfind_email_subject_weights_signals_aggr",
-      "sql" : "WITH signal_type_groups AS (\n    SELECT SUM(count_i) AS typed_aggr_count_i,\n           user_id,\n           query,\n           type,\n           time_decay(count_i, timestamp_tdt, \"30 days\", ref_time, weight_d) AS typed_weight_d\n      FROM ${inputCollection}\n     WHERE type IN (${signalTypes})\n  GROUP BY query, user_id, type\n ) SELECT SUM(typed_aggr_count_i) AS aggr_count_i,\n          user_id AS user_id_s,\n          query AS query_s,\n          weighted_sum(typed_weight_d, type, '${signalTypeWeights}') AS weight_d\n     FROM signal_type_groups\n GROUP BY user_id, query",
-      "parameters" : [ {
-        "key" : "signalTypeWeights",
-        "value" : "click:1.0,cart:10.0,purchase:25.0"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : true,
-      "outputRollup" : true,
-      "hiddenParameters" : [ {
-        "key" : "signalTypes",
-        "value" : "_regex/signalTypeWeights/([\\w\\-\\.]*):([\\d\\.\\-]*)(,|$)/'$1'$3/g"
-      } ],
-      "skipCheckEnabled" : true,
-      "notes" : "Computes an aggregated weight for each user / query combination found in the signals collection. The weight for each group is computed using an exponential time-decay on signal count (30 day half-life) and a weighted sum based on the signal type. Use the 'signalTypeWeights' parameter to set the correct signal types and weights for your dataset. The results of this job can be used to boost queries for a user based on their past queries."
-    }, {
-      "type" : "sql_template",
-      "id" : "lucidfind_click_signals_aggregation",
-      "inputCollection" : "lucidfind_signals",
-      "outputCollection" : "lucidfind_signals_aggr",
-      "sql" : "WITH sigs_with_filters AS (\n   SELECT c.query as query,\n          c.doc_id,\n          q.filters_s as filters,\n          c.type,\n          c.ref_time,\n          c.count_i,\n          c.timestamp_tdt,\n          c.weight_d\n     FROM ${inputCollection} c\n LEFT JOIN (SELECT id, filters_s FROM ${inputCollection} WHERE type='response') q ON q.id = c.fusion_query_id\n    WHERE c.type IN (${signalTypes})\n ), signal_type_groups AS (\n     SELECT SUM(count_i) AS typed_aggr_count_i,\n            query,\n            doc_id,\n            type,\n            filters,\n            time_decay(count_i, timestamp_tdt, \"30 days\", ref_time, weight_d) AS typed_weight_d\n       FROM sigs_with_filters\n   GROUP BY doc_id, query, filters, type\n ) SELECT SUM(typed_aggr_count_i) AS aggr_count_i,\n          query AS query_s,\n          query AS query_t,\n          doc_id AS doc_id_s,\n          filters AS filters_s,\n          SPLIT(filters, ' \\\\$ ') AS filters_ss,\n          weighted_sum(typed_weight_d, type, '${signalTypeWeights}') AS weight_d\n     FROM signal_type_groups\n GROUP BY query, doc_id, filters",
-      "rollupSql" : "SELECT query_s,\n          query_s as query_t,\n          doc_id_s,\n          filters_s,\n          first(aggr_type_s) AS aggr_type_s,\n          SPLIT(filters_s, ' \\\\$ ') AS filters_ss,\n          SUM(weight_d) AS weight_d,\n          SUM(aggr_count_i) AS aggr_count_i\n     FROM lucidfind_signals_aggr\n GROUP BY query_s, doc_id_s, filters_s",
-      "parameters" : [ {
-        "key" : "signalTypeWeights",
-        "value" : "click:1.0,cart:10.0,purchase:25.0"
-      } ],
-      "selectQuery" : "*:*",
-      "sourceRemove" : false,
-      "sourceCatchup" : true,
-      "outputRollup" : true,
-      "hiddenParameters" : [ {
-        "key" : "signalTypes",
-        "value" : "_regex/signalTypeWeights/([\\w\\-\\.]*):([\\d\\.\\-]*)(,|$)/'$1'$3/g"
-      }, {
-        "key" : "optimizeOutput",
-        "value" : "4"
-      } ],
-      "skipCheckEnabled" : true,
-      "notes" : "Computes an aggregated weight for each query / item combination found in the signals collection. The weight for each group is computed using an exponential time-decay on signal count (30 day half-life) and a weighted sum based on the signal type. Use the 'signalTypeWeights' parameter to set the correct signal types and weights for your dataset. The results of this job can be used to boost documents at query time using the boosting stage."
-    }, {
-      "type" : "headTailAnalysis",
-      "id" : "users_shub_head_tail",
-      "randomSeed" : 1234,
-      "trainingCollection" : "users_shub_signals",
-      "outputCollection" : "users_shub_signals_aggr",
-      "overwriteOutput" : true,
-      "trainingDataFilterQuery" : "type:click OR type:response",
-      "fieldToVectorize" : "query",
-      "trainingDataFrameConfigOptions" : { },
-      "analyzerConfigQuery" : "{ \"analyzers\": [ { \"name\": \"StdTokLowerStem\",\"charFilters\": [ { \"type\": \"htmlstrip\" } ],\"tokenizer\": { \"type\": \"standard\" },\"filters\": [{ \"type\": \"lowercase\" },{ \"type\": \"englishminimalstem\" }] }],\"fields\": [{ \"regex\": \".+\", \"analyzer\": \"StdTokLowerStem\" } ]}",
-      "countField" : "count_i",
-      "mainType" : "click",
-      "filterType" : "response",
-      "signalTypeField" : "type",
-      "minCountMain" : 1,
-      "minCountFilter" : 20,
-      "queryLenThreshold" : 2,
-      "userHead" : -1.0,
-      "userTail" : -1.0,
-      "topQ" : [ 100.0, 0.01 ],
-      "trafficPerc" : [ 0.25, 0.5, 0.75 ],
-      "lastTraffic" : [ 0.01 ],
-      "trafficCount" : [ 5.0 ],
-      "overlapThreshold" : 4,
-      "lenScale" : 6,
-      "overlapNumBoost" : 10.0,
-      "headQueryCntBoost" : 1.0,
-      "tailRewrite" : true,
-      "dataFormat" : "solr",
-      "trainingDataSamplingFraction" : 1.0,
-      "stopwordsList" : [ ]
     }, {
       "type" : "sql_template",
       "id" : "lucidfind_session_rollup",
@@ -8632,8 +7107,8 @@
       "filename" : "lucidworks.github-4.1.0-SNAPSHOT.zip",
       "contentType" : "application/zip",
       "size" : 954924,
-      "modifiedTime" : "2018-06-05T19:26:36.652Z",
-      "version" : 1602461941528264704,
+      "modifiedTime" : "2018-06-08T18:13:19.584Z",
+      "version" : 1602729121766440960,
       "md5" : "f66ef3278168bf7e8cc4e5d0a7843657",
       "metadata" : {
         "bootstrapped" : "false",
@@ -8648,8 +7123,8 @@
       "filename" : "lucidworks.jira-4.1.0-SNAPSHOT.zip",
       "contentType" : "application/zip",
       "size" : 970875,
-      "modifiedTime" : "2018-06-05T19:26:36.951Z",
-      "version" : 1602461941840740352,
+      "modifiedTime" : "2018-06-08T18:13:19.867Z",
+      "version" : 1602729122064236544,
       "md5" : "bb40c50f6cfd0c79a94b962ffef33442",
       "metadata" : {
         "bootstrapped" : "false",
@@ -8664,8 +7139,8 @@
       "filename" : "lucidworks.twitter-stream-4.1.0-SNAPSHOT.zip",
       "contentType" : "application/zip",
       "size" : 530906,
-      "modifiedTime" : "2018-06-05T19:26:37.251Z",
-      "version" : 1602461942156361728,
+      "modifiedTime" : "2018-06-08T18:13:20.175Z",
+      "version" : 1602729122386149376,
       "md5" : "a01dd33dd12d3ae200bf6276d64d86c2",
       "metadata" : {
         "bootstrapped" : "false",
@@ -16959,103 +15434,6 @@
         "aliasExpiration" : 1
       }
     }, {
-      "id" : "twitter-lucidworks",
-      "created" : "2018-06-04T21:35:38.580Z",
-      "modified" : "2018-06-04T21:35:38.580Z",
-      "connector" : "lucid.twitter-stream",
-      "type" : "twitter_stream",
-      "pipeline" : "twitter-default",
-      "parserId" : "searchhub",
-      "properties" : {
-        "filter_track" : [ ],
-        "commit_on_finish" : true,
-        "consumer_secret" : "${secret.2.consumer_secret}",
-        "collection" : "lucidfind",
-        "url" : "https://stream.twitter.com",
-        "initial_mapping" : {
-          "mappings" : [ {
-            "source" : "project",
-            "operation" : "set",
-            "target" : "lucidworks"
-          }, {
-            "source" : "project_label",
-            "operation" : "set",
-            "target" : "Lucidworks"
-          }, {
-            "source" : "datasource_label",
-            "operation" : "set",
-            "target" : "Lucidworks Twitter"
-          }, {
-            "source" : "source_s",
-            "operation" : "set",
-            "target" : "twitter"
-          }, {
-            "source" : "isBot",
-            "operation" : "set",
-            "target" : "false"
-          }, {
-            "source" : "userName",
-            "operation" : "copy",
-            "target" : "person_ss"
-          }, {
-            "source" : "userMentionName",
-            "operation" : "copy",
-            "target" : "person_ss"
-          }, {
-            "source" : "person_ss",
-            "operation" : "copy",
-            "target" : "person_t"
-          }, {
-            "source" : "userMentionScreenName",
-            "operation" : "copy",
-            "target" : "person_t"
-          }, {
-            "source" : "userScreenName",
-            "operation" : "copy",
-            "target" : "person_t"
-          }, {
-            "source" : "userName",
-            "operation" : "move",
-            "target" : "author_s"
-          }, {
-            "source" : "author_s",
-            "operation" : "copy",
-            "target" : "author_t"
-          }, {
-            "source" : "userScreenName",
-            "operation" : "copy",
-            "target" : "author_t"
-          }, {
-            "source" : "createdAt",
-            "operation" : "move",
-            "target" : "publishedOnDate"
-          }, {
-            "source" : "tweet",
-            "operation" : "move",
-            "target" : "content_t"
-          }, {
-            "source" : "tagText",
-            "operation" : "move",
-            "target" : "tags_ss"
-          }, {
-            "source" : "tags_ss",
-            "operation" : "copy",
-            "target" : "tags_t"
-          } ],
-          "reservedFieldsMappingAllowed" : false,
-          "skip" : false,
-          "id" : "FromMap",
-          "type" : "field-mapping"
-        },
-        "access_token" : "50706020-DOEIcT034Uo3xnJDxQCwyea2SXrR9XMArnwJnmhUE",
-        "consumer_key" : "8ZipD7bAjauimGKAsMjjOwKPV",
-        "sleep" : 10000,
-        "token_secret" : "${secret.3.token_secret}",
-        "filter_locations" : [ ],
-        "max_docs" : -1,
-        "filter_follow" : [ "19731100", "50706020", "1248421" ]
-      }
-    }, {
       "id" : "website-ambari-ambari-website",
       "created" : "2018-06-04T21:35:48.731Z",
       "modified" : "2018-06-04T21:35:48.731Z",
@@ -17277,7 +15655,7 @@
           "id" : "FromMap",
           "type" : "field-mapping"
         },
-        "f.github_password" : "${secret.4.f.github_password}",
+        "f.github_password" : "${secret.2.f.github_password}",
         "f.pull_request_comments" : false,
         "f.branches" : true,
         "f.commit_comments" : false,
@@ -17539,7 +15917,7 @@
           "id" : "FromMap",
           "type" : "field-mapping"
         },
-        "f.github_password" : "${secret.5.f.github_password}",
+        "f.github_password" : "${secret.3.f.github_password}",
         "f.pull_request_comments" : false,
         "f.branches" : true,
         "f.commit_comments" : false,
@@ -23201,7 +21579,7 @@
           "id" : "FromMap",
           "type" : "field-mapping"
         },
-        "f.github_password" : "${secret.6.f.github_password}",
+        "f.github_password" : "${secret.4.f.github_password}",
         "f.pull_request_comments" : false,
         "f.branches" : true,
         "f.commit_comments" : false,
@@ -25206,7 +23584,7 @@
           "id" : "FromMap",
           "type" : "field-mapping"
         },
-        "f.github_password" : "${secret.7.f.github_password}",
+        "f.github_password" : "${secret.5.f.github_password}",
         "f.pull_request_comments" : false,
         "f.branches" : true,
         "f.commit_comments" : false,
@@ -25786,103 +24164,6 @@
         "aliasExpiration" : 1
       }
     }, {
-      "id" : "twitter-solr",
-      "created" : "2018-06-04T21:35:57.330Z",
-      "modified" : "2018-06-04T21:35:57.330Z",
-      "connector" : "lucid.twitter-stream",
-      "type" : "twitter_stream",
-      "pipeline" : "twitter-default",
-      "parserId" : "searchhub",
-      "properties" : {
-        "filter_track" : [ "solr" ],
-        "commit_on_finish" : true,
-        "consumer_secret" : "${secret.8.consumer_secret}",
-        "collection" : "lucidfind",
-        "url" : "https://stream.twitter.com",
-        "initial_mapping" : {
-          "mappings" : [ {
-            "source" : "project",
-            "operation" : "set",
-            "target" : "solr"
-          }, {
-            "source" : "project_label",
-            "operation" : "set",
-            "target" : "Apache Solr"
-          }, {
-            "source" : "datasource_label",
-            "operation" : "set",
-            "target" : "Apache Solr Twitter"
-          }, {
-            "source" : "source_s",
-            "operation" : "set",
-            "target" : "twitter"
-          }, {
-            "source" : "isBot",
-            "operation" : "set",
-            "target" : "false"
-          }, {
-            "source" : "userName",
-            "operation" : "copy",
-            "target" : "person_ss"
-          }, {
-            "source" : "userMentionName",
-            "operation" : "copy",
-            "target" : "person_ss"
-          }, {
-            "source" : "person_ss",
-            "operation" : "copy",
-            "target" : "person_t"
-          }, {
-            "source" : "userMentionScreenName",
-            "operation" : "copy",
-            "target" : "person_t"
-          }, {
-            "source" : "userScreenName",
-            "operation" : "copy",
-            "target" : "person_t"
-          }, {
-            "source" : "userName",
-            "operation" : "move",
-            "target" : "author_s"
-          }, {
-            "source" : "author_s",
-            "operation" : "copy",
-            "target" : "author_t"
-          }, {
-            "source" : "userScreenName",
-            "operation" : "copy",
-            "target" : "author_t"
-          }, {
-            "source" : "createdAt",
-            "operation" : "move",
-            "target" : "publishedOnDate"
-          }, {
-            "source" : "tweet",
-            "operation" : "move",
-            "target" : "content_t"
-          }, {
-            "source" : "tagText",
-            "operation" : "move",
-            "target" : "tags_ss"
-          }, {
-            "source" : "tags_ss",
-            "operation" : "copy",
-            "target" : "tags_t"
-          } ],
-          "reservedFieldsMappingAllowed" : false,
-          "skip" : false,
-          "id" : "FromMap",
-          "type" : "field-mapping"
-        },
-        "access_token" : "50706020-DOEIcT034Uo3xnJDxQCwyea2SXrR9XMArnwJnmhUE",
-        "consumer_key" : "8ZipD7bAjauimGKAsMjjOwKPV",
-        "sleep" : 10000,
-        "token_secret" : "${secret.9.token_secret}",
-        "filter_locations" : [ ],
-        "max_docs" : -1,
-        "filter_follow" : [ ]
-      }
-    }, {
       "id" : "stack-stack-overflow",
       "created" : "2018-06-04T21:36:03.533Z",
       "modified" : "2018-06-04T21:36:03.533Z",
@@ -26170,12 +24451,12 @@
       "type" : "string"
     }
   }, {
-    "id" : "secret.2.consumer_secret",
+    "id" : "secret.2.f.github_password",
     "schema" : {
       "type" : "string"
     }
   }, {
-    "id" : "secret.3.token_secret",
+    "id" : "secret.3.f.github_password",
     "schema" : {
       "type" : "string"
     }
@@ -26189,32 +24470,12 @@
     "schema" : {
       "type" : "string"
     }
-  }, {
-    "id" : "secret.6.f.github_password",
-    "schema" : {
-      "type" : "string"
-    }
-  }, {
-    "id" : "secret.7.f.github_password",
-    "schema" : {
-      "type" : "string"
-    }
-  }, {
-    "id" : "secret.8.consumer_secret",
-    "schema" : {
-      "type" : "string"
-    }
-  }, {
-    "id" : "secret.9.token_secret",
-    "schema" : {
-      "type" : "string"
-    }
   } ],
   "metadata" : {
     "formatVersion" : "1",
     "exportedBy" : "default-subject",
-    "exportedDate" : "2018-06-05T19:55:21.499Z",
+    "exportedDate" : "2018-06-08T18:18:43.400Z",
     "fusionVersion" : "4.1.0-SNAPSHOT",
-    "fusionGuid" : "226ffddf-00ef-47ad-98d0-f7687cc443a0"
+    "fusionGuid" : "0fe84639-7d87-4677-badd-9d6bf4c89f79"
   }
 }

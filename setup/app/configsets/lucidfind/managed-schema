@@ -446,6 +446,8 @@
   <field indexed="true" multiValued="false" name="isBot" required="false" stored="true" type="boolean"/>
   <field indexed="true" multiValued="false" name="productName" required="false" stored="true" type="string"/>
   <field indexed="true" multiValued="false" name="threadId" required="false" stored="true" type="string"/>
+  <field indexed="true" multiValued="false" name="publishedOnDate" required="false" stored="true" type="pdate"/>
+  <field indexed="true" multiValued="false" name="productVersion" required="false" stored="true" type="pfloat"/>
   <dynamicField indexed="true" name="*_txt_en_split_tight" stored="true" type="text_en_splitting_tight"/>
   <dynamicField indexed="true" name="*_descendent_path" stored="true" type="descendent_path"/>
   <dynamicField indexed="true" name="*_ancestor_path" stored="true" type="ancestor_path"/>

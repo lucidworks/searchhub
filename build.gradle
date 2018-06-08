@@ -129,62 +129,6 @@ task deployLibs(dependsOn: [deployLibsToSpark, deployLibsToApi]) {
   }
 }
 
-task installNPM(type: Exec) {
-  commandLine "$npm_exec", 'install'
-}
-
-task installBower(type: Exec, dependsOn: [installNPM]) {
-  commandLine 'node_modules/bower/bin/bower', 'install'
-}
-
-task setupPythonVirtualEnv(type: Exec) {
-  commandLine 'virtualenv', 'venv'
-}
-
-task activatePythonVirtualEnv(type: Exec, dependsOn: [setupPythonVirtualEnv]) {
-  commandLine 'bash', '-c', 'source venv/bin/activate'
-}
-
-task installPythonReqs(type: Exec, dependsOn: [activatePythonVirtualEnv]) {
-  commandLine 'venv/bin/pip', 'install', '-r', 'python/requirements.txt'
-}
-
-task installPython(dependsOn: [installPythonReqs]) {
-  doFirst {
-    println("Installing Python")
-  }
-}
-
-task install(dependsOn: [checkRequiredProperties, deployLibs, installNPM, installBower, installPython]) {
-  doFirst {
-    println("Installing Dependencies and other Requirements")
-  }
-  doLast {
-    println("!!!!!!! DON'T FORGET TO RESTART FUSION !!!!!!!!!")
-  }
-}
-
-//Primarily used when Fusion is running somewhere else and we don't need to build/install Fusion plugins locally
-task installNoLibDeploy(dependsOn: [checkRequiredProperties, installNPM, installBower, installPython]) {
-
-}
-
-task gulpConfig(type: Exec) {
-  commandLine 'node_modules/gulp/bin/gulp.js', 'copy:configSample'
-}
-
-task gulpBuild(type: Exec) {
-  commandLine 'node_modules/gulp/bin/gulp.js', 'build'
-}
-
-task buildUI(dependsOn: [gulpConfig, gulpBuild]) {
-
-}
-
-task build(dependsOn: [buildUI]) {
-
-}
-
 task compile(dependsOn: [deployLibs]){
 
 }

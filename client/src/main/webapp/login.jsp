@@ -37,7 +37,7 @@
             branding-class="branding"
             logo="${pageContext.request.contextPath}/assets/squarelogo.png"
             logo-width="65"
-            title="Enterprise Search"
+            title="SearchHub"
             title-element="h1"
             username-class="field required field-email"
             username-label="Username"

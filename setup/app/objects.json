@@ -3286,13 +3286,19 @@
       "id" : "searchhub",
       "enableMediaTypeDetection" : true,
       "maxParserDepth" : 16,
+      "parserStages" : [ ],
+      "editPanel" : { }
+    }, {
+      "id" : "website",
+      "enableMediaTypeDetection" : true,
+      "maxParserDepth" : 16,
       "parserStages" : [ {
         "type" : "archive",
         "enabled" : true,
         "mediaTypes" : [ ],
         "pathPatterns" : [ ],
         "errorHandling" : "mark",
-        "id" : "ab093ac7-9a3e-4803-9bed-8b25acccdd5e",
+        "id" : "60daee59-c669-4508-8dde-0bad03a476ff",
         "alwaysDetect" : true,
         "inheritMediaTypes" : true,
         "outputFieldPrefix" : ""
@@ -3302,7 +3308,7 @@
         "mediaTypes" : [ ],
         "pathPatterns" : [ ],
         "errorHandling" : "mark",
-        "id" : "53efa73d-2584-4446-83d3-055a51a2e168",
+        "id" : "2b85ca9a-74de-4606-8d2f-d7c2a6a15ed9",
         "charset" : "detect",
         "ignoreBOM" : false,
         "autoDetect" : true,
@@ -3325,7 +3331,7 @@
         "mediaTypes" : [ ],
         "pathPatterns" : [ ],
         "errorHandling" : "mark",
-        "id" : "3986a22b-27c6-4a34-a266-6a908e880016",
+        "id" : "0cd948fb-9cd0-408b-b89f-020ef2ef60c3",
         "splitArrays" : true,
         "includePath" : false,
         "mappings" : [ ],
@@ -3338,7 +3344,7 @@
         "mediaTypes" : [ ],
         "pathPatterns" : [ ],
         "errorHandling" : "mark",
-        "id" : "189bd494-372d-48fb-b382-8521125b48dc",
+        "id" : "2748e6a5-a13f-413f-a1d6-1d3dcbca0060",
         "rootPaths" : [ "/" ],
         "maxSize" : 65536,
         "listHandling" : "multivalued",
@@ -3350,7 +3356,7 @@
         "mediaTypes" : [ ],
         "pathPatterns" : [ ],
         "errorHandling" : "mark",
-        "id" : "263f1862-a0e0-435d-a421-a73232a70431",
+        "id" : "67ec63f2-3853-4bdf-896b-b519ea294e3c",
         "charset" : "detect",
         "mappings" : [ ],
         "keepParent" : true,
@@ -3365,7 +3371,7 @@
         "mediaTypes" : [ ],
         "pathPatterns" : [ ],
         "errorHandling" : "mark",
-        "id" : "577a6fff-0a97-416a-ad95-d62d7552bf0b",
+        "id" : "d792adc3-906d-410a-9180-7a29a583f670",
         "charset" : "detect",
         "ignoreBOM" : false,
         "maxLength" : 1048576,
@@ -3386,7 +3392,7 @@
         "mediaTypes" : [ ],
         "pathPatterns" : [ ],
         "errorHandling" : "mark",
-        "id" : "3a3c903e-d290-4201-9ad0-00c59e572233",
+        "id" : "b9180ef5-24ef-4125-9273-7a221965ef11",
         "includeImages" : false,
         "flattenCompound" : true,
         "addFailedDocs" : false,
@@ -3408,7 +3414,7 @@
         "mediaTypes" : [ ],
         "pathPatterns" : [ ],
         "errorHandling" : "mark",
-        "id" : "2c0630a0-f817-410c-828f-2dafd9af8d5b",
+        "id" : "c7015611-171d-4945-89e5-4ca5e4c8e69a",
         "metadataOnly" : false,
         "maxBytesToKeep" : 1048576,
         "inheritMediaTypes" : true,
@@ -4177,6 +4183,11 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
+      "subject" : "datasource:one_doc",
+      "object" : "index-pipeline:mailing-list-default",
+      "linkType" : "dependsOn",
+      "originator" : "unspecified"
+    }, {
       "subject" : "datasource:mailing-list-hadoop-hadoop-common-user",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -4677,6 +4688,11 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
+      "subject" : "datasource:one_doc",
+      "object" : "app:searchhub",
+      "linkType" : "inContextOf",
+      "originator" : "unspecified"
+    }, {
       "subject" : "group:b9354f12-a86d-4b7f-9c1d-33353997a6b1",
       "object" : "collection:lucidfind_thread_recs",
       "linkType" : "relatesTo",
@@ -4767,6 +4783,11 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
+      "subject" : "parser:website",
+      "object" : "app:searchhub",
+      "linkType" : "inContextOf",
+      "originator" : "unspecified"
+    }, {
       "subject" : "query-pipeline:lucidfind-recommendations",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -4840,6 +4861,11 @@
       "subject" : "spark:email_subject_weights_aggregation",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
+      "originator" : "unspecified"
+    }, {
+      "subject" : "datasource:one_doc",
+      "object" : "parser:searchhub",
+      "linkType" : "dependsOn",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:mailing-list-thrift-thrift-dev",
@@ -4963,6 +4989,11 @@
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:mailing-list-hadoop-hadoop-common-dev",
+      "object" : "collection:lucidfind",
+      "linkType" : "relatesTo",
+      "originator" : "unspecified"
+    }, {
+      "subject" : "datasource:one_doc",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
       "originator" : "unspecified"
@@ -8108,7 +8139,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -8246,7 +8277,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -8384,7 +8415,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -8790,7 +8821,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -8928,7 +8959,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -9334,7 +9365,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -10410,7 +10441,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -10816,7 +10847,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -11088,7 +11119,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -11226,7 +11257,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -11498,7 +11529,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -11636,7 +11667,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -12176,7 +12207,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -12314,7 +12345,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -12452,7 +12483,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -12590,7 +12621,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -12728,7 +12759,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -13138,7 +13169,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -13812,7 +13843,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -13950,7 +13981,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "lw-com-website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -14096,7 +14127,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -14774,7 +14805,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -15159,7 +15190,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "youtube_parser",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -15302,7 +15333,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -15440,7 +15471,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -15691,7 +15722,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "lw-docs-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -15953,7 +15984,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -16493,7 +16524,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -17033,7 +17064,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -17707,7 +17738,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -18509,6 +18540,129 @@
         "aliasExpiration" : 1
       }
     }, {
+      "id" : "one_doc",
+      "created" : "2018-06-11T18:34:09.249Z",
+      "modified" : "2018-06-11T18:34:09.249Z",
+      "connector" : "lucid.web",
+      "type" : "web",
+      "pipeline" : "mailing-list-default",
+      "parserId" : "searchhub",
+      "properties" : {
+        "refreshOlderThan" : -1,
+        "f.appendTrailingSlashToLinks" : false,
+        "refreshErrors" : false,
+        "restrictToTreeIgnoredHostPrefixes" : [ "www." ],
+        "dedupeSaveSignature" : false,
+        "crawlDBType" : "in-memory",
+        "f.firefoxHeadlessBrowser" : true,
+        "f.discardLinkURLQueries" : false,
+        "fetchDelayMS" : 0,
+        "f.respectMetaEquivRedirects" : false,
+        "refreshAll" : true,
+        "f.defaultMIMEType" : "application/octet-stream",
+        "f.extraLoadTimeMs" : 250,
+        "f.jsPageLoadTimeout" : 20000,
+        "restrictToTreeAllowSubdomains" : false,
+        "f.jsScriptTimeout" : 20000,
+        "f.requestCounterMinWaitMs" : 5000,
+        "maxItems" : -1,
+        "f.jsAjaxTimeout" : 20000,
+        "dedupe" : false,
+        "f.scrapeLinksBeforeFiltering" : false,
+        "trackEmbeddedIDs" : true,
+        "f.allowAllCertificates" : false,
+        "collection" : "lucidfind",
+        "forceRefresh" : false,
+        "f.obeyRobots" : true,
+        "parserRetryCount" : 0,
+        "f.quitTimeoutMs" : 5000,
+        "fetchDelayMSPerHost" : true,
+        "fetchThreads" : 5,
+        "indexCrawlDBToSolr" : false,
+        "f.requestRetryCount" : 0,
+        "retainOutlinks" : false,
+        "restrictToTree" : true,
+        "f.defaultCharSet" : "UTF-8",
+        "f.useRequestCounter" : true,
+        "emitThreads" : 5,
+        "f.headlessBrowser" : true,
+        "f.useFirefox" : false,
+        "f.requestCounterMaxWaitMs" : 20000,
+        "diagnosticMode" : false,
+        "f.followCanonicalTags" : true,
+        "delete" : true,
+        "initial_mapping" : {
+          "mappings" : [ {
+            "source" : "charSet",
+            "operation" : "move",
+            "target" : "charSet_s"
+          }, {
+            "source" : "fetchedDate",
+            "operation" : "move",
+            "target" : "fetchedDate_dt"
+          }, {
+            "source" : "lastModified",
+            "operation" : "move",
+            "target" : "lastModified_dt"
+          }, {
+            "source" : "signature",
+            "operation" : "move",
+            "target" : "dedupeSignature_s"
+          }, {
+            "source" : "contentSignature",
+            "operation" : "move",
+            "target" : "signature_s"
+          }, {
+            "source" : "length",
+            "operation" : "move",
+            "target" : "length_l"
+          }, {
+            "source" : "mimeType",
+            "operation" : "move",
+            "target" : "mimeType_s"
+          }, {
+            "source" : "parent",
+            "operation" : "move",
+            "target" : "parent_s"
+          }, {
+            "source" : "owner",
+            "operation" : "move",
+            "target" : "owner_s"
+          }, {
+            "source" : "group",
+            "operation" : "move",
+            "target" : "group_s"
+          } ],
+          "reservedFieldsMappingAllowed" : false,
+          "skip" : false,
+          "id" : "FromMap",
+          "type" : "field-mapping"
+        },
+        "f.extraPageLoadDeltaChars" : 0,
+        "restrictToTreeUseHostAndPath" : false,
+        "sitemap_incremental_crawling" : false,
+        "f.screenshotFullscreen" : false,
+        "f.filteringRootTags" : [ "body", "head" ],
+        "startLinks" : [ "http://asfmail.lucidworks.io/mail_files/arrow-dev/201605.mbox/raw/%3cCAK7Z5T9=RDSq3Ytt2QXFD2NMrX4_8-tKsVdd9tjdwuS9aT5ZDg@mail.gmail.com%3e" ],
+        "failFastOnStartLinkFailure" : true,
+        "f.timeoutMS" : 10000,
+        "f.discardLinkURLAnchors" : true,
+        "chunkSize" : 1,
+        "f.simulateMobile" : false,
+        "f.obeyRobotsDelay" : true,
+        "f.useHighPerfJsEval" : false,
+        "deleteErrorsAfter" : -1,
+        "f.userAgentName" : "Lucidworks-Anda/2.0",
+        "retryEmit" : true,
+        "f.crawlJS" : false,
+        "depth" : -1,
+        "f.cookieSpec" : "browser-compatibility",
+        "refreshStartLinks" : false,
+        "f.maxSizeBytes" : 4194304,
+        "aliasExpiration" : 1,
+        "f.takeScreenshot" : false
+      }
+    }, {
       "id" : "mailing-list-pig-pig-dev",
       "created" : "2018-06-04T21:35:20.481Z",
       "modified" : "2018-06-04T21:35:20.481Z",
@@ -19051,7 +19205,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "lw-com-website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -19195,7 +19349,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -19601,7 +19755,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -19873,7 +20027,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -20145,7 +20299,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "lw-com-website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -20686,7 +20840,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -20824,7 +20978,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "lw-com-website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -21096,7 +21250,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -22419,7 +22573,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -22691,7 +22845,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -23369,7 +23523,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -23620,7 +23774,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "lw-docs-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -23898,7 +24052,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -24312,7 +24466,7 @@
       "connector" : "lucid.web",
       "type" : "web",
       "pipeline" : "website-default",
-      "parserId" : "searchhub",
+      "parserId" : "website",
       "properties" : {
         "refreshOlderThan" : -1,
         "f.appendTrailingSlashToLinks" : false,
@@ -24474,7 +24628,7 @@
   "metadata" : {
     "formatVersion" : "1",
     "exportedBy" : "default-subject",
-    "exportedDate" : "2018-06-08T18:18:43.400Z",
+    "exportedDate" : "2018-06-11T18:48:40.903Z",
     "fusionVersion" : "4.1.0-SNAPSHOT",
     "fusionGuid" : "0fe84639-7d87-4677-badd-9d6bf4c89f79"
   }

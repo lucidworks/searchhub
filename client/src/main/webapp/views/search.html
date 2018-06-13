@@ -88,7 +88,14 @@
                             <track:clicks query=query>
 
                                 <!-- Show all search results, in DEBUG mode -->
-                                <search:result-list response="response" styling="cards-sm-1 cards-lg-1 cards-xl-1"></search:result-list>
+                                <search:result-list response="response" styling="cards-sm-1 cards-lg-1 cards-xl-1">
+                                    <search:result when="display_type_s" equals="stack_overflow">
+                                        <layout:include file="views/partials/stack.tpl.html"  result="{{result}}"></layout:include>
+                                    </search:result>
+                                    <search:result when="display_type_s" equals="mailing_list">
+                                        <layout:include file="views/partials/mail.tpl.html"  result="{{result}}"></layout:include>
+                                    </search:result>
+                                </search:result-list>
 
                                 <!-- Then pick out a few specific fields to show -->
                                 <!--

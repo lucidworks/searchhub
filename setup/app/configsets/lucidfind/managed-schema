@@ -421,8 +421,11 @@
       <tokenizer class="solr.WhitespaceTokenizerFactory"/>
     </analyzer>
   </fieldType>
+  <field name="Content_Encoding" type="text_general"/>
   <field name="Content_Length" type="plongs"/>
+  <field name="Content_Location" type="text_general"/>
   <field name="Content_Type" type="text_general"/>
+  <field name="X_Parsed_By" type="text_general"/>
   <field name="_raw_content_" type="binary" multiValued="false" indexed="false" required="false" stored="true"/>
   <field name="_root_" type="string" docValues="false" indexed="true" stored="false"/>
   <field name="_text_" type="text_general" multiValued="true" indexed="true" stored="false"/>
@@ -431,16 +434,32 @@
   <field name="author" type="text_en" multiValued="false" indexed="true" required="false" stored="true"/>
   <field name="author_facet" type="string" multiValued="true" indexed="true" required="false" stored="true"/>
   <field name="body" type="text_en" multiValued="false" indexed="true" required="false" stored="true"/>
+  <field name="body.links.anchor" type="text_general"/>
+  <field name="body.links.params.alt" type="text_general"/>
+  <field name="body.links.targetUri" type="text_general"/>
+  <field name="body.links.type" type="text_general"/>
   <field name="comments" type="text_en" multiValued="false" indexed="true" required="false" stored="true"/>
   <field name="content" type="text_en" multiValued="false" indexed="true" required="false" stored="true"/>
   <field name="datasource_label" type="string" multiValued="false" indexed="true" required="false" stored="true"/>
+  <field name="dateCreated" type="pdates"/>
+  <field name="depth" type="plongs"/>
   <field name="description" type="text_en" multiValued="false" indexed="true" required="false" stored="true"/>
+  <field name="fileSize" type="plongs"/>
   <field name="filename" type="text_en" multiValued="false" indexed="true" required="false" stored="true"/>
   <field name="filename_exact" type="string" multiValued="false" indexed="true" required="false" stored="true"/>
+  <field name="from" type="text_general"/>
+  <field name="from_email" type="text_general"/>
+  <field name="hash_id" type="text_general"/>
   <field name="id" type="string" multiValued="false" indexed="true" required="true" stored="true"/>
+  <field name="in_reply_to" type="text_general"/>
   <field name="isBot" type="boolean" multiValued="false" indexed="true" required="false" stored="true"/>
   <field name="keywords" type="text_en" multiValued="false" indexed="true" required="false" stored="true"/>
+  <field name="lastModified" type="pdates"/>
+  <field name="list" type="text_general"/>
+  <field name="list_type" type="text_general"/>
+  <field name="message_id" type="text_general"/>
   <field name="mimeType" type="string" multiValued="false" indexed="true" required="false" stored="true"/>
+  <field name="number" type="plongs"/>
   <field name="og_description" type="text_en" multiValued="false" indexed="true" required="false" stored="true"/>
   <field name="parsing" type="text_general"/>
   <field name="parsing_time" type="plongs"/>
@@ -451,6 +470,7 @@
   <field name="publishedOnDate" type="pdate" multiValued="false" indexed="true" required="false" stored="true"/>
   <field name="resourceName" type="text_general"/>
   <field name="subject" type="text_en" multiValued="false" indexed="true" required="false" stored="true"/>
+  <field name="subject_simple" type="text_general"/>
   <field name="suggest" type="suggesterFT" multiValued="true" indexed="true" required="false" stored="true"/>
   <field name="threadId" type="string" multiValued="false" indexed="true" required="false" stored="true"/>
   <field name="title" type="text_en" multiValued="false" indexed="true" required="false" stored="true"/>
@@ -529,4 +549,19 @@
   <copyField source="Content_Type" dest="Content_Type_str" maxChars="256"/>
   <copyField source="resourceName" dest="resourceName_str" maxChars="256"/>
   <copyField source="parsing" dest="parsing_str" maxChars="256"/>
+  <copyField source="Content_Encoding" dest="Content_Encoding_str" maxChars="256"/>
+  <copyField source="Content_Location" dest="Content_Location_str" maxChars="256"/>
+  <copyField source="body.links.type" dest="body.links.type_str" maxChars="256"/>
+  <copyField source="X_Parsed_By" dest="X_Parsed_By_str" maxChars="256"/>
+  <copyField source="body.links.anchor" dest="body.links.anchor_str" maxChars="256"/>
+  <copyField source="body.links.targetUri" dest="body.links.targetUri_str" maxChars="256"/>
+  <copyField source="body.links.params.alt" dest="body.links.params.alt_str" maxChars="256"/>
+  <copyField source="list_type" dest="list_type_str" maxChars="256"/>
+  <copyField source="subject_simple" dest="subject_simple_str" maxChars="256"/>
+  <copyField source="from_email" dest="from_email_str" maxChars="256"/>
+  <copyField source="message_id" dest="message_id_str" maxChars="256"/>
+  <copyField source="from" dest="from_str" maxChars="256"/>
+  <copyField source="list" dest="list_str" maxChars="256"/>
+  <copyField source="in_reply_to" dest="in_reply_to_str" maxChars="256"/>
+  <copyField source="hash_id" dest="hash_id_str" maxChars="256"/>
 </schema>

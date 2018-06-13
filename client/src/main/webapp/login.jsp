@@ -8,7 +8,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Enterprise Search</title>
+    <title>Lucidworks SearchHub</title>
     <meta name="description" content="">
     <meta name="author" content="Twigkit">
     <meta name="viewport" content="minimal-ui, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, width=440">
@@ -37,7 +37,7 @@
             branding-class="branding"
             logo="${pageContext.request.contextPath}/assets/squarelogo.png"
             logo-width="65"
-            title="SearchHub"
+            title="Lucidworks SearchHub"
             title-element="h1"
             username-class="field required field-email"
             username-label="Username"

@@ -1,3 +1,4 @@
+client/logs
 client/dist
 client/target
 myenv.sh

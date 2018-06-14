@@ -1427,355 +1427,6 @@
       }
     } ],
     "queryPipelines" : [ {
-      "id" : "users_shub",
-      "stages" : [ {
-        "type" : "recommendation",
-        "id" : "08db7c61-452f-4c32-bb89-2b285d168b05",
-        "numRecommendations" : 10,
-        "numSignals" : 100,
-        "aggrType" : "click@doc_id,filters,query",
-        "boostId" : "id",
-        "boostingMethod" : "query-param",
-        "boostingParam" : "boost",
-        "queryParams" : [ {
-          "key" : "qf",
-          "value" : "query_t"
-        }, {
-          "key" : "pf",
-          "value" : "query_t^50"
-        }, {
-          "key" : "pf",
-          "value" : "query_t~3^20"
-        }, {
-          "key" : "pf2",
-          "value" : "query_t^20"
-        }, {
-          "key" : "pf2",
-          "value" : "query_t~3^10"
-        }, {
-          "key" : "pf3",
-          "value" : "query_t^10"
-        }, {
-          "key" : "pf3",
-          "value" : "query_t~3^5"
-        }, {
-          "key" : "boost",
-          "value" : "map(query({!field f=query_s v=$q}),0,0,1,20)"
-        }, {
-          "key" : "mm",
-          "value" : "50%"
-        }, {
-          "key" : "defType",
-          "value" : "edismax"
-        }, {
-          "key" : "sort",
-          "value" : "score desc, weight_d desc"
-        } ],
-        "rollupField" : "doc_id_s",
-        "rollupWeightField" : "weight_d",
-        "weightExpression" : "math:log(weight_d + 1) + 10 * math:log(score+1)",
-        "rollupWeightStrategy" : "max",
-        "type" : "recommendation",
-        "skip" : false,
-        "licensed" : true,
-        "secretSourceStageId" : "08db7c61-452f-4c32-bb89-2b285d168b05"
-      }, {
-        "type" : "search-fields",
-        "id" : "4866ab10-2d25-43a7-b382-d2016d3b070f",
-        "rows" : 10,
-        "start" : 0,
-        "queryFields" : [ ],
-        "returnFields" : [ "*", "score" ],
-        "type" : "search-fields",
-        "skip" : false,
-        "licensed" : true,
-        "secretSourceStageId" : "4866ab10-2d25-43a7-b382-d2016d3b070f"
-      }, {
-        "type" : "facet",
-        "id" : "572d0274-0cad-4ecf-96e0-acff18a791c5",
-        "fieldFacets" : [ ],
-        "type" : "facet",
-        "skip" : false,
-        "licensed" : true,
-        "secretSourceStageId" : "572d0274-0cad-4ecf-96e0-acff18a791c5"
-      }, {
-        "type" : "solr-query",
-        "id" : "ebbb46cd-6fcf-42d0-8d34-9bf5d0786fca",
-        "allowedRequestHandlers" : [ ],
-        "httpMethod" : "POST",
-        "allowFederatedSearch" : false,
-        "type" : "solr-query",
-        "skip" : false,
-        "licensed" : true,
-        "secretSourceStageId" : "ebbb46cd-6fcf-42d0-8d34-9bf5d0786fca"
-      } ],
-      "properties" : {
-        "secretSourcePipelineId" : "users_shub"
-      }
-    }, {
-      "id" : "lucidfind",
-      "stages" : [ {
-        "type" : "recommendation",
-        "id" : "a8244e70-caad-4d59-99b7-88e3b75eb76e",
-        "numRecommendations" : 10,
-        "numSignals" : 100,
-        "aggrType" : "click@doc_id,filters,query",
-        "boostId" : "id",
-        "boostingMethod" : "query-param",
-        "boostingParam" : "boost",
-        "queryParams" : [ {
-          "key" : "qf",
-          "value" : "query_t"
-        }, {
-          "key" : "pf",
-          "value" : "query_t^50"
-        }, {
-          "key" : "pf",
-          "value" : "query_t~3^20"
-        }, {
-          "key" : "pf2",
-          "value" : "query_t^20"
-        }, {
-          "key" : "pf2",
-          "value" : "query_t~3^10"
-        }, {
-          "key" : "pf3",
-          "value" : "query_t^10"
-        }, {
-          "key" : "pf3",
-          "value" : "query_t~3^5"
-        }, {
-          "key" : "boost",
-          "value" : "map(query({!field f=query_s v=$q}),0,0,1,20)"
-        }, {
-          "key" : "mm",
-          "value" : "50%"
-        }, {
-          "key" : "defType",
-          "value" : "edismax"
-        }, {
-          "key" : "sort",
-          "value" : "score desc, weight_d desc"
-        } ],
-        "rollupField" : "doc_id_s",
-        "rollupWeightField" : "weight_d",
-        "weightExpression" : "math:log(weight_d + 1) + 10 * math:log(score+1)",
-        "rollupWeightStrategy" : "max",
-        "type" : "recommendation",
-        "skip" : false,
-        "licensed" : true,
-        "secretSourceStageId" : "a8244e70-caad-4d59-99b7-88e3b75eb76e"
-      }, {
-        "type" : "search-fields",
-        "id" : "3453221a-cd39-4d1d-b303-02a197381174",
-        "rows" : 10,
-        "start" : 0,
-        "queryFields" : [ ],
-        "returnFields" : [ "*", "score" ],
-        "type" : "search-fields",
-        "skip" : false,
-        "licensed" : true,
-        "secretSourceStageId" : "3453221a-cd39-4d1d-b303-02a197381174"
-      }, {
-        "type" : "facet",
-        "id" : "2bf9230c-e2ad-4ed6-888c-912b8cee6c75",
-        "fieldFacets" : [ ],
-        "type" : "facet",
-        "skip" : false,
-        "licensed" : true,
-        "secretSourceStageId" : "2bf9230c-e2ad-4ed6-888c-912b8cee6c75"
-      }, {
-        "type" : "solr-query",
-        "id" : "43183f9b-686a-4b74-9cda-2170c0091cfb",
-        "allowedRequestHandlers" : [ ],
-        "httpMethod" : "POST",
-        "allowFederatedSearch" : false,
-        "type" : "solr-query",
-        "skip" : false,
-        "licensed" : true,
-        "secretSourceStageId" : "43183f9b-686a-4b74-9cda-2170c0091cfb"
-      } ],
-      "properties" : {
-        "secretSourcePipelineId" : "lucidfind"
-      }
-    }, {
-      "id" : "site-search-blog",
-      "stages" : [ {
-        "type" : "run-query-pipeline",
-        "id" : "e8czo7r5d8n9izfr",
-        "pipelineToRun" : "site-search-base",
-        "type" : "run-query-pipeline",
-        "skip" : false,
-        "label" : "run-query-pipeline",
-        "licensed" : true,
-        "secretSourceStageId" : "e8czo7r5d8n9izfr"
-      }, {
-        "type" : "set-params",
-        "id" : "rrukkxs29r53o9a4i",
-        "params" : [ {
-          "key" : "fq",
-          "value" : "site_search_s:blog",
-          "policy" : "append"
-        } ],
-        "type" : "set-params",
-        "skip" : false,
-        "label" : "QueryParams - FilterQuery",
-        "licensed" : true,
-        "secretSourceStageId" : "rrukkxs29r53o9a4i"
-      }, {
-        "type" : "set-params",
-        "id" : "ykzta24zy5fp3nmi",
-        "params" : [ {
-          "key" : "fl",
-          "value" : "title content body subject accepted_answer_txt answer_txt",
-          "policy" : "append"
-        } ],
-        "type" : "set-params",
-        "skip" : false,
-        "label" : "QueryParams - Wildcard Queries",
-        "condition" : "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\"",
-        "licensed" : true,
-        "secretSourceStageId" : "ykzta24zy5fp3nmi"
-      }, {
-        "type" : "solr-query",
-        "id" : "uft581ubvcth85mi",
-        "allowedRequestHandlers" : [ ],
-        "httpMethod" : "POST",
-        "allowFederatedSearch" : false,
-        "type" : "solr-query",
-        "skip" : false,
-        "label" : "solr-query",
-        "licensed" : true,
-        "secretSourceStageId" : "uft581ubvcth85mi"
-      } ],
-      "properties" : {
-        "secretSourcePipelineId" : "site-search-blog"
-      }
-    }, {
-      "id" : "cf-similar-items-rec",
-      "stages" : [ {
-        "type" : "sub-query",
-        "id" : "zxzdunmi",
-        "key" : "topusers",
-        "collection" : "lucidfind_signals_aggr",
-        "handler" : "select",
-        "method" : "GET",
-        "parentParams" : [ "subjectSimple" ],
-        "rollupKeys" : [ ],
-        "params" : [ {
-          "key" : "fl",
-          "value" : "from_email_s,weight_d"
-        }, {
-          "key" : "rows",
-          "value" : "100"
-        }, {
-          "key" : "sort",
-          "value" : "weight_d desc"
-        }, {
-          "key" : "q",
-          "value" : "{!term f='subject_simple_s' v=$subjectSimple}"
-        }, {
-          "key" : "fq",
-          "value" : "-from_email_s:lucene-cvs@jakarta.apache.org"
-        }, {
-          "key" : "fq",
-          "value" : "-from_email_s:bugzilla@apache.org"
-        }, {
-          "key" : "debugQuery",
-          "value" : "true"
-        } ],
-        "headers" : [ ],
-        "type" : "sub-query",
-        "skip" : false,
-        "label" : "Get top users for the given thread",
-        "licensed" : true,
-        "secretSourceStageId" : "zxzdunmi"
-      }, {
-        "type" : "query-logging",
-        "id" : "o45qm2t9",
-        "detailed" : true,
-        "type" : "query-logging",
-        "skip" : true,
-        "label" : "query-logging",
-        "licensed" : true,
-        "secretSourceStageId" : "o45qm2t9"
-      }, {
-        "type" : "rollup-rec-aggr",
-        "id" : "6l1pp66r",
-        "key" : "topusers",
-        "resultKey" : "userrollup",
-        "rollupField" : "from_email_s",
-        "weightField" : "weight_d",
-        "weightFunction" : "sum",
-        "maxRows" : 100,
-        "sort" : true,
-        "type" : "rollup-rec-aggr",
-        "skip" : false,
-        "label" : "Rollup on the user ids from sub-query",
-        "licensed" : true,
-        "secretSourceStageId" : "6l1pp66r"
-      }, {
-        "type" : "sub-query",
-        "id" : "ozrdlsor",
-        "key" : "topRelatedSignalsDocs",
-        "collection" : "lucidfind_signals_aggr",
-        "handler" : "select",
-        "method" : "GET",
-        "parentParams" : [ ],
-        "rollupKeys" : [ "userrollup" ],
-        "params" : [ {
-          "key" : "q",
-          "value" : "{!type=edismax qf=from_email_s v=$userrollup}"
-        }, {
-          "key" : "rows",
-          "value" : "10"
-        }, {
-          "key" : "sort",
-          "value" : "weight_d desc"
-        }, {
-          "key" : "fl",
-          "value" : "*,score"
-        } ],
-        "headers" : [ ],
-        "type" : "sub-query",
-        "skip" : false,
-        "label" : "Get the documents most associated with these user ids",
-        "licensed" : true,
-        "secretSourceStageId" : "ozrdlsor"
-      }, {
-        "type" : "javascript-query",
-        "id" : "xb2x9ey8urp5jyvi",
-        "script" : "//given the last sub query, which gets us the top docs for the top\n// users from the signals index, go get the full docs from the main\n// collection.\nvar topRecSignalDocsRsp = ctx.getProperty('topRelatedSignalsDocs');\nvar theQuery = \"*:*\";\n\nif (topRecSignalDocsRsp && topRecSignalDocsRsp.response && topRecSignalDocsRsp.response.numFound > 0){\n  print(topRecSignalDocsRsp.response.numFound);\n  var docs = topRecSignalDocsRsp.response.docs;\n  //print(docs);\n  theQuery = \"{!lucene q.op=OR}(\";\n  //for each document, or it\n\n  for (i = 0; i < docs.size(); i++){\n    var doc = docs[i];\n    print(doc.id);\n    //since we are doing exact match, we only need one or the other\n    request.putSingleParam(\"ss_\" + i, doc.subject_simple_s);\n    request.putSingleParam(\"tid_\" + i, doc.threadId_s);\n    theQuery += \"({!term f=subject_simple v=$ss_\" + i + \"} AND {!term f=threadId v=$tid_\" + i + \"}) \";\n  }\n  theQuery += \")\";\n} else{\n  //We don't have a response, so let's just get the most popular documents overall or some other sorting of the main content\n  print(\"No response to work with\");\n}\nprint(\"The Query: \");\nprint(theQuery);\nrequest.putSingleParam(\"q\", theQuery);\nrequest.putSingleParam(\"rows\", \"5\");\nrequest.putSingleParam(\"fq\", \"-in_reply_to:[* TO *]\");",
-        "type" : "javascript-query",
-        "skip" : false,
-        "label" : "Create main collection Query",
-        "licensed" : true,
-        "secretSourceStageId" : "xb2x9ey8urp5jyvi"
-      }, {
-        "type" : "query-logging",
-        "id" : "z02rqu8gx8wyd5cdi",
-        "detailed" : true,
-        "type" : "query-logging",
-        "skip" : false,
-        "label" : "query-logging",
-        "licensed" : true,
-        "secretSourceStageId" : "z02rqu8gx8wyd5cdi"
-      }, {
-        "type" : "solr-query",
-        "id" : "7gdkd19lrk7r5dn29",
-        "allowedRequestHandlers" : [ ],
-        "httpMethod" : "POST",
-        "allowFederatedSearch" : false,
-        "type" : "solr-query",
-        "skip" : false,
-        "label" : "solr-query",
-        "licensed" : true,
-        "secretSourceStageId" : "7gdkd19lrk7r5dn29"
-      } ],
-      "properties" : {
-        "secretSourcePipelineId" : "cf-similar-items-rec"
-      }
-    }, {
       "id" : "site-search-all",
       "stages" : [ {
         "type" : "run-query-pipeline",
@@ -1837,76 +1488,6 @@
         "secretSourcePipelineId" : "site-search-all"
       }
     }, {
-      "id" : "site-search-documentation",
-      "stages" : [ {
-        "type" : "run-query-pipeline",
-        "id" : "c5lz8e5xms9u7syvi",
-        "pipelineToRun" : "site-search-base",
-        "type" : "run-query-pipeline",
-        "skip" : false,
-        "label" : "run-query-pipeline",
-        "licensed" : true,
-        "secretSourceStageId" : "c5lz8e5xms9u7syvi"
-      }, {
-        "type" : "set-params",
-        "id" : "100weprtl0udi",
-        "params" : [ {
-          "key" : "fq",
-          "value" : "site_search_s:documentation",
-          "policy" : "append"
-        } ],
-        "type" : "set-params",
-        "skip" : false,
-        "label" : "QueryParams - FilterQuery",
-        "licensed" : true,
-        "secretSourceStageId" : "100weprtl0udi"
-      }, {
-        "type" : "facet",
-        "id" : "6v3va7o48epzaor",
-        "fieldFacets" : [ {
-          "field" : "productVersion",
-          "minCount" : 1,
-          "missing" : false
-        }, {
-          "field" : "productName",
-          "minCount" : 1,
-          "missing" : false
-        } ],
-        "type" : "facet",
-        "skip" : false,
-        "label" : "facet",
-        "licensed" : true,
-        "secretSourceStageId" : "6v3va7o48epzaor"
-      }, {
-        "type" : "set-params",
-        "id" : "ykzta24zy5fp3nmi",
-        "params" : [ {
-          "key" : "fl",
-          "value" : "title content body subject accepted_answer_txt answer_txt",
-          "policy" : "append"
-        } ],
-        "type" : "set-params",
-        "skip" : false,
-        "label" : "QueryParams - Wildcard Queries",
-        "condition" : "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\"",
-        "licensed" : true,
-        "secretSourceStageId" : "ykzta24zy5fp3nmi"
-      }, {
-        "type" : "solr-query",
-        "id" : "fy9epi3g56v5597ldi",
-        "allowedRequestHandlers" : [ ],
-        "httpMethod" : "POST",
-        "allowFederatedSearch" : false,
-        "type" : "solr-query",
-        "skip" : false,
-        "label" : "solr-query",
-        "licensed" : true,
-        "secretSourceStageId" : "fy9epi3g56v5597ldi"
-      } ],
-      "properties" : {
-        "secretSourcePipelineId" : "site-search-documentation"
-      }
-    }, {
       "id" : "lucidfind_signals-default",
       "stages" : [ {
         "type" : "facet",
@@ -1935,92 +1516,6 @@
       } ],
       "properties" : {
         "secretSourcePipelineId" : "lucidfind_signals-default"
-      }
-    }, {
-      "id" : "lucidfind_thread_recs",
-      "stages" : [ {
-        "type" : "recommendation",
-        "id" : "60b8fafd-0b19-4d62-a0f2-6a9e4bffc691",
-        "numRecommendations" : 10,
-        "numSignals" : 100,
-        "aggrType" : "click@doc_id,filters,query",
-        "boostId" : "id",
-        "boostingMethod" : "query-param",
-        "boostingParam" : "boost",
-        "queryParams" : [ {
-          "key" : "qf",
-          "value" : "query_t"
-        }, {
-          "key" : "pf",
-          "value" : "query_t^50"
-        }, {
-          "key" : "pf",
-          "value" : "query_t~3^20"
-        }, {
-          "key" : "pf2",
-          "value" : "query_t^20"
-        }, {
-          "key" : "pf2",
-          "value" : "query_t~3^10"
-        }, {
-          "key" : "pf3",
-          "value" : "query_t^10"
-        }, {
-          "key" : "pf3",
-          "value" : "query_t~3^5"
-        }, {
-          "key" : "boost",
-          "value" : "map(query({!field f=query_s v=$q}),0,0,1,20)"
-        }, {
-          "key" : "mm",
-          "value" : "50%"
-        }, {
-          "key" : "defType",
-          "value" : "edismax"
-        }, {
-          "key" : "sort",
-          "value" : "score desc, weight_d desc"
-        } ],
-        "rollupField" : "doc_id_s",
-        "rollupWeightField" : "weight_d",
-        "weightExpression" : "math:log(weight_d + 1) + 10 * math:log(score+1)",
-        "rollupWeightStrategy" : "max",
-        "type" : "recommendation",
-        "skip" : false,
-        "licensed" : true,
-        "secretSourceStageId" : "60b8fafd-0b19-4d62-a0f2-6a9e4bffc691"
-      }, {
-        "type" : "search-fields",
-        "id" : "58ea8a28-8123-4d65-b198-88727d2086d7",
-        "rows" : 10,
-        "start" : 0,
-        "queryFields" : [ ],
-        "returnFields" : [ "*", "score" ],
-        "type" : "search-fields",
-        "skip" : false,
-        "licensed" : true,
-        "secretSourceStageId" : "58ea8a28-8123-4d65-b198-88727d2086d7"
-      }, {
-        "type" : "facet",
-        "id" : "3938a38a-cf25-41a2-b096-68c562dfc973",
-        "fieldFacets" : [ ],
-        "type" : "facet",
-        "skip" : false,
-        "licensed" : true,
-        "secretSourceStageId" : "3938a38a-cf25-41a2-b096-68c562dfc973"
-      }, {
-        "type" : "solr-query",
-        "id" : "d2ef79cc-6dd9-413b-8258-5ed634c54110",
-        "allowedRequestHandlers" : [ ],
-        "httpMethod" : "POST",
-        "allowFederatedSearch" : false,
-        "type" : "solr-query",
-        "skip" : false,
-        "licensed" : true,
-        "secretSourceStageId" : "d2ef79cc-6dd9-413b-8258-5ed634c54110"
-      } ],
-      "properties" : {
-        "secretSourcePipelineId" : "lucidfind_thread_recs"
       }
     }, {
       "id" : "lucidfind_email_subject_weights",
@@ -2109,6 +1604,84 @@
         "secretSourcePipelineId" : "lucidfind_email_subject_weights"
       }
     }, {
+      "id" : "qa_model",
+      "stages" : [ {
+        "type" : "recommendation",
+        "id" : "b2172f8b-adaa-4fc2-af27-964fd8e455bc",
+        "numRecommendations" : 10,
+        "numSignals" : 100,
+        "aggrType" : "click@doc_id,filters,query",
+        "boostId" : "id",
+        "boostingMethod" : "query-param",
+        "boostingParam" : "boost",
+        "queryParams" : [ {
+          "key" : "qf",
+          "value" : "query_t"
+        }, {
+          "key" : "pf",
+          "value" : "query_t^50"
+        }, {
+          "key" : "pf",
+          "value" : "query_t~3^20"
+        }, {
+          "key" : "pf2",
+          "value" : "query_t^20"
+        }, {
+          "key" : "pf2",
+          "value" : "query_t~3^10"
+        }, {
+          "key" : "pf3",
+          "value" : "query_t^10"
+        }, {
+          "key" : "pf3",
+          "value" : "query_t~3^5"
+        }, {
+          "key" : "boost",
+          "value" : "map(query({!field f=query_s v=$q}),0,0,1,20)"
+        }, {
+          "key" : "mm",
+          "value" : "50%"
+        }, {
+          "key" : "defType",
+          "value" : "edismax"
+        }, {
+          "key" : "sort",
+          "value" : "score desc, weight_d desc"
+        } ],
+        "rollupField" : "doc_id_s",
+        "rollupWeightField" : "weight_d",
+        "weightExpression" : "math:log(weight_d + 1) + 10 * math:log(score+1)",
+        "rollupWeightStrategy" : "max",
+        "type" : "recommendation",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "b2172f8b-adaa-4fc2-af27-964fd8e455bc"
+      }, {
+        "type" : "search-fields",
+        "id" : "5c899d05-bcda-4bdd-a982-9a4342d484f3",
+        "rows" : 10,
+        "start" : 0,
+        "queryFields" : [ ],
+        "returnFields" : [ "*", "score" ],
+        "type" : "search-fields",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "5c899d05-bcda-4bdd-a982-9a4342d484f3"
+      }, {
+        "type" : "solr-query",
+        "id" : "3a0e3530-370d-4c21-9c92-952477fb1bdf",
+        "allowedRequestHandlers" : [ ],
+        "httpMethod" : "POST",
+        "allowFederatedSearch" : false,
+        "type" : "solr-query",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "3a0e3530-370d-4c21-9c92-952477fb1bdf"
+      } ],
+      "properties" : {
+        "secretSourcePipelineId" : "qa_model"
+      }
+    }, {
       "id" : "shub-typeahead",
       "stages" : [ {
         "type" : "set-params",
@@ -2145,59 +1718,6 @@
       } ],
       "properties" : {
         "secretSourcePipelineId" : "shub-typeahead"
-      }
-    }, {
-      "id" : "site-search-videos",
-      "stages" : [ {
-        "type" : "run-query-pipeline",
-        "id" : "bgfok9pgqvfmxcg14i",
-        "pipelineToRun" : "site-search-base",
-        "type" : "run-query-pipeline",
-        "skip" : false,
-        "label" : "run-query-pipeline",
-        "licensed" : true,
-        "secretSourceStageId" : "bgfok9pgqvfmxcg14i"
-      }, {
-        "type" : "set-params",
-        "id" : "bl1fllzwrra32qpvi",
-        "params" : [ {
-          "key" : "fq",
-          "value" : "site_search_s:video",
-          "policy" : "append"
-        } ],
-        "type" : "set-params",
-        "skip" : false,
-        "label" : "QueryParams - FilterQuery",
-        "licensed" : true,
-        "secretSourceStageId" : "bl1fllzwrra32qpvi"
-      }, {
-        "type" : "set-params",
-        "id" : "ykzta24zy5fp3nmi",
-        "params" : [ {
-          "key" : "fl",
-          "value" : "title content body subject accepted_answer_txt answer_txt",
-          "policy" : "append"
-        } ],
-        "type" : "set-params",
-        "skip" : false,
-        "label" : "QueryParams - Wildcard Queries",
-        "condition" : "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\"",
-        "licensed" : true,
-        "secretSourceStageId" : "ykzta24zy5fp3nmi"
-      }, {
-        "type" : "solr-query",
-        "id" : "eufnqnapmrou5wmi",
-        "allowedRequestHandlers" : [ ],
-        "httpMethod" : "POST",
-        "allowFederatedSearch" : false,
-        "type" : "solr-query",
-        "skip" : false,
-        "label" : "solr-query",
-        "licensed" : true,
-        "secretSourceStageId" : "eufnqnapmrou5wmi"
-      } ],
-      "properties" : {
-        "secretSourcePipelineId" : "site-search-videos"
       }
     }, {
       "id" : "site-search-base",
@@ -2758,6 +2278,81 @@
         "secretSourcePipelineId" : "lucidfind-recommendations"
       }
     }, {
+      "id" : "qa_parent",
+      "stages" : [ {
+        "type" : "query-rpc",
+        "id" : "pm",
+        "mappingRules" : [ ],
+        "debug" : false,
+        "resultsLocation" : "Request",
+        "resultsKey" : "queryRPC",
+        "params" : {
+          "uri" : "http://localhost:8764/api/apps/searchhub/query/qa_symbolic",
+          "method" : "get",
+          "queryParams" : { },
+          "headers" : { }
+        },
+        "useIncomingRequestEntity" : false,
+        "hasNoSideEffects" : false,
+        "type" : "query-rpc",
+        "skip" : false,
+        "label" : "QA Symbolic Query Profile Call",
+        "licensed" : true,
+        "secretSourceStageId" : "pm"
+      }, {
+        "type" : "query-rpc",
+        "id" : "n3g",
+        "mappingRules" : [ ],
+        "debug" : false,
+        "resultsLocation" : "Request",
+        "resultsKey" : "queryRPC",
+        "params" : {
+          "uri" : "http://localhost:8764/api/apps/searchhub/query/qa_faq",
+          "method" : "get",
+          "queryParams" : { },
+          "headers" : { }
+        },
+        "useIncomingRequestEntity" : false,
+        "hasNoSideEffects" : false,
+        "type" : "query-rpc",
+        "skip" : false,
+        "label" : "QA FAQ Query Profile Call",
+        "licensed" : true,
+        "secretSourceStageId" : "n3g"
+      }, {
+        "type" : "query-rpc",
+        "id" : "oh",
+        "mappingRules" : [ ],
+        "debug" : false,
+        "resultsLocation" : "Request",
+        "resultsKey" : "queryRPC",
+        "params" : {
+          "uri" : "http://localhost:8764/api/apps/searchhub/query/qa_model",
+          "method" : "get",
+          "queryParams" : { },
+          "headers" : { }
+        },
+        "useIncomingRequestEntity" : false,
+        "hasNoSideEffects" : false,
+        "type" : "query-rpc",
+        "skip" : false,
+        "label" : "QA Model Query Profile Call",
+        "licensed" : true,
+        "secretSourceStageId" : "oh"
+      }, {
+        "type" : "javascript-query",
+        "id" : "14",
+        "script" : "val symbolic = \"TODO\":\nval faq = \"TODO\";\nval model = \"TODO\";",
+        "type" : "javascript-query",
+        "skip" : false,
+        "label" : "Merge Results",
+        "licensed" : true,
+        "secretSourceStageId" : "14"
+      } ],
+      "properties" : {
+        "secretSourcePipelineId" : "qa_parent"
+      }
+    }, {
       "id" : "site-search-support",
       "stages" : [ {
         "type" : "set-params",
@@ -2984,6 +2579,720 @@
       } ],
       "properties" : {
         "secretSourcePipelineId" : "lucidfind-default"
+      }
+    }, {
+      "id" : "users_shub",
+      "stages" : [ {
+        "type" : "recommendation",
+        "id" : "08db7c61-452f-4c32-bb89-2b285d168b05",
+        "numRecommendations" : 10,
+        "numSignals" : 100,
+        "aggrType" : "click@doc_id,filters,query",
+        "boostId" : "id",
+        "boostingMethod" : "query-param",
+        "boostingParam" : "boost",
+        "queryParams" : [ {
+          "key" : "qf",
+          "value" : "query_t"
+        }, {
+          "key" : "pf",
+          "value" : "query_t^50"
+        }, {
+          "key" : "pf",
+          "value" : "query_t~3^20"
+        }, {
+          "key" : "pf2",
+          "value" : "query_t^20"
+        }, {
+          "key" : "pf2",
+          "value" : "query_t~3^10"
+        }, {
+          "key" : "pf3",
+          "value" : "query_t^10"
+        }, {
+          "key" : "pf3",
+          "value" : "query_t~3^5"
+        }, {
+          "key" : "boost",
+          "value" : "map(query({!field f=query_s v=$q}),0,0,1,20)"
+        }, {
+          "key" : "mm",
+          "value" : "50%"
+        }, {
+          "key" : "defType",
+          "value" : "edismax"
+        }, {
+          "key" : "sort",
+          "value" : "score desc, weight_d desc"
+        } ],
+        "rollupField" : "doc_id_s",
+        "rollupWeightField" : "weight_d",
+        "weightExpression" : "math:log(weight_d + 1) + 10 * math:log(score+1)",
+        "rollupWeightStrategy" : "max",
+        "type" : "recommendation",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "08db7c61-452f-4c32-bb89-2b285d168b05"
+      }, {
+        "type" : "search-fields",
+        "id" : "4866ab10-2d25-43a7-b382-d2016d3b070f",
+        "rows" : 10,
+        "start" : 0,
+        "queryFields" : [ ],
+        "returnFields" : [ "*", "score" ],
+        "type" : "search-fields",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "4866ab10-2d25-43a7-b382-d2016d3b070f"
+      }, {
+        "type" : "facet",
+        "id" : "572d0274-0cad-4ecf-96e0-acff18a791c5",
+        "fieldFacets" : [ ],
+        "type" : "facet",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "572d0274-0cad-4ecf-96e0-acff18a791c5"
+      }, {
+        "type" : "solr-query",
+        "id" : "ebbb46cd-6fcf-42d0-8d34-9bf5d0786fca",
+        "allowedRequestHandlers" : [ ],
+        "httpMethod" : "POST",
+        "allowFederatedSearch" : false,
+        "type" : "solr-query",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "ebbb46cd-6fcf-42d0-8d34-9bf5d0786fca"
+      } ],
+      "properties" : {
+        "secretSourcePipelineId" : "users_shub"
+      }
+    }, {
+      "id" : "lucidfind",
+      "stages" : [ {
+        "type" : "recommendation",
+        "id" : "a8244e70-caad-4d59-99b7-88e3b75eb76e",
+        "numRecommendations" : 10,
+        "numSignals" : 100,
+        "aggrType" : "click@doc_id,filters,query",
+        "boostId" : "id",
+        "boostingMethod" : "query-param",
+        "boostingParam" : "boost",
+        "queryParams" : [ {
+          "key" : "qf",
+          "value" : "query_t"
+        }, {
+          "key" : "pf",
+          "value" : "query_t^50"
+        }, {
+          "key" : "pf",
+          "value" : "query_t~3^20"
+        }, {
+          "key" : "pf2",
+          "value" : "query_t^20"
+        }, {
+          "key" : "pf2",
+          "value" : "query_t~3^10"
+        }, {
+          "key" : "pf3",
+          "value" : "query_t^10"
+        }, {
+          "key" : "pf3",
+          "value" : "query_t~3^5"
+        }, {
+          "key" : "boost",
+          "value" : "map(query({!field f=query_s v=$q}),0,0,1,20)"
+        }, {
+          "key" : "mm",
+          "value" : "50%"
+        }, {
+          "key" : "defType",
+          "value" : "edismax"
+        }, {
+          "key" : "sort",
+          "value" : "score desc, weight_d desc"
+        } ],
+        "rollupField" : "doc_id_s",
+        "rollupWeightField" : "weight_d",
+        "weightExpression" : "math:log(weight_d + 1) + 10 * math:log(score+1)",
+        "rollupWeightStrategy" : "max",
+        "type" : "recommendation",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "a8244e70-caad-4d59-99b7-88e3b75eb76e"
+      }, {
+        "type" : "search-fields",
+        "id" : "3453221a-cd39-4d1d-b303-02a197381174",
+        "rows" : 10,
+        "start" : 0,
+        "queryFields" : [ ],
+        "returnFields" : [ "*", "score" ],
+        "type" : "search-fields",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "3453221a-cd39-4d1d-b303-02a197381174"
+      }, {
+        "type" : "facet",
+        "id" : "2bf9230c-e2ad-4ed6-888c-912b8cee6c75",
+        "fieldFacets" : [ ],
+        "type" : "facet",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "2bf9230c-e2ad-4ed6-888c-912b8cee6c75"
+      }, {
+        "type" : "solr-query",
+        "id" : "43183f9b-686a-4b74-9cda-2170c0091cfb",
+        "allowedRequestHandlers" : [ ],
+        "httpMethod" : "POST",
+        "allowFederatedSearch" : false,
+        "type" : "solr-query",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "43183f9b-686a-4b74-9cda-2170c0091cfb"
+      } ],
+      "properties" : {
+        "secretSourcePipelineId" : "lucidfind"
+      }
+    }, {
+      "id" : "site-search-blog",
+      "stages" : [ {
+        "type" : "run-query-pipeline",
+        "id" : "e8czo7r5d8n9izfr",
+        "pipelineToRun" : "site-search-base",
+        "type" : "run-query-pipeline",
+        "skip" : false,
+        "label" : "run-query-pipeline",
+        "licensed" : true,
+        "secretSourceStageId" : "e8czo7r5d8n9izfr"
+      }, {
+        "type" : "set-params",
+        "id" : "rrukkxs29r53o9a4i",
+        "params" : [ {
+          "key" : "fq",
+          "value" : "site_search_s:blog",
+          "policy" : "append"
+        } ],
+        "type" : "set-params",
+        "skip" : false,
+        "label" : "QueryParams - FilterQuery",
+        "licensed" : true,
+        "secretSourceStageId" : "rrukkxs29r53o9a4i"
+      }, {
+        "type" : "set-params",
+        "id" : "ykzta24zy5fp3nmi",
+        "params" : [ {
+          "key" : "fl",
+          "value" : "title content body subject accepted_answer_txt answer_txt",
+          "policy" : "append"
+        } ],
+        "type" : "set-params",
+        "skip" : false,
+        "label" : "QueryParams - Wildcard Queries",
+        "condition" : "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\"",
+        "licensed" : true,
+        "secretSourceStageId" : "ykzta24zy5fp3nmi"
+      }, {
+        "type" : "solr-query",
+        "id" : "uft581ubvcth85mi",
+        "allowedRequestHandlers" : [ ],
+        "httpMethod" : "POST",
+        "allowFederatedSearch" : false,
+        "type" : "solr-query",
+        "skip" : false,
+        "label" : "solr-query",
+        "licensed" : true,
+        "secretSourceStageId" : "uft581ubvcth85mi"
+      } ],
+      "properties" : {
+        "secretSourcePipelineId" : "site-search-blog"
+      }
+    }, {
+      "id" : "cf-similar-items-rec",
+      "stages" : [ {
+        "type" : "sub-query",
+        "id" : "zxzdunmi",
+        "key" : "topusers",
+        "collection" : "lucidfind_signals_aggr",
+        "handler" : "select",
+        "method" : "GET",
+        "parentParams" : [ "subjectSimple" ],
+        "rollupKeys" : [ ],
+        "params" : [ {
+          "key" : "fl",
+          "value" : "from_email_s,weight_d"
+        }, {
+          "key" : "rows",
+          "value" : "100"
+        }, {
+          "key" : "sort",
+          "value" : "weight_d desc"
+        }, {
+          "key" : "q",
+          "value" : "{!term f='subject_simple_s' v=$subjectSimple}"
+        }, {
+          "key" : "fq",
+          "value" : "-from_email_s:lucene-cvs@jakarta.apache.org"
+        }, {
+          "key" : "fq",
+          "value" : "-from_email_s:bugzilla@apache.org"
+        }, {
+          "key" : "debugQuery",
+          "value" : "true"
+        } ],
+        "headers" : [ ],
+        "type" : "sub-query",
+        "skip" : false,
+        "label" : "Get top users for the given thread",
+        "licensed" : true,
+        "secretSourceStageId" : "zxzdunmi"
+      }, {
+        "type" : "query-logging",
+        "id" : "o45qm2t9",
+        "detailed" : true,
+        "type" : "query-logging",
+        "skip" : true,
+        "label" : "query-logging",
+        "licensed" : true,
+        "secretSourceStageId" : "o45qm2t9"
+      }, {
+        "type" : "rollup-rec-aggr",
+        "id" : "6l1pp66r",
+        "key" : "topusers",
+        "resultKey" : "userrollup",
+        "rollupField" : "from_email_s",
+        "weightField" : "weight_d",
+        "weightFunction" : "sum",
+        "maxRows" : 100,
+        "sort" : true,
+        "type" : "rollup-rec-aggr",
+        "skip" : false,
+        "label" : "Rollup on the user ids from sub-query",
+        "licensed" : true,
+        "secretSourceStageId" : "6l1pp66r"
+      }, {
+        "type" : "sub-query",
+        "id" : "ozrdlsor",
+        "key" : "topRelatedSignalsDocs",
+        "collection" : "lucidfind_signals_aggr",
+        "handler" : "select",
+        "method" : "GET",
+        "parentParams" : [ ],
+        "rollupKeys" : [ "userrollup" ],
+        "params" : [ {
+          "key" : "q",
+          "value" : "{!type=edismax qf=from_email_s v=$userrollup}"
+        }, {
+          "key" : "rows",
+          "value" : "10"
+        }, {
+          "key" : "sort",
+          "value" : "weight_d desc"
+        }, {
+          "key" : "fl",
+          "value" : "*,score"
+        } ],
+        "headers" : [ ],
+        "type" : "sub-query",
+        "skip" : false,
+        "label" : "Get the documents most associated with these user ids",
+        "licensed" : true,
+        "secretSourceStageId" : "ozrdlsor"
+      }, {
+        "type" : "javascript-query",
+        "id" : "xb2x9ey8urp5jyvi",
+        "script" : "//given the last sub query, which gets us the top docs for the top\n// users from the signals index, go get the full docs from the main\n// collection.\nvar topRecSignalDocsRsp = ctx.getProperty('topRelatedSignalsDocs');\nvar theQuery = \"*:*\";\n\nif (topRecSignalDocsRsp && topRecSignalDocsRsp.response && topRecSignalDocsRsp.response.numFound > 0){\n  print(topRecSignalDocsRsp.response.numFound);\n  var docs = topRecSignalDocsRsp.response.docs;\n  //print(docs);\n  theQuery = \"{!lucene q.op=OR}(\";\n  //for each document, or it\n\n  for (i = 0; i < docs.size(); i++){\n    var doc = docs[i];\n    print(doc.id);\n    //since we are doing exact match, we only need one or the other\n    request.putSingleParam(\"ss_\" + i, doc.subject_simple_s);\n    request.putSingleParam(\"tid_\" + i, doc.threadId_s);\n    theQuery += \"({!term f=subject_simple v=$ss_\" + i + \"} AND {!term f=threadId v=$tid_\" + i + \"}) \";\n  }\n  theQuery += \")\";\n} else{\n  //We don't have a response, so let's just get the most popular documents overall or some other sorting of the main content\n  print(\"No response to work with\");\n}\nprint(\"The Query: \");\nprint(theQuery);\nrequest.putSingleParam(\"q\", theQuery);\nrequest.putSingleParam(\"rows\", \"5\");\nrequest.putSingleParam(\"fq\", \"-in_reply_to:[* TO *]\");",
+        "type" : "javascript-query",
+        "skip" : false,
+        "label" : "Create main collection Query",
+        "licensed" : true,
+        "secretSourceStageId" : "xb2x9ey8urp5jyvi"
+      }, {
+        "type" : "query-logging",
+        "id" : "z02rqu8gx8wyd5cdi",
+        "detailed" : true,
+        "type" : "query-logging",
+        "skip" : false,
+        "label" : "query-logging",
+        "licensed" : true,
+        "secretSourceStageId" : "z02rqu8gx8wyd5cdi"
+      }, {
+        "type" : "solr-query",
+        "id" : "7gdkd19lrk7r5dn29",
+        "allowedRequestHandlers" : [ ],
+        "httpMethod" : "POST",
+        "allowFederatedSearch" : false,
+        "type" : "solr-query",
+        "skip" : false,
+        "label" : "solr-query",
+        "licensed" : true,
+        "secretSourceStageId" : "7gdkd19lrk7r5dn29"
+      } ],
+      "properties" : {
+        "secretSourcePipelineId" : "cf-similar-items-rec"
+      }
+    }, {
+      "id" : "site-search-documentation",
+      "stages" : [ {
+        "type" : "run-query-pipeline",
+        "id" : "c5lz8e5xms9u7syvi",
+        "pipelineToRun" : "site-search-base",
+        "type" : "run-query-pipeline",
+        "skip" : false,
+        "label" : "run-query-pipeline",
+        "licensed" : true,
+        "secretSourceStageId" : "c5lz8e5xms9u7syvi"
+      }, {
+        "type" : "set-params",
+        "id" : "100weprtl0udi",
+        "params" : [ {
+          "key" : "fq",
+          "value" : "site_search_s:documentation",
+          "policy" : "append"
+        } ],
+        "type" : "set-params",
+        "skip" : false,
+        "label" : "QueryParams - FilterQuery",
+        "licensed" : true,
+        "secretSourceStageId" : "100weprtl0udi"
+      }, {
+        "type" : "facet",
+        "id" : "6v3va7o48epzaor",
+        "fieldFacets" : [ {
+          "field" : "productVersion",
+          "minCount" : 1,
+          "missing" : false
+        }, {
+          "field" : "productName",
+          "minCount" : 1,
+          "missing" : false
+        } ],
+        "type" : "facet",
+        "skip" : false,
+        "label" : "facet",
+        "licensed" : true,
+        "secretSourceStageId" : "6v3va7o48epzaor"
+      }, {
+        "type" : "set-params",
+        "id" : "ykzta24zy5fp3nmi",
+        "params" : [ {
+          "key" : "fl",
+          "value" : "title content body subject accepted_answer_txt answer_txt",
+          "policy" : "append"
+        } ],
+        "type" : "set-params",
+        "skip" : false,
+        "label" : "QueryParams - Wildcard Queries",
+        "condition" : "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\"",
+        "licensed" : true,
+        "secretSourceStageId" : "ykzta24zy5fp3nmi"
+      }, {
+        "type" : "solr-query",
+        "id" : "fy9epi3g56v5597ldi",
+        "allowedRequestHandlers" : [ ],
+        "httpMethod" : "POST",
+        "allowFederatedSearch" : false,
+        "type" : "solr-query",
+        "skip" : false,
+        "label" : "solr-query",
+        "licensed" : true,
+        "secretSourceStageId" : "fy9epi3g56v5597ldi"
+      } ],
+      "properties" : {
+        "secretSourcePipelineId" : "site-search-documentation"
+      }
+    }, {
+      "id" : "lucidfind_thread_recs",
+      "stages" : [ {
+        "type" : "recommendation",
+        "id" : "60b8fafd-0b19-4d62-a0f2-6a9e4bffc691",
+        "numRecommendations" : 10,
+        "numSignals" : 100,
+        "aggrType" : "click@doc_id,filters,query",
+        "boostId" : "id",
+        "boostingMethod" : "query-param",
+        "boostingParam" : "boost",
+        "queryParams" : [ {
+          "key" : "qf",
+          "value" : "query_t"
+        }, {
+          "key" : "pf",
+          "value" : "query_t^50"
+        }, {
+          "key" : "pf",
+          "value" : "query_t~3^20"
+        }, {
+          "key" : "pf2",
+          "value" : "query_t^20"
+        }, {
+          "key" : "pf2",
+          "value" : "query_t~3^10"
+        }, {
+          "key" : "pf3",
+          "value" : "query_t^10"
+        }, {
+          "key" : "pf3",
+          "value" : "query_t~3^5"
+        }, {
+          "key" : "boost",
+          "value" : "map(query({!field f=query_s v=$q}),0,0,1,20)"
+        }, {
+          "key" : "mm",
+          "value" : "50%"
+        }, {
+          "key" : "defType",
+          "value" : "edismax"
+        }, {
+          "key" : "sort",
+          "value" : "score desc, weight_d desc"
+        } ],
+        "rollupField" : "doc_id_s",
+        "rollupWeightField" : "weight_d",
+        "weightExpression" : "math:log(weight_d + 1) + 10 * math:log(score+1)",
+        "rollupWeightStrategy" : "max",
+        "type" : "recommendation",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "60b8fafd-0b19-4d62-a0f2-6a9e4bffc691"
+      }, {
+        "type" : "search-fields",
+        "id" : "58ea8a28-8123-4d65-b198-88727d2086d7",
+        "rows" : 10,
+        "start" : 0,
+        "queryFields" : [ ],
+        "returnFields" : [ "*", "score" ],
+        "type" : "search-fields",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "58ea8a28-8123-4d65-b198-88727d2086d7"
+      }, {
+        "type" : "facet",
+        "id" : "3938a38a-cf25-41a2-b096-68c562dfc973",
+        "fieldFacets" : [ ],
+        "type" : "facet",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "3938a38a-cf25-41a2-b096-68c562dfc973"
+      }, {
+        "type" : "solr-query",
+        "id" : "d2ef79cc-6dd9-413b-8258-5ed634c54110",
+        "allowedRequestHandlers" : [ ],
+        "httpMethod" : "POST",
+        "allowFederatedSearch" : false,
+        "type" : "solr-query",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "d2ef79cc-6dd9-413b-8258-5ed634c54110"
+      } ],
+      "properties" : {
+        "secretSourcePipelineId" : "lucidfind_thread_recs"
+      }
+    }, {
+      "id" : "qa_faq",
+      "stages" : [ {
+        "type" : "recommendation",
+        "id" : "43580154-d00c-42dc-a70f-f4ecbb033d77",
+        "numRecommendations" : 10,
+        "numSignals" : 100,
+        "aggrType" : "click@doc_id,filters,query",
+        "boostId" : "id",
+        "boostingMethod" : "query-param",
+        "boostingParam" : "boost",
+        "queryParams" : [ {
+          "key" : "qf",
+          "value" : "query_t"
+        }, {
+          "key" : "pf",
+          "value" : "query_t^50"
+        }, {
+          "key" : "pf",
+          "value" : "query_t~3^20"
+        }, {
+          "key" : "pf2",
+          "value" : "query_t^20"
+        }, {
+          "key" : "pf2",
+          "value" : "query_t~3^10"
+        }, {
+          "key" : "pf3",
+          "value" : "query_t^10"
+        }, {
+          "key" : "pf3",
+          "value" : "query_t~3^5"
+        }, {
+          "key" : "boost",
+          "value" : "map(query({!field f=query_s v=$q}),0,0,1,20)"
+        }, {
+          "key" : "mm",
+          "value" : "50%"
+        }, {
+          "key" : "defType",
+          "value" : "edismax"
+        }, {
+          "key" : "sort",
+          "value" : "score desc, weight_d desc"
+        } ],
+        "rollupField" : "doc_id_s",
+        "rollupWeightField" : "weight_d",
+        "weightExpression" : "math:log(weight_d + 1) + 10 * math:log(score+1)",
+        "rollupWeightStrategy" : "max",
+        "type" : "recommendation",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "43580154-d00c-42dc-a70f-f4ecbb033d77"
+      }, {
+        "type" : "search-fields",
+        "id" : "698d317f-e5f6-405f-af29-3e5fb2c0a982",
+        "rows" : 10,
+        "start" : 0,
+        "queryFields" : [ ],
+        "returnFields" : [ "*", "score" ],
+        "type" : "search-fields",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "698d317f-e5f6-405f-af29-3e5fb2c0a982"
+      }, {
+        "type" : "solr-query",
+        "id" : "ae484181-4b6d-4556-8751-b51f9a3b62ba",
+        "allowedRequestHandlers" : [ ],
+        "httpMethod" : "POST",
+        "allowFederatedSearch" : false,
+        "type" : "solr-query",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "ae484181-4b6d-4556-8751-b51f9a3b62ba"
+      } ],
+      "properties" : {
+        "secretSourcePipelineId" : "qa_faq"
+      }
+    }, {
+      "id" : "site-search-videos",
+      "stages" : [ {
+        "type" : "run-query-pipeline",
+        "id" : "bgfok9pgqvfmxcg14i",
+        "pipelineToRun" : "site-search-base",
+        "type" : "run-query-pipeline",
+        "skip" : false,
+        "label" : "run-query-pipeline",
+        "licensed" : true,
+        "secretSourceStageId" : "bgfok9pgqvfmxcg14i"
+      }, {
+        "type" : "set-params",
+        "id" : "bl1fllzwrra32qpvi",
+        "params" : [ {
+          "key" : "fq",
+          "value" : "site_search_s:video",
+          "policy" : "append"
+        } ],
+        "type" : "set-params",
+        "skip" : false,
+        "label" : "QueryParams - FilterQuery",
+        "licensed" : true,
+        "secretSourceStageId" : "bl1fllzwrra32qpvi"
+      }, {
+        "type" : "set-params",
+        "id" : "ykzta24zy5fp3nmi",
+        "params" : [ {
+          "key" : "fl",
+          "value" : "title content body subject accepted_answer_txt answer_txt",
+          "policy" : "append"
+        } ],
+        "type" : "set-params",
+        "skip" : false,
+        "label" : "QueryParams - Wildcard Queries",
+        "condition" : "request.getFirstParam(\"q\") == \"*\" || request.getFirstParam(\"q\") == \"*:*\"",
+        "licensed" : true,
+        "secretSourceStageId" : "ykzta24zy5fp3nmi"
+      }, {
+        "type" : "solr-query",
+        "id" : "eufnqnapmrou5wmi",
+        "allowedRequestHandlers" : [ ],
+        "httpMethod" : "POST",
+        "allowFederatedSearch" : false,
+        "type" : "solr-query",
+        "skip" : false,
+        "label" : "solr-query",
+        "licensed" : true,
+        "secretSourceStageId" : "eufnqnapmrou5wmi"
+      } ],
+      "properties" : {
+        "secretSourcePipelineId" : "site-search-videos"
+      }
+    }, {
+      "id" : "qa_symbolic",
+      "stages" : [ {
+        "type" : "recommendation",
+        "id" : "ef92c0f1-a569-4faa-902f-cbd844c85b5f",
+        "numRecommendations" : 10,
+        "numSignals" : 100,
+        "aggrType" : "click@doc_id,filters,query",
+        "boostId" : "id",
+        "boostingMethod" : "query-param",
+        "boostingParam" : "boost",
+        "queryParams" : [ {
+          "key" : "qf",
+          "value" : "query_t"
+        }, {
+          "key" : "pf",
+          "value" : "query_t^50"
+        }, {
+          "key" : "pf",
+          "value" : "query_t~3^20"
+        }, {
+          "key" : "pf2",
+          "value" : "query_t^20"
+        }, {
+          "key" : "pf2",
+          "value" : "query_t~3^10"
+        }, {
+          "key" : "pf3",
+          "value" : "query_t^10"
+        }, {
+          "key" : "pf3",
+          "value" : "query_t~3^5"
+        }, {
+          "key" : "boost",
+          "value" : "map(query({!field f=query_s v=$q}),0,0,1,20)"
+        }, {
+          "key" : "mm",
+          "value" : "50%"
+        }, {
+          "key" : "defType",
+          "value" : "edismax"
+        }, {
+          "key" : "sort",
+          "value" : "score desc, weight_d desc"
+        } ],
+        "rollupField" : "doc_id_s",
+        "rollupWeightField" : "weight_d",
+        "weightExpression" : "math:log(weight_d + 1) + 10 * math:log(score+1)",
+        "rollupWeightStrategy" : "max",
+        "type" : "recommendation",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "ef92c0f1-a569-4faa-902f-cbd844c85b5f"
+      }, {
+        "type" : "search-fields",
+        "id" : "01de07af-3bab-41c7-bf03-33d3040eea11",
+        "rows" : 10,
+        "start" : 0,
+        "queryFields" : [ ],
+        "returnFields" : [ "*", "score" ],
+        "type" : "search-fields",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "01de07af-3bab-41c7-bf03-33d3040eea11"
+      }, {
+        "type" : "solr-query",
+        "id" : "043c9518-6dbc-46f5-a890-471034763f15",
+        "allowedRequestHandlers" : [ ],
+        "httpMethod" : "POST",
+        "allowFederatedSearch" : false,
+        "type" : "solr-query",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "043c9518-6dbc-46f5-a890-471034763f15"
+      } ],
+      "properties" : {
+        "secretSourcePipelineId" : "qa_symbolic"
       }
     } ],
     "features" : {
@@ -3273,24 +3582,14 @@
       "collection" : "lucidfind",
       "searchHandler" : "/select"
     }, {
-      "id" : "site-search-videos",
-      "queryPipeline" : "site-search-videos",
+      "id" : "question-answer",
+      "queryPipeline" : "qa_parent",
       "collection" : "lucidfind",
-      "searchHandler" : "/select"
+      "searchHandler" : "select"
     }, {
       "id" : "site-search-all",
       "queryPipeline" : "site-search-all",
       "collection" : "lucidfind",
-      "searchHandler" : "/select"
-    }, {
-      "id" : "lucidfind_subjects_for_subjects",
-      "queryPipeline" : "lucidfind_subjects_for_subjects",
-      "collection" : "lucidfind_subjects_for_subjects",
-      "searchHandler" : "/select"
-    }, {
-      "id" : "lucidfind_subjects_for_emails",
-      "queryPipeline" : "lucidfind_subjects_for_emails",
-      "collection" : "lucidfind_subjects_for_emails",
       "searchHandler" : "/select"
     }, {
       "id" : "site-search-documentation",
@@ -3308,6 +3607,31 @@
       "collection" : "lucidfind_email_subject_weights",
       "searchHandler" : "/select"
     }, {
+      "id" : "qa_model",
+      "queryPipeline" : "qa_model",
+      "collection" : "lucidfind",
+      "searchHandler" : "select"
+    }, {
+      "id" : "qa_faq",
+      "queryPipeline" : "qa_faq",
+      "collection" : "lucidfind",
+      "searchHandler" : "select"
+    }, {
+      "id" : "site-search-videos",
+      "queryPipeline" : "site-search-videos",
+      "collection" : "lucidfind",
+      "searchHandler" : "/select"
+    }, {
+      "id" : "lucidfind_subjects_for_subjects",
+      "queryPipeline" : "lucidfind_subjects_for_subjects",
+      "collection" : "lucidfind_subjects_for_subjects",
+      "searchHandler" : "/select"
+    }, {
+      "id" : "lucidfind_subjects_for_emails",
+      "queryPipeline" : "lucidfind_subjects_for_emails",
+      "collection" : "lucidfind_subjects_for_emails",
+      "searchHandler" : "/select"
+    }, {
       "id" : "site-search-support",
       "queryPipeline" : "site-search-support",
       "collection" : "lucidfind",
@@ -3317,6 +3641,11 @@
       "queryPipeline" : "lucidfind-default",
       "collection" : "lucidfind",
       "searchHandler" : "/select"
+    }, {
+      "id" : "qa_symbolic",
+      "queryPipeline" : "qa_symbolic",
+      "collection" : "lucidfind",
+      "searchHandler" : "select"
     } ],
     "parsers" : [ {
       "id" : "searchhub",
@@ -3534,6 +3863,11 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
+      "subject" : "query-profile:question-answer",
+      "object" : "query-pipeline:qa_parent",
+      "linkType" : "relatesTo",
+      "originator" : "unspecified"
+    }, {
       "subject" : "datasource:mailing-list-hive-hive-user",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -3714,6 +4048,11 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
+      "subject" : "query-profile:qa_symbolic",
+      "object" : "query-pipeline:qa_symbolic",
+      "linkType" : "relatesTo",
+      "originator" : "unspecified"
+    }, {
       "subject" : "datasource:mailing-list-uima-uima-dev",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
@@ -3747,6 +4086,16 @@
       "subject" : "datasource:mailing-list-spark-spark-dev",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
+      "originator" : "unspecified"
+    }, {
+      "subject" : "query-pipeline:qa_model",
+      "object" : "app:searchhub",
+      "linkType" : "inContextOf",
+      "originator" : "unspecified"
+    }, {
+      "subject" : "query-pipeline:qa_symbolic",
+      "object" : "app:searchhub",
+      "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:website-pig-pig-website",
@@ -3829,6 +4178,11 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
+      "subject" : "query-pipeline:qa_parent",
+      "object" : "app:searchhub",
+      "linkType" : "inContextOf",
+      "originator" : "unspecified"
+    }, {
       "subject" : "datasource:website-lucene-lucene-website",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
@@ -3872,6 +4226,11 @@
       "subject" : "task:suggester_blog_builder",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
+      "originator" : "unspecified"
+    }, {
+      "subject" : "query-profile:qa_symbolic",
+      "object" : "collection:lucidfind",
+      "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:mailing-list-ambari-ambari-user",
@@ -3919,6 +4278,11 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
+      "subject" : "query-profile:qa_faq",
+      "object" : "collection:lucidfind",
+      "linkType" : "relatesTo",
+      "originator" : "unspecified"
+    }, {
       "subject" : "datasource:mailing-list-tinkerpop-tinkerpop-dev",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -3941,6 +4305,11 @@
     }, {
       "subject" : "group:302fee4b-4c0d-4f21-b03b-9895cce17706",
       "object" : "collection:lucidfind_subjects_for_subjects",
+      "linkType" : "relatesTo",
+      "originator" : "unspecified"
+    }, {
+      "subject" : "query-profile:qa_model",
+      "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
@@ -4092,6 +4461,11 @@
       "subject" : "collection:lucidfind_email_subject_weights",
       "object" : "query-pipeline:lucidfind_email_subject_weights",
       "linkType" : "relatesTo",
+      "originator" : "unspecified"
+    }, {
+      "subject" : "query-profile:qa_faq",
+      "object" : "app:searchhub",
+      "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:website-kylin-kylin-website",
@@ -4394,6 +4768,11 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
+      "subject" : "query-profile:qa_symbolic",
+      "object" : "app:searchhub",
+      "linkType" : "inContextOf",
+      "originator" : "unspecified"
+    }, {
       "subject" : "datasource:mailing-list-oozie-oozie-user",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -4559,6 +4938,11 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
+      "subject" : "query-profile:question-answer",
+      "object" : "collection:lucidfind",
+      "linkType" : "relatesTo",
+      "originator" : "unspecified"
+    }, {
       "subject" : "collection:users_shub",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -4582,6 +4966,11 @@
       "subject" : "datasource:mailing-list-manifoldcf-manifoldcf-dev",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
+      "originator" : "unspecified"
+    }, {
+      "subject" : "query-profile:qa_model",
+      "object" : "app:searchhub",
+      "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
       "subject" : "index-profile:lucidfind_subjects_for_subjects",
@@ -4716,6 +5105,11 @@
     }, {
       "subject" : "collection:lucidfind",
       "object" : "index-pipeline:lucidfind",
+      "linkType" : "relatesTo",
+      "originator" : "unspecified"
+    }, {
+      "subject" : "query-profile:qa_faq",
+      "object" : "query-pipeline:qa_faq",
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
@@ -4914,6 +5308,11 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
+      "subject" : "query-profile:question-answer",
+      "object" : "app:searchhub",
+      "linkType" : "inContextOf",
+      "originator" : "unspecified"
+    }, {
       "subject" : "datasource:website-hbase-hbase-website",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
@@ -5039,6 +5438,11 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
+      "subject" : "query-profile:qa_model",
+      "object" : "query-pipeline:qa_model",
+      "linkType" : "relatesTo",
+      "originator" : "unspecified"
+    }, {
       "subject" : "datasource:wiki-trafficserver-trafficserver-wiki",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -5150,6 +5554,11 @@
       "originator" : "unspecified"
     }, {
       "subject" : "index-profile:lucidfind",
+      "object" : "app:searchhub",
+      "linkType" : "inContextOf",
+      "originator" : "unspecified"
+    }, {
+      "subject" : "query-pipeline:qa_faq",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
       "originator" : "unspecified"
@@ -24664,7 +25073,7 @@
   "metadata" : {
     "formatVersion" : "1",
     "exportedBy" : "default-subject",
-    "exportedDate" : "2018-06-13T15:45:33.986Z",
+    "exportedDate" : "2018-06-14T01:07:24.799Z",
     "fusionVersion" : "4.1.0-SNAPSHOT",
     "fusionGuid" : "0fe84639-7d87-4677-badd-9d6bf4c89f79"
   }

@@ -2202,6 +2202,20 @@
     }, {
       "id" : "qa_parent",
       "stages" : [ {
+        "type" : "machine-learning-query",
+        "id" : "vyr",
+        "modelId" : "top_level_classifier",
+        "queryFeatureFieldName" : "q",
+        "predictionFieldName" : "intent",
+        "defaultValue" : "none",
+        "failOnError" : false,
+        "storeInContext" : false,
+        "type" : "machine-learning-query",
+        "skip" : false,
+        "label" : "Query Classification (Placeholder)",
+        "licensed" : true,
+        "secretSourceStageId" : "vyr"
+      }, {
         "type" : "query-rpc",
         "id" : "pm",
         "mappingRules" : [ ],
@@ -4426,6 +4440,11 @@
       "object" : "index-pipeline:lucidfind_subjects_for_subjects",
       "linkType" : "relatesTo",
       "originator" : "unspecified"
+    }, {
+      "subject" : "query-pipeline:qa_parent",
+      "object" : "blob:top_level_classifier",
+      "linkType" : "dependsOn",
+      "originator" : "com.lucidworks.apollo.component.LinkExtractingUpdateStrategy"
     }, {
       "subject" : "datasource:wiki-tika-tika-wiki",
       "object" : "app:searchhub",
@@ -7674,6 +7693,19 @@
         "connectorVersion" : "4.1.0-SNAPSHOT",
         "connectorName" : "lucid.twitter-stream",
         "resourceType" : "plugin:connector"
+      }
+    }, {
+      "id" : "top_level_classifier",
+      "path" : "/top_level_classifier",
+      "dir" : "/",
+      "filename" : "top_level_classifier",
+      "contentType" : "application/octet-stream",
+      "size" : 153879,
+      "modifiedTime" : "2018-06-14T22:27:36.726Z",
+      "version" : 1603288701848256512,
+      "md5" : "19b869e5b53968a89cbfbdc1fa6868fc",
+      "metadata" : {
+        "resourceType" : "model:ml-model"
       }
     } ],
     "experiments" : [ {
@@ -15691,7 +15723,7 @@
         "retryEmit" : true,
         "depth" : -1,
         "f.commits" : false,
-        "f.github_username" : "lucid-ci",
+        "f.github_username" : "${secret.8.f.github_username}",
         "refreshStartLinks" : false,
         "fetchThreads" : 1,
         "indexCrawlDBToSolr" : false,
@@ -16085,7 +16117,7 @@
         "retryEmit" : true,
         "depth" : -1,
         "f.commits" : false,
-        "f.github_username" : "lucid-ci",
+        "f.github_username" : "${secret.9.f.github_username}",
         "refreshStartLinks" : false,
         "fetchThreads" : 1,
         "indexCrawlDBToSolr" : false,
@@ -16485,7 +16517,7 @@
         "retryEmit" : true,
         "depth" : -1,
         "f.commits" : false,
-        "f.github_username" : "lucid-ci",
+        "f.github_username" : "${secret.10.f.github_username}",
         "refreshStartLinks" : false,
         "fetchThreads" : 1,
         "indexCrawlDBToSolr" : false,
@@ -22270,7 +22302,7 @@
         "retryEmit" : true,
         "depth" : -1,
         "f.commits" : false,
-        "f.github_username" : "lucid-ci",
+        "f.github_username" : "${secret.11.f.github_username}",
         "refreshStartLinks" : false,
         "fetchThreads" : 1,
         "indexCrawlDBToSolr" : false,
@@ -24419,7 +24451,7 @@
         "retryEmit" : true,
         "depth" : -1,
         "f.commits" : false,
-        "f.github_username" : "lucid-ci",
+        "f.github_username" : "${secret.12.f.github_username}",
         "refreshStartLinks" : false,
         "fetchThreads" : 1,
         "indexCrawlDBToSolr" : false,
@@ -25142,7 +25174,7 @@
   "metadata" : {
     "formatVersion" : "1",
     "exportedBy" : "default-subject",
-    "exportedDate" : "2018-06-14T22:21:17.952Z",
+    "exportedDate" : "2018-06-14T22:30:00.395Z",
     "fusionVersion" : "4.1.0-SNAPSHOT",
     "fusionGuid" : "0fe84639-7d87-4677-badd-9d6bf4c89f79"
   }

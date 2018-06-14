@@ -17,6 +17,6 @@ set -x
 source "$DEMO_HOME/myenv.sh"
 
 echo "Exporting the App just in case to /tmp/searchhub.zip"
-curl "$FUSION_API/objects/export?app.ids=searchhub&blob.ids=lucidworks.jira-4.1.0-SNAPSHOT.zip&blob.ids=lucidworks.github-4.1.0-SNAPSHOT.zip&blob.ids=lucidworks.twitter-stream-4.1.0-SNAPSHOT.zip" > "/tmp/searchhub.zip"
+curl "$FUSION_API/objects/export?app.ids=searchhub&blob.ids=top_level_classifier&blob.ids=lucidworks.jira-4.1.0-SNAPSHOT.zip&blob.ids=lucidworks.github-4.1.0-SNAPSHOT.zip&blob.ids=lucidworks.twitter-stream-4.1.0-SNAPSHOT.zip" > "/tmp/searchhub.zip"
 curl  -X DELETE "$FUSION_API/webapps/searchhub"
 curl  -X DELETE "$FUSION_API/apps/searchhub"

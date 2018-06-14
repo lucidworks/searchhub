@@ -42,6 +42,6 @@ echo "Exporting SearchHub App to setup/app/searchhub.zip"
 # If you change this line, be sure to change clean.sh as well.
 # TODO: change this to take in a location, optionally, so we can use this script from clean.sh
 # &app.ids=customer360&blob.ids=ecom_keyword.csv&blob.ids=stop.rtf
-curl "$FUSION_API/objects/export?app.ids=searchhub&blob.ids=lucidworks.jira-4.1.0-SNAPSHOT.zip&blob.ids=lucidworks.github-4.1.0-SNAPSHOT.zip&blob.ids=lucidworks.twitter-stream-4.1.0-SNAPSHOT.zip" > "$DEMO_HOME/setup/app/searchhub.zip"
+curl "$FUSION_API/objects/export?app.ids=searchhub&blob.ids=top_level_classifier&blob.ids=lucidworks.jira-4.1.0-SNAPSHOT.zip&blob.ids=lucidworks.github-4.1.0-SNAPSHOT.zip&blob.ids=lucidworks.twitter-stream-4.1.0-SNAPSHOT.zip" > "$DEMO_HOME/setup/app/searchhub.zip"
 cd "$DEMO_HOME/setup/app"
 unzip -q -o searchhub.zip

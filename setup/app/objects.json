@@ -1604,84 +1604,6 @@
         "secretSourcePipelineId" : "lucidfind_email_subject_weights"
       }
     }, {
-      "id" : "qa_model",
-      "stages" : [ {
-        "type" : "recommendation",
-        "id" : "b2172f8b-adaa-4fc2-af27-964fd8e455bc",
-        "numRecommendations" : 10,
-        "numSignals" : 100,
-        "aggrType" : "click@doc_id,filters,query",
-        "boostId" : "id",
-        "boostingMethod" : "query-param",
-        "boostingParam" : "boost",
-        "queryParams" : [ {
-          "key" : "qf",
-          "value" : "query_t"
-        }, {
-          "key" : "pf",
-          "value" : "query_t^50"
-        }, {
-          "key" : "pf",
-          "value" : "query_t~3^20"
-        }, {
-          "key" : "pf2",
-          "value" : "query_t^20"
-        }, {
-          "key" : "pf2",
-          "value" : "query_t~3^10"
-        }, {
-          "key" : "pf3",
-          "value" : "query_t^10"
-        }, {
-          "key" : "pf3",
-          "value" : "query_t~3^5"
-        }, {
-          "key" : "boost",
-          "value" : "map(query({!field f=query_s v=$q}),0,0,1,20)"
-        }, {
-          "key" : "mm",
-          "value" : "50%"
-        }, {
-          "key" : "defType",
-          "value" : "edismax"
-        }, {
-          "key" : "sort",
-          "value" : "score desc, weight_d desc"
-        } ],
-        "rollupField" : "doc_id_s",
-        "rollupWeightField" : "weight_d",
-        "weightExpression" : "math:log(weight_d + 1) + 10 * math:log(score+1)",
-        "rollupWeightStrategy" : "max",
-        "type" : "recommendation",
-        "skip" : false,
-        "licensed" : true,
-        "secretSourceStageId" : "b2172f8b-adaa-4fc2-af27-964fd8e455bc"
-      }, {
-        "type" : "search-fields",
-        "id" : "5c899d05-bcda-4bdd-a982-9a4342d484f3",
-        "rows" : 10,
-        "start" : 0,
-        "queryFields" : [ ],
-        "returnFields" : [ "*", "score" ],
-        "type" : "search-fields",
-        "skip" : false,
-        "licensed" : true,
-        "secretSourceStageId" : "5c899d05-bcda-4bdd-a982-9a4342d484f3"
-      }, {
-        "type" : "solr-query",
-        "id" : "3a0e3530-370d-4c21-9c92-952477fb1bdf",
-        "allowedRequestHandlers" : [ ],
-        "httpMethod" : "POST",
-        "allowFederatedSearch" : false,
-        "type" : "solr-query",
-        "skip" : false,
-        "licensed" : true,
-        "secretSourceStageId" : "3a0e3530-370d-4c21-9c92-952477fb1bdf"
-      } ],
-      "properties" : {
-        "secretSourcePipelineId" : "qa_model"
-      }
-    }, {
       "id" : "shub-typeahead",
       "stages" : [ {
         "type" : "set-params",
@@ -3086,10 +3008,10 @@
         "secretSourcePipelineId" : "lucidfind_thread_recs"
       }
     }, {
-      "id" : "qa_faq",
+      "id" : "qa_faq_baseline",
       "stages" : [ {
         "type" : "recommendation",
-        "id" : "43580154-d00c-42dc-a70f-f4ecbb033d77",
+        "id" : "420224ff-486a-4369-ace0-2dba17c652e6",
         "numRecommendations" : 10,
         "numSignals" : 100,
         "aggrType" : "click@doc_id,filters,query",
@@ -3137,10 +3059,10 @@
         "type" : "recommendation",
         "skip" : false,
         "licensed" : true,
-        "secretSourceStageId" : "43580154-d00c-42dc-a70f-f4ecbb033d77"
+        "secretSourceStageId" : "420224ff-486a-4369-ace0-2dba17c652e6"
       }, {
         "type" : "search-fields",
-        "id" : "698d317f-e5f6-405f-af29-3e5fb2c0a982",
+        "id" : "fc122ea6-633e-4010-95d1-523d273dff50",
         "rows" : 10,
         "start" : 0,
         "queryFields" : [ ],
@@ -3148,20 +3070,98 @@
         "type" : "search-fields",
         "skip" : false,
         "licensed" : true,
-        "secretSourceStageId" : "698d317f-e5f6-405f-af29-3e5fb2c0a982"
+        "secretSourceStageId" : "fc122ea6-633e-4010-95d1-523d273dff50"
       }, {
         "type" : "solr-query",
-        "id" : "ae484181-4b6d-4556-8751-b51f9a3b62ba",
+        "id" : "ccbbb0a5-8ddd-441f-a3c4-f59002c3e5e6",
         "allowedRequestHandlers" : [ ],
         "httpMethod" : "POST",
         "allowFederatedSearch" : false,
         "type" : "solr-query",
         "skip" : false,
         "licensed" : true,
-        "secretSourceStageId" : "ae484181-4b6d-4556-8751-b51f9a3b62ba"
+        "secretSourceStageId" : "ccbbb0a5-8ddd-441f-a3c4-f59002c3e5e6"
       } ],
       "properties" : {
-        "secretSourcePipelineId" : "qa_faq"
+        "secretSourcePipelineId" : "qa_faq_baseline"
+      }
+    }, {
+      "id" : "qa_model_baseline",
+      "stages" : [ {
+        "type" : "recommendation",
+        "id" : "89884d09-1308-4e2d-a511-d7dee6cca44c",
+        "numRecommendations" : 10,
+        "numSignals" : 100,
+        "aggrType" : "click@doc_id,filters,query",
+        "boostId" : "id",
+        "boostingMethod" : "query-param",
+        "boostingParam" : "boost",
+        "queryParams" : [ {
+          "key" : "qf",
+          "value" : "query_t"
+        }, {
+          "key" : "pf",
+          "value" : "query_t^50"
+        }, {
+          "key" : "pf",
+          "value" : "query_t~3^20"
+        }, {
+          "key" : "pf2",
+          "value" : "query_t^20"
+        }, {
+          "key" : "pf2",
+          "value" : "query_t~3^10"
+        }, {
+          "key" : "pf3",
+          "value" : "query_t^10"
+        }, {
+          "key" : "pf3",
+          "value" : "query_t~3^5"
+        }, {
+          "key" : "boost",
+          "value" : "map(query({!field f=query_s v=$q}),0,0,1,20)"
+        }, {
+          "key" : "mm",
+          "value" : "50%"
+        }, {
+          "key" : "defType",
+          "value" : "edismax"
+        }, {
+          "key" : "sort",
+          "value" : "score desc, weight_d desc"
+        } ],
+        "rollupField" : "doc_id_s",
+        "rollupWeightField" : "weight_d",
+        "weightExpression" : "math:log(weight_d + 1) + 10 * math:log(score+1)",
+        "rollupWeightStrategy" : "max",
+        "type" : "recommendation",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "89884d09-1308-4e2d-a511-d7dee6cca44c"
+      }, {
+        "type" : "search-fields",
+        "id" : "0c4870f3-23c3-4d7d-9659-0026c13c2b51",
+        "rows" : 10,
+        "start" : 0,
+        "queryFields" : [ ],
+        "returnFields" : [ "*", "score" ],
+        "type" : "search-fields",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "0c4870f3-23c3-4d7d-9659-0026c13c2b51"
+      }, {
+        "type" : "solr-query",
+        "id" : "fac00d06-a3c5-4d0f-acee-a857ac3af46a",
+        "allowedRequestHandlers" : [ ],
+        "httpMethod" : "POST",
+        "allowFederatedSearch" : false,
+        "type" : "solr-query",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "fac00d06-a3c5-4d0f-acee-a857ac3af46a"
+      } ],
+      "properties" : {
+        "secretSourcePipelineId" : "qa_model_baseline"
       }
     }, {
       "id" : "site-search-videos",
@@ -3217,10 +3217,10 @@
         "secretSourcePipelineId" : "site-search-videos"
       }
     }, {
-      "id" : "qa_symbolic",
+      "id" : "qa_symbolic_baseline",
       "stages" : [ {
         "type" : "recommendation",
-        "id" : "ef92c0f1-a569-4faa-902f-cbd844c85b5f",
+        "id" : "2aa70659-45cb-4251-b921-74b7cfd0c763",
         "numRecommendations" : 10,
         "numSignals" : 100,
         "aggrType" : "click@doc_id,filters,query",
@@ -3268,10 +3268,10 @@
         "type" : "recommendation",
         "skip" : false,
         "licensed" : true,
-        "secretSourceStageId" : "ef92c0f1-a569-4faa-902f-cbd844c85b5f"
+        "secretSourceStageId" : "2aa70659-45cb-4251-b921-74b7cfd0c763"
       }, {
         "type" : "search-fields",
-        "id" : "01de07af-3bab-41c7-bf03-33d3040eea11",
+        "id" : "3055c275-1971-47d7-8ecd-4203dfce6ab6",
         "rows" : 10,
         "start" : 0,
         "queryFields" : [ ],
@@ -3279,20 +3279,20 @@
         "type" : "search-fields",
         "skip" : false,
         "licensed" : true,
-        "secretSourceStageId" : "01de07af-3bab-41c7-bf03-33d3040eea11"
+        "secretSourceStageId" : "3055c275-1971-47d7-8ecd-4203dfce6ab6"
       }, {
         "type" : "solr-query",
-        "id" : "043c9518-6dbc-46f5-a890-471034763f15",
+        "id" : "48e636d3-eb69-4b15-b5ce-36553fc69642",
         "allowedRequestHandlers" : [ ],
         "httpMethod" : "POST",
         "allowFederatedSearch" : false,
         "type" : "solr-query",
         "skip" : false,
         "licensed" : true,
-        "secretSourceStageId" : "043c9518-6dbc-46f5-a890-471034763f15"
+        "secretSourceStageId" : "48e636d3-eb69-4b15-b5ce-36553fc69642"
       } ],
       "properties" : {
-        "secretSourcePipelineId" : "qa_symbolic"
+        "secretSourcePipelineId" : "qa_symbolic_baseline"
       }
     } ],
     "features" : {
@@ -3585,7 +3585,11 @@
       "id" : "question-answer",
       "queryPipeline" : "qa_parent",
       "collection" : "lucidfind",
-      "searchHandler" : "select"
+      "searchHandler" : "select",
+      "experiment" : {
+        "id" : "question-answering",
+        "percentOfTraffic" : 100.0
+      }
     }, {
       "id" : "site-search-all",
       "queryPipeline" : "site-search-all",
@@ -3608,12 +3612,12 @@
       "searchHandler" : "/select"
     }, {
       "id" : "qa_model",
-      "queryPipeline" : "qa_model",
+      "queryPipeline" : "qa_model_baseline",
       "collection" : "lucidfind",
       "searchHandler" : "select"
     }, {
       "id" : "qa_faq",
-      "queryPipeline" : "qa_faq",
+      "queryPipeline" : "qa_faq_baseline",
       "collection" : "lucidfind",
       "searchHandler" : "select"
     }, {
@@ -3643,7 +3647,7 @@
       "searchHandler" : "/select"
     }, {
       "id" : "qa_symbolic",
-      "queryPipeline" : "qa_symbolic",
+      "queryPipeline" : "qa_symbolic_baseline",
       "collection" : "lucidfind",
       "searchHandler" : "select"
     } ],
@@ -4048,11 +4052,6 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
-      "subject" : "query-profile:qa_symbolic",
-      "object" : "query-pipeline:qa_symbolic",
-      "linkType" : "relatesTo",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:mailing-list-uima-uima-dev",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
@@ -4086,16 +4085,6 @@
       "subject" : "datasource:mailing-list-spark-spark-dev",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "query-pipeline:qa_model",
-      "object" : "app:searchhub",
-      "linkType" : "inContextOf",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "query-pipeline:qa_symbolic",
-      "object" : "app:searchhub",
-      "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:website-pig-pig-website",
@@ -4563,6 +4552,11 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
+      "subject" : "experiment:question-answering",
+      "object" : "app:searchhub",
+      "linkType" : "inContextOf",
+      "originator" : "unspecified"
+    }, {
       "subject" : "datasource:mailing-list-axis-axis-java-user",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
@@ -4586,6 +4580,11 @@
       "subject" : "datasource:mailing-list-curator-curator-user",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
+      "originator" : "unspecified"
+    }, {
+      "subject" : "query-pipeline:qa_faq_baseline",
+      "object" : "app:searchhub",
+      "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:mailing-list-oozie-oozie-user",
@@ -4636,6 +4635,11 @@
       "subject" : "query-pipeline:lucidfind-default",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
+      "originator" : "unspecified"
+    }, {
+      "subject" : "query-profile:qa_symbolic",
+      "object" : "query-pipeline:qa_symbolic_baseline",
+      "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:mailing-list-jclouds-jclouds-user",
@@ -4943,6 +4947,11 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
+      "subject" : "query-profile:qa_model",
+      "object" : "query-pipeline:qa_model_baseline",
+      "linkType" : "relatesTo",
+      "originator" : "unspecified"
+    }, {
       "subject" : "collection:users_shub",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -5038,6 +5047,11 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
+      "subject" : "query-pipeline:qa_model_baseline",
+      "object" : "app:searchhub",
+      "linkType" : "inContextOf",
+      "originator" : "unspecified"
+    }, {
       "subject" : "datasource:mailing-list-accumulo-accumulo-dev",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
@@ -5093,6 +5107,11 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
+      "subject" : "experiment:question-answering",
+      "object" : "spark:question-answering-qa_clickthrough",
+      "linkType" : "dependsOn",
+      "originator" : "unspecified"
+    }, {
       "subject" : "group:898005da-34b4-44f8-bcbc-3d55ba6dddb9",
       "object" : "spark:lucidfind_click_signals_aggregation",
       "linkType" : "hasPart",
@@ -5105,11 +5124,6 @@
     }, {
       "subject" : "collection:lucidfind",
       "object" : "index-pipeline:lucidfind",
-      "linkType" : "relatesTo",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "query-profile:qa_faq",
-      "object" : "query-pipeline:qa_faq",
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
@@ -5166,6 +5180,11 @@
       "subject" : "datasource:website-ignite-ignite-website",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
+      "originator" : "unspecified"
+    }, {
+      "subject" : "query-profile:qa_faq",
+      "object" : "query-pipeline:qa_faq_baseline",
+      "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:website-hadoop-hadoop-website",
@@ -5438,11 +5457,6 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
-      "subject" : "query-profile:qa_model",
-      "object" : "query-pipeline:qa_model",
-      "linkType" : "relatesTo",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:wiki-trafficserver-trafficserver-wiki",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -5558,11 +5572,6 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
-      "subject" : "query-pipeline:qa_faq",
-      "object" : "app:searchhub",
-      "linkType" : "inContextOf",
-      "originator" : "unspecified"
-    }, {
       "subject" : "collection:lucidfind_thread_recs",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -5639,6 +5648,11 @@
       "originator" : "unspecified"
     }, {
       "subject" : "query-pipeline:cf-similar-items-rec",
+      "object" : "app:searchhub",
+      "linkType" : "inContextOf",
+      "originator" : "unspecified"
+    }, {
+      "subject" : "query-pipeline:qa_symbolic_baseline",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
       "originator" : "unspecified"
@@ -6278,6 +6292,18 @@
         "interval" : 2,
         "timeUnit" : "hour",
         "startTime" : "2018-06-04T03:04:00.001Z",
+        "type" : "interval"
+      } ],
+      "default" : false
+    }, {
+      "resource" : "spark:question-answering-qa_clickthrough",
+      "enabled" : false,
+      "triggers" : [ {
+        "type" : "interval",
+        "enabled" : true,
+        "interval" : 12,
+        "timeUnit" : "hour",
+        "startTime" : "2018-06-14T22:51:05.568Z",
         "type" : "interval"
       } ],
       "default" : false
@@ -7448,6 +7474,31 @@
       "rows" : 10000,
       "skipCheckEnabled" : true
     }, {
+      "type" : "experiment_sql",
+      "id" : "question-answering-qa_clickthrough",
+      "experimentId" : "question-answering",
+      "metricName" : "qa_clickthrough",
+      "sql" : " SELECT (count(c.id)/(case when min(t.total_queries) > 0 then min(t.total_queries) else 1 end)) as value, count(c.id) as count,   min(t.total_queries) as queries, variant_id \n  FROM ${inputCollection} c   LEFT JOIN variant_queries as q on (c.fusion_query_id = q.id) \n  LEFT JOIN (select count(*) as total_queries, variant_id as vi from variant_queries group by variant_id) as t on (t.vi = q.variant_id) \n  WHERE c.fusion_query_id IS NOT NULL AND c.type = 'click' \n  group by variant_id",
+      "experiment" : {
+        "id" : "question-answering",
+        "uniqueIdParameter" : "userId",
+        "baseSignalsCollection" : "lucidfind",
+        "variants" : [ {
+          "id" : "972ac627",
+          "name" : "control",
+          "params" : [ ],
+          "weight" : 1.0
+        } ],
+        "enabled" : false,
+        "metrics" : [ {
+          "type" : "ctr",
+          "name" : "qa_clickthrough",
+          "jobId" : "spark:question-answering-qa_clickthrough",
+          "primary" : true
+        } ]
+      },
+      "notes" : "Computes the click through rate for each variant in an experiment using click signals."
+    }, {
       "type" : "sql_template",
       "id" : "lucidfind_user_query_history_aggregation",
       "inputCollection" : "lucidfind_signals",
@@ -7624,6 +7675,24 @@
         "connectorName" : "lucid.twitter-stream",
         "resourceType" : "plugin:connector"
       }
+    } ],
+    "experiments" : [ {
+      "id" : "question-answering",
+      "uniqueIdParameter" : "userId",
+      "baseSignalsCollection" : "lucidfind",
+      "variants" : [ {
+        "id" : "972ac627",
+        "name" : "control",
+        "params" : [ ],
+        "weight" : 1.0
+      } ],
+      "enabled" : false,
+      "metrics" : [ {
+        "type" : "ctr",
+        "name" : "qa_clickthrough",
+        "jobId" : "spark:question-answering-qa_clickthrough",
+        "primary" : true
+      } ]
     } ],
     "fusionApps" : [ {
       "id" : "searchhub",
@@ -25073,7 +25142,7 @@
   "metadata" : {
     "formatVersion" : "1",
     "exportedBy" : "default-subject",
-    "exportedDate" : "2018-06-14T01:07:24.799Z",
+    "exportedDate" : "2018-06-14T22:21:17.952Z",
     "fusionVersion" : "4.1.0-SNAPSHOT",
     "fusionGuid" : "0fe84639-7d87-4677-badd-9d6bf4c89f79"
   }

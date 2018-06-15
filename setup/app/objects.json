@@ -2200,6 +2200,84 @@
         "secretSourcePipelineId" : "lucidfind-recommendations"
       }
     }, {
+      "id" : "qa_template_baseline",
+      "stages" : [ {
+        "type" : "recommendation",
+        "id" : "b7784cb8-754b-4986-a3e4-feca481f7828",
+        "numRecommendations" : 10,
+        "numSignals" : 100,
+        "aggrType" : "click@doc_id,filters,query",
+        "boostId" : "id",
+        "boostingMethod" : "query-param",
+        "boostingParam" : "boost",
+        "queryParams" : [ {
+          "key" : "qf",
+          "value" : "query_t"
+        }, {
+          "key" : "pf",
+          "value" : "query_t^50"
+        }, {
+          "key" : "pf",
+          "value" : "query_t~3^20"
+        }, {
+          "key" : "pf2",
+          "value" : "query_t^20"
+        }, {
+          "key" : "pf2",
+          "value" : "query_t~3^10"
+        }, {
+          "key" : "pf3",
+          "value" : "query_t^10"
+        }, {
+          "key" : "pf3",
+          "value" : "query_t~3^5"
+        }, {
+          "key" : "boost",
+          "value" : "map(query({!field f=query_s v=$q}),0,0,1,20)"
+        }, {
+          "key" : "mm",
+          "value" : "50%"
+        }, {
+          "key" : "defType",
+          "value" : "edismax"
+        }, {
+          "key" : "sort",
+          "value" : "score desc, weight_d desc"
+        } ],
+        "rollupField" : "doc_id_s",
+        "rollupWeightField" : "weight_d",
+        "weightExpression" : "math:log(weight_d + 1) + 10 * math:log(score+1)",
+        "rollupWeightStrategy" : "max",
+        "type" : "recommendation",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "b7784cb8-754b-4986-a3e4-feca481f7828"
+      }, {
+        "type" : "search-fields",
+        "id" : "8f331acf-9430-46bc-a90d-86d12c54f9e4",
+        "rows" : 10,
+        "start" : 0,
+        "queryFields" : [ ],
+        "returnFields" : [ "*", "score" ],
+        "type" : "search-fields",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "8f331acf-9430-46bc-a90d-86d12c54f9e4"
+      }, {
+        "type" : "solr-query",
+        "id" : "1c4a0bbc-ad7d-4052-b68d-d737e3eb9b43",
+        "allowedRequestHandlers" : [ ],
+        "httpMethod" : "POST",
+        "allowFederatedSearch" : false,
+        "type" : "solr-query",
+        "skip" : false,
+        "licensed" : true,
+        "secretSourceStageId" : "1c4a0bbc-ad7d-4052-b68d-d737e3eb9b43"
+      } ],
+      "properties" : {
+        "secretSourcePipelineId" : "qa_template_baseline"
+      }
+    }, {
       "id" : "qa_parent",
       "stages" : [ {
         "type" : "machine-learning-query",
@@ -2223,7 +2301,7 @@
         "resultsLocation" : "Request",
         "resultsKey" : "queryRPC",
         "params" : {
-          "uri" : "http://localhost:8764/api/apps/searchhub/query/qa_symbolic",
+          "uri" : "service://apps/searchhub/query/qa_symbolic",
           "method" : "get",
           "queryParams" : { },
           "headers" : { }
@@ -2237,13 +2315,33 @@
         "secretSourceStageId" : "pm"
       }, {
         "type" : "query-rpc",
+        "id" : "nrp",
+        "mappingRules" : [ ],
+        "debug" : false,
+        "resultsLocation" : "Request",
+        "resultsKey" : "queryRPC",
+        "params" : {
+          "uri" : "service://apps/searchhub/query/qa_template",
+          "method" : "get",
+          "queryParams" : { },
+          "headers" : { }
+        },
+        "useIncomingRequestEntity" : false,
+        "hasNoSideEffects" : false,
+        "type" : "query-rpc",
+        "skip" : false,
+        "label" : "QA Template Query Profile Call",
+        "licensed" : true,
+        "secretSourceStageId" : "nrp"
+      }, {
+        "type" : "query-rpc",
         "id" : "n3g",
         "mappingRules" : [ ],
         "debug" : false,
         "resultsLocation" : "Request",
         "resultsKey" : "queryRPC",
         "params" : {
-          "uri" : "http://localhost:8764/api/apps/searchhub/query/qa_faq",
+          "uri" : "service://apps/searchhub/query/qa_faq",
           "method" : "get",
           "queryParams" : { },
           "headers" : { }
@@ -2263,7 +2361,7 @@
         "resultsLocation" : "Request",
         "resultsKey" : "queryRPC",
         "params" : {
-          "uri" : "http://localhost:8764/api/apps/searchhub/query/qa_model",
+          "uri" : "service://apps/searchhub/query/qa_model",
           "method" : "get",
           "queryParams" : { },
           "headers" : { }
@@ -2278,7 +2376,7 @@
       }, {
         "type" : "javascript-query",
         "id" : "14",
-        "script" : "val symbolic = \"TODO\":\nval faq = \"TODO\";\nval model = \"TODO\";",
+        "script" : "function (request, response, ctx, collection, solrServer, solrServerFactory) {\n  var symbolic = \"TODO\";\n  var faq = \"TODO\";\n  var model = \"TODO\";\n  logger.info(request);\n  var numFound = 1;\n  var docs = [{\"id\": \"symbolic\", \"answer\": \"To get to the other side.\"}, {\n    \"id\": \"faq\",\n    \"answer\": \"To get away from Sanders.\"\n  }, {\"id\": \"model\", \"answer\": \"Why does anyone do anything?\"}];\n  var rsp = \"<response><lst name=\\\"responseHeader\\\"><bool name=\\\"zkConnected\\\">true</bool><int name=\\\"status\\\">0</int><int name=\\\"QTime\\\">81</int>\"\n   + \"<lst name=\\\"params\\\"><str name=\\\"q\\\">Why did the chicken cross the road?</str></lst>\"\n      + \"</lst><result maxScore=\\\"1.0\\\" name=\\\"response\\\" numFound=\\\"8034\\\" start=\\\"0\\\"><doc><str name=\\\"id\\\">symbolic</str>\"\n      + \"<str name=\\\"answer\\\">To get to the other side.</str></doc>\"\n      + \"<doc><str name=\\\"id\\\">faq</str><str name=\\\"answer\\\">To get away from the homicidal Sanders.</str></doc>\"\n      + \"<doc><str name=\\\"id\\\">model</str><str name=\\\"answer\\\">Why does anyone do anything?</str></doc>\"\n      + \"</result></response>\";\n  var entity = com.lucidworks.apollo.solr.response.XMLResponse.create(rsp);\n  var headers = {'X-Fusion': 'QA'}\n  var response = new com.lucidworks.apollo.pipeline.query.Response(new javax.ws.rs.core.MultivaluedHashMap(headers), entity);\n  var msg = com.lucidworks.apollo.pipeline.query.QueryRequestAndResponse.create(request, response, 50);\n//.initialEntity.getUnderlyingObject()\n  logger.error(msg);\n  return msg;\n}\n",
         "type" : "javascript-query",
         "skip" : false,
         "label" : "Merge Results",
@@ -3630,6 +3728,11 @@
       "collection" : "lucidfind",
       "searchHandler" : "select"
     }, {
+      "id" : "qa_template",
+      "queryPipeline" : "qa_template_baseline",
+      "collection" : "lucidfind",
+      "searchHandler" : "select"
+    }, {
       "id" : "qa_faq",
       "queryPipeline" : "qa_faq_baseline",
       "collection" : "lucidfind",
@@ -3971,6 +4074,11 @@
       "linkType" : "hasPart",
       "originator" : "unspecified"
     }, {
+      "subject" : "query-profile:qa_template",
+      "object" : "collection:lucidfind",
+      "linkType" : "relatesTo",
+      "originator" : "unspecified"
+    }, {
       "subject" : "datasource:stack-stack-overflow",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
@@ -4062,6 +4170,11 @@
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:mailing-list-zookeeper-zookeeper-user",
+      "object" : "app:searchhub",
+      "linkType" : "inContextOf",
+      "originator" : "unspecified"
+    }, {
+      "subject" : "query-profile:qa_template",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
       "originator" : "unspecified"
@@ -4243,6 +4356,11 @@
     }, {
       "subject" : "query-profile:users_shub",
       "object" : "query-pipeline:users_shub",
+      "linkType" : "relatesTo",
+      "originator" : "unspecified"
+    }, {
+      "subject" : "query-profile:qa_template",
+      "object" : "query-pipeline:qa_template_baseline",
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
@@ -4619,6 +4737,11 @@
       "subject" : "datasource:one_doc",
       "object" : "index-pipeline:mailing-list-default",
       "linkType" : "dependsOn",
+      "originator" : "unspecified"
+    }, {
+      "subject" : "query-pipeline:qa_template_baseline",
+      "object" : "app:searchhub",
+      "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:website-lucidworks-lucidworks-knowledge-base-website",
@@ -15723,7 +15846,7 @@
         "retryEmit" : true,
         "depth" : -1,
         "f.commits" : false,
-        "f.github_username" : "${secret.8.f.github_username}",
+        "f.github_username" : "lucid-ci",
         "refreshStartLinks" : false,
         "fetchThreads" : 1,
         "indexCrawlDBToSolr" : false,
@@ -16117,7 +16240,7 @@
         "retryEmit" : true,
         "depth" : -1,
         "f.commits" : false,
-        "f.github_username" : "${secret.9.f.github_username}",
+        "f.github_username" : "lucid-ci",
         "refreshStartLinks" : false,
         "fetchThreads" : 1,
         "indexCrawlDBToSolr" : false,
@@ -16517,7 +16640,7 @@
         "retryEmit" : true,
         "depth" : -1,
         "f.commits" : false,
-        "f.github_username" : "${secret.10.f.github_username}",
+        "f.github_username" : "lucid-ci",
         "refreshStartLinks" : false,
         "fetchThreads" : 1,
         "indexCrawlDBToSolr" : false,
@@ -22302,7 +22425,7 @@
         "retryEmit" : true,
         "depth" : -1,
         "f.commits" : false,
-        "f.github_username" : "${secret.11.f.github_username}",
+        "f.github_username" : "lucid-ci",
         "refreshStartLinks" : false,
         "fetchThreads" : 1,
         "indexCrawlDBToSolr" : false,
@@ -24451,7 +24574,7 @@
         "retryEmit" : true,
         "depth" : -1,
         "f.commits" : false,
-        "f.github_username" : "${secret.12.f.github_username}",
+        "f.github_username" : "lucid-ci",
         "refreshStartLinks" : false,
         "fetchThreads" : 1,
         "indexCrawlDBToSolr" : false,
@@ -25174,7 +25297,7 @@
   "metadata" : {
     "formatVersion" : "1",
     "exportedBy" : "default-subject",
-    "exportedDate" : "2018-06-14T22:30:00.395Z",
+    "exportedDate" : "2018-06-15T20:22:03.517Z",
     "fusionVersion" : "4.1.0-SNAPSHOT",
     "fusionGuid" : "0fe84639-7d87-4677-badd-9d6bf4c89f79"
   }

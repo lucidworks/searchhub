@@ -4,6 +4,7 @@
 
 <!-- Define a search platform to fetch data from -->
 <search:platform var="platform" conf="platforms.fusion"></search:platform>
+<search:platform var="qa_platform" conf="platforms.fusion.qa.question_answer"></search:platform>
 
 <!-- Search query based on the user's input -->
 <search:query var="query" parameters="*"></search:query>
@@ -12,6 +13,11 @@
 <search:response var="response" platform="platform" query="query">
     <widget:spinner></widget:spinner>
 </search:response>
+
+<search:response var="qa_response" platform="qa_platform" query="query">
+    <widget:spinner></widget:spinner>
+</search:response>
+
 
 
 <!-- -------------------------------------------- -->
@@ -50,15 +56,32 @@
                 <!-- Results Wrapper -->
                 <layout:block>
                     <layout:grid>
+                        <layout:block padding-top="1">
+                            <layout:grid>
+                                <layout:block md="3-4">
+                                    <track:clicks query=query>
+                                        <h2>Answers</h2>
+                                        <search:result-list response="qa_response" styling="cards-sm-1 cards-lg-1 cards-xl-1">
+                                            <search:result>
+                                                <search:field name="id" styling="title"></search:field>
+                                                <search:field name="answer"></search:field>
+                                            </search:result>
+                                        </search:result-list>
 
+                                    </track:clicks>
+
+                                </layout:block>
+                            </layout:grid>
+
+                        </layout:block>
                         <!-- Tabs, View Options, Response Stats, Selected Facets -->
                         <layout:block padding-top="1">
                             <layout:grid>
                                 <layout:block md="3-4">
-
+                                    <h2>Search Results</h2>
                                     <!-- Specify a facet to show tabs from -->
-                                    <search:tabs response="response" field-name="tabField" all-label="All" platform="platform" query="query"
-                                                 tabs="cat1=Category 1,cat2=Category 2,cat3=Category 3"></search:tabs>
+                                    <!--<search:tabs response="response" field-name="tabField" all-label="All" platform="platform" query="query"
+                                                 tabs="cat1=Category 1,cat2=Category 2,cat3=Category 3"></search:tabs>-->
 
                                 </layout:block>
                                 <layout:block md="1-4" styling="center-content sortoptions-block">
@@ -94,6 +117,18 @@
                                     </search:result>
                                     <search:result when="display_type_s" equals="mailing_list">
                                         <layout:include file="views/partials/mail.tpl.html"  result="{{result}}"></layout:include>
+                                    </search:result>
+                                    <search:result when="display_type_s" equals="jira">
+                                        <layout:include file="views/partials/jira.tpl.html"  result="{{result}}"></layout:include>
+                                    </search:result>
+                                    <search:result when="display_type_s" equals="twitter">
+                                        <layout:include file="views/partials/tweet.tpl.html"  result="{{result}}"></layout:include>
+                                    </search:result>
+                                    <search:result when="display_type_s" equals="website">
+                                        <layout:include file="views/partials/website.tpl.html"  result="{{result}}"></layout:include>
+                                    </search:result>
+                                    <search:result when="display_type_s" equals="wiki">
+                                        <layout:include file="views/partials/wiki.tpl.html"  result="{{result}}"></layout:include>
                                     </search:result>
                                 </search:result-list>
 

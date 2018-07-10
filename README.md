@@ -25,7 +25,7 @@
   You'll need the following software installed to get started.
 
 - Fusion 4.1.0 (or 4.1.0-SNAPSHOT if this is before it's released)
-- If you want to crawl the Github sources, you'll need a Github API key: https://github.com/blog/1509-personal-api-tokens
+- The Github sources require a Github API key: https://github.com/blog/1509-personal-api-tokens
 - If you want to crawl Twitter, you will need Twitter keys: https://dev.twitter.com/oauth/overview
 
 ## Get Started

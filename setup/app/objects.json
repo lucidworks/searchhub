@@ -1148,98 +1148,6 @@
         "secretSourcePipelineId" : "twitter-default"
       }
     }, {
-      "id" : "github-default",
-      "stages" : [ {
-        "type" : "tika-parser",
-        "id" : "8ewalt2menhwnopqfr",
-        "includeImages" : false,
-        "flattenCompound" : false,
-        "addFailedDocs" : false,
-        "addOriginalContent" : true,
-        "contentField" : "_raw_content_",
-        "contentEncoding" : "binary",
-        "returnXml" : false,
-        "keepOriginalStructure" : false,
-        "extractHtmlLinks" : true,
-        "extractOtherLinks" : false,
-        "includeContentTypes" : [ ],
-        "excludeContentTypes" : [ ],
-        "zipBombCompressionRatio" : 200,
-        "zipBombMaxDepth" : 200,
-        "zipBombMaxPackageEntryDepth" : 20,
-        "type" : "tika-parser",
-        "skip" : false,
-        "label" : "tika-parser",
-        "licensed" : true,
-        "secretSourceStageId" : "8ewalt2menhwnopqfr",
-        "csvParsing" : false
-      }, {
-        "type" : "regex-extractor",
-        "id" : "riugcik9",
-        "rules" : [ {
-          "source" : [ "_lw_data_source_s" ],
-          "target" : "project",
-          "writeMode" : "append",
-          "pattern" : "\"(.*?)-(.*?)-\\d+\"",
-          "returnIfNoMatch" : "null",
-          "annotateAs" : "",
-          "group" : 2
-        } ],
-        "type" : "regex-extractor",
-        "skip" : true,
-        "label" : "Project Name Extractor",
-        "licensed" : true,
-        "secretSourceStageId" : "riugcik9"
-      }, {
-        "type" : "field-mapping",
-        "id" : "4cab5088-fdee-460c-b98c-1a5715bef737",
-        "mappings" : [ {
-          "source" : "/(.*?)lat(itude)?$/",
-          "target" : "$1_lat_lon",
-          "operation" : "move"
-        }, {
-          "source" : "/(.*?)lon(gitude)?$/",
-          "target" : "$1_lat_lon",
-          "operation" : "move"
-        }, {
-          "source" : "lastModified_dt",
-          "target" : "publishedOnDate",
-          "operation" : "copy"
-        }, {
-          "source" : "github_content_type_s",
-          "target" : "type_s",
-          "operation" : "move"
-        }, {
-          "source" : "_raw_content_",
-          "operation" : "delete"
-        }, {
-          "source" : "display_type_s",
-          "target" : "github",
-          "operation" : "set"
-        } ],
-        "reservedFieldsMappingAllowed" : false,
-        "type" : "field-mapping",
-        "skip" : false,
-        "label" : "field-mapping",
-        "licensed" : true,
-        "secretSourceStageId" : "4cab5088-fdee-460c-b98c-1a5715bef737"
-      }, {
-        "type" : "solr-index",
-        "id" : "9c83ba0e-23a6-4c35-963d-94fbfae88e23",
-        "enforceSchema" : true,
-        "dateFormats" : [ ],
-        "params" : [ ],
-        "bufferDocsForSolr" : true,
-        "type" : "solr-index",
-        "skip" : false,
-        "label" : "solr-index",
-        "licensed" : true,
-        "secretSourceStageId" : "9c83ba0e-23a6-4c35-963d-94fbfae88e23"
-      } ],
-      "properties" : {
-        "secretSourcePipelineId" : "github-default"
-      }
-    }, {
       "id" : "lw-docs-default",
       "stages" : [ {
         "type" : "tika-parser",
@@ -4049,11 +3957,6 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
-      "subject" : "datasource:github-tika-tika-github",
-      "object" : "app:searchhub",
-      "linkType" : "inContextOf",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:website-zookeeper-zookeeper-website",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -4120,11 +4023,6 @@
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:mailing-list-groovy-groovy-users",
-      "object" : "app:searchhub",
-      "linkType" : "inContextOf",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "datasource:github-solr-solr-github",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
       "originator" : "unspecified"
@@ -4519,11 +4417,6 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
-      "subject" : "datasource:github-mahout-mahout-github",
-      "object" : "app:searchhub",
-      "linkType" : "inContextOf",
-      "originator" : "unspecified"
-    }, {
       "subject" : "index-profile:lucidfind_email_subject_weights",
       "object" : "collection:lucidfind_email_subject_weights",
       "linkType" : "relatesTo",
@@ -4864,11 +4757,6 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
-      "subject" : "datasource:github-solr-solr-github",
-      "object" : "collection:lucidfind",
-      "linkType" : "relatesTo",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:mailing-list-httpd-httpd-users",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -5144,11 +5032,6 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
-      "subject" : "datasource:github-zookeeper-zookeeper-github",
-      "object" : "collection:lucidfind",
-      "linkType" : "relatesTo",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:mailing-list-lucene-lucene-dev",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -5409,11 +5292,6 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
-      "subject" : "datasource:github-spark-spark-github",
-      "object" : "collection:lucidfind",
-      "linkType" : "relatesTo",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:mailing-list-drill-drill-user",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
@@ -5614,11 +5492,6 @@
       "linkType" : "relatesTo",
       "originator" : "unspecified"
     }, {
-      "subject" : "datasource:github-mahout-mahout-github",
-      "object" : "collection:lucidfind",
-      "linkType" : "relatesTo",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:mailing-list-bigtop-bigtop-user",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
@@ -5689,11 +5562,6 @@
       "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
-      "subject" : "datasource:github-tika-tika-github",
-      "object" : "collection:lucidfind",
-      "linkType" : "relatesTo",
-      "originator" : "unspecified"
-    }, {
       "subject" : "datasource:website-nutch-nutch-website",
       "object" : "app:searchhub",
       "linkType" : "inContextOf",
@@ -5737,16 +5605,6 @@
       "subject" : "datasource:website-axis-axis-website",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "index-pipeline:github-default",
-      "object" : "app:searchhub",
-      "linkType" : "inContextOf",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "datasource:github-zookeeper-zookeeper-github",
-      "object" : "app:searchhub",
-      "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
       "subject" : "datasource:website-spark-spark-website",
@@ -5817,11 +5675,6 @@
       "subject" : "datasource:wiki-trafficserver-trafficserver-wiki",
       "object" : "collection:lucidfind",
       "linkType" : "relatesTo",
-      "originator" : "unspecified"
-    }, {
-      "subject" : "datasource:github-spark-spark-github",
-      "object" : "app:searchhub",
-      "linkType" : "inContextOf",
       "originator" : "unspecified"
     }, {
       "subject" : "index-profile:lucidfind_email_subject_weights",
@@ -6066,18 +5919,6 @@
       } ],
       "default" : false
     }, {
-      "resource" : "datasource:github-tika-tika-github",
-      "enabled" : false,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : false,
-        "interval" : 2,
-        "timeUnit" : "hour",
-        "startTime" : "2018-06-04T20:28:00.001Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
       "resource" : "datasource:mailing-list-manifoldcf-manifoldcf-dev",
       "enabled" : false,
       "triggers" : [ {
@@ -6122,18 +5963,6 @@
         "interval" : 2,
         "timeUnit" : "hour",
         "startTime" : "2018-06-04T18:53:00.001Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
-      "resource" : "datasource:github-spark-spark-github",
-      "enabled" : false,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : false,
-        "interval" : 2,
-        "timeUnit" : "hour",
-        "startTime" : "2018-06-04T02:35:00.001Z",
         "type" : "interval"
       } ],
       "default" : false
@@ -6726,18 +6555,6 @@
       } ],
       "default" : false
     }, {
-      "resource" : "datasource:github-zookeeper-zookeeper-github",
-      "enabled" : false,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : false,
-        "interval" : 1,
-        "timeUnit" : "hour",
-        "startTime" : "2018-06-04T21:13:00.001Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
       "resource" : "datasource:mailing-list-cassandra-cassandra-user",
       "enabled" : false,
       "triggers" : [ {
@@ -6782,18 +6599,6 @@
         "interval" : 1,
         "timeUnit" : "hour",
         "startTime" : "2018-06-04T11:45:00.001Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
-      "resource" : "datasource:github-solr-solr-github",
-      "enabled" : false,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : false,
-        "interval" : 6,
-        "timeUnit" : "hour",
-        "startTime" : "2018-06-04T10:16:00.001Z",
         "type" : "interval"
       } ],
       "default" : false
@@ -7322,18 +7127,6 @@
         "interval" : 2,
         "timeUnit" : "hour",
         "startTime" : "2018-06-04T04:05:00.001Z",
-        "type" : "interval"
-      } ],
-      "default" : false
-    }, {
-      "resource" : "datasource:github-mahout-mahout-github",
-      "enabled" : false,
-      "triggers" : [ {
-        "type" : "interval",
-        "enabled" : false,
-        "interval" : 1,
-        "timeUnit" : "hour",
-        "startTime" : "2018-06-04T21:22:00.001Z",
         "type" : "interval"
       } ],
       "default" : false
@@ -15740,119 +15533,6 @@
         "aliasExpiration" : 1
       }
     }, {
-      "id" : "github-spark-spark-github",
-      "created" : "2018-06-04T21:35:18.835Z",
-      "modified" : "2018-06-04T21:35:18.835Z",
-      "connector" : "lucid.github",
-      "type" : "github",
-      "pipeline" : "github-default",
-      "parserId" : "searchhub",
-      "properties" : {
-        "f.github_enterprise" : false,
-        "f.pull_requests" : false,
-        "refreshOlderThan" : -1,
-        "emitThreads" : 5,
-        "diagnosticMode" : false,
-        "refreshErrors" : false,
-        "f.github_base_url" : "https://github.com",
-        "f.issue_comments" : false,
-        "dedupeSaveSignature" : false,
-        "crawlDBType" : "in-memory",
-        "delete" : true,
-        "f.issues" : false,
-        "initial_mapping" : {
-          "mappings" : [ {
-            "source" : "project",
-            "operation" : "set",
-            "target" : "spark"
-          }, {
-            "source" : "project_label",
-            "operation" : "set",
-            "target" : "Apache Spark"
-          }, {
-            "source" : "datasource_label",
-            "operation" : "set",
-            "target" : "Apache Spark Github"
-          }, {
-            "source" : "isBot",
-            "operation" : "set",
-            "target" : "false"
-          }, {
-            "source" : "charSet",
-            "operation" : "move",
-            "target" : "charSet_s"
-          }, {
-            "source" : "fetchedDate",
-            "operation" : "move",
-            "target" : "fetchedDate_dt"
-          }, {
-            "source" : "lastModified",
-            "operation" : "move",
-            "target" : "lastModified_dt"
-          }, {
-            "source" : "signature",
-            "operation" : "move",
-            "target" : "dedupeSignature_s"
-          }, {
-            "source" : "contentSignature",
-            "operation" : "move",
-            "target" : "signature_s"
-          }, {
-            "source" : "length",
-            "operation" : "move",
-            "target" : "length_l"
-          }, {
-            "source" : "mimeType",
-            "operation" : "move",
-            "target" : "mimeType_s"
-          }, {
-            "source" : "parent",
-            "operation" : "move",
-            "target" : "parent_s"
-          }, {
-            "source" : "owner",
-            "operation" : "move",
-            "target" : "owner_s"
-          }, {
-            "source" : "group",
-            "operation" : "move",
-            "target" : "group_s"
-          } ],
-          "reservedFieldsMappingAllowed" : false,
-          "skip" : false,
-          "id" : "FromMap",
-          "type" : "field-mapping"
-        },
-        "f.github_password" : "${secret.1.f.github_password}",
-        "f.pull_request_comments" : false,
-        "f.branches" : true,
-        "f.commit_comments" : false,
-        "f.milestones" : false,
-        "fetchDelayMS" : 0,
-        "refreshAll" : true,
-        "startLinks" : [ "https://github.com/apache/spark" ],
-        "failFastOnStartLinkFailure" : true,
-        "f.collaborators" : false,
-        "maxItems" : -1,
-        "dedupe" : false,
-        "chunkSize" : 1,
-        "f.commit_diffs" : false,
-        "f.releases" : false,
-        "f.github_accept_self_signed_ssl_certificate" : true,
-        "collection" : "lucidfind",
-        "deleteErrorsAfter" : -1,
-        "f.tags" : false,
-        "forceRefresh" : false,
-        "retryEmit" : true,
-        "depth" : -1,
-        "f.commits" : false,
-        "f.github_username" : "lucid-ci",
-        "refreshStartLinks" : false,
-        "fetchThreads" : 1,
-        "indexCrawlDBToSolr" : false,
-        "f.blobs" : true
-      }
-    }, {
       "id" : "website-lucidworks-youtube-lucidworks",
       "created" : "2018-06-04T21:35:38.826Z",
       "modified" : "2018-06-04T21:35:38.826Z",
@@ -16132,119 +15812,6 @@
         "refreshStartLinks" : false,
         "f.maxSizeBytes" : 4194304,
         "aliasExpiration" : 1
-      }
-    }, {
-      "id" : "github-solr-solr-github",
-      "created" : "2018-06-04T21:35:58.429Z",
-      "modified" : "2018-06-04T21:35:58.429Z",
-      "connector" : "lucid.github",
-      "type" : "github",
-      "pipeline" : "github-default",
-      "parserId" : "searchhub",
-      "properties" : {
-        "f.github_enterprise" : false,
-        "f.pull_requests" : false,
-        "refreshOlderThan" : -1,
-        "emitThreads" : 5,
-        "diagnosticMode" : false,
-        "refreshErrors" : false,
-        "f.github_base_url" : "https://github.com",
-        "f.issue_comments" : false,
-        "dedupeSaveSignature" : false,
-        "crawlDBType" : "in-memory",
-        "delete" : true,
-        "f.issues" : false,
-        "initial_mapping" : {
-          "mappings" : [ {
-            "source" : "project",
-            "operation" : "set",
-            "target" : "solr"
-          }, {
-            "source" : "project_label",
-            "operation" : "set",
-            "target" : "Apache Solr"
-          }, {
-            "source" : "datasource_label",
-            "operation" : "set",
-            "target" : "Apache Solr Github"
-          }, {
-            "source" : "isBot",
-            "operation" : "set",
-            "target" : "false"
-          }, {
-            "source" : "charSet",
-            "operation" : "move",
-            "target" : "charSet_s"
-          }, {
-            "source" : "fetchedDate",
-            "operation" : "move",
-            "target" : "fetchedDate_dt"
-          }, {
-            "source" : "lastModified",
-            "operation" : "move",
-            "target" : "lastModified_dt"
-          }, {
-            "source" : "signature",
-            "operation" : "move",
-            "target" : "dedupeSignature_s"
-          }, {
-            "source" : "contentSignature",
-            "operation" : "move",
-            "target" : "signature_s"
-          }, {
-            "source" : "length",
-            "operation" : "move",
-            "target" : "length_l"
-          }, {
-            "source" : "mimeType",
-            "operation" : "move",
-            "target" : "mimeType_s"
-          }, {
-            "source" : "parent",
-            "operation" : "move",
-            "target" : "parent_s"
-          }, {
-            "source" : "owner",
-            "operation" : "move",
-            "target" : "owner_s"
-          }, {
-            "source" : "group",
-            "operation" : "move",
-            "target" : "group_s"
-          } ],
-          "reservedFieldsMappingAllowed" : false,
-          "skip" : false,
-          "id" : "FromMap",
-          "type" : "field-mapping"
-        },
-        "f.github_password" : "${secret.2.f.github_password}",
-        "f.pull_request_comments" : false,
-        "f.branches" : true,
-        "f.commit_comments" : false,
-        "f.milestones" : false,
-        "fetchDelayMS" : 0,
-        "refreshAll" : true,
-        "startLinks" : [ "https://github.com/apache/lucene-solr" ],
-        "failFastOnStartLinkFailure" : true,
-        "f.collaborators" : false,
-        "maxItems" : -1,
-        "dedupe" : false,
-        "chunkSize" : 1,
-        "f.commit_diffs" : false,
-        "f.releases" : false,
-        "f.github_accept_self_signed_ssl_certificate" : true,
-        "collection" : "lucidfind",
-        "deleteErrorsAfter" : -1,
-        "f.tags" : false,
-        "forceRefresh" : false,
-        "retryEmit" : true,
-        "depth" : -1,
-        "f.commits" : false,
-        "f.github_username" : "lucid-ci",
-        "refreshStartLinks" : false,
-        "fetchThreads" : 1,
-        "indexCrawlDBToSolr" : false,
-        "f.blobs" : true
       }
     }, {
       "id" : "website-ambari-ambari-website",
@@ -16532,119 +16099,6 @@
         "refreshStartLinks" : false,
         "f.maxSizeBytes" : 4194304,
         "aliasExpiration" : 1
-      }
-    }, {
-      "id" : "github-zookeeper-zookeeper-github",
-      "created" : "2018-06-04T21:35:12.740Z",
-      "modified" : "2018-06-04T21:35:12.740Z",
-      "connector" : "lucid.github",
-      "type" : "github",
-      "pipeline" : "github-default",
-      "parserId" : "searchhub",
-      "properties" : {
-        "f.github_enterprise" : false,
-        "f.pull_requests" : false,
-        "refreshOlderThan" : -1,
-        "emitThreads" : 5,
-        "diagnosticMode" : false,
-        "refreshErrors" : false,
-        "f.github_base_url" : "https://github.com",
-        "f.issue_comments" : false,
-        "dedupeSaveSignature" : false,
-        "crawlDBType" : "in-memory",
-        "delete" : true,
-        "f.issues" : false,
-        "initial_mapping" : {
-          "mappings" : [ {
-            "source" : "project",
-            "operation" : "set",
-            "target" : "zookeeper"
-          }, {
-            "source" : "project_label",
-            "operation" : "set",
-            "target" : "Apache Zookeeper"
-          }, {
-            "source" : "datasource_label",
-            "operation" : "set",
-            "target" : "Apache Zookeeper Github"
-          }, {
-            "source" : "isBot",
-            "operation" : "set",
-            "target" : "false"
-          }, {
-            "source" : "charSet",
-            "operation" : "move",
-            "target" : "charSet_s"
-          }, {
-            "source" : "fetchedDate",
-            "operation" : "move",
-            "target" : "fetchedDate_dt"
-          }, {
-            "source" : "lastModified",
-            "operation" : "move",
-            "target" : "lastModified_dt"
-          }, {
-            "source" : "signature",
-            "operation" : "move",
-            "target" : "dedupeSignature_s"
-          }, {
-            "source" : "contentSignature",
-            "operation" : "move",
-            "target" : "signature_s"
-          }, {
-            "source" : "length",
-            "operation" : "move",
-            "target" : "length_l"
-          }, {
-            "source" : "mimeType",
-            "operation" : "move",
-            "target" : "mimeType_s"
-          }, {
-            "source" : "parent",
-            "operation" : "move",
-            "target" : "parent_s"
-          }, {
-            "source" : "owner",
-            "operation" : "move",
-            "target" : "owner_s"
-          }, {
-            "source" : "group",
-            "operation" : "move",
-            "target" : "group_s"
-          } ],
-          "reservedFieldsMappingAllowed" : false,
-          "skip" : false,
-          "id" : "FromMap",
-          "type" : "field-mapping"
-        },
-        "f.github_password" : "${secret.3.f.github_password}",
-        "f.pull_request_comments" : false,
-        "f.branches" : true,
-        "f.commit_comments" : false,
-        "f.milestones" : false,
-        "fetchDelayMS" : 0,
-        "refreshAll" : true,
-        "startLinks" : [ "https://github.com/apache/zookeeper" ],
-        "failFastOnStartLinkFailure" : true,
-        "f.collaborators" : false,
-        "maxItems" : -1,
-        "dedupe" : false,
-        "chunkSize" : 1,
-        "f.commit_diffs" : false,
-        "f.releases" : false,
-        "f.github_accept_self_signed_ssl_certificate" : true,
-        "collection" : "lucidfind",
-        "deleteErrorsAfter" : -1,
-        "f.tags" : false,
-        "forceRefresh" : false,
-        "retryEmit" : true,
-        "depth" : -1,
-        "f.commits" : false,
-        "f.github_username" : "lucid-ci",
-        "refreshStartLinks" : false,
-        "fetchThreads" : 1,
-        "indexCrawlDBToSolr" : false,
-        "f.blobs" : true
       }
     }, {
       "id" : "mailing-list-hbase-hbase-dev",
@@ -22319,119 +21773,6 @@
         "aliasExpiration" : 1
       }
     }, {
-      "id" : "github-tika-tika-github",
-      "created" : "2018-06-04T21:35:30.243Z",
-      "modified" : "2018-06-04T21:35:30.243Z",
-      "connector" : "lucid.github",
-      "type" : "github",
-      "pipeline" : "github-default",
-      "parserId" : "searchhub",
-      "properties" : {
-        "f.github_enterprise" : false,
-        "f.pull_requests" : false,
-        "refreshOlderThan" : -1,
-        "emitThreads" : 5,
-        "diagnosticMode" : false,
-        "refreshErrors" : false,
-        "f.github_base_url" : "https://github.com",
-        "f.issue_comments" : false,
-        "dedupeSaveSignature" : false,
-        "crawlDBType" : "in-memory",
-        "delete" : true,
-        "f.issues" : false,
-        "initial_mapping" : {
-          "mappings" : [ {
-            "source" : "project",
-            "operation" : "set",
-            "target" : "tika"
-          }, {
-            "source" : "project_label",
-            "operation" : "set",
-            "target" : "Apache Tika"
-          }, {
-            "source" : "datasource_label",
-            "operation" : "set",
-            "target" : "Apache Tika Github"
-          }, {
-            "source" : "isBot",
-            "operation" : "set",
-            "target" : "false"
-          }, {
-            "source" : "charSet",
-            "operation" : "move",
-            "target" : "charSet_s"
-          }, {
-            "source" : "fetchedDate",
-            "operation" : "move",
-            "target" : "fetchedDate_dt"
-          }, {
-            "source" : "lastModified",
-            "operation" : "move",
-            "target" : "lastModified_dt"
-          }, {
-            "source" : "signature",
-            "operation" : "move",
-            "target" : "dedupeSignature_s"
-          }, {
-            "source" : "contentSignature",
-            "operation" : "move",
-            "target" : "signature_s"
-          }, {
-            "source" : "length",
-            "operation" : "move",
-            "target" : "length_l"
-          }, {
-            "source" : "mimeType",
-            "operation" : "move",
-            "target" : "mimeType_s"
-          }, {
-            "source" : "parent",
-            "operation" : "move",
-            "target" : "parent_s"
-          }, {
-            "source" : "owner",
-            "operation" : "move",
-            "target" : "owner_s"
-          }, {
-            "source" : "group",
-            "operation" : "move",
-            "target" : "group_s"
-          } ],
-          "reservedFieldsMappingAllowed" : false,
-          "skip" : false,
-          "id" : "FromMap",
-          "type" : "field-mapping"
-        },
-        "f.github_password" : "${secret.4.f.github_password}",
-        "f.pull_request_comments" : false,
-        "f.branches" : true,
-        "f.commit_comments" : false,
-        "f.milestones" : false,
-        "fetchDelayMS" : 0,
-        "refreshAll" : true,
-        "startLinks" : [ "https://github.com/apache/tika" ],
-        "failFastOnStartLinkFailure" : true,
-        "f.collaborators" : false,
-        "maxItems" : -1,
-        "dedupe" : false,
-        "chunkSize" : 1,
-        "f.commit_diffs" : false,
-        "f.releases" : false,
-        "f.github_accept_self_signed_ssl_certificate" : true,
-        "collection" : "lucidfind",
-        "deleteErrorsAfter" : -1,
-        "f.tags" : false,
-        "forceRefresh" : false,
-        "retryEmit" : true,
-        "depth" : -1,
-        "f.commits" : false,
-        "f.github_username" : "lucid-ci",
-        "refreshStartLinks" : false,
-        "fetchThreads" : 1,
-        "indexCrawlDBToSolr" : false,
-        "f.blobs" : true
-      }
-    }, {
       "id" : "mailing-list-spark-spark-dev",
       "created" : "2018-06-04T21:35:18.319Z",
       "modified" : "2018-06-04T21:35:18.319Z",
@@ -24466,119 +23807,6 @@
         "refreshStartLinks" : false,
         "f.maxSizeBytes" : 4194304,
         "aliasExpiration" : 1
-      }
-    }, {
-      "id" : "github-mahout-mahout-github",
-      "created" : "2018-06-04T21:35:23.353Z",
-      "modified" : "2018-06-04T21:35:23.353Z",
-      "connector" : "lucid.github",
-      "type" : "github",
-      "pipeline" : "github-default",
-      "parserId" : "searchhub",
-      "properties" : {
-        "f.github_enterprise" : false,
-        "f.pull_requests" : false,
-        "refreshOlderThan" : -1,
-        "emitThreads" : 5,
-        "diagnosticMode" : false,
-        "refreshErrors" : false,
-        "f.github_base_url" : "https://github.com",
-        "f.issue_comments" : false,
-        "dedupeSaveSignature" : false,
-        "crawlDBType" : "in-memory",
-        "delete" : true,
-        "f.issues" : false,
-        "initial_mapping" : {
-          "mappings" : [ {
-            "source" : "project",
-            "operation" : "set",
-            "target" : "mahout"
-          }, {
-            "source" : "project_label",
-            "operation" : "set",
-            "target" : "Apache Mahout"
-          }, {
-            "source" : "datasource_label",
-            "operation" : "set",
-            "target" : "Apache Mahout Github"
-          }, {
-            "source" : "isBot",
-            "operation" : "set",
-            "target" : "false"
-          }, {
-            "source" : "charSet",
-            "operation" : "move",
-            "target" : "charSet_s"
-          }, {
-            "source" : "fetchedDate",
-            "operation" : "move",
-            "target" : "fetchedDate_dt"
-          }, {
-            "source" : "lastModified",
-            "operation" : "move",
-            "target" : "lastModified_dt"
-          }, {
-            "source" : "signature",
-            "operation" : "move",
-            "target" : "dedupeSignature_s"
-          }, {
-            "source" : "contentSignature",
-            "operation" : "move",
-            "target" : "signature_s"
-          }, {
-            "source" : "length",
-            "operation" : "move",
-            "target" : "length_l"
-          }, {
-            "source" : "mimeType",
-            "operation" : "move",
-            "target" : "mimeType_s"
-          }, {
-            "source" : "parent",
-            "operation" : "move",
-            "target" : "parent_s"
-          }, {
-            "source" : "owner",
-            "operation" : "move",
-            "target" : "owner_s"
-          }, {
-            "source" : "group",
-            "operation" : "move",
-            "target" : "group_s"
-          } ],
-          "reservedFieldsMappingAllowed" : false,
-          "skip" : false,
-          "id" : "FromMap",
-          "type" : "field-mapping"
-        },
-        "f.github_password" : "${secret.5.f.github_password}",
-        "f.pull_request_comments" : false,
-        "f.branches" : true,
-        "f.commit_comments" : false,
-        "f.milestones" : false,
-        "fetchDelayMS" : 0,
-        "refreshAll" : true,
-        "startLinks" : [ "https://github.com/apache/mahout" ],
-        "failFastOnStartLinkFailure" : true,
-        "f.collaborators" : false,
-        "maxItems" : -1,
-        "dedupe" : false,
-        "chunkSize" : 1,
-        "f.commit_diffs" : false,
-        "f.releases" : false,
-        "f.github_accept_self_signed_ssl_certificate" : true,
-        "collection" : "lucidfind",
-        "deleteErrorsAfter" : -1,
-        "f.tags" : false,
-        "forceRefresh" : false,
-        "retryEmit" : true,
-        "depth" : -1,
-        "f.commits" : false,
-        "f.github_username" : "lucid-ci",
-        "refreshStartLinks" : false,
-        "fetchThreads" : 1,
-        "indexCrawlDBToSolr" : false,
-        "f.blobs" : true
       }
     }, {
       "id" : "mailing-list-cassandra-cassandra-user",

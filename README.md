@@ -33,7 +33,7 @@
 
 0. Copy `myenv.sh.tmpl` to `myenv.sh` and fill in with appropriate values.  Usually this means setting the FUSION_HOME variable.
 1. `source myenv.sh`
-1. Copy `password_file.json.tmp` to `password_file.json` and fill in appropriately.  As of this time, this file must be in plaintext, so please treat it appropriately.
+1. Copy `password_file.json.tmp` to `password_file.json` and fill in appropriately (it may not be needed).  As of this time, this file must be in plaintext, so please treat it appropriately.
 1. `./gradlew deployLibs` (this will deploy the mail parsing code to Fusion)
 1. Restart the Fusion API and Connector services:
       1. In $FUSION_HOME, `bin/api restart` and `bin/connectors restart`

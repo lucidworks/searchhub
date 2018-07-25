@@ -74,11 +74,11 @@ cd "$DEMO_HOME/setup"
 echo ""
 cd "$DEMO_HOME/setup/app"
 # Work around bug that doesn't properly import connectors
-echo "Installing Connector JARs"
-echo ""
-curl -X PUT -H 'Content-type: application/zip' --data-binary @blobs/lucidworks.twitter-stream-4.1.0-SNAPSHOT.zip "$FUSION_API/blobs/lucidworks.twitter-stream-4.1.0-SNAPSHOT.zip?resourceType=plugin:connector"
-curl -X PUT -H 'Content-type: application/zip' --data-binary @blobs/lucidworks.github-4.1.0-SNAPSHOT.zip "$FUSION_API/blobs/lucidworks.github-4.1.0-SNAPSHOT.zip?resourceType=plugin:connector"
-curl -X PUT -H 'Content-type: application/zip' --data-binary @blobs/lucidworks.jira-4.1.0-SNAPSHOT.zip "$FUSION_API/blobs/lucidworks.jira-4.1.0-SNAPSHOT.zip?resourceType=plugin:connector"
+#echo "Installing Connector JARs"
+#echo ""
+#curl -X PUT -H 'Content-type: application/zip' --data-binary @blobs/lucidworks.twitter-stream-4.1.0-SNAPSHOT.zip "$FUSION_API/blobs/lucidworks.twitter-stream-4.1.0-SNAPSHOT.zip?resourceType=plugin:connector"
+#curl -X PUT -H 'Content-type: application/zip' --data-binary @blobs/lucidworks.github-4.1.0-SNAPSHOT.zip "$FUSION_API/blobs/lucidworks.github-4.1.0-SNAPSHOT.zip?resourceType=plugin:connector"
+#curl -X PUT -H 'Content-type: application/zip' --data-binary @blobs/lucidworks.jira-4.1.0-SNAPSHOT.zip "$FUSION_API/blobs/lucidworks.jira-4.1.0-SNAPSHOT.zip?resourceType=plugin:connector"
 
 zip -q -r tmp.zip objects.json blobs/* configsets/*
 echo "Installing the Application"

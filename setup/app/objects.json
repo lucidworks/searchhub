@@ -7563,54 +7563,6 @@
       "notes" : "Aggregate related user activity into a session signal containing activity count, duration, and keywords (based on user search terms). This job is used by the Fusion Insights application to show reports about user sessions. Use the 'elapsedSecsSinceLastActivity' and 'elapsedSecsSinceSessionStart' parameters to determine when a user session is considered to be complete."
     } ],
     "blobs" : [ {
-      "id" : "lucidworks.github-4.1.0-SNAPSHOT.zip",
-      "path" : "/lucidworks.github-4.1.0-SNAPSHOT.zip",
-      "dir" : "/",
-      "filename" : "lucidworks.github-4.1.0-SNAPSHOT.zip",
-      "contentType" : "application/zip",
-      "size" : 993696,
-      "modifiedTime" : "2018-07-10T16:55:44.544Z",
-      "version" : 1605623343529066496,
-      "md5" : "3631ebcd080192a225d58c998ded1989",
-      "metadata" : {
-        "bootstrapped" : "false",
-        "connectorVersion" : "4.1.0-SNAPSHOT",
-        "connectorName" : "lucid.github",
-        "resourceType" : "plugin:connector"
-      }
-    }, {
-      "id" : "lucidworks.jira-4.1.0-SNAPSHOT.zip",
-      "path" : "/lucidworks.jira-4.1.0-SNAPSHOT.zip",
-      "dir" : "/",
-      "filename" : "lucidworks.jira-4.1.0-SNAPSHOT.zip",
-      "contentType" : "application/zip",
-      "size" : 1009985,
-      "modifiedTime" : "2018-07-10T16:55:44.974Z",
-      "version" : 1605623343978905600,
-      "md5" : "d9c317067823ff4ddd1307565249b5c6",
-      "metadata" : {
-        "bootstrapped" : "false",
-        "connectorVersion" : "4.1.0-SNAPSHOT",
-        "connectorName" : "lucid.jira",
-        "resourceType" : "plugin:connector"
-      }
-    }, {
-      "id" : "lucidworks.twitter-stream-4.1.0-SNAPSHOT.zip",
-      "path" : "/lucidworks.twitter-stream-4.1.0-SNAPSHOT.zip",
-      "dir" : "/",
-      "filename" : "lucidworks.twitter-stream-4.1.0-SNAPSHOT.zip",
-      "contentType" : "application/zip",
-      "size" : 569547,
-      "modifiedTime" : "2018-07-10T16:55:45.253Z",
-      "version" : 1605623344272506880,
-      "md5" : "e168ba81363785f16760562c51c238f7",
-      "metadata" : {
-        "bootstrapped" : "false",
-        "connectorVersion" : "4.1.0-SNAPSHOT",
-        "connectorName" : "lucid.twitter-stream",
-        "resourceType" : "plugin:connector"
-      }
-    }, {
       "id" : "top_level_classifier",
       "path" : "/top_level_classifier",
       "dir" : "/",
@@ -24500,7 +24452,7 @@
     "formatVersion" : "1",
     "exportedBy" : "default-subject",
     "exportedDate" : "2018-07-10T16:58:30.806Z",
-    "fusionVersion" : "4.1.0-SNAPSHOT",
+    "fusionVersion" : "4.1.0",
     "fusionGuid" : "f623aeaf-404c-4277-8df2-31ed894e3525"
   }
 }

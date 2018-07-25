@@ -27,6 +27,7 @@
 - Fusion 4.1.0 (or 4.1.0-SNAPSHOT if this is before it's released)
 - The Github sources require a Github API key: https://github.com/blog/1509-personal-api-tokens
 - If you want to crawl Twitter, you will need Twitter keys: https://dev.twitter.com/oauth/overview
+- Maven (yes, we use Maven and Gradle.  Don't ask.)
 
 ## Get Started
 
@@ -37,8 +38,10 @@
 1. Restart the Fusion API and Connector services:
       1. In $FUSION_HOME, `bin/api restart` and `bin/connectors restart`
 1. `./install.sh`                                                          
+1. Browse to http://localhost:8780/shub for the Search UI and/or httpd://localhost:8764 for the Admin UI
 
 
+# Dev Notes
 ## Adding your own Project to Crawl
 
 To add another project, you need to do a few things:

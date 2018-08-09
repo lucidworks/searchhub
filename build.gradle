@@ -85,7 +85,7 @@ task checkRequiredProperties() {
   if (!System.getenv("FUSION_HOME")) {
     throw new GradleException('missing FUSION_HOME. Configure in myenv.sh per the README.txt')
   } else {
-    println("Search Hub Fusion location set to $searchhubFusionHome")
+    println("Search Hub Fusion location set to" + System.getenv("FUSION_HOME"))
   }
 }
 checkRequiredProperties

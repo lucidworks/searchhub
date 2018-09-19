@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+.expert-result-list			{ #gsa .expert-search(); } 			// @expert-bg-color, @expert-text-color, @expert-border-color, @expert-title-text-color, @expert-email-text-color
+.spelling-suggestions 		{ #gsa .spelling-suggestions();	}  	// @spelling-bg-color, @spelling-text-color
+.keymatch-list-container,
+.keymatch-list 				{ #gsa .keymatches(); }				// @keymatch-bg-color, @keymatch-text-color
+.one-box-container,
+	.one-box 				{ #gsa .onebox(); }					// @onebox-bg-color, @onebox-text-color
+.preview-viewer 			{ #gsa .preview-viewer(); }
+.relatedquery-list-container{ #gsa .related-queries(); }		// @related-bg-color, @related-text-color

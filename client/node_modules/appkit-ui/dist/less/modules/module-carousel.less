@@ -1,0 +1,113 @@
+// CSS for the widgetCarousel directive
+.tk-stl-carousel {
+  display: block;
+  width: 100%;
+  height: 300px;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  transition: height 0.2s ease;
+
+  slidecontainer {
+	display: block;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	font-size: 0;
+
+	&.carousel-ignore-first-slide {
+	  -webkit-transform: translate(-100%, 0);
+	  -moz-transform: translate(-100%, 0);
+	  -o-transform: translate(-100%, 0);
+	  -ms-transform: translate(-100%, 0);
+	  transform: translate(-100%, 0);
+	}
+
+	&.carousel-animate {
+	  -webkit-transition: -webkit-transform 0.5s ease-out 0s;
+	  -moz-transition: -moz-transform 0.5s ease-out 0s;
+	  -ms-transition: -ms-transform 0.5s ease-out 0s;
+	  -o-transition: -o-transform 0.5s ease-out 0s;
+	  transition: transform 0.5s ease-out 0s;
+	}
+
+	slide {
+	  position: relative;
+	  display: inline-block;
+	  vertical-align: top;
+	  font-size: 16px;
+	  width: 100%;
+	  height: 100%;
+	  -webkit-background-size: cover;
+	  background-size: cover;
+	  background-position: center;
+	  white-space: normal;
+
+	  img {
+		// Disable dragging on image so the carousel can be dragged
+		pointer-events: none;
+		// Center images in slides
+		margin: 0 auto;
+		display: block;
+	  }
+	}
+
+  }
+
+  .carousel-arrow {
+	display: inline-block;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	z-index: 1;
+	width: 100px;
+	text-align: center;
+	cursor: pointer;
+
+	&.carousel-arrow-left {
+	  left: 0;
+	}
+
+	&.carousel-arrow-right {
+	  right: 0;
+	}
+
+	.icon-angle-right,
+	.icon-angle-left {
+	  font-size: 2.5em;
+	}
+  }
+
+  .pagination {
+	position: absolute;
+	bottom: 5px;
+	left: 0;
+	right: 0;
+	display: inline-block;
+	text-align: center;
+	z-index: 1;
+
+	.dot {
+	  height: 8px;
+	  width: 8px;
+	  border: 1px solid #777;
+	  border-radius: 50%;
+	  background: transparent;
+	  transition: background 0.2s linear;
+	  display: inline-block;
+	  margin: 0 0.1em;
+	  cursor: pointer;
+
+	  &.active {
+		background: #777;
+		cursor: default;
+	  }
+	}
+  }
+
+}

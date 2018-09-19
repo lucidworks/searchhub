@@ -38,8 +38,13 @@
 1. Restart the Fusion API and Connector services:
       1. In $FUSION_HOME, `bin/api restart` and `bin/connectors restart`
 1. `./install.sh`                                                          
-1. Browse to http://localhost:8780/shub for the Search UI and/or httpd://localhost:8764 for the Admin UI
-
+   * If you receive errors accessing Twigkit repositories, make sure you download repository settings (from https://dev.twigkit.net/downloads/settings.xml)  and place in` ~/.m2/settings.xml`.  You'll need your Twigkit credentials to do so
+   * If you receive errors when installing on Fusion version > 4.1.0, i.e.:
+```
+  "validationErrors" : [ "Can't import from version 4.1.0 to version 4.2.0-SNAPSHOT" ],
+```
+     you can update `setup/app/objects.json` and change `4.1.0` to whatever version you're running. Importing apps across Fusion versions is not officially supported, so YMMV.
+1. Browse to http://localhost:8780/shub for the Search UI and/or http://localhost:8764 for the Admin UI
 
 # Dev Notes
 ## Adding your own Project to Crawl

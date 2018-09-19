@@ -1,0 +1,138 @@
+/* ---------------------------------------------------------------------
+
+MODULE > PROGRESS SPINNER
+
+--------------------------------------------------------------------- */
+
+#nprogress .spinner {
+  display: block;
+  position: fixed;
+  z-index: 1031;
+  top: 15px;
+  right: 15px;
+}
+
+#nprogress .spinner-icon {
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+
+  border: solid 2px transparent;
+  border-top-color: #29d;
+  border-left-color: #29d;
+  border-radius: 50%;
+
+  -webkit-animation: nprogress-spinner 400ms linear infinite;
+          animation: nprogress-spinner 400ms linear infinite;
+}
+
+.nprogress-custom-parent {
+  overflow: hidden;
+  position: relative;
+}
+
+.nprogress-custom-parent #nprogress .spinner,
+.nprogress-custom-parent #nprogress .bar {
+  position: absolute;
+}
+
+@-webkit-keyframes nprogress-spinner {
+  0%   { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes nprogress-spinner {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+///////////////////////////////////////////
+// Spinning Circle
+///////////////////////////////////////////
+
+.tk-stl-circle-loader {
+  margin: 60px auto;
+  font-size: 1em;
+  position: relative;
+  text-indent: -9999em;
+  border-top: 0.3em solid fade(@color-primary, 20);
+  border-right: 0.3em solid fade(@color-primary, 20);
+  border-bottom: 0.3em solid fade(@color-primary, 20);
+  border-left: 0.3em solid @color-primary;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation: circleload 1.1s infinite linear;
+  animation: circleload 1.1s infinite linear;
+}
+.tk-stl-circle-loader,
+.tk-stl-circle-loader:after {
+  border-radius: 50%;
+  width: 4em;
+  height: 4em;
+}
+
+.tk-stl-circle-loader.tk-stl-xs,
+.tk-stl-circle-loader.tk-stl-xs:after {
+  width: 1.5em;
+  height: 1.5em; 
+  margin: 20px auto
+}
+
+.tk-stl-circle-loader.tk-stl-sm,
+.tk-stl-circle-loader.tk-stl-sm:after {
+  width: 2.5em;
+  height: 2.5em; 
+  margin: 30px auto
+}
+
+.tk-stl-circle-loader.tk-stl-search-loader,
+.tk-stl-circle-loader.tk-stl-search-loader:after{
+    position: absolute;
+    right: 5.5em;
+    top: 0.6em;
+    margin: 0px;
+    width: 1.1em;
+    height: 1.1em;
+}
+
+.tk-stl-social-search .tk-stl-circle-loader.tk-stl-search-loader,
+.tk-stl-social-search .tk-stl-circle-loader.tk-stl-search-loader:after{
+    right: 10em;
+}
+
+.tk-stl-circle-loader.tk-stl-search-within,
+.tk-stl-circle-loader.tk-stl-search-within:after{
+	position: relative;
+	right: 0px;
+	top: 0px;
+	margin: -2.15em 10px 0 0;
+	float: right;
+	clear: both;
+	display: inline-block;
+	height: 1em;
+	width: 1em;
+}
+
+
+@-webkit-keyframes circleload {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes circleload {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+

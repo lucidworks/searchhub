@@ -1,0 +1,294 @@
+// A set of nice colours to use
+@color-white: #fff;
+@color-grey-1: #f9f9f9;
+@color-grey-2: #f5f5f5;
+@color-grey-3: #e5e5e5;
+@color-grey-4: #dcdddd;
+@color-grey-5: #5F6E82;
+@color-grey-6: #3D4A5A;
+@color-grey-7: #313539;
+@color-black: #000;
+
+@color-dark-blue: #3b59a0;
+@color-bright-blue: #3f9ff6;
+@color-amber: #fec03b;
+@color-orange: #ed6945;
+@color-red: #fc5a5d;
+@color-pink: #f25878;
+@color-purple: #af4de7;
+@color-green: #44bd95;
+@color-green-2: #00d46a;
+@color-bright-green: #60cc5d;
+
+// Semantic colours
+@color-positive: #00d46a;
+@color-positive-contrast: #fff;
+
+@color-negative: @color-red;
+@color-negative-contrast: #fff;
+
+@color-warning: @color-amber;
+@color-warning-contrast: #fff;
+
+@color-info: @color-bright-blue;
+@color-info-contrast: #fff;
+
+// Primary color
+@color-primary: #0077cc;
+@color-primary-light: lighten(@color-primary, 10);
+@color-primary-dark: darken(@color-primary, 10);
+@color-primary-contrast: #fff;
+
+// Secondary color
+@color-secondary: #00456e;
+@color-secondary-light: lighten(@color-secondary, 10);
+@color-secondary-dark: darken(@color-secondary, 10);
+@color-secondary-contrast: #fff;
+
+@color-tertiary: @color-grey-6;
+@color-tertiary-light: lighten(@color-tertiary, 10);
+@color-tertiary-dark: darken(@color-tertiary, 10);
+@color-tertiary-contrast: #fff;
+
+// flat colours
+@color-raspberry: #ED5465;
+@color-raspberry-light: lighten(@color-raspberry, 10);
+@color-raspberry-dark: #D8434D;
+@color-strawberry: #ED5F55;
+@color-strawberry-light: lighten(@color-strawberry, 10);
+@color-strawberry-dark: #D84C43;
+@color-carrot: #F87E51;
+@color-carrot-light: lighten(@color-carrot, 10);
+@color-carrot-dark: #E8663E;
+@color-pumpkin: #FAB154;
+@color-pumpkin-light: lighten(@color-pumpkin, 10);
+@color-pumpkin-dark: #F49B42;
+@color-sunflower: #FCCE54;
+@color-sunflower-light: lighten(@color-sunflower, 10);
+@color-sunflower-dark: #F5BA41;
+@color-leaf: #C3D367;
+@color-leaf-light: lighten(@color-leaf, 10);
+@color-leaf-dark: #B1C151;
+@color-grass: #98D468;
+@color-grass-light: lighten(@color-grass, 10);
+@color-grass-dark: #82C250;
+@color-emerald: #42CC6F;
+@color-emerald-light: lighten(@color-emerald, 10);
+@color-emerald-dark: #3BB75D;
+@color-mint: #48CEC1;
+@color-mint-light: lighten(@color-mint, 10);
+@color-mint-dark: #3ABDAF;
+@color-aqua: #4FC2E8;
+@color-aqua-light: lighten(@color-aqua, 10);
+@color-aqua-dark: #3BB1D9;
+@color-sky: #5C9EED;
+@color-sky-light: lighten(@color-sky, 10);
+@color-sky-dark: #4A8CDB;
+@color-royal: #9398EC;
+@color-royal-light: lighten(@color-royal, 10);
+@color-royal-dark: #7277D6;
+@color-lavender: #CB93EC;
+@color-lavender-light: lighten(@color-lavender, 10);
+@color-lavender-dark: #B377D8;
+@color-pink: #EC87C0;
+@color-pink-light: lighten(@color-pink, 10);
+@color-pink-dark: #D770AD;
+@color-paper: #F0F2F4;
+@color-paper-light: lighten(@color-paper, 10);
+@color-paper-dark: #E1E4E7;
+@color-concrete: #C6CCD4;
+@color-concrete-light: lighten(@color-concrete, 10);
+@color-concrete-dark: #A5ADB8;
+@color-asphalt: #606873;
+@color-asphalt-light: lighten(@color-asphalt, 10);
+@color-asphalt-dark: #3E464F;
+@color-duckegg: #E8EDED;
+@color-duckegg-light: lighten(@color-duckegg, 10);
+@color-duckegg-dark: #CFD3D3;
+
+@color-depth-dblue: #071829;
+@color-depth-lblue: #F5F8FA;
+
+/* Colour classes */
+
+.tk-stl-bg-lgrey        {background: @color-grey-1;}
+.tk-stl-bg-mgrey        {background: @color-grey-3;}
+.tk-stl-bg-dgrey        {background: @color-grey-4;}
+.tk-stl-bg-charcoal     {background: @color-grey-7;}
+.tk-stl-bg-black        {background: @color-black;}
+.tk-stl-bg-white { background: @color-white; }
+.tk-stl-text-white { color: @color-white }
+
+.tk-stl-bg-lbgrey       {background: @color-grey-2;}
+.tk-stl-bg-mbgrey    	{background: @color-grey-5;}
+.tk-stl-bg-dbgrey    	{background: @color-grey-6;}
+
+.tk-stl-bg-blue         {background: @color-dark-blue;}    /* CORE */
+.tk-stl-bg-sblue        {background: @color-bright-blue;}
+.tk-stl-bg-yellow       {background: @color-amber;}
+.tk-stl-bg-orange       {background: @color-orange;}
+.tk-stl-bg-red          {background: @color-red;}
+.tk-stl-bg-pink         {background: @color-pink;}
+.tk-stl-bg-purple       {background: @color-purple;}
+.tk-stl-bg-green        {background: @color-green;}
+
+// Primary
+.tk-stl-bg-primary      {background: @color-primary;}
+.tk-stl-bg-primary-light      {background: @color-primary-light;}
+.tk-stl-bg-primary-dark      {background: @color-primary-dark;}
+.tk-stl-bg-primary-contrast      {background: @color-primary-contrast;}
+.tk-stl-text-primary      {color: @color-primary;}
+.tk-stl-text-primary-contrast      {color: @color-primary-contrast;}
+
+// Secondary
+.tk-stl-bg-secondary      {background: @color-secondary;}
+.tk-stl-bg-secondary-light      {background: @color-secondary-light;}
+.tk-stl-bg-secondary-dark      {background: @color-secondary-dark;}
+.tk-stl-bg-secondary-contrast      {background: @color-secondary-contrast;}
+.tk-stl-text-secondary      {color: @color-secondary;}
+.tk-stl-text-secondary-light      {color: @color-secondary-light;}
+.tk-stl-text-secondary-dark      {color: @color-secondary-dark;}
+.tk-stl-text-secondary-contrast      {color: @color-secondary-contrast;}
+
+// Tertiary
+.tk-stl-bg-tertiary      {background: @color-tertiary;}
+.tk-stl-bg-tertiary-light      {background: @color-tertiary-light;}
+.tk-stl-bg-tertiary-dark      {background: @color-tertiary-dark;}
+.tk-stl-bg-tertiary-contrast      {background: @color-tertiary-contrast;}
+.tk-stl-text-tertiary      {color: @color-tertiary;}
+.tk-stl-text-tertiary-light      {color: @color-tertiary-light;}
+.tk-stl-text-tertiary-dark      {color: @color-tertiary-dark;}
+.tk-stl-text-tertiary-contrast      {color: @color-tertiary-contrast;}
+
+.tk-stl-bg-raspberry { background: @color-raspberry !important; }
+.tk-stl-bg-raspberry-light { background: @color-raspberry-light !important; }
+.tk-stl-bg-raspberry-dark { background: @color-raspberry-dark !important; }
+.tk-stl-text-raspberry { color: @color-raspberry !important; }
+.tk-stl-text-raspberry-light { color: @color-raspberry-light !important; }
+.tk-stl-text-raspberry-dark { color: @color-raspberry-dark !important; }
+
+.tk-stl-bg-strawberry { background: @color-strawberry !important; }
+.tk-stl-bg-strawberry-light { background: @color-strawberry-light !important; }
+.tk-stl-bg-strawberry-dark { background: @color-strawberry-dark !important; }
+.tk-stl-text-strawberry { color: @color-strawberry !important; }
+.tk-stl-text-strawberry-light { color: @color-strawberry-light !important; }
+.tk-stl-text-strawberry-dark { color: @color-strawberry-dark !important; }
+
+.tk-stl-bg-carrot { background: @color-carrot !important; }
+.tk-stl-bg-carrot-light { background: @color-carrot-light !important; }
+.tk-stl-bg-carrot-dark { background: @color-carrot-dark !important; }
+.tk-stl-text-carrot { color: @color-carrot !important; }
+.tk-stl-text-carrot-light { color: @color-carrot-light !important; }
+.tk-stl-text-carrot-dark { color: @color-carrot-dark !important; }
+
+.tk-stl-bg-pumpkin { background: @color-pumpkin !important; }
+.tk-stl-bg-pumpkin-light { background: @color-pumpkin-light !important; }
+.tk-stl-bg-pumpkin-dark { background: @color-pumpkin-dark !important; }
+.tk-stl-text-pumpkin { color: @color-pumpkin !important; }
+.tk-stl-text-pumpkin-light { color: @color-pumpkin-light !important; }
+.tk-stl-text-pumpkin-dark { color: @color-pumpkin-dark !important; }
+
+.tk-stl-bg-sunflower-light { background: @color-sunflower-light !important; }
+.tk-stl-bg-sunflower { background: @color-sunflower !important; }
+.tk-stl-bg-sunflower-dark { background: @color-sunflower-dark !important; }
+.tk-stl-text-sunflower { color: @color-sunflower !important; }
+.tk-stl-text-sunflower-light { color: @color-sunflower-light !important; }
+.tk-stl-text-sunflower-dark { color: @color-sunflower-dark !important; }
+
+.tk-stl-bg-leaf { background: @color-leaf !important; }
+.tk-stl-bg-leaf-light { background: @color-leaf-light !important; }
+.tk-stl-bg-leaf-dark { background: @color-leaf-dark !important; }
+.tk-stl-text-leaf { color: @color-leaf !important; }
+.tk-stl-text-leaf-light { color: @color-leaf-light !important; }
+.tk-stl-text-leaf-dark { color: @color-leaf-dark !important; }
+
+.tk-stl-bg-grass { background: @color-grass !important; }
+.tk-stl-bg-grass-light { background: @color-grass-light !important; }
+.tk-stl-bg-grass-dark { background: @color-grass-dark !important; }
+.tk-stl-text-grass { color: @color-grass !important; }
+.tk-stl-text-grass-light { color: @color-grass-light !important; }
+.tk-stl-text-grass-dark { color: @color-grass-dark !important; }
+
+.tk-stl-bg-emerald { background: @color-emerald !important; }
+.tk-stl-bg-emerald-light { background: @color-emerald-light !important; }
+.tk-stl-bg-emerald-dark { background: @color-emerald-dark !important; }
+.tk-stl-text-emerald { color: @color-emerald !important; }
+.tk-stl-text-emerald-light { color: @color-emerald-light !important; }
+.tk-stl-text-emerald-dark { color: @color-emerald-dark !important; }
+
+.tk-stl-bg-mint { background: @color-mint !important; }
+.tk-stl-bg-mint-light { background: @color-mint-light !important; }
+.tk-stl-bg-mint-dark { background: @color-mint-dark !important; }
+.tk-stl-text-mint { color: @color-mint !important; }
+.tk-stl-text-mint-light { color: @color-mint-light !important; }
+.tk-stl-text-mint-dark { color: @color-mint-dark !important; }
+
+.tk-stl-bg-aqua { background: @color-aqua !important; }
+.tk-stl-bg-aqua-light { background: @color-aqua-light !important; }
+.tk-stl-bg-aqua-dark { background: @color-aqua-dark !important; }
+.tk-stl-text-aqua { color: @color-aqua !important; }
+.tk-stl-text-aqua-light { color: @color-aqua-light !important; }
+.tk-stl-text-aqua-dark { color: @color-aqua-dark !important; }
+
+.tk-stl-bg-sky { background: @color-sky !important; }
+.tk-stl-bg-sky-light { background: @color-sky-light !important; }
+.tk-stl-bg-sky-dark { background: @color-sky-dark !important; }
+.tk-stl-text-sky { color: @color-sky !important; }
+.tk-stl-text-sky-light { color: @color-sky-light !important; }
+.tk-stl-text-sky-dark { color: @color-sky-dark !important; }
+
+.tk-stl-bg-royal { background: @color-royal !important; }
+.tk-stl-bg-royal-light { background: @color-royal-light !important; }
+.tk-stl-bg-royal-dark { background: @color-royal-dark !important; }
+.tk-stl-text-royal { color: @color-royal !important; }
+.tk-stl-text-royal-light { color: @color-royal-light !important; }
+.tk-stl-text-royal-dark { color: @color-royal-dark !important; }
+
+.tk-stl-bg-lavender { background: @color-lavender !important; }
+.tk-stl-bg-lavender-light { background: @color-lavender-light !important; }
+.tk-stl-bg-lavender-dark { background: @color-lavender-dark !important; }
+.tk-stl-text-lavender { color: @color-lavender !important; }
+.tk-stl-text-lavender-light { color: @color-lavender-light !important; }
+.tk-stl-text-lavender-dark { color: @color-lavender-dark !important; }
+
+.tk-stl-bg-pink { background: @color-pink !important; }
+.tk-stl-bg-pink-light { background: @color-pink-light !important; }
+.tk-stl-bg-pink-dark { background: @color-pink-dark !important; }
+.tk-stl-text-pink { color: @color-pink !important; }
+.tk-stl-text-pink-light { color: @color-pink-light !important; }
+.tk-stl-text-pink-dark { color: @color-pink-dark !important; }
+
+.tk-stl-bg-paper { background: @color-paper !important; }
+.tk-stl-bg-paper-light { background: @color-paper-light !important; }
+.tk-stl-bg-paper-dark { background: @color-paper-dark !important; }
+.tk-stl-text-paper { color: @color-paper !important; }
+.tk-stl-text-paper-light { color: @color-paper-light !important; }
+.tk-stl-text-paper-dark { color: @color-paper-dark !important; }
+
+.tk-stl-bg-concrete { background: @color-concrete !important; }
+.tk-stl-bg-concrete-light { background: @color-concrete-light !important; }
+.tk-stl-bg-concrete-dark { background: @color-concrete-dark !important; }
+.tk-stl-text-concrete { color: @color-concrete !important; }
+.tk-stl-text-concrete-light { color: @color-concrete-light !important; }
+.tk-stl-text-concrete-dark { color: @color-concrete-dark !important; }
+
+.tk-stl-bg-asphalt { background: @color-asphalt !important; }
+.tk-stl-bg-asphalt-light { background: @color-asphalt-light !important; }
+.tk-stl-bg-asphalt-dark { background: @color-asphalt-dark !important; }
+.tk-stl-text-asphalt { color: @color-asphalt !important; }
+.tk-stl-text-asphalt-light { color: @color-asphalt-light !important; }
+.tk-stl-text-asphalt-dark { color: @color-asphalt-dark !important; }
+
+.tk-stl-bg-duckegg { background: @color-duckegg !important; }
+.tk-stl-bg-duckegg-light { background: @color-duckegg-light !important; }
+.tk-stl-bg-duckegg-dark { background: @color-duckegg-dark !important; }
+.tk-stl-text-duckegg { color: @color-duckegg !important; }
+.tk-stl-text-duckegg-light { color: @color-duckegg-light !important; }
+.tk-stl-text-duckegg-dark { color: @color-duckegg-dark !important; }
+
+.tk-stl-bg-depth-dblue { background: @color-depth-dblue !important; }
+.tk-stl-text-depth-dblue { color: @color-depth-dblue !important; }
+
+.tk-stl-bg-depth-lblue { background: @color-depth-lblue !important; }
+.tk-stl-text-depth-lblue { color: @color-depth-lblue !important; }
+

@@ -1,0 +1,84 @@
+/* ---------------------------------------------------------------------
+
+LAYOUT > HEADER
+
+--------------------------------------------------------------------- */
+
+/* Static */
+.tk-stl-header {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    z-index: 100;
+}
+
+/* Fixed */
+.tk-stl-header.tk-stl-header-fixed {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 67px;
+    background: white;
+}
+
+/* Shadow */
+.tk-stl-header-shadow {
+    border: 0;
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    -o-box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+/* Gradient */
+.tk-stl-header-gradient {
+    background: @color-primary;
+    background: linear-gradient(to bottom, @color-primary 0, darken(@color-primary, 11%) 100%);
+    border-bottom: 1px solid darken(@color-primary, 17.5%);
+}
+
+/* Border */
+.tk-stl-header-border {
+    border: 0;
+    border-bottom-width: 1px;
+    border-style: solid;
+    border-color: rgba(0,0,0,0.05);
+}
+
+/* Logo */
+.tk-header-logo {
+    border: 0;
+    display: block;
+    font-size: 0;
+
+    img {
+        max-width: 100%;
+    }
+}
+
+@media screen and (max-width: @md-width) {
+    .tk-header-logo {
+        background-position: center 0.35em;
+        border-bottom-width: 1px;
+        border-style: solid;
+        border-color: rgba(0,0,0,0.05);
+        width: 100%;
+    }
+   
+}
+
+.tk-header-logo a {
+    margin:0 auto;
+    padding:0;
+    display: block;
+}
+
+.tk-header-logo a.active,
+.tk-header-logo a:focus {
+    outline: none;
+}
+
+
+
+

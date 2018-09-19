@@ -1,0 +1,65 @@
+// Mac OS X style column view for file hierarchies
+.tk-stl-file-hierarchy {
+  @finder-height: 300px;
+
+  margin: 1em auto;
+  width: 100%;
+  height: @finder-height;
+  border: 1px solid @color-concrete;
+  border-radius: @border-radius;
+  display: block;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  .columns {
+	display: table;
+	white-space: nowrap;
+
+	.column {
+	  display: table-cell;
+	  border-right: 1px solid @color-concrete-dark;
+
+	  &:last-child {
+		border-right: 0;
+	  }
+
+	  ul {
+		margin: 0;
+		padding: 0;
+		height: @finder-height;
+		width: 250px;
+		overflow-y: auto;
+		list-style: none;
+
+		li {
+		  margin: 0;
+		  padding: 0.5em;
+		  font-size: 1em;
+		  cursor: pointer;
+
+		  &.active {
+			background: @color-paper;
+		  }
+
+		  .control {
+			color: @color-concrete-dark;
+			font-size: 0.8em;
+		  }
+
+		  .label {
+			width: 180px;
+			display: inline-block;
+			vertical-align: bottom;
+			overflow: hidden;
+		  }
+
+		  input[type="checkbox"] {
+			margin-left: 10px;
+			margin-top: 6px;
+			float: right;
+		  }
+		}
+	  }
+	}
+  }
+}

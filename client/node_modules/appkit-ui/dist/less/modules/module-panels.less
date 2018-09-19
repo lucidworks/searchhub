@@ -1,0 +1,49 @@
+.tk-stl-panel {
+  padding: 1.5em;
+  background: white;
+  border: 1px solid #e6eaec;
+  text-align: center;
+  width: 100%;
+
+  .tk-stl-title {
+	color: @color-primary;
+	font-weight: 700;
+	font-size: 0.9em;
+	letter-spacing: .1em;
+	text-transform: uppercase;
+	margin: 0.5em 0 2em 0;
+	padding: 0 0 1.5em 0;
+	border-bottom: 1px solid #e6eaec;
+	text-align: center;
+  }
+
+  .tk-stl-footer {
+	font-size: 0.9em;
+	color: #9d9e9e;
+  }
+}
+
+.tk-stl-stretch-content .tk-stl-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+// Link Panels (Big text, takes you to search results page)
+// <layout:grid>
+//     <layout:block>
+//         <layout:box>
+//         <a styling="panel panel-block-link" ng-href="#/laureates?{{ query | getUrlForQuery }}">
+//             <h2>{{response.hits | actual}} laureates match the above criteria. <span>View Now.</span></h2>
+//         </a>
+//         </layout:box>
+//     </layout:block>
+// </layout:grid>
+
+
+a.tk-stl-panel.tk-stl-panel-block-link {
+    display:block;
+}
+
+a.tk-stl-panel.tk-stl-panel-block-link h2 {
+	margin:0;
+}

@@ -1,0 +1,578 @@
+/*!
+ * # Semantic UI - Step
+ * http://github.com/semantic-org/semantic-ui/
+ *
+ *
+ * Released under the MIT license
+ * http://opensource.org/licenses/MIT
+ *
+
+  Example
+
+  <div styling="vertical steps">
+      <div styling="step">
+          <div class="content">
+              <div class="title">CASE 190277</div>
+          </div>
+      </div>
+      <div styling="step" class="completed">
+          <i class="icon-shopping-basket"></i>
+          <div class="content">
+              <div class="title">Shipping</div>
+              <div class="description">Choose your shipping options</div>
+          </div>
+      </div>
+      <div styling="step" class="active">
+          <i class="icon-inbox"></i>
+          <div class="content">
+              <div class="title">Billing</div>
+              <div class="description">Enter billing information</div>
+          </div>
+      </div>
+      <div styling="step" class="">
+          <i class="icon-beaker"></i>
+          <div class="content">
+              <div class="title">Confirm Order</div>
+              <div class="description">Verify order details</div>
+          </div>
+      </div>
+  </div>
+ */
+
+
+
+/*******************************
+         Step Variables
+*******************************/
+@textColor: @text-color;
+
+// Group
+@stepMargin: 1em 0;
+@stepsBackground: #fff;
+
+// Element
+@stepVerticalPadding: 1.14em;
+@stepHorizontalPadding: 2em;
+
+/* Icon */
+@iconDistance: 1rem;
+@iconSize: 2.5em;
+@iconAlign: center;
+
+/*-------------------
+      Variations
+--------------------*/
+
+@stepAttachedHorizontalOffset: -1px;
+@stepAttachedVerticalOffset: 0;
+@stepAttachedWidth: ~"calc(100% + 2px)";
+
+/*-------------------
+       States
+--------------------*/
+
+/* Completed */
+@stepCompletedColor: #21BA45;
+@stepCompletedBackground: inherit;
+@stepCompletedIcon: '\e80c';
+
+/*******************************
+            Plural
+*******************************/
+
+.tk-stl-steps {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: stretch;
+  margin: @stepMargin;
+  background: @stepsBackground;
+  line-height: 1.14285714em;
+  border-radius: @border-radius;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+}
+
+/* First Steps */
+.tk-stl-steps:first-child {
+  margin-top: 0;
+}
+
+/* Last Steps */
+.tk-stl-steps:last-child {
+  margin-bottom: 0;
+}
+
+
+/*******************************
+           Singular
+*******************************/
+
+.tk-stl-steps .tk-stl-step {
+  position: relative;
+  display: flex;
+  flex: 1 0 auto;
+  flex-wrap: wrap;
+  flex-direction: row;
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 0;
+  padding: @stepVerticalPadding @stepHorizontalPadding;
+  background: #fff;
+  color: @textColor;
+  box-shadow: none;
+  border-radius: 0;
+  border: none;
+  border-right: @border;
+  transition: background-color 0.1s ease, opacity 0.1s ease, color 0.1s ease, box-shadow 0.1s ease;
+}
+
+/* Arrow */
+.tk-stl-steps .tk-stl-step:after {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  content: '';
+  top: 50%;
+  right: 0%;
+  border: medium none;
+  background-color: #fff;
+  width: 1.14285714em;
+  height: 1.14285714em;
+
+  border-style: solid;
+  border-color: @borderColor;
+  border-width: 0 1px 1px 0;
+
+  transition: background-color 0.1s ease, opacity 0.1s ease, color 0.1s ease, box-shadow 0.1s ease;
+  transform: translateY(-50%) translateX(50%) rotate(-45deg);
+}
+
+/* First Step */
+.tk-stl-steps .tk-stl-step:first-child {
+  padding-left: @stepHorizontalPadding;
+  border-radius: @border-radius 0 0 @border-radius;
+}
+
+/* Last Step */
+.tk-stl-steps .tk-stl-step:last-child {
+  border-radius: 0 @border-radius @border-radius 0;
+}
+.tk-stl-steps .tk-stl-step:last-child {
+  border-right: none;
+  margin-right: 0;
+}
+
+/* Only Step */
+.tk-stl-steps .tk-stl-step:only-child {
+  border-radius: @border-radius;
+}
+
+
+/*******************************
+            Content
+*******************************/
+
+/* Title */
+.tk-stl-steps .tk-stl-step .title {
+  font-family: @heading-font;
+  font-size: 1.14em;
+  font-weight: bold;
+}
+.tk-stl-steps .tk-stl-step > .title {
+  width: 100%;
+}
+
+/* Description */
+.tk-stl-steps .tk-stl-step .description {
+  font-weight: normal;
+  font-size: 0.928em;
+  color: #555;
+}
+.tk-stl-steps .tk-stl-step > .description {
+  width: 100%;
+}
+.tk-stl-steps .tk-stl-step .title ~ .description {
+  margin-top: 0.25em;
+}
+
+/* Icon */
+.tk-stl-steps .tk-stl-step > i {
+  line-height: 1;
+  font-size: @iconSize;
+  margin: 0 @iconDistance 0 0;
+}
+.tk-stl-steps .tk-stl-step > i,
+.tk-stl-steps .tk-stl-step > i ~ .content {
+  display: block;
+  flex: 0 1 auto;
+  align-self: @iconAlign;
+}
+.tk-stl-steps .tk-stl-step > i ~ .content {
+  flex-grow: 1;
+}
+
+/* Horizontal Icon */
+.tk-stl-steps:not(.vertical) .tk-stl-step > i {
+  width: auto;
+}
+
+/* Link */
+.tk-stl-steps .link.tk-stl-step,
+.tk-stl-steps a.tk-stl-step {
+  cursor: pointer;
+}
+
+/*******************************
+            Types
+*******************************/
+
+/*--------------
+     Ordered
+---------------*/
+
+.tk-stl-ordered.tk-stl-steps {
+  counter-reset: ordered;
+}
+.tk-stl-ordered.tk-stl-steps .tk-stl-step:before {
+  display: block;
+  position: static;
+  text-align: center;
+  content: counters(ordered, ".");
+  align-self: @iconAlign;
+  margin-right: @iconDistance;
+  font-size: @iconSize;
+  counter-increment: ordered;
+  font-family: inherit;
+  font-weight: bold;
+}
+
+.tk-stl-ordered.tk-stl-steps .tk-stl-step > * {
+  display: block;
+  -ms-flex-item-align: middle;
+  -ms-grid-row-align: center;
+  align-self: center;
+}
+
+
+/*--------------
+    Vertical
+---------------*/
+
+.tk-stl-vertical.tk-stl-steps {
+  display: inline-flex;
+  flex-direction: column;
+  overflow: visible;
+}
+.tk-stl-vertical.tk-stl-steps .tk-stl-step {
+  justify-content: flex-start;
+  border-radius: 0;
+  padding: @stepVerticalPadding @stepHorizontalPadding;
+  border-right: none;
+  border-bottom: @border;
+}
+.tk-stl-vertical.tk-stl-steps .tk-stl-step:first-child {
+  padding: @stepVerticalPadding @stepHorizontalPadding;
+  border-radius: @border-radius @border-radius 0 0;
+}
+.tk-stl-vertical.tk-stl-steps .tk-stl-step:last-child {
+  border-bottom: none;
+  border-radius: 0 0 @border-radius @border-radius;
+}
+.tk-stl-vertical.tk-stl-steps .tk-stl-step:only-child {
+  border-radius: @border-radius;
+}
+
+
+/* Arrow */
+.tk-stl-vertical.tk-stl-steps .tk-stl-step:after {
+  display: none;
+}
+.tk-stl-vertical.tk-stl-steps .tk-stl-step:after {
+  top: 50%;
+  right: 0%;
+  border-width: 0 1px 1px 0;
+}
+
+.tk-stl-vertical.tk-stl-steps .tk-stl-step:after {
+  display: none;
+}
+.tk-stl-vertical.tk-stl-steps .active.tk-stl-step:after {
+  display: block;
+}
+.tk-stl-vertical.tk-stl-steps .tk-stl-step:last-child:after {
+  display: none;
+}
+.tk-stl-vertical.tk-stl-steps .active.tk-stl-step:last-child:after {
+  display: block;
+}
+
+
+/*---------------
+    Responsive
+----------------*/
+
+/* Mobile (Default) */
+@media only screen and (max-width: (@sm-width)) {
+
+  .tk-stl-steps {
+    display: inline-flex;
+    overflow: visible;
+    flex-direction: column;
+  }
+  .tk-stl-steps .tk-stl-step {
+    width: 100% !important;
+    flex-direction: column;
+    border-radius: 0;
+    padding: @stepVerticalPadding @stepHorizontalPadding;
+  }
+  .tk-stl-steps .tk-stl-step:first-child {
+    padding: @stepVerticalPadding @stepHorizontalPadding;
+    border-radius: @border-radius @border-radius 0 0;
+  }
+  .tk-stl-steps .tk-stl-step:last-child {
+    border-radius: 0 0 @border-radius @border-radius;
+  }
+
+  /* Arrow */
+  .tk-stl-steps .tk-stl-step:after {
+    display: none !important;
+  }
+
+  /* Content */
+  .tk-stl-steps .tk-stl-step .content {
+    text-align: center;
+  }
+
+  /* Icon */
+  .tk-stl-steps .tk-stl-step > i,
+  .tk-stl-ordered.tk-stl-steps .tk-stl-step:before {
+    margin: 0 0 @iconDistance 0;
+  }
+
+}
+
+/*******************************
+             States
+*******************************/
+
+/* Link Hover */
+.tk-stl-steps .link.tk-stl-step:hover::after,
+.tk-stl-steps .link.tk-stl-step:hover,
+.tk-stl-steps a.tk-stl-step:hover::after,
+.tk-stl-steps a.tk-stl-step:hover {
+  background: @color-paper;
+  color: #777;
+}
+
+/* Link Down */
+.tk-stl-steps .link.tk-stl-step:active::after,
+.tk-stl-steps .link.tk-stl-step:active,
+.tk-stl-steps a.tk-stl-step:active::after,
+.tk-stl-steps a.tk-stl-step:active {
+  background: @color-paper-dark;
+  color: @textColor;
+}
+
+/* Active */
+.tk-stl-steps .tk-stl-step.active {
+  cursor: auto;
+  background: #f3f4f5;
+}
+.tk-stl-steps .tk-stl-step.active:after {
+  background: #f3f4f5;
+}
+.tk-stl-steps .tk-stl-step.active .title {
+  color: #4183c4;
+}
+.tk-stl-ordered.tk-stl-steps .tk-stl-step.active:before,
+.tk-stl-steps .active.tk-stl-step i {
+  color: #4183c4;
+}
+
+/* Active Arrow */
+.tk-stl-steps .tk-stl-step:after {
+  display: block;
+}
+.tk-stl-steps .active.tk-stl-step:after {
+  display: block;
+}
+.tk-stl-steps .tk-stl-step:last-child:after {
+  display: none;
+}
+.tk-stl-steps .active.tk-stl-step:last-child:after {
+  display: none;
+}
+
+/* Active Hover */
+.tk-stl-steps .link.active.tk-stl-step:hover::after,
+.tk-stl-steps .link.active.tk-stl-step:hover,
+.tk-stl-steps a.active.tk-stl-step:hover::after,
+.tk-stl-steps a.active.tk-stl-step:hover {
+  cursor: pointer;
+  background: #DCDDDE;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+/* Completed */
+.tk-stl-steps .tk-stl-step.completed {
+  background: @stepCompletedBackground;
+
+  > i:before {
+    color: @stepCompletedColor;
+    content: @stepCompletedIcon;
+  }
+}
+
+.tk-stl-ordered.tk-stl-steps .tk-stl-step.completed {
+  background: @stepCompletedBackground;
+
+  &::before {
+    color: @stepCompletedColor;
+  }
+}
+
+/* Disabled */
+.tk-stl-steps .disabled.tk-stl-step {
+  cursor: auto;
+  background: #dcdcdc;
+  pointer-events: none;
+}
+.tk-stl-steps .disabled.tk-stl-step,
+.tk-stl-steps .disabled.tk-stl-step .title,
+.tk-stl-steps .disabled.tk-stl-step .description {
+  color: #b7b7b7;
+}
+.tk-stl-steps .disabled.tk-stl-step:after {
+  background: #dcdcdc;
+}
+
+
+/*******************************
+           Variations
+*******************************/
+
+
+/*--------------
+   Stackable
+---------------*/
+
+///* Tablet Or Below */
+//@media only screen and (max-width: @md-width) {
+//
+//  .ui[class*="tablet stackable"].steps {
+//    display: inline-flex;
+//    overflow: visible;
+//    flex-direction: column;
+//  }
+//
+//  /* Steps */
+//  .ui[class*="tablet stackable"].steps .step {
+//    flex-direction: column;
+//    border-radius: @borderRadius;
+//    padding: @stepVerticalPadding @stepHorizontalPadding;
+//  }
+//  .ui[class*="tablet stackable"].steps .step:first-child {
+//    padding: @stepVerticalPadding @stepHorizontalPadding;
+//    border-radius: @border-radius @border-radius 0 0;
+//  }
+//  .ui[class*="tablet stackable"].steps .step:last-child {
+//    border-radius: 0 0 @border-radius @border-radius;
+//  }
+//
+//  /* Arrow */
+//  .ui[class*="tablet stackable"].steps .step:after {
+//    display: none !important;
+//  }
+//
+//  /* Content */
+//  .ui[class*="tablet stackable"].steps .step .content {
+//    text-align: center;
+//  }
+//
+//  /* Icon */
+//  .ui[class*="tablet stackable"].steps .step > i,
+//  .ui[class*="tablet stackable"].ordered.steps .step:before {
+//    margin: 0 0 @iconDistance 0;
+//  }
+//
+//}
+
+/*--------------
+      Fluid
+---------------*/
+
+/* Fluid */
+.tk-stl-fluid.tk-stl-steps {
+  display: flex;
+  width: 100%;
+}
+
+/*--------------
+    Attached
+---------------*/
+
+/* Top */
+.tk-stl-attached.tk-stl-steps {
+  width: @stepAttachedWidth !important;
+  margin: 0 @stepAttachedHorizontalOffset @stepAttachedVerticalOffset;
+  max-width: @stepAttachedWidth;
+  border-radius: @border-radius @border-radius 0 0;
+}
+.tk-stl-attached.tk-stl-steps .step:first-child {
+  border-radius: @border-radius 0 0 0;
+}
+.tk-stl-attached.tk-stl-steps .step:last-child {
+  border-radius: 0 @border-radius 0 0;
+}
+
+/* Bottom */
+.tk-stl-bottom.tk-stl-attached.tk-stl-steps {
+  margin: @stepAttachedVerticalOffset @stepAttachedHorizontalOffset 0;
+  border-radius: 0 0 @border-radius @border-radius;
+}
+.tk-stl-bottom.tk-stl-attached.tk-stl-steps .step:first-child {
+  border-radius: 0 0 0 @border-radius;
+}
+.tk-stl-bottom.tk-stl-attached.tk-stl-steps .step:last-child {
+  border-radius: 0 0 @border-radius 0;
+}
+
+
+/*-------------------
+       Sizes
+--------------------*/
+
+//
+//.ui.mini.steps .step,
+//.ui.mini.step {
+//  font-size: @mini;
+//}
+//.ui.tiny.steps .step,
+//.ui.tiny.step {
+//  font-size: @tiny;
+//}
+//.ui.small.steps .step,
+//.ui.small.step {
+//  font-size: @small;
+//}
+//.tk-stl-steps .step,
+//.ui.step {
+//  font-size: @medium;
+//}
+//.ui.large.steps .step,
+//.ui.large.step {
+//  font-size: @large;
+//}
+//.ui.big.steps .step,
+//.ui.big.step {
+//  font-size: @big;
+//}
+//.ui.huge.steps .step,
+//.ui.huge.step {
+//  font-size: @huge;
+//}
+//.ui.massive.steps .step,
+//.ui.massive.step {
+//  font-size: @massive;
+//}

@@ -1,0 +1,144 @@
+// Twigkit Animations
+
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.animate-fadeInUp {
+  .animated;
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
+}
+
+.animate-fadeInDown {
+  .animated;
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
+}
+
+.tk-stl-animate-fast {
+  animation-duration: 0.2s;
+}
+
+
+// keyframes
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 20px, 0);
+    transform: translate3d(0, 20px, 0);
+    overflow: hidden;
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+    overflow: auto;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -20px, 0);
+    transform: translate3d(0, -20px, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+// Load animation
+@keyframes fadeUp {
+  0% {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+@keyframes bounceIn {
+  from, 20%, 40%, 60%, 80%, to {
+    animation-ltiming-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+
+  0% {
+    opacity: 0;
+    transform: scale3d(.3, .3, .3);
+  }
+
+  40% {
+    opacity: 1;
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+
+  80% {
+    transform: scale3d(.97, .97, .97);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+// Add animations to some elements by default
+.tk-stl-sortoptions-group.show ul,
+.saved-searches,
+.bookmarks-list
+{
+  .animate-fadeInDown;
+  -webkit-animation-duration: 0.2s;
+  animation-duration: 0.2s;
+}
+
+.tk-stl-animation-bounce-in {
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  animation-name: bounceIn;
+}
+
+.tk-stl-animation-fade-up {
+  animation-duration: 0.7s;
+  animation-fill-mode: both;
+  animation-name: fadeUp;
+}
+
+// Pop in
+@keyframes pop-in {
+  0% { opacity: 0; }
+  1% { opacity: 0; transform: scale(0.9); }
+  80% { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes scale-down {
+  0% { transform: scale(1); }
+  100% { opacity: 0; transform: scale(0); }
+}
+

@@ -1,0 +1,160 @@
+@pivot-table-border-color: #e6eaec;
+@pivot-table-row-height: 40px;
+@pivot-table-cell-min-width: 65px;
+
+.tk-stl-pivot-table {
+  border: 2px solid @pivot-table-border-color;
+  border-radius: 3px;
+  overflow-y: auto;
+  height: 100%;
+  position: relative;
+
+  .sticky-header {
+    position: relative;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    z-index: 5;
+    border-bottom: 1px solid #e6eaec;
+
+    > .filter-row {
+      border-bottom: none;
+      border-right: 1px solid #e6eaec;
+      width: 266px;
+    }
+
+    .pivot-table-header .pivot-cell {
+      font-size: 0.75em;
+    }
+  }
+
+  .scroll-wrapper {
+    overflow-y: auto;
+    height: 100%;
+    max-height: 80vh;
+  }
+
+  .filter-row {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: 1px solid @pivot-table-border-color;
+  }
+
+  .filter:last-child .trigger {
+    border-bottom: none;
+  }
+
+  .filter:last-child .filter-row {
+    border-bottom: none;
+  }
+
+  .pivot-related {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .pivot-cell {
+    display: inline-block;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    min-width: @pivot-table-cell-min-width;
+    height: @pivot-table-row-height;
+    background: #fff;
+    box-shadow: 0 1px 0 0 @pivot-table-border-color;
+    overflow: hidden;
+
+    p {
+      text-align: center;
+      overflow-wrap: break-word;
+      margin: 0.1em 0;
+      width: 100%;
+    }
+
+    &.header {
+      border-right: 1px solid @pivot-table-border-color;
+      width: 200px;
+      overflow-y: hidden;
+      white-space: nowrap;
+      cursor: pointer;
+
+      .tk-stl-circle-loader {
+        display: none;
+        float: right;
+        margin: 0;
+        height: 19px;
+        width: 19px;
+        border-width: 0.15em;
+      }
+    }
+  }
+
+  .pivot-cell.header .expand-icon,
+  .pivot-cell.header .collapse-icon {
+    float: right;
+    cursor: pointer;
+  }
+
+  .filter .pivot-cell.header .collapse-icon {
+    display: none;
+  }
+
+  .filter.loading .pivot-cell.header .tk-stl-circle-loader {
+    display: inline;
+  }
+
+  .filter.loading .pivot-cell.header .expand-icon,
+  .filter.expanded .pivot-cell.header .expand-icon {
+    display: none;
+  }
+
+  .filter.expanded .pivot-cell.header .collapse-icon {
+    display: inline;
+  }
+
+  .pivot-horizontal-scroller {
+    height: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .pivot-expand .trigger {
+    display: block;
+    text-align: center;
+    margin: 0;
+    padding: 0.5rem;
+    border-bottom: 1px solid @pivot-table-border-color;
+  }
+
+  .pivot-expand-container {
+    display: block;
+    max-height: 300px;
+    overflow: auto;
+    background: #f9f7f7;
+    box-shadow: inset 0 1px 5px -2px rgba(0,0,0,0.3);
+
+    .pivot-cell {
+      background: transparent;
+    }
+  }
+
+  .pivot-table-headers {
+    border-right: 1px solid @pivot-table-border-color;
+  }
+
+  .pivot-expand-container .filter-row {
+    border-bottom: none;
+  }
+
+  .pivot-expand-container .filter {
+    height: @pivot-table-row-height;
+
+    .filter-row {
+      box-shadow: 0 1px 0 0 @pivot-table-border-color;
+      border-bottom: none;
+    }
+  }
+
+}

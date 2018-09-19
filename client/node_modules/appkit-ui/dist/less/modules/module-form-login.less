@@ -1,0 +1,233 @@
+/* ---------------------------------------------------------------------
+
+MODULE > LOGIN FORM
+
+--------------------------------------------------------------------- */
+
+/* BASE */
+/* ---- */
+
+fieldset ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        margin: 0 0 1em 0;
+        padding: 0;
+    }
+}
+
+/* LAYOUT */
+/* ------ */
+
+.tk-stl-frame.tk-stl-login-frame {margin: 70px 0 35px 0;}
+
+
+/* FRAME */
+/* ------ */
+
+.tk-stl-frame {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+
+.tk-stl-frame-rounded {
+    -webkit-border-radius: @border-radius;
+    -moz-border-radius: @border-radius;
+    -o-border-radius: @border-radius;
+    border-radius: @border-radius;
+}
+
+.tk-stl-frame-bordered {
+    border-width: 1px;
+    border-style: solid;
+    border-color: #d9d9de;
+}
+
+.tk-stl-frame-body,
+.tk-stl-frame-rounded-body {
+    margin: 0;
+    padding: 20px;
+}
+
+.tk-stl-frame-footer,
+.tk-stl-frame-rounded-footer {
+    padding: 20px;
+    background: #fafafa; /* IE */
+    background: rgba(0, 0, 0, .04);
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: #d9d9de;
+    text-align: center;
+    font-size: 0.875em;
+}
+
+.tk-stl-login-frame h1.symbol {
+    text-align:center;
+    margin:0.5em;
+    padding:0;
+}
+
+.tk-stl-link-forgot-password {
+    margin:0;
+    padding: 12px 10px 10px 0;
+    font-size: 0.688em;
+    font-weight:100;
+    line-height:38px;
+    text-decoration:none;
+}
+
+// New login form
+.tk-stl-login-form {
+    @login-radius: 7px;
+    position: relative;
+    border-radius: @login-radius;
+    //box-shadow: @raised-shadow;
+    box-shadow: 0 14px 12px -9px rgba(0, 0, 0, 0.4);
+    color: #333;
+    text-align: left;
+
+	&.error {
+	  animation: shake 0.4s linear;
+	}
+
+    .tk-stl-login-form-header {
+        position: relative;
+        display: block;
+        background: #f0f0f2;
+        background-image: linear-gradient(#f5f5f7,#e9e9ea);
+        border-top: 1px solid #fff;
+        border-bottom: 1px solid #d3d3d4;
+        border-radius: @login-radius @login-radius 0 0;
+        box-shadow: 0 1px 0 #fff;
+        text-align: center;
+        padding: 1em 0;
+        color: #333;
+
+        h4 {
+            font-weight: bold;
+            text-shadow: none;
+            margin-top: 1.5em;
+		  	text-shadow: 0 1px 0 #fff;
+		  	color: #333;
+        }
+
+        p {
+            margin: 0;
+			text-shadow: 0 1px 0 #fff;
+		  	color: #5b5b65;
+        }
+
+        .tk-stl-login-form-logo-wrapper {
+            position: absolute;
+            top: -40px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+
+            .tk-stl-login-form-logo {
+                position: relative;
+                border-radius: 50%;
+                height: 75px;
+                width: 75px;
+
+                img {
+                    max-width: 100%;
+				  	position: relative;
+				  	z-index: 2;
+                }
+
+			  &:after {
+				content: '';
+				position: absolute;
+				left: -0.5px;
+				top: -0.5px;
+				right: 0;
+				bottom: 0;
+				width: 100%;
+				height: 100%;
+				border: 1px solid #EEEEEF;
+				border-radius: 100%;
+				z-index: 1;
+				background: #EEEEEF;
+				box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+			  }
+            }
+        }
+    }
+
+    .tk-stl-login-form-body {
+        padding: 1.5em 2em;
+        background: #F5F5F7;
+        border-radius: 0 0 @login-radius @login-radius;
+
+	  .error-message {
+		color: #ff5c61;
+		text-align: center;
+		margin-bottom: 1em;
+	  }
+
+	  .links {
+		text-align: center;
+		margin-top: 1.5em;
+		font-size: 0.9em;
+
+		a + a {
+		  position: relative;
+		  margin-left: 1em;
+
+		  &::before {
+			content: '\2022';
+			position: absolute;
+			left: -0.7em;
+		  }
+		}
+	  }
+
+      div.input-group{
+        margin-bottom: 1em;
+      }
+        input {
+            width: 100%;
+            margin-bottom:0.25em;
+        }
+
+        .tk-stl-checkbox {
+            margin-bottom: 1em;
+            cursor: pointer;
+
+            input {
+                margin-bottom: 4px;
+                width: auto;
+            }
+        }
+    }
+}
+
+// Error animation
+@keyframes shake {
+  12.5% {
+	transform: translateX(-6px) rotateY(-5deg);
+	//transform: rotateY(-5deg);
+  }
+  37.5% {
+	transform: translateX(5px) rotateY(4deg);
+	//transform: rotateY(4deg);
+  }
+  62.5% {
+	transform: translateX(-3px) rotateY(-2deg);
+	//transform: rotateY(-2deg);
+  }
+  87.5% {
+	transform: translateX(2px) rotateY(1deg);
+	//transform: rotateY(1deg);
+  }
+  0%, 100% {
+	transform: translateX(0) rotateY(0);
+	//transform: rotateY(0);
+  }
+}
+
+

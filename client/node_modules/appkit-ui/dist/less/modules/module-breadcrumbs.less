@@ -1,0 +1,48 @@
+/* ---------------------------------------------------------------------
+
+MODULE > BREADCRUMBS
+
+--------------------------------------------------------------------- */
+
+/* A horizontal breadcrumb list to > help > you > get > home */
+
+/*
+<div class="tk-rgrid-u-1">
+    <ul class="tk-stl-breadcrumbs">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Search</a></li>
+        <li><span>Person Detail</span></li>
+    </ul>
+</div>
+*/
+
+/* ul */
+ul.tk-stl-breadcrumbs {
+    display:-webkit-flex;
+    display:-ms-flexbox;
+    display:flex;
+    list-style-type:none;
+    padding:0;
+    margin:0 0 2em 0;
+    width:100%;
+    white-space:nowrap;
+
+    li {
+        color:#bbb;
+        position:relative;
+        font-size:0.9em;
+
+        &:not(:first-child) {
+            padding-left:2em;
+
+            &:before {
+                content:'>';
+                color:#bbb;
+                font-weight:400;
+                position:absolute;
+                top:0;
+                left:.5em;
+            }
+        }
+    }
+}

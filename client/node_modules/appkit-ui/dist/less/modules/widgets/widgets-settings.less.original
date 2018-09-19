@@ -1,0 +1,8 @@
+@charset "UTF-8";
+
+.popover-container 		{ #widget .popover(arrow); }	
+.modal 					{ #widget .modal(); }			// @mode (light or dark)
+.ui-datepicker 			{ #widget .datepicker; }
+.capsize-container 		{ #widget .capsule-input(); }	// @capsule-bg-color, @capsule-text-color, @capsule-input-border-color
+.slider-container 		{ #widget .slider(); }			// @slider-bg-color, @slider-text-color, @slider-handle-color, @slider-bg-active-color, @slider-handle-active-color
+.searchform-container 	{ #widget .searchform(); }		// @select-width, @controls-width, @button-width, @searchbox-border-color, @button-bg-color

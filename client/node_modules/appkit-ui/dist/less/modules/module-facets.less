@@ -1,0 +1,92 @@
+.facet {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  .tk-stl-button {
+    margin-left: 1em;
+    margin-bottom: 1em;
+  }
+
+  .histogram {
+    margin-bottom: 0;
+    padding: 0 0.5em;
+    border-bottom: none;
+  }
+
+  .tk-facet-search-container {
+    input {
+      outline: none;
+      padding: 0.5em;
+      border-radius: @border-radius;
+      border: 1px solid #d6d6d6;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  }
+}
+
+.tk-stl-blocksidebar-dark .tk-facet-search-container,
+.tk-stl-blocksidebar-light .tk-facet-search-container {
+    input {
+      outline: none;
+      margin: 0.15em 0 0.6em 0;
+      font-size: 0.9em;
+      border-radius: 3px;
+      border: 1px solid rgba(0,0,0,0.1);
+      background: rgba(255,255,255,0.85);
+      width: 100%;
+      box-sizing: border-box;
+  }
+
+  input:active,
+  input:focus {
+      border: 1px solid @link-color;
+      background: rgba(255,255,255,1);
+  }
+}
+
+// Filter list
+.filter-list .filter {
+  position: relative;
+
+  // Exclude
+  .exclude-filter.icon-cancel-circled {
+    color: @color-strawberry;
+    position: absolute;
+    left: -23px;
+    top: 0;
+    cursor: pointer;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.2s, opacity 0.2s, transform 0.2s;
+  }
+
+  &:hover .exclude-filter.icon-cancel-circled {
+    opacity: 1;
+    visibility: visible;
+    transition: visibility 0s 0s, opacity 0.2s, transform 0.2s;
+  }
+
+  // Multiselect exclude
+  .exclude-checkbox {
+    display: none;
+  }
+
+  .exclude-checkbox + label .exclude-filter {
+    left: -12px;
+  }
+
+  .exclude-checkbox:checked ~ .label {
+    text-decoration:line-through;
+    padding-left: 0.79em;
+  }
+
+  .exclude-checkbox:checked ~ .label::before,
+  .exclude-checkbox:checked ~ .label::after {
+    display: none;
+  }
+
+}

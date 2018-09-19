@@ -1,0 +1,70 @@
+/* ---------------------------------------------------------------------
+
+MODULE > INTERRUPTOR
+
+--------------------------------------------------------------------- */
+
+/* A horizontal panel that flags an alert to the user.  */
+
+/*
+<div class="tk-stl-alertbox tk-stl-alertbox-red">
+    <p>Did you know you can also search for <a href="#">towns</a>?</p>
+</div>
+*/
+
+
+.tk-stl-alertbox {
+    position: relative;
+    transition: opacity 300ms ease-out, background 300ms ease-out;
+    margin:0 0 1em 0;
+    padding:0.75em;
+    font-size:0.8em;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.08);
+    border-radius: @border-radius;
+    background: @color-white;
+
+    p {
+        margin:0;
+        padding:0;
+    }
+
+    .close {
+        right: 0.05em;
+        top:0;
+        bottom:0;
+        background: none;
+        color: rgba(0, 0, 0, 0.26);
+        font-size: 1.25em;
+        padding: 0.55em;
+        position: absolute;
+        margin-top:-1px;
+    }
+
+    /* Variations */
+
+    &.tk-stl-alertbox-secondary {
+        background: rgba(0, 0, 0, 0.04);
+    }
+
+    &.tk-stl-alertbox-positive {
+        background: @color-positive;
+        color: @color-positive-contrast;
+    }
+
+    &.tk-stl-alertbox-negative {
+        background: @color-negative;
+        color: @color-negative-contrast;
+    }
+
+    &.tk-stl-alertbox-warning {
+        background: @color-warning;
+        color: @color-warning-contrast;
+    }
+
+    &.tk-stl-alertbox-info {
+        background: @color-info;
+        color: @color-info-contrast;
+    }
+}

@@ -1,0 +1,7 @@
+@charset "UTF-8";
+
+.comment-list 		{ #social .comments(); }		// @comment-avatar-bg-color, @comment-text-color
+.comment-form   	{ #social .comment-form(); }
+.bookmark-list,
+.saved-query-list,
+.topic-list         { #social .social-list(); }

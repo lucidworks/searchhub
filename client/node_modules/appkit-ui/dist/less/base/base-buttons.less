@@ -1,0 +1,158 @@
+/* ---------------------------------------------------------------------
+
+BASE > BUTTONS
+
+--------------------------------------------------------------------- */
+@button-color: @color-primary;
+@button-text-color: @color-primary-contrast;
+
+.tk-stl-button {
+    display: inline-block;
+    zoom: 1;
+    line-height: normal;
+    white-space: nowrap;
+    vertical-align: middle;
+    text-align: center;
+    cursor: pointer;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: 0;
+
+    font-family: inherit;
+    font-size: 100%;
+    text-decoration: none;
+
+    padding: 0.5em 1em 0.5em 1em;
+    border: 0;  /*IE 6/7/8*/
+    border: 1px solid rgba(0, 0, 0, 0.13);
+    background: @button-color;
+    color: @button-text-color;
+    border-radius: @border-radius;
+
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+
+    -webkit-appearance: none;
+
+    &::-moz-focus-inner {padding: 0; border: 0;}
+
+    &.visited,
+    &:visited {
+        color: #fff;
+    }
+
+    &.tk-stl-button-hover,
+    &:hover,
+    &:focus {
+        background: lighten(saturate(@button-color, @saturate-percentage), @lighten-percentage);
+        text-decoration: none;
+    }
+
+
+    // Colours
+    &.tk-stl-button-secondary {
+        background: #e3e3e3;
+        color: #a6a6a6;
+
+        &:hover, &:focus {
+            background: #cecfcf;
+        }
+    }
+
+    &.tk-stl-button-green {
+        background: @color-bright-green;
+        color: @color-white;
+        border-color: @color-bright-green;
+
+        &:hover {
+            background: darken(@color-bright-green, @darken-percentage);
+            border-color: darken(@color-bright-green, @darken-percentage);
+        }
+    }
+
+    &.tk-stl-button-blue {
+        background: #1b8ff2;
+        color: #fff;
+        border-color: #1b8ff2;
+
+        &:hover {
+            background: #0c75ce;
+            border-color: #0c75ce;
+        }
+    }
+
+    &.tk-stl-button-white {
+        color: @text-color;
+        border-color: #fff;
+        background: rgba(255, 255, 255, 0.05);
+
+        &:hover {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.2);
+        }
+    }
+
+    // Sizes
+    &.tk-stl-button-small {
+        padding: 0.5em 0.75em;
+        border-width: 1px;
+        font-weight: normal;
+        font-style: normal;
+        font-size:0.8em;
+    }
+
+}
+
+.tk-stl-button[disabled],
+.tk-stl-button-disabled,
+.tk-stl-button-disabled:hover,
+.tk-stl-button-disabled:focus,
+.tk-stl-button-disabled:active {
+    cursor: not-allowed;
+    box-shadow: none;
+    background: #aaa;
+}
+
+.tk-stl-button-hidden {display: none;}
+
+/* Downward Arrow Button (span) */
+
+.caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 0;
+    vertical-align: middle;
+    border-top: 4px solid;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+}
+
+// Button modifiers
+.tk-stl-button {
+
+    &.tk-stl-block {
+        width: 100%;
+        border-radius: 0;
+        border: none;
+    }
+}
+
+
+
+
+
+
+
+
+
+

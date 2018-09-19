@@ -1,0 +1,206 @@
+.tk-stl-datetimepicker {
+  border-radius: 4px;
+  direction: ltr;
+  display: block;
+  margin-top: 1px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 320px;
+}
+
+.tk-stl-datetimepicker > div {
+  display: none;
+}
+
+.tk-stl-datetimepicker .hour,
+.tk-stl-datetimepicker .minute {
+  height: 34px;
+  line-height: 34px;
+  margin: 0;
+  width: 25%;
+}
+
+.tk-stl-datetimepicker .table {
+  margin: 0;
+}
+
+.tk-stl-datetimepicker .table td,
+.tk-stl-datetimepicker .table th {
+  border: 0;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.tk-stl-datetimepicker .minute:hover,
+.tk-stl-datetimepicker .hour:hover,
+.tk-stl-datetimepicker .day:hover,
+.tk-stl-datetimepicker .switch:hover,
+.tk-stl-datetimepicker .left:hover,
+.tk-stl-datetimepicker .right:hover {
+  background: #eeeeee;
+  cursor: pointer;
+}
+.tk-stl-datetimepicker .disabled,
+.tk-stl-datetimepicker .disabled:hover {
+  background: none;
+  color: #ebebeb;
+  cursor: default;
+}
+
+.tk-stl-datetimepicker .active,
+.tk-stl-datetimepicker .active:hover,
+.tk-stl-datetimepicker .active.disabled,
+.tk-stl-datetimepicker .active.disabled:hover {
+  background-color: #0044cc;
+  background-image: linear-gradient(to bottom, #0088cc, #0044cc);
+  background-repeat: repeat-x;
+  border-color: #0044cc #0044cc #002a80;
+  color: #ffffff;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#08c', endColorstr='#04c', GradientType=0);
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.tk-stl-datetimepicker .active:hover,
+.tk-stl-datetimepicker .active:hover:hover,
+.tk-stl-datetimepicker .active.disabled:hover,
+.tk-stl-datetimepicker .active.disabled:hover:hover,
+.tk-stl-datetimepicker .active:active,
+.tk-stl-datetimepicker .active:hover:active,
+.tk-stl-datetimepicker .active.disabled:active,
+.tk-stl-datetimepicker .active.disabled:hover:active,
+.tk-stl-datetimepicker .active.active,
+.tk-stl-datetimepicker .active:hover.active,
+.tk-stl-datetimepicker .active.disabled.active,
+.tk-stl-datetimepicker .active.disabled:hover.active,
+.tk-stl-datetimepicker .active.disabled,
+.tk-stl-datetimepicker .active:hover.disabled,
+.tk-stl-datetimepicker .active.disabled.disabled,
+.tk-stl-datetimepicker .active.disabled:hover.disabled,
+.tk-stl-datetimepicker td.active[disabled],
+.tk-stl-datetimepicker td.active:hover[disabled],
+.tk-stl-datetimepicker td.active.disabled[disabled],
+.tk-stl-datetimepicker td.active.disabled:hover[disabled],
+.tk-stl-datetimepicker span.active[disabled],
+.tk-stl-datetimepicker span.active:hover[disabled],
+.tk-stl-datetimepicker span.active.disabled[disabled],
+.tk-stl-datetimepicker span.active.disabled:hover[disabled] {
+  background-color: #0044cc;
+}
+
+.tk-stl-datetimepicker span {
+  border-radius: 4px;
+  cursor: pointer;
+  display: block;
+  float: left;
+  height: 54px;
+  margin: 1%;
+  width: 23%;
+}
+
+.tk-stl-datetimepicker span:hover {
+  background: #eeeeee;
+}
+
+.tk-stl-datetimepicker .past,
+.tk-stl-datetimepicker .future {
+  color: #999999;
+}
+
+
+
+// Date Range
+.tk-widget-date-range {
+  display: block;
+
+  .tk-from-date, .tk-to-date {
+    position: relative;
+    margin: 0 0 0.5em 0;
+    display: inline-block;
+
+    label {
+      display: block;
+    }
+  }
+
+  .tk-from-date {
+    margin-right: 0.5em;
+  }
+
+  .tk-to-date .tk-stl-datetimepicker {
+    right: 0;
+  }
+
+  // Block Style
+  &.tk-stl-block {
+    .tk-from-date, .tk-to-date {
+      display: block;
+    }
+
+    .tk-to-date .tk-stl-datetimepicker {
+      right: auto;
+    }
+  }
+
+}
+
+.tk-stl-datetimepicker {
+  position: absolute;
+  z-index: 10;
+  top: 100%;
+  border: 1px solid #ddd;
+  box-shadow: 0 6px 6px -3px rgba(0, 0, 0, 0.3);
+  background: #fff;
+  margin-top: 10px;
+
+  // Arrow
+  &:after, &before {
+    bottom: 100%;
+    left: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+
+  &:before {
+    border-color: rgba(221, 221, 221, 0);
+    border-bottom-color: #ddd;
+    border-width: 11px;
+    margin-left: -11px;
+  }
+
+  &:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-bottom-color: #ffffff;
+    border-width: 10px;
+    margin-left: -10px;
+  }
+}
+
+.tk-stl-datetimepicker:after, .tk-stl-datetimepicker:before {
+  bottom: 100%;
+  left: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.tk-stl-datetimepicker:after {
+  border-color: rgba(136, 183, 213, 0);
+  border-bottom-color: #fff;
+  border-width: 10px;
+  margin-left: -10px;
+}
+.tk-stl-datetimepicker:before {
+  border-color: rgba(194, 225, 245, 0);
+  border-bottom-color: #ddd;
+  border-width: 12px;
+  margin-left: -12px;
+}

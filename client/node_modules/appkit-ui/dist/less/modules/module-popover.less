@@ -1,0 +1,112 @@
+.tk-stl-popover-wrapper {
+  display: inline-block;
+  position: relative;
+
+  popover-trigger, .tk-stl-popover-trigger{
+    display: flex;
+    cursor: pointer;
+  }
+
+  .tk-stl-popover-container {
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: 0;
+    z-index: 9999;
+
+    // Popover
+    .tk-stl-popover {
+      position: absolute;
+      background-color: #fff;
+      color: black;
+      border: 1px solid rgba(0, 50, 80, 0.22);
+      box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.10);
+      border-radius: 6px;
+      z-index: 9999;
+      padding: 10px;
+      min-width: 150px;
+      max-width: 50vw;
+      text-align: left;
+      cursor: default;
+      text-transform: none;
+      white-space: normal;
+    }
+
+    // Popover arrow
+    .tk-stl-popover-triangle {
+      width: 30px;
+      height: 30px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 6px 10px -17px rgba(0, 0, 0, .2);
+      z-index: 10000;
+      pointer-events: none;
+
+      &:after {
+        content: "";
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        background: #fff;
+        transform: rotate(45deg);
+        box-shadow: 0 0 7px 1px rgba(0, 0, 0, .2);
+        border: 1px solid rgba(0, 50, 80, 0.22);
+      }
+
+      &.tk-stl-popover-triangle-top {
+        height: 10px;
+      }
+
+      // Triangle positioning
+      &.tk-stl-popover-triangle-top:after {
+        top: -8.5px;
+        left: 7px
+      }
+
+      &.tk-stl-popover-triangle-bottom:after {
+        top: 23.5px;
+        left: 7px
+      }
+
+      &.tk-stl-popover-triangle-right::after {
+        top: 7.5px;
+        left: 23.5px
+      }
+
+      &.tk-stl-popover-triangle-left::after {
+        top: 7.5px;
+        left: -8.5px
+      }
+    }
+
+    // Animations
+    //&.ng-hide-add {
+    //  animation-name: fadeInDown;
+    //  animation-duration: 0.5s;
+    //  animation-fill-mode: both;
+    //}
+    //
+    //&.ng-hide-remove {
+    //  animation-name: fadeInUp;
+    //  animation-duration: 0.5s;
+    //  animation-fill-mode: both;
+    //}
+  }
+
+  // Sizing and Styles
+  &.tk-stl-popover-large .tk-stl-popover {
+    min-width: 60vw;
+  }
+
+  &.tk-stl-popover-medium .tk-stl-popover {
+    min-width: 40vw;
+  }
+
+  &.tk-stl-popover-small .tk-stl-popover {
+    min-width: 20vw;
+  }
+
+  &.no-padding .tk-stl-popover {
+    padding: 0;
+  }
+}

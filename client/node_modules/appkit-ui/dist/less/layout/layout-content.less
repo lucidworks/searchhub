@@ -1,0 +1,70 @@
+/* ---------------------------------------------------------------------
+
+LAYOUT > CONTENT
+
+--------------------------------------------------------------------- */
+
+/* No widths are assigned to these blocks, as the grid system takes care of it. */
+.tk-bl-sidebar {padding: @spacing;}
+.tk-bl-content {padding: @spacing;}
+
+
+/* tk-stl-outerwrapper */
+/* Wraps the entire page */
+
+
+/* Centering Layouts */
+/* ----------------- */
+
+/* .tk-stl-centercontent adds padding that pushes in from page edges.
+It can either wrap everything (search header + all page content), resulting
+in a floating capsule in the center of the page:
+
+<div class="tk-stl-outerwrapper">
+    <div class="tk-stl-centercontent">
+        <HEADER>
+        <NAVBAR>
+        <PAGECONTENT>
+    </div>
+</div>
+
+...or it can just wrap the page content (ie. it kicks in after the header and navbar):
+
+<div class="tk-stl-outerwrapper">
+    <HEADER>
+    <NAVBAR>
+    <div class="tk-stl-centercontent">
+        <PAGECONTENT>
+    </div>
+</div>
+
+.tk-stl-centercontent-inner adds borders and box-shadows etc.
+
+*/
+
+.tk-stl-centercontent {
+    padding: 0em;
+}
+
+@media screen and (min-width: @md-width) {
+    .tk-stl-centercontent {
+        padding: 2em 3em;
+    }
+}
+
+@media screen and (min-width: @lg-width) {
+    .tk-stl-centercontent {
+        padding:2em 6em;
+    }
+}
+
+/* Center Content Inner */
+.tk-stl-centercontent-inner {
+    background-color: transparent;
+    border: 0;
+    margin: 0 auto;
+}
+
+.tk-stl-centercontent-inner-shadow {
+    box-shadow: 0 1px 2px 0 rgba(0,0,0,.075);
+}

@@ -1,0 +1,95 @@
+/* ---------------------------------------------------------------------
+
+BASE > OFFCANVAS
+
+--------------------------------------------------------------------- */
+@offcanvas-sm-width: @sm-width;
+@offcanvas-md-width: @md-width;
+
+/*
+Three offcanvas classes need to be applied. Two on the outer wrapper ('content')
+and one to wrap the element to be shown / hidden on small screens. The direction
+is set by the wrapper class (tk-stl-row-offcanvas-left OR tk-stl-row-offcanvas-right)
+*/
+
+/* Prevent scroll on narrow devices */
+html, body {height: 100%}
+body {overflow-x: hidden;}
+
+/* Hamburger */
+.tk-stl-offcanvas-toggle {
+    padding: 0.7em 0.6em 0.5em 0.6em;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: @border-radius;
+    display: inline-block;
+    width: 40px;
+}
+.tk-stl-offcanvas-toggle .tk-stl-icon-bar {
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 1px;
+    background-color: #aaa;
+    margin-bottom: 3px;
+}
+.tk-stl-offcanvas-toggle {display: none;}
+
+.tk-stl-sidebar-offcanvas-left,
+.tk-stl-sidebar-offcanvas-right {
+  z-index: 1;
+  background-color: inherit;
+
+  &.active {
+    height: 100%;
+  }
+}
+
+/* On small Screens */
+
+@media screen and (max-width: @offcanvas-md-width) {
+
+  .tk-stl-offcanvas-toggle {display: block;}
+
+  .tk-stl-row-offcanvas {
+    position: relative;
+    -webkit-transition: all .25s ease-out;
+    -o-transition: all .25s ease-out;
+    transition: all .25s ease-out;
+  }
+
+  .tk-stl-sidebar-offcanvas-left {left: -75%;}
+  .tk-stl-sidebar-offcanvas-left.active {left: 0;}
+
+  .tk-stl-sidebar-offcanvas-right {right: -75%;}
+  .tk-stl-sidebar-offcanvas-right.active {right: 0;}
+
+  .tk-stl-sidebar-offcanvas-left,
+  .tk-stl-sidebar-offcanvas-right {
+      position: absolute;
+      top: 0;
+      width: 75%;
+      transition: all 0.3s ease;
+  }
+
+  
+}
+
+@media screen and (max-width: @offcanvas-sm-width) {
+  .tk-stl-sidebar-offcanvas-left {left: -100%;}
+  .tk-stl-sidebar-offcanvas-right {right: -100%;}
+
+  .tk-stl-sidebar-offcanvas-left,
+  .tk-stl-sidebar-offcanvas-right {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    transition: left 0.3s ease, right 0.3s ease;
+  }
+}
+
+
+
+
+
+

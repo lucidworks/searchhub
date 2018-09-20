@@ -1,0 +1,37 @@
+.tk-stl-notifications {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 300px;
+  max-width: 100%;
+  background: transparent;
+  padding: 1em;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  pointer-events: none;
+
+  &.bottom-left {
+    top: auto;
+    right: auto;
+    bottom: 0;
+    left: 0;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  &.bottom-right {
+    top: auto;
+    bottom: 0;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  &.top-left {
+    right: auto;
+    left: 0;
+    align-items: center;
+  }
+}

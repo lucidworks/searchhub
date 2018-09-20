@@ -1,0 +1,201 @@
+// Structure
+.tk-stl-checkbox-switch {
+  display: none;
+
+  &+ label {
+	outline: 0;
+	display: inline-block;
+	width: 2.75em;
+	height: 1.5em;
+	margin: 0.5em 0.5em -0.3em 0.5em;
+	position: relative;
+	cursor: pointer;
+	user-select: none;
+
+	&:after, &:before {
+	  position: relative;
+	  display: block;
+	  content: " ";
+	  width: 50%;
+	  height: 100%;
+	}
+
+	&:after {
+	  left: 0;
+	}
+
+	&:before {
+	  display: none;
+	}
+  }
+
+  &:checked {
+	&+ label {
+	  &:after {
+		left: 50%;
+	  }
+	}
+  }
+}
+
+// Styles
+// ---------------------------
+
+// Default
+.tk-stl-checkbox-switch {
+  &+ label {
+	// switch background
+	background: @color-paper;
+	border-radius: 2em;
+	padding: 2px;
+	transition: all .4s ease;
+	box-shadow: 0px 0px 7px -1px rgba(0, 0, 0, 0.2) inset;
+
+	&:after {
+	  // circular button
+	  border-radius: 50%;
+	  background: #fff;
+	  transition: all .2s ease;
+	  box-shadow: 0 1px 1px 0px rgba(0, 0, 0, 0.3);
+	}
+
+  }
+
+  &:checked {
+	&+ label {
+	  // checked background
+	  background: @color-primary;
+	}
+  }
+}
+
+// Square
+.tk-stl-checkbox-switch {
+  &+ label.tk-stl-square {
+	border-radius: 3px;
+
+	&:after {
+	  // circular button
+	  border-radius: 2px;
+	}
+
+  }
+}
+
+// Flat
+.tk-stl-checkbox-switch {
+  &+ label.tk-stl-flat {
+	// switch background
+	background: transparent;
+	box-shadow: 0px 0px 0 3px @color-paper-dark;
+	padding: 3px;
+
+	&:after {
+	  // circular button
+	  background: @color-paper-dark;
+	  box-shadow: none;
+	}
+
+  }
+
+  &:checked {
+	&+ label.tk-stl-flat {
+	  // checked background
+	  background: transparent;
+	  box-shadow: 0px 0px 0 3px @color-primary;
+
+	  &:after {
+		// circular button
+		background: @color-primary;
+	  }
+	}
+  }
+}
+
+
+// Colours
+// ----------------------------------
+
+// Positive
+.tk-stl-checkbox-switch:checked + label.tk-stl-positive {
+	background: @color-positive;
+}
+.tk-stl-checkbox-switch:checked + label.tk-stl-flat.tk-stl-positive {
+  background: transparent;
+  box-shadow: 0px 0px 0 3px @color-positive;
+
+  &:after {
+	// circular button
+	background: @color-positive;
+  }
+}
+
+// Negative
+.tk-stl-checkbox-switch:checked + label.tk-stl-negative {
+  background: @color-negative;
+}
+.tk-stl-checkbox-switch:checked + label.tk-stl-flat.tk-stl-negative {
+  background: transparent;
+  box-shadow: 0px 0px 0 3px @color-negative;
+
+  &:after {
+	// circular button
+	background: @color-negative;
+  }
+}
+
+// Warning
+.tk-stl-checkbox-switch:checked + label.tk-stl-warning {
+  background: @color-warning;
+}
+.tk-stl-checkbox-switch:checked + label.tk-stl-flat.tk-stl-warning {
+  background: transparent;
+  box-shadow: 0px 0px 0 3px @color-warning;
+
+  &:after {
+	// circular button
+	background: @color-warning;
+  }
+}
+
+// Info
+.tk-stl-checkbox-switch:checked + label.tk-stl-info {
+  background: @color-info;
+}
+.tk-stl-checkbox-switch:checked + label.tk-stl-flat.tk-stl-info {
+  background: transparent;
+  box-shadow: 0px 0px 0 3px @color-info;
+
+  &:after {
+	// circular button
+	background: @color-info;
+  }
+}
+
+// Secondary
+.tk-stl-checkbox-switch:checked + label.tk-stl-secondary {
+  background: @color-secondary;
+}
+.tk-stl-checkbox-switch:checked + label.tk-stl-flat.tk-stl-secondary {
+  background: transparent;
+  box-shadow: 0px 0px 0 3px @color-secondary;
+
+  &:after {
+	// circular button
+	background: @color-secondary;
+  }
+}
+
+// Tertiary
+.tk-stl-checkbox-switch:checked + label.tk-stl-tertiary {
+  background: @color-tertiary;
+}
+.tk-stl-checkbox-switch:checked + label.tk-stl-flat.tk-stl-tertiary {
+  background: transparent;
+  box-shadow: 0px 0px 0 3px @color-tertiary;
+
+  &:after {
+	// circular button
+	background: @color-tertiary;
+  }
+}

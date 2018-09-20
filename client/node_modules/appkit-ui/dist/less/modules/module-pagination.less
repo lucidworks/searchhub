@@ -1,0 +1,101 @@
+/* ---------------------------------------------------------------------
+
+MODULE > PAGINATION
+
+--------------------------------------------------------------------- */
+
+.tk-stl-pagination-wrapper {
+    margin:0 0 1em 0;
+    padding:0;
+}
+
+.tk-stl-pagination-wrapper-left {text-align: left;}
+.tk-stl-pagination-wrapper-center {text-align: center;}
+.tk-stl-pagination-wrapper-right {text-align: right;}
+
+.tk-stl-pagination-arrows {
+    margin:0;
+    padding:0;
+    display: inline-block;
+    border: solid 1px #dedede;
+    -webkit-border-radius: @border-radius;
+    -moz-border-radius: @border-radius;
+    -o-border-radius: @border-radius;
+    border-radius: @border-radius;
+
+    &:after {
+        content:'';
+        display:block;
+        clear: both;
+    }
+
+    > li {
+        list-style: none;
+        position:relative;
+        display:block;
+        float: left;
+        margin:0;
+        padding:0.65em 0.8em;
+        line-height: 1em;
+        font-size:0.875em;
+        font-weight:400;
+        border: solid 0 #dedede;
+        color: rgba(0,0,0,0.75);
+        border-color: rgba(0,0,0,0.1);
+        background: #fff;
+        color: @text-color;
+        cursor: pointer;
+
+        &:hover {
+            background-color: rgba(0,0,0,0.075);
+
+            a {
+                text-decoration: none;
+                color: #333;
+            }
+        }
+
+        &:first-child {
+            -webkit-border-top-left-radius: @border-radius;
+            -moz-border-top-left-radius: @border-radius;
+            -o-border-top-left-radius: @border-radius;
+            border-top-left-radius: @border-radius;
+            -webkit-border-bottom-left-radius: @border-radius;
+            -moz-border-bottom-left-radius: @border-radius;
+            -o-border-bottom-left-radius: @border-radius;
+            border-bottom-left-radius: @border-radius;
+        }
+
+        &:last-child {
+            border-right-width: 0;
+            -webkit-border-top-right-radius: @border-radius;
+            -moz-border-top-right-radius: @border-radius;
+            -o-border-top-right-radius: @border-radius;
+            border-top-right-radius: @border-radius;
+            -webkit-border-bottom-right-radius: @border-radius;
+            -moz-border-bottom-right-radius: @border-radius;
+            -o-border-bottom-right-radius: @border-radius;
+            border-bottom-right-radius: @border-radius;
+        }
+
+        &.active {
+            cursor: text;
+            background-color: @link-color;
+            border-color: @link-color;
+            color: #ffffff;
+
+            a {
+                display: none;
+            }
+            
+            span, &:hover {
+                color: #ffffff;
+            }
+        }
+
+        a {
+            color: @link-color;
+            transition: color 0.3s ease;
+        }
+    }
+}

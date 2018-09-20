@@ -1,0 +1,195 @@
+///////////////
+// HISTOGRAM //
+///////////////
+
+.histogram-bars (@i) when (@i > 0) {
+
+  .histogram.bars-@{i} li {
+    width: percentage(1 / @i);
+  }
+
+  .histogram-bars(@i - 1);
+}
+
+.histogram-bars(100);
+
+.histogram {
+
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  li {
+    float: left;
+    position: relative;
+	list-style:none;
+
+    label {
+      display: none;
+    }
+    &:hover label {
+      display: block;
+      position: absolute;
+      top: -1.66em;
+      left: 0;
+      padding: 0 0.33em;
+      z-index: 1;
+      background-color: rgba(0, 0, 0, 0.75);
+      color: white;
+      white-space: nowrap;
+      font-size: .857142857em;
+    }
+    div.bar {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: 10%;
+      right: 10%;
+      width: 80%;
+      background-color: @color-tertiary;
+      min-height: 1px;
+      cursor: pointer;
+    }
+
+    &:hover div.bar {
+      background-color: darken(@color-tertiary, @darken-percentage);
+    }
+    &.empty div.bar,
+    &.empty:hover div.bar {
+      background-color: fade(@color-tertiary, @fade-percentage);
+    }
+    &.selected div.bar {
+      background-color: @color-tertiary;
+    }
+  }
+}
+
+// Single Filter Mode Overlay
+.tk-stl-single-filter-mode-wrapper {
+  position:relative;
+
+  .tk-stl-single-filter-overlay {
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: @border-radius;
+    text-align:center;
+    letter-spacing: -0.03em;
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    background:#fafafa;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .removeFilter {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 0.5em 1em;
+      font-size: 1.3em;
+    }
+
+    h4, h3, h2 {
+      margin:0;
+      padding:0;
+      width: 90%;
+      line-height: 1;
+      text-transform:capitalize;
+    }
+
+    h4 {
+      font-weight: 700;
+      font-size: 0.9em;
+      padding: 0.5em;
+      border: 1px solid #aaa;
+      border-radius: @border-radius;
+      width: auto;
+      margin-bottom: 1em;
+    }
+
+    h3 {
+      color:#101010;
+      font-weight:700;
+      font-size:5em;
+      color:@color-primary;
+      border: 0;
+    }
+
+    h2 {
+      font-size: 2.5em;
+      margin-bottom: 0.5em;
+    }
+
+    &:hover {
+
+      .removeFilter {
+        color: #f44336;
+      }
+
+      h2 {
+        color: #f44336;
+        text-decoration: line-through;
+      } 
+
+    }
+
+
+  }
+}
+
+// select="checkbox"
+.tk-stl-series-select {
+  float: right;
+  text-align: right;
+  position: relative;
+
+  a {
+    font-size: 0.9em;
+  }
+
+  .popover {
+    position: absolute;
+    right: 0;
+    z-index: 1;
+    background: #fff;
+    padding: 0.5em;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px -1px rgba(0,0,0,0.3);
+
+    input {
+      width: 100%;
+      min-width: 170px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0 0.5em;
+      text-align: left;
+      max-height: 250px;
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      li {
+        cursor: pointer;
+        position: relative;
+        padding-right: 1em;
+        white-space: nowrap;
+        max-width: 300px;
+        text-overflow: ellipsis;
+
+        i {
+          position: absolute;
+          right: -7px;
+          color: @color-primary;
+        }
+      }
+    }
+  }
+}

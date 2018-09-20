@@ -1,0 +1,246 @@
+/* ---------------------------------------------------------------------
+
+MODULE > RESULTS LIST
+
+--------------------------------------------------------------------- */
+
+/*
+<ol class="result-list">
+	<li class="result first">
+		<div class="field title tk-stl-title">
+			<p class="value">
+				<a href="http://www.sacd.fr/">Société des Auteurs et Compositeurs Dramatiques [SACD]
+					<em>...</em>
+				</a>
+			</p>
+		</div>
+		<div class="field summary tk-stl-description">
+			<p class="value">Fondée en 1777 par Beaumarchais, la SACD a pour mission de protéger les droits des auteurs. Présentation, informations pratiques, actualités.</p>
+		</div>
+		<div class="field url tk-stl-url">
+			<p class="value">
+				<a href="http://www.sacd.fr/">www.sacd.fr</a>
+			</p>
+		</div>
+	</li>
+</ol>
+*/
+
+
+.result-list {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  list-style-type: none;
+  margin: 0 0 1.5em 0;
+  padding: 0;
+  clear: both;
+  width: 100%;
+
+  &.infinite-result-list{
+	position:relative;
+	padding-bottom: 50px;
+
+	.infinite-results-loading{
+	  position: absolute;
+	  bottom: 0;
+	  text-align: center;
+	  width:100%;
+	}
+  }
+}
+
+.result {
+  margin-bottom: 1.5em;
+  line-height: 1.4;
+  width: 100%;
+  word-wrap: break-word;
+
+  a {
+	word-break: break-all;
+  }
+
+  &.last {
+	//margin-bottom: 1em;
+  }
+
+  p {
+	margin:0;
+	font-size: 0.9em;
+	font-weight: 400;
+  }
+
+  // Title
+  .tk-stl-title {
+	p {
+	  font-size: 1.125em;
+	  font-weight: 700;
+	}
+
+	a {
+	  word-break: normal;
+	}
+  }
+  // Icon in title
+  .tk-stl-title-icon {
+	display: inline-block;
+	line-height: 100%;
+	margin-right: 10px;
+
+	> img {
+	  display: inline-block;
+	  vertical-align: bottom;
+	}
+
+	&+ .tk-stl-title {
+	  display: inline-block;
+	}
+  }
+
+  /* URL */
+  .tk-stl-url a {
+	color: @link-color-secondary;
+	font-size:0.9em;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+  }
+}
+
+.result-list-shadow {
+  padding: 2em 2em 1em 2em;
+  background: #fff;
+  box-shadow: 0px 1px 1px rgba(0,0,0,0.2);
+  border-width: 0;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+// General field styles
+.tk-stl-field {
+  margin: 0.25em 0;
+}
+
+.tk-stl-label {
+  color: #9d9e9e;
+  margin: 0;
+
+  &+p {
+	margin: 0;
+  }
+}
+
+
+/* Label Left Fields */
+/* ----------------- */
+
+.tk-stl-label-left {
+  margin:0.25em 0;
+}
+
+/* Tags */
+
+.tk-stl-label-left-tag {
+  .tk-stl-label {
+    padding: 0.15em 0 0 0;
+  }
+
+  .tk-stl-tag-capsules > li {
+    margin: 0 0.4em 0.4em 0;
+    padding: 0.1em 0.45em;
+  }
+}
+
+/* Label Inline Fields */
+/* ------------------- */
+
+.tk-stl-label-inline {
+  margin: 0.125em 0.5em 0 0;
+  display: inline;
+
+  p {
+    display: inline;
+  }
+
+  .tk-stl-label {
+    display: inline;
+    margin-right: 0.25em;
+  }
+}
+
+/* Tags */
+
+.tk-stl-label-inline-tag {
+  .tk-stl-label {
+    float:left;
+    margin:0.15em 0.5em 0 0;
+  }
+
+  ol.tag-list {
+    display:inline-block;
+    margin:0;
+  }
+
+  .tk-stl-tag-capsules > li {
+    margin: 0 0.4em 0.4em 0;
+    padding: 0.1em 0.45em;
+  }
+}
+
+/* Label Above Fields */
+/* ------------------ */
+
+.tk-stl-label-above {
+  margin:0.25em 0 0.5em 0;
+}
+
+/* Tags */
+
+.tk-stl-label-above-tag {
+  .tk-stl-label {
+    padding: 0.15em 0 0 0;
+  }
+
+  .tk-stl-tag-capsules > li {
+    margin: 0 0.4em 0.4em 0;
+    padding: 0.1em 0.45em;
+  }
+}
+
+// Field Styles
+.field {
+
+  // Inline
+  &.tk-stl-inline {
+	display: inline;
+
+	p {
+	  display: inline;
+	}
+  }
+}
+
+// Zero Results
+.tk-stl-zero-results {
+  text-align:center;
+
+  h2 {
+    color:#000;
+    margin:0 0 0.25em 0;
+    font-weight:700;
+  }
+
+  p {
+    color:#909090;
+    margin:0;
+    font-size:1.2em;
+    font-weight:300;
+  }
+
+}
+
+
+
+

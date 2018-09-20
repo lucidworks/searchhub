@@ -1,0 +1,38 @@
+/* ---------------------------------------------------------------------
+
+BASE > LISTS
+
+--------------------------------------------------------------------- */
+
+ol.list-unstyled {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    line-height: 1.5;
+}
+
+ol.tk-stl-striped,
+ul.tk-stl-striped {
+    li {
+        width: 100%;
+        padding: 1em;
+
+        &:nth-child(even) {
+            background: @color-paper;
+        }
+    }
+}
+
+ol.tk-stl-lined,
+ul.tk-stl-lined {
+    li {
+        width: 100%;
+        border-bottom: 1px solid @color-paper;
+        padding-top: 0.5em;
+        padding-bottom: 0.5em;
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+}

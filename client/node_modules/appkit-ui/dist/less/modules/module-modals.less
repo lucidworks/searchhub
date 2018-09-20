@@ -1,0 +1,106 @@
+// Modals
+
+.tk-stl-modal-wrapper {
+  background: rgba(0,0,0,0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  display: flex;
+  opacity: 0;
+  transition: opacity 0.2s;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+
+  &.tk-stl-no-backdrop {
+    background: transparent;
+  }
+
+  .tk-stl-modal {
+    // hide by default
+    -webkit-transform: scale(0.8, 0.8);
+    -ms-transform: scale(0.8, 0.8);
+    -o-transform: scale(0.8, 0.8);
+    transform: scale(0.8, 0.8);
+    -webkit-transition: -webkit-transform 0.2s ease-out, opacity 0.2s ease-out;
+    -o-transition: -o-transform 0.2s ease-out, opacity 0.2s ease-out;
+    transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+    visibility: hidden;
+
+    max-width: 90%;
+    max-height: 90%;
+
+    // Styling
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-radius: @border-radius;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
+    .tk-stl-modal-header {
+      padding: 1em;
+      border-radius: @border-radius @border-radius 0 0;
+      border-bottom: 1px solid #eeeeee;
+
+      .close {
+        padding: 1em 1em;
+        position: absolute;
+        right: 0;
+        top: 0;
+        cursor: pointer;
+      }
+    }
+
+    .tk-stl-modal-content {
+      padding: 1em;
+      flex-grow: 1;
+      max-height: 100%;
+      overflow: auto;
+    }
+
+    .tk-stl-modal-footer {
+      padding: 1em;
+      border-radius: 0 0 @border-radius @border-radius;
+      border-top: 1px solid #eeeeee;
+    }
+
+  }
+
+  &.show {
+    height: 100%;
+    width: 100%;
+    opacity: 1;
+    display: flex;
+
+    .tk-stl-modal {
+      // show
+      -webkit-transform: scale(1, 1);
+      -ms-transform: scale(1, 1);
+      -o-transform: scale(1, 1);
+      transform: scale(1, 1);
+      visibility: visible;
+    }
+
+  }
+
+  &.closing {
+    opacity: 0;
+
+    .tk-stl-modal {
+      -webkit-transform: scale(0.8, 0.8);
+      -ms-transform: scale(0.8, 0.8);
+      -o-transform: scale(0.8, 0.8);
+      transform: scale(0.8, 0.8);
+      opacity: 0;
+    }
+  }
+
+}
+
+[widget-open-modal] {
+  cursor: pointer;
+}

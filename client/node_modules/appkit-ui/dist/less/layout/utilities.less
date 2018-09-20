@@ -1,0 +1,119 @@
+.tk-stl-stretch-content {
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  align-items: stretch;
+}
+
+.tk-stl-stretch-row {
+  display: flex;
+  flex-wrap: wrap;
+  height: auto;
+  align-items: stretch;
+}
+
+.tk-stl-center-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.tk-stl-flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+.tk-stl-flex-grow {
+  flex-grow: 1;
+}
+
+.tk-stl-width-1 {width: 100%;}
+.tk-stl-width-2-3 {width: 66%;}
+.tk-stl-width-1-2 {width: 50%;}
+.tk-stl-width-1-3 {width: 33%;}
+.tk-stl-width-1-4 {width: 25%;}
+
+.tk-stl-inline-center {
+  display: inline-block;
+  text-align: center;
+}
+
+// Embedding videos
+.embed-16-9 {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// Display utilities
+.tk-stl-block {
+  display: block;
+}
+
+.tk-stl-inline {
+  display: inline;
+}
+
+.tk-stl-inline-block {
+  display: inline-block;
+}
+
+// Deprecated
+.left {float: left;}
+.right {float: right;}
+
+// Float classes
+// Deprecated
+.tk-stl-pull-left {
+  float: left;
+}
+
+.tk-stl-pull-right {
+  float: right;
+}
+
+.tk-stl-floated.tk-stl-left {
+  float: left;
+}
+
+.tk-stl-floated.tk-stl-right {
+  float: right;
+}
+
+
+// Dividers
+@borderWidth: 1px;
+@borderColor: rgba(34, 36, 38, 0.15);
+@border: @borderWidth solid @borderColor;
+.tk-stl-border {
+  border: @border;
+
+  &.tk-stl-right {
+    border: none;
+    border-right: @border;
+  }
+
+  &.tk-stl-left {
+    border: none;
+    border-left: @border;
+  }
+
+  &.tk-stl-bottom {
+    border: none;
+    border-bottom: @border;
+  }
+
+  &.tk-stl-top {
+    border: none;
+    border-top: @border;
+  }
+}

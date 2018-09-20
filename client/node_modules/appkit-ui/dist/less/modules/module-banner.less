@@ -1,0 +1,50 @@
+/* ---------------------------------------------------------------------
+
+MODULE > BANNER
+
+--------------------------------------------------------------------- */
+
+/* A full width panel containing a primary CTA of some sort */
+
+/*
+<div class="tk-stl-hero-banner">
+    <h1 class="tk-stl-banner-title">Welcome To Twigkit</h1>
+    <p class="tk-stl-banner-desc">We're transforming the way organisations use their data</p>
+</div>
+*/
+
+.tk-stl-hero-banner {
+    padding: 3em 0 4.5em 0;
+    background: @color-primary;
+    background: linear-gradient(45deg, spin(saturate(@color-primary-light, 20%), -20) 0%,@color-primary-dark 100%);
+    text-align: center;
+    color: @color-primary-contrast;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    min-height: 250px;
+    position: relative;
+
+    h1,h2,h3,h4,h5,h6 {
+        margin: 0;
+        padding: 0;
+        font-weight: 500;
+        text-shadow: 0 1px 1px rgba(0,0,0,.3);
+    }
+
+    h1 {
+        font-size: 3.5em;
+        line-height: 1.25em;
+        font-weight: 700;
+    }
+
+    h2 {
+        font-size: 2.5em;
+        line-height: 1.5em;
+    }
+
+    h3 {
+        font-size: 1.5em;
+        line-height: 1.5em;
+    }
+}

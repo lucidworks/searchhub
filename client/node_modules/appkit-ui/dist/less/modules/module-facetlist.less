@@ -1,0 +1,510 @@
+/* ---------------------------------------------------------------------
+
+MODULE > FACET LIST
+
+--------------------------------------------------------------------- */
+
+/* A vertical list of filters that can be chosen to narrow down a result set. */
+
+/*
+<ul class="facet-list tk-stl-person">
+    <li class="facet first last">
+        <h3 class="facet-title">Country</h3>
+        <ol class="filter-list">
+            <li class="filter first last f-10">
+                <a href="#" class="label" title="USA">USA</a>
+                <span class="metadata">
+                    <span class="count">1</span>
+                </span>
+            </li>
+        </ol>
+    </li>
+</ul>
+*/
+
+/* Facet list styles */
+.facet-list {
+    list-style-type: none;
+    margin: 0 0 2em 0;
+    padding: 1.5em 1.5em 1em 1.5em;
+    font-size: 0.938em;
+    border-color: rgba(0, 0, 0, 0.1);
+    border-radius: @border-radius;
+    border-style: solid;
+    border-width: 1px;
+    background:#fff;
+}
+
+.facet-list-shadow {
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    -o-box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    border-width: 0;
+}
+
+.facet-list-shadow-far {
+    -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    -o-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+}
+
+.facet-list-recessed  {
+    -moz-box-shadow:    inset 0 0 5px rgba(0,0,0,0.25);
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.25);
+    box-shadow:         inset 0 0 5px rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.5);
+    background: rgba(0, 0, 0, 0.015);
+
+    .filter-list {
+            border: 0;
+            padding:0;
+
+            span.metadata {
+                background-color: darken(@color-grey-2, 3%);
+
+                .count {
+                    background-color: darken(@color-grey-2, 6%);
+                    color: @text-color;
+                }
+            }
+        }
+
+}
+
+.facet-list-step {
+    border-color: rgba(0, 0, 0, 0.1);
+    border-bottom-color: rgba(0,0,0,0.2);
+}
+
+.facet-list-simple {
+    border:0;
+    border-radius:0;
+}
+
+.facet-list-simple ol {
+    border:0;
+}
+
+ul.facet-list {
+    ol {
+        list-style-type: none;
+        margin: 0.5em 0 1.5em 0;
+        padding: 0 0 1.5em 0;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: rgba(0,0,0,0.05);
+    }
+
+    li {
+        &.last ol {
+            border-bottom-width: 0;
+            margin-bottom:0.5em;
+            padding-bottom:0;
+        }
+
+        li {
+            margin: 0 0 0.2em 0;
+            padding: 0;
+        }
+
+        a {
+            margin: 0;
+        }
+
+        .metadata {
+            display: block;
+            float: right;
+            width: 33%;
+            margin-left: -35%;
+            margin-top: 2px;
+            text-align: right;
+            -webkit-border-radius: @border-radius;
+            -moz-border-radius: @border-radius;
+            border-radius: @border-radius;
+            background-color: #fff;
+            line-height:1.25em;
+
+            .count {
+                position: relative;
+                float: right;
+                overflow: hidden;
+                padding: 0 10%;
+                -webkit-border-radius: @border-radius;
+                -moz-border-radius: @border-radius;
+                border-radius: @border-radius;
+                background-color: #f5f8f9;
+                color: @text-color;
+                font-size: 0.750em;
+            }
+        }
+    }
+}
+
+h3.facet-title {
+    margin:0;
+    padding:0;
+    font-size: 1.125em;
+    font-weight: 400;
+}
+
+
+ul.facet-list li .metadata .count {
+    float: right;
+    overflow: hidden;
+    padding: 0 10%;
+    -webkit-border-radius: @border-radius;
+    -moz-border-radius: @border-radius;
+    border-radius: @border-radius;
+    background-color: #f5f8f9;
+    color: @text-color;
+    font-size: 0.750em;
+}
+
+
+ul.facet-list a,
+.filter-list-form .label{
+    color: @link-color;
+    cursor: pointer;
+}
+
+/* Expand +/- */
+ul.facet-list li h3 a {
+    color:#999;
+}
+
+ul.facet-list li:hover h3 a,
+ul.facet-list li:hover h3 a:hover,
+ul.facet-list li:hover h3 a:focus,
+ul.facet-list li:focus h3 a {
+    text-decoration:none;
+    color: @text-color;
+}
+
+/* Checkboxes */
+.filter-list-form .checkbox {
+    margin-right: 0.4em;
+}
+
+/* Encapsulated H3 Headers */
+.facet-list-wrappedheader {
+padding:0;
+padding-bottom:1em;
+}
+
+.facet-list-wrappedheader ol.filter-list {
+    padding:0.5em 1em;
+    border:0;
+    margin-bottom:0;
+}
+
+.facet-list-wrappedheader li.first h3.facet-title {
+    border-top:0;
+    border-top-left-radius:1px;
+    border-top-right-radius:1px;
+}
+
+.facet-list-wrappedheader h3.facet-title {
+    border-top: 1px solid rgba(0,0,0,0.035);
+    border-bottom: 1px solid rgba(0,0,0,0.035);
+    padding:0.5em 1em;
+    background: rgba(0,0,0,0.05);
+}
+
+.facet-list-wrappedheader-noborder h3.facet-title {
+    border-top: 0;
+    border-bottom-color: rgba(0, 0, 0, 0.05);
+}
+
+
+/* Hide Metadata unless :hover  */
+ul.facet-list-hidemetadata li li .metadata {
+    float: none;
+    width: auto;
+    margin: 0;
+    text-align: left;
+    background: none;
+    line-height:1em;
+    display: none;
+    color: #999;
+}
+
+ul.facet-list-hidemetadata li li .metadata .count {
+    float: none;
+    overflow: hidden;
+    padding: 0;
+    background: none;
+    font-size: 1em;
+    color: #999;
+}
+
+ul.facet-list-hidemetadata li li:hover .metadata {
+    display: inline-block;
+}
+
+ul.facet-list-hidemetadata li li:hover .metadata:before {
+    content: '—';
+    padding:0 0.2em 0 0.25em;
+}
+
+/* Hierarchical */
+ol.filter-list.hierarchical {
+    padding:0;
+    border:0;
+    
+    li {
+        a {
+            padding-left: 0
+        }
+
+        .ng-hide + a {
+            padding-left: 1.2em;
+        }
+
+        span.metadata{
+            padding-right:1em;
+        }
+    }
+
+    li.has-children {
+        padding:0;
+    }
+
+    li.has-children ol.filter-list.hierarchical {
+        padding:0 0 0 1em;
+    }
+
+    li.no-children {
+        padding:0 0 0 1.2em;
+    }
+
+}
+
+ol.filter-list.shallow-hierarchical {
+    li {
+        a {
+            padding-left: 0em;
+        }
+    }
+}
+
+span.expand {
+    _border-color: #ffa500 #ffa500 #ffa500 @arrow-color;
+    _filter: chroma(color=orange);
+    border-color: transparent transparent transparent @arrow-color;
+    border-style: solid;
+    border-width: 0.6em 0 0.6em 0.6em;
+    cursor: pointer;
+    float: left;
+    line-height: 0%;
+    margin: 0.2em -1.3em 0 0;
+    overflow-x: visible;
+    position: relative;
+    width: 0px;
+}
+span.expand.expanded {
+    _border-color: @arrow-color #ffa500 #ffa500 #ffa500;
+    _filter: chroma(color=orange);
+    border-color: @arrow-color transparent transparent transparent;
+    border-style: solid;
+    border-width: 0.6em 0.6em 0 0.6em;
+    margin: 0.4em -1em 0 -0.3em;
+}
+
+/* Indented */
+.facet-list.facet-list-indented .filter-list {
+    border: 0;
+    border-left: 1px solid rgba(0, 0, 0, 0.09);
+    padding: 0;
+    padding-left: 1em;
+}
+
+
+/* Blocksidebar Dark */
+.tk-stl-blocksidebar-dark {
+border-right-width: 0px;
+border-right-style: solid;
+border-right-color: rgba(0, 0, 0, 0.08);
+background: #343434;
+
+
+    .facet-list {
+        background:none;
+        border:none;
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 0.65em;
+
+        h3 {
+            background:none;
+            border:none;
+            padding-left:0;
+            color: #ffffff;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            font-size: 0.9em;
+        }
+
+        a, .label {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .filter-list {
+            border: 0;
+            padding:0;
+
+            span.metadata {
+                background: none;
+
+                .count {
+                    background-color: rgba(255, 255, 255, 0.025);
+                    color: rgba(255, 255, 255, 0.3);
+                }
+            }
+        }
+    }
+}
+
+
+/* Blocksidebar Light */
+.tk-stl-blocksidebar-light {
+border-right-width: 0px;
+border-right-style: solid;
+border-right-color: rgba(0, 0, 0, 0.05);
+background: #F0F2F4;
+
+
+    .facet-list {
+        background:none;
+        border:none;
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 0.65em;
+
+        h3 {
+            background:none;
+            border:none;
+            padding-left:0;
+            color: @text-color;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            font-size: 0.9em;
+        }
+
+        a, .label {
+            color: @link-color;
+        }
+
+        .filter-list {
+            border: 0;
+            padding:0;
+
+            span.metadata {
+                background: none;
+
+                .count {
+                    background-color: rgba(0,0,0,0.025);
+                    color: rgba(0,0,0,0.4);
+                }
+            }
+        }
+    }
+}
+
+// Because the native checkbox is hidden, put the outline style on the visible checkbox replacement.
+.filter-list input[type="checkbox"]:focus + label::before {
+    outline: thin dotted;
+}
+
+// Select 'Tick' styles
+.facet-list li.filter {
+    .tk-stl-selected-icon {
+        cursor: pointer;
+        color: @color-primary;
+        transition: none;
+
+        &:after {
+            content: '\e80c';
+            font-family: "twigkit-basic";
+            font-style: normal;
+            font-weight: normal;
+            speak: none;
+            display: inline-block;
+            text-decoration: inherit;
+            width: 1em;
+            margin-right: .2em;
+            text-align: center;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1em;
+            -webkit-font-smoothing: antialiased;
+        }
+
+    }
+
+    &:hover > a .tk-stl-selected-icon {
+        color: @color-strawberry;
+
+        &:after {
+            content: '\e80e';
+        }
+    }
+}
+
+.tk-filter-radio {
+    display: none;
+
+    &+ label {
+        cursor: pointer;
+        outline: 0;
+        display: inline-block;
+        margin: 0 0 0 1em;
+        position: relative;
+
+        &::before {
+            content: ' ';
+            background: #fff;
+            border: 1px solid #a2a2a2;
+            border-radius: 50%;
+            height: 0.65em;
+            width: 0.65em;
+            display: inline-block;
+            position: relative;
+            left: -0.6em;
+            top: 0.05em;
+            cursor: pointer;
+            transition: background 0.2s, border 0.2s;
+        }
+
+        &::after {
+            position: absolute;
+            top: 0.55em;
+            left: -0.35em;
+            border: 2px solid #fff;
+            content: ' ';
+            margin-right: .2em;
+            color: transparent;
+            cursor: pointer;
+            transition: color 0.2s;
+            background: #fff;
+            border-radius: 50%;
+        }
+    }
+
+    &:checked {
+        &+ label {
+            &::before {
+                background: #338FFC;
+                border: 1px solid darken(#338FFC, 10);
+            }
+
+            &::after {
+                color: #fff;
+            }
+        }
+    }
+}
+

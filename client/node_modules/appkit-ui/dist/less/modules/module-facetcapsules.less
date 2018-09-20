@@ -1,0 +1,275 @@
+/* ---------------------------------------------------------------------
+
+MODULE > FACET CAPSULE
+
+--------------------------------------------------------------------- */
+
+/* A (usually horizontal) list of removable filters that show selected facets narrowing down a result set. */
+
+/*
+
+<ol class="breadcrumb-list tk-stl-breadcrumb-capsules">
+    <li class="breadcrumb first">
+        <label>×</label>
+        <a href="#">Brazil</a>
+    </li>
+</ol>
+
+OR: The 'x' can also be displayed to the right of the label:
+
+<ol class="breadcrumb-list tk-stl-breadcrumb-capsules-xlast">
+    <li class="breadcrumb first">
+        <label>×</label>
+        <a href="#">Brazil</a>
+    </li>
+</ol>
+
+*/
+
+
+
+
+/* X FACET */
+/* ------- */
+
+.tk-stl-breadcrumb-capsules {
+    margin: 0 0 1em 0;
+    padding: 0;
+}
+
+.tk-stl-breadcrumb-capsules:after {
+    content:'';
+    display:block;
+    clear: both;
+}
+
+.tk-stl-breadcrumb-capsules > li {
+    list-style: none;
+    float: left;
+    position:relative;
+    display:block;
+    margin:0 1em 1em 0;
+    padding:0.4em 0.8em;
+    font-size:0.875em;
+    font-weight:400;
+    line-height:20px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(0,0,0,0.08);
+    -webkit-border-radius: @border-radius;
+    -moz-border-radius: @border-radius;
+    -o-border-radius: @border-radius;
+    border-radius: @border-radius;
+    background: @color-grey-2;
+    background: rgba(0, 0, 0, 0.04);
+    color: @text-color;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tk-stl-breadcrumb-capsules > li a {
+    color: @text-color;
+    transition: all 0.3s ease;
+}
+
+.tk-stl-breadcrumb-capsules > li:hover {
+    background: @color-negative;
+    color: @color-negative-contrast;
+}
+
+.tk-stl-breadcrumb-capsules > li:hover a {
+    text-decoration: none;
+    color: @color-negative-contrast;
+}
+
+.tk-stl-breadcrumb-capsules > li a:before {
+    content: '×';
+    color: rgba(0, 0, 0, 0.26);
+    padding-right: 6px;
+}
+
+
+
+/* FACET X */
+/* ------- */
+
+.tk-stl-breadcrumb-capsules-xlast > li a:after {
+    content: '×';
+    color: rgba(0, 0, 0, 0.26);
+    padding-right:0;
+    padding-left: 6px;
+}
+
+.tk-stl-breadcrumb-capsules-xlast > li a:before {
+    content: '';
+    padding-right: 0;
+}
+
+
+
+/* GROUPED FACETS */
+/* -------------- */
+
+/*
+<ol class="breadcrumb-list tk-stl-breadcrumb-capsules-categorygroup">
+    <li class="breadcrumb-group">
+        <ol class="breadcrumb-list">
+            <li class="breadcrumb remove-group"><a href="#">COUNTRY</a></li>
+            <li class="breadcrumb"><a href="#">Russia</a></li>
+            <li class="breadcrumb last"><a href="#">Syria</a></li>
+        </ol>
+    </li>
+</ol>
+*/
+
+.tk-stl-breadcrumb-capsules-categorygroup-wrapper:before,
+.tk-stl-breadcrumb-capsules-categorygroup-wrapper:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.tk-stl-breadcrumb-capsules-categorygroup-wrapper:after {clear: both;}
+
+/* List Styles */
+.tk-stl-breadcrumb-capsules-categorygroup,
+.tk-stl-breadcrumb-capsules-categorygroup ol.breadcrumb-list {
+    list-style: none;
+    margin:0;
+    padding:0;
+}
+
+/* Breadcrumb Group */
+.tk-stl-breadcrumb-capsules-categorygroup li.breadcrumb-group {
+    list-style: none;
+    margin:0 1em 1em 0;
+    padding:0;
+    border: 0;
+    display: inline-block;
+}
+
+/* Individual Breadcrumb */
+.tk-stl-breadcrumb-capsules-categorygroup ol.breadcrumb-list > li {
+    list-style: none;
+    float: left;
+    position:relative;
+    display:block;
+    margin:0;
+    padding:0.4em 0.8em;
+    font-size:0.875em;
+    font-weight:400;
+    line-height:20px;
+    border-width: 1px;
+    border-left-width:0;
+    border-style: solid;
+    border-color: rgba(0,0,0,0.08);
+    background: @color-grey-2;
+    background: rgba(0, 0, 0, 0.04);
+    color: @text-color;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tk-stl-breadcrumb-capsules-categorygroup .breadcrumb-list > li a {
+    color: @text-color;
+    transition: all 0.3s ease;
+}
+
+.tk-stl-breadcrumb-capsules-categorygroup .breadcrumb-list > li:hover {
+    background: @color-negative;
+    color: @color-negative-contrast;
+}
+
+.tk-stl-breadcrumb-capsules-categorygroup .breadcrumb-list > li:hover a {
+    text-decoration: none;
+    color: @color-negative-contrast;
+}
+
+.tk-stl-breadcrumb-capsules-categorygroup .breadcrumb-list > li.last {
+    -webkit-border-top-right-radius: @border-radius;
+    -moz-border-top-right-radius: @border-radius;
+    -o-border-top-right-radius: @border-radius;
+    border-top-right-radius: @border-radius;
+    -webkit-border-bottom-right-radius: @border-radius;
+    -moz-border-bottom-right-radius: @border-radius;
+    -o-border-bottom-right-radius: @border-radius;
+    border-bottom-right-radius: @border-radius;
+}
+
+.tk-stl-breadcrumb-capsules-categorygroup ol.breadcrumb-list > li:first-child {
+  -webkit-border-top-left-radius: 3px;
+  -moz-border-top-left-radius: 3px;
+  -o-border-top-left-radius: 3px;
+  border-top-left-radius: 3px;
+  -webkit-border-bottom-left-radius: 3px;
+  -moz-border-bottom-left-radius: 3px;
+  -o-border-bottom-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-left-width: 1px;
+}
+
+/* Remove Group */
+.tk-stl-breadcrumb-capsules-categorygroup ol.breadcrumb-list > li.remove-group {
+    background: @link-color;
+}
+
+.tk-stl-breadcrumb-capsules-categorygroup .breadcrumb-list > li.remove-group a {
+    color: #fff;
+    transition: all 0.3s ease;
+}
+
+.tk-stl-breadcrumb-capsules-categorygroup .breadcrumb-list > li.remove-group:hover {
+    background: @color-negative;
+    color: @color-negative-contrast;
+}
+
+.tk-stl-breadcrumb-capsules-categorygroup .breadcrumb-list > li.remove-group:hover a {
+    text-decoration: none;
+    color: @color-negative-contrast;
+}
+
+/* X-After */
+
+.tk-stl-breadcrumb-capsules-categorygroup > li a:after {
+    content: '×';
+    color: rgba(0, 0, 0, 0.26);
+    padding-right:0;
+    padding-left: 6px;
+}
+
+.tk-stl-breadcrumb-capsules-categorygroup > li a:before {
+    content: '';
+    padding-right: 0;
+}
+
+/* CLEAR ALL */
+
+.breadcrumb.clearall,
+.breadcrumb.clearall:hover,
+.tk-stl-breadcrumb-capsules-categorygroup .breadcrumb.clearall,
+.tk-stl-breadcrumb-capsules-categorygroup .breadcrumb.clearall:hover {
+    border:0;
+    background-color: transparent;
+    padding:0.4em 0em;
+}
+
+.breadcrumb.clearall a,
+.breadcrumb.clearall:hover a,
+.tk-stl-breadcrumb-capsules-categorygroup .breadcrumb.clearall a,
+.tk-stl-breadcrumb-capsules-categorygroup .breadcrumb.clearall:hover a {
+    color: #a6a6a6;
+}
+
+.breadcrumb.clearall:hover a,
+.tk-stl-breadcrumb-capsules-categorygroup .breadcrumb.clearall:hover a {
+    color: @color-negative;
+}
+
+.breadcrumb.clearall a:before,
+.breadcrumb.clearall a:after,
+.tk-stl-breadcrumb-capsules-categorygroup .breadcrumb.clearall:hover a:before,
+.tk-stl-breadcrumb-capsules-categorygroup .breadcrumb.clearall:hover a:after {
+    content:'';
+    padding:0;
+}
+
+

@@ -1,0 +1,298 @@
+/* ---------------------------------------------------------------------
+
+MODULE > PAGINATION
+
+--------------------------------------------------------------------- */
+
+.tk-stl-tabs:before, .tk-stl-tabs:after {
+    display: table;
+    content: "";
+    line-height: 0;
+}
+
+.tk-stl-tabs {
+    margin: 0;
+    padding: 0;
+    zoom: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    position: relative;
+    box-shadow: inset 0px -1px 0px rgba(0,0,0,0.15);
+
+    > li {
+        display: inline-block;
+        margin: 0 0 -1px 0;
+        padding: 0;
+        position: relative;
+        border-radius: @border-radius @border-radius 0 0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        border-width:1px;
+        border-bottom-width:0;
+        border-style:solid;
+        border-color: rgba(0, 0, 0, 0);
+
+        > span {
+            display: block;
+            margin: 0;
+            xpadding: 0.3em 0.75em 0.4em 0.75em;
+            padding: 6px 15px 7px 15px;
+        }
+
+        &:hover {
+            border-width:1px;
+            border-bottom-width:0;
+            border-style:solid;
+            border-color: rgba(0,0,0,0);
+        }
+		
+		&.disabled {
+			a {
+				color:@text-color-muted;
+				
+				&:hover {
+				    color: @text-color-muted;
+				    text-decoration: none;
+				    cursor: not-allowed;
+				    background-color: transparent;
+				}	
+			}
+		} 
+
+		a:hover{
+            text-decoration:underline;
+        }
+
+        a:hover .tab .metadata {
+            text-decoration:none;
+        }
+
+        &.active {
+            border-width: 1px;
+            border-style: solid;
+            border-color: rgba(0,0,0,0.15);
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-bottom-color: rgba(255,255,255,1);
+            background: #fff;
+
+            a {
+                color: @text-color;
+                cursor: text;
+            }
+        }
+    }
+}
+
+.tk-stl-tabs-shadow > li {
+    border: 0;
+    box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.01);
+
+    &.active {
+        border: 0;
+        box-shadow: none;
+    }
+}
+
+.tab .metadata{
+	margin-left: 3px;
+	    vertical-align: top;
+	    font-size: 0.75em;
+	    line-height: 1.3em;
+	    font-weight: normal;
+	    color: #9d9e9e;
+        text-decoration: none;
+}
+
+.tab.ng-leave {
+    display:none;
+}
+.tab.ng-leave.ng-leave-active {
+    display:none;
+}
+
+
+// Toggle Panes
+// styling="line|pill|simple bordered"
+
+/* 1. Tabs (default ) */
+
+ul.tk-toggle-panes-controls {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  border-bottom: 1px solid #ddd;
+
+  li {
+    margin-bottom: -1px;
+
+
+    a {
+      display: block;
+      padding: .5em 1em;
+      text-decoration: none;
+      border: 1px solid transparent;
+      border-top-right-radius: .25em;
+      border-top-left-radius: .25em;
+      cursor: pointer;
+      outline: none;
+
+      &:hover, &:focus {
+        border-color: #eee #eee #ddd #eee;
+      }
+
+      &.active {
+        color: #444;
+        background-color: #fff;
+        border-color: #ddd #ddd #fff #ddd;
+        cursor: text;
+        pointer-events: none;
+
+        &:hover {
+          border-color: #ddd #ddd #fff #ddd;
+        }
+      }
+    }
+
+  }
+}
+
+// Collapsible
+ul.tk-toggle-panes-controls.tk-stl-collapsible li a.active {
+  pointer-events: all;
+  cursor: pointer;
+}
+
+/* 2. Pills */
+
+ul.tk-toggle-panes-controls.tk-stl-pill {
+  border-bottom: 0;
+
+  li a {
+    border: 1px solid transparent;
+    margin-right: .25em;
+    border-radius: .25em;
+
+    &:focus, &:hover {
+      border-color: @color-primary;
+    }
+
+    &.active {
+      color: #fff;
+      background-color: @color-primary;
+      border:1px solid @color-primary;
+
+      &:hover {
+        border:1px solid @color-primary;
+      }
+    }
+  }
+}
+
+/* 3. Underline */
+
+ul.tk-toggle-panes-controls.tk-stl-line li a {
+  border: none;
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
+  transition: 0.2s border linear;
+
+  &:focus, &:hover {
+    border-color: transparent transparent @color-primary transparent;
+  }
+
+  &.active {
+    color: #444;
+    background-color: transparent;
+    border-bottom-color: #000;
+  }
+}
+
+/* 4. Simple */
+
+ul.tk-toggle-panes-controls.tk-stl-simple {
+  border-bottom: none;
+
+  li a {
+    padding: 0.5em 0;
+    margin-right: 1em;
+    background: transparent;
+    border-radius: 0;
+    border: none;
+
+    &:focus, &:hover {
+      border-color: #fff #fff #ddd #fff;
+      text-decoration: underline;
+    }
+
+    &.active {
+      color: #444;
+      background-color: transparent;
+
+      &:hover {
+        border-color: #fff #fff #ddd #fff;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+
+
+/* TabbedContent:Panes */
+/* ------------------- */
+
+.tk-toggle-panes {
+  display: block;
+}
+
+.tk-toggle-panes .tk-toggle-pane {
+  display: none;
+
+  &.active {
+    display: block;
+    clear: both;
+    margin-top: 1em;
+  }
+}
+
+/* Bordered */
+ul.tk-toggle-panes-controls.tk-stl-bordered + .tk-toggle-panes,
+.tk-toggle-panes.tk-stl-bordered {
+  border: 1px solid #ddd;
+  border-top: 0;
+  padding: 1em;
+  border-radius: 0 0 @border-radius @border-radius;
+  background: #fff;
+
+  .tk-toggle-pane.active {
+    margin-top: 0;
+  }
+}
+
+.tk-toggle-panes-controls.tk-stl-bordered.tk-stl-simple + .tk-toggle-panes,
+.tk-toggle-panes-controls.tk-stl-bordered.tk-stl-pill + .tk-toggle-panes,
+.tk-toggle-panes-controls.tk-stl-bordered.tk-stl-line + .tk-toggle-panes {
+  background: inherit;
+}
+
+.tk-toggle-panes-controls.tk-stl-bordered.tk-stl-simple + .tk-toggle-panes {
+  border-top: 1px solid #ddd;
+  border-radius: @border-radius;
+}
+
+/* Bordered:pill */
+.tk-toggle-panes-controls.tk-stl-bordered.tk-stl-pill {
+  border: 1px solid #ddd;
+  padding: 1em;
+  margin-top: 1em;
+
+  .tk-toggle-pane.active {
+    margin-top: 0;
+  }
+}

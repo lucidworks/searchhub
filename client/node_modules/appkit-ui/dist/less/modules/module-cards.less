@@ -1,0 +1,136 @@
+// Card Layout
+@result-cards-gap: 2%;
+
+
+// Card Default Styles
+[class^="tk-stl-cards-"] .result, [class*=" tk-stl-cards-"] .result,
+.tk-stl-basic-card,
+.tk-stl-card {
+  margin-bottom: 1em;
+  background: rgba(0, 0, 0, 0.05);
+  background: #fff;
+  border-radius: @border-radius;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 1em;
+  
+  margin-right: @result-cards-gap;
+
+  // default width
+  width: 100%;
+
+  &.dragover {
+    box-shadow: inset 0px 0px 0px 3px @color-sky;
+    background: fadeout(@color-sky, 90);
+  }
+
+}
+
+[class^="tk-stl-cards-"] .result, [class*=" tk-stl-cards-"] .result,
+.tk-stl-basic-card {
+  padding: 0.75em 0.75em;
+}
+
+
+.tk-stl-card {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+
+  img {
+    max-width: 100%;
+  }
+
+  .tk-stl-image {
+    background: rgba(0,0,0,.05);
+    border-radius: @border-radius @border-radius 0 0;
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: inherit;
+    }
+  }
+
+  .tk-stl-header {
+    border-bottom: 1px solid #F3F3F3;
+    padding: 1em;
+    border-radius: @border-radius @border-radius 0 0;
+  }
+
+  .tk-stl-content {
+    padding: 1em;
+    flex-grow: 1;
+  }
+
+  .tk-stl-footer {
+    border-top: 1px solid #F3F3F3;
+    padding: 1em;
+    border-radius: 0 0 @border-radius @border-radius;
+  }
+}
+
+// Result list widths
+
+// Loop through cards per row for a specified screen size
+.loop-card-widths(@maxCardsPerRow, @class, @screenSize) when (@maxCardsPerRow > 0) {
+
+  .create-card-width(@maxCardsPerRow, @class, @screenSize);
+
+  // next iteration
+  .loop-card-widths((@maxCardsPerRow - 1), @class, @screenSize);
+}
+
+// Add class and media query for card width
+.create-card-width(@perRow, @class, @screenSize) {
+  // e.g. 2, 'sm', @sm-width
+  &.tk-stl-cards-@{class}-@{perRow} {
+    li.result {
+      @media screen and (min-width: @screenSize)  {
+        .card-width(@perRow);
+      }
+    }
+  }
+}
+
+// Calculate card width
+.card-width (@cards) when (@cards > 1) {
+  width: (100 / @cards) - @result-cards-gap;
+}
+
+.card-width (@cards) when (@cards = 1) {
+  width: 100%;
+}
+
+
+.result-list {
+  // Generate classes for responsive result cards
+  @maxCardsPerRow: 6;
+  .loop-card-widths(@maxCardsPerRow, ~"sm", @sm-width);
+  .loop-card-widths(@maxCardsPerRow, ~"md", @md-width);
+  .loop-card-widths(@maxCardsPerRow, ~"lg", @lg-width);
+  .loop-card-widths(@maxCardsPerRow, ~"xl", @xl-width);
+
+}
+
+// Card Additonal Styles
+
+.result.tk-stl-card-emphasis {
+  border-width:2px;
+}
+
+.result.tk-stl-card-shadow {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.result.tk-stl-card-step {
+  border-bottom-color: rgba(0,0,0,0.2);
+}
+
+// card spacing
+//ol[class^="tk-stl-cards-"], ol[class*=" tk-stl-cards-"] {
+//  justify-content: space-between;
+//}

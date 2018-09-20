@@ -1,0 +1,221 @@
+/* ---------------------------------------------------------------------
+
+MODULE > TAG CAPSULE
+
+--------------------------------------------------------------------- */
+
+/* A (usually horizontal) list of related tags to a specific result or item. */
+
+/*
+<ol class="tag-list tk-stl-tag-capsules">
+    <li class="tag first">
+        <label>×</label>
+        <a href="#">Brazil</a>
+    </li>
+</ol>
+*/
+
+
+/* TAG */
+/* --- */
+
+.tk-stl-tag-capsules {
+    margin: 0 0 1em 0;
+    padding: 0;
+
+    &:after {
+        content:'';
+        display:block;
+        clear: both;
+    }
+
+    > li {
+        list-style: none;
+        float: left;
+        position:relative;
+        display:block;
+        margin:0 1em 1em 0;
+        padding:0.4em 0.8em;
+        font-size:0.875em;
+        font-weight:400;
+        line-height:20px;
+        border-width: 1px;
+        border-style: solid;
+        border-color: transparent;
+        -webkit-border-radius: @border-radius;
+        -moz-border-radius: @border-radius;
+        -o-border-radius: @border-radius;
+        border-radius: @border-radius;
+        background: #f5f5f5;
+        background: rgba(0, 0, 0, 0.04);
+        color: @text-color;
+        transition: all 0.3s ease;
+        cursor: pointer;
+
+        a {
+            color: @text-color;
+            transition: all 0.3s ease;
+        }
+
+        &:hover {
+            background: rgba(0,0,0,0.1);
+            color: @text-color;
+
+            a {
+                text-decoration: none;
+                color: @text-color;
+            }
+        }
+    }
+}
+
+
+
+/* CATEGORISED TAGS */
+/* ---------------- */
+
+/*
+<ol class="tag-list tk-stl-tag-capsules-categorygroup">
+    <li class="tag-group">
+        <ol class="tag-list">
+            <li class="tag remove-group"><a href="#">COUNTRY</a></li>
+            <li class="tag"><a href="#">Russia</a></li>
+            <li class="tag last"><a href="#">Syria</a></li>
+        </ol>
+    </li>
+</ol>
+*/
+
+.tk-stl-tag-capsules-categorygroup-wrapper:before,
+.tk-stl-tag-capsules-categorygroup-wrapper:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.tk-stl-tag-capsules-categorygroup-wrapper:after {clear: both;}
+
+/* List Styles */
+.tk-stl-tag-capsules-categorygroup-wrapper,
+.tk-stl-tag-capsules-categorygroup-wrapper ol.tag-list {
+    list-style: none;
+    margin:0;
+    padding:0;
+}
+
+/* Breadcrumb Group */
+.tk-stl-tag-capsules-categorygroup-wrapper li.tag-group {
+    list-style: none;
+    margin:0 1em 1em 0;
+    padding:0;
+    border: 0;
+    display: inline-block;
+}
+
+/* Individual Breadcrumb */
+.tk-stl-tag-capsules-categorygroup ol.tag-list > li {
+    list-style: none;
+    float: left;
+    position:relative;
+    display:block;
+    margin:0;
+    padding:0.4em 0.8em;
+    font-size:0.875em;
+    font-weight:400;
+    line-height:20px;
+    border-width: 1px;
+    border-left-width:0;
+    border-style: solid;
+    border-color: transparent;
+    background: #f5f5f5;
+    background: rgba(0, 0, 0, 0.04);
+    color: @text-color;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.tk-stl-tag-capsules-categorygroup .tag-list > li a {
+    color: @text-color;
+    transition: all 0.3s ease;
+}
+
+.tk-stl-tag-capsules-categorygroup .tag-list > li:hover {
+    background: rgba(0,0,0,0.1);
+    color: @text-color;
+}
+
+.tk-stl-tag-capsules-categorygroup .tag-list > li:hover a {
+    text-decoration: none;
+    color: @text-color;
+}
+
+.tk-stl-tag-capsules-categorygroup .tag-list > li.last {
+    -webkit-border-top-right-radius: @border-radius;
+    -moz-border-top-right-radius: @border-radius;
+    -o-border-top-right-radius: @border-radius;
+    border-top-right-radius: @border-radius;
+    -webkit-border-bottom-right-radius: @border-radius;
+    -moz-border-bottom-right-radius: @border-radius;
+    -o-border-bottom-right-radius: @border-radius;
+    border-bottom-right-radius: @border-radius;
+}
+
+/* Group Titles */
+
+ol.tag-list > li.title-group {
+    background: #DDD;
+    -webkit-border-top-left-radius: @border-radius;
+    -moz-border-top-left-radius: @border-radius;
+    -o-border-top-left-radius: @border-radius;
+    border-top-left-radius: @border-radius;
+    -webkit-border-bottom-left-radius: @border-radius;
+    -moz-border-bottom-left-radius: @border-radius;
+    -o-border-bottom-left-radius: @border-radius;
+    border-bottom-left-radius: @border-radius;
+    border-left-width: 1px;
+}
+
+.tk-stl-tag-capsules-categorygroup .tag-list > li.title-group a {
+    color: @text-color;
+    transition: all 0.3s ease;
+}
+
+.tk-stl-tag-capsules-categorygroup .tag-list > li.title-group:hover {
+    background: rgba(0,0,0,0.1);
+    color: @text-color;
+}
+
+.tk-stl-tag-capsules-categorygroup .tag-list > li.title-group:hover a {
+    text-decoration: none;
+    color: #fff;
+}
+
+
+/* Gradiated Tags: Traditional Twigkit Style */
+
+.tk-stl-tag-capsules-gradient > li {
+    background: #f2f2f2;
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fbfbfb), to(#e9e9e9));
+    background: -webkit-linear-gradient(0% 0%, 0% 100%, from(#fbfbfb), to(#e9e9e9));
+    background: -moz-linear-gradient(center top, #fbfbfb, #e9e9e9);
+    background: linear-gradient(#fbfbfb, #e9e9e9);
+    border: 1px solid #c7c7c7;
+    border-radius: @border-radius;
+    box-shadow: inset 0 1px 0 #fff;
+
+    &:hover {
+        text-decoration: none;
+        background: #f8f8f8;
+        background: -webkit-gradient(linear,0% 0%,0% 100%,from(white),to(#f1f1f1));
+        background: -webkit-linear-gradient(0% 0%,0% 100%,from(white),to(#f1f1f1));
+        background: -moz-linear-gradient(center top,white,#f1f1f1);
+        background: linear-gradient(#ffffff,#f1f1f1);
+    }
+
+    &:active {
+        background: #f2f2f2;
+        background: -webkit-gradient(linear,0% 0%,0% 100%,from(#e9e9e9),to(#fbfbfb));
+        background: -webkit-linear-gradient(0% 0%,0% 100%,from(#e9e9e9),to(#fbfbfb));
+        background: -moz-linear-gradient(center top,#e9e9e9,#fbfbfb);
+        background: linear-gradient(#e9e9e9,#fbfbfb);
+    }
+}

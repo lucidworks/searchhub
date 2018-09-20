@@ -3,7 +3,6 @@ client/dist
 client/target
 myenv.sh
 .DS_Store
-node_modules
 npm-debug.log
 bower_components
 build

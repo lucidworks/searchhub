@@ -1,0 +1,71 @@
+.tk-stl-facet-dropdown {
+  display: inline-block;
+  position: relative;
+
+  .tk-stl-select-toggle {
+    line-height: inherit;
+    display: flex;
+    cursor: pointer;
+    border-radius: @border-radius;
+    padding: 0.3rem 0.2rem 0.3rem 0.5rem;
+    background: #fbfbfb;
+  }
+
+  .container {
+    z-index: 1;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    visibility: hidden;
+    background: #fff;
+    left: auto;
+    top: 100%;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: visibility 0s 0.3s, opacity 0.3s, transform 0.3s;
+    border-radius: @border-radius;
+    box-shadow: 0 3px 14px -2px rgba(0,0,0,0.4);
+
+    input {
+      width: 100%;
+      border-radius: @border-radius @border-radius 0 0;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      max-height: 50vh;
+      overflow: auto;
+      min-height: 20px;
+
+      li {
+        color: #333;
+        position: relative;
+        padding: 0 1.5em 0 0.5em;
+        cursor: pointer;
+        white-space: nowrap;
+
+        &.checked {
+          color: @color-primary;
+        }
+
+        &:hover {
+          background: rgba(0,0,0,0.05);
+        }
+
+        &:hover:active {
+          color: darken(@color-primary, 10%);
+        }
+      }
+    }
+  }
+
+  &.open .container {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+    transition: visibility 0s 0s, opacity 0.3s, transform 0.3s;
+  }
+}

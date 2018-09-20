@@ -1,0 +1,259 @@
+/*------------------------------------*/
+/*    TIMELINE      			      */
+/*------------------------------------*/
+
+.tk-stl-timeline-content {
+    border-left: 3px solid @color-secondary;
+    position:relative;
+}
+
+.tk-stl-timeline-content:before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: @color-primary;
+    border: 3px solid @color-white;
+    border-radius:50%;
+    top:3em;
+    left:-10px;
+}
+
+// Smaller Screens - arrow to time / date
+@media screen and (max-width: 48em) {
+
+    .tk-stl-timeline-content {border:0;}
+    .tk-stl-timeline-content .tk-rgrid-box {padding-left:0;}
+
+    .tk-stl-timeline-content:before {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ffffff;
+      border: 1px solid #ffffff;
+      border-radius: 0;
+      transform: rotate(45deg);
+      top: 0.5em;
+      left: 2em;
+      z-index: 2;
+    }
+
+    .tk-stl-timeline-content:after {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ffffff;
+      border: 1px solid #e2e9ef;
+      border-radius: 0;
+      transform: rotate(45deg);
+      top: 0.3em;
+      left: 2em;
+      z-index: 1;
+    }
+}
+
+// Time 
+.tk-stl-timeline-time {text-align: right;}
+
+// Time: Smaller screens
+.tk-stl-timeline-time h2 {
+  font-size: 1.5em;
+  margin: 0.925em 0 0 0;
+}
+
+.tk-stl-timeline-time h4 {
+  margin:0;
+  font-weight: 500;
+  color: #595959;
+}
+
+@media screen and (max-width: 48em) {
+    .tk-stl-timeline-time {
+        text-align: left;
+    }
+}
+
+
+// Old Timeline 
+
+// .tk-stl-timeline {
+//   padding: 0;
+//   margin: 0;
+//   font-size: 0.9em;
+//   list-style: none;
+
+//   // vertical
+//   &.vertical {
+//     display: table;
+
+//     .time-slot {
+//       display: table-row;
+//       position: relative;
+
+//       .milestone {
+//         padding: 0 1em 0 0;
+//         font-size: 1.1em;
+//         //word-wrap: break-word;
+//         //word-break: break-all;
+//         text-align: right;
+//         display: table-cell;
+//         width: auto;
+//       }
+
+//       .events {
+//         margin-left: 1em;
+//         display: table-cell;
+
+//         .entry {
+//           position: relative;
+//           padding: 0 1em 2.5em 1em;
+
+//           // line
+//           &:before {
+//             content: '';
+//             width: 2px;
+//             position: absolute;
+//             top: 10px;
+//             bottom: 10px;
+//             left: 0;
+//             z-index: 1;
+//             background: #e6e6e6;
+//             height: 100%;
+//           }
+
+//           // dot
+//           &:after {
+//             content: '';
+//             width: 6px;
+//             height: 6px;
+//             background: #b6b6b6;
+//             border: 2px solid #fff;
+//             border-radius: 50%;
+//             position: absolute;
+//             left: -4px;
+//             top: 5px;
+//             z-index: 2;
+//           }
+
+//           .metadata {
+//             font-size: 0.9em;
+//             color: @text-color-muted;
+//           }
+//         }
+//       }
+
+//       // last entry in last milestone
+//       &:last-child {
+//          .entry:last-child {
+//            padding-bottom: 0em;
+//          }
+//       }
+//     }
+
+//   }
+
+//   // horizontal
+//   &.horizontal {
+//     position: relative;
+//     overflow-x: scroll;
+//     width: 100%;
+//     white-space: nowrap;
+
+//     .time-slot {
+//       position: relative;
+//       display: inline-block;
+//       margin-right: -3px; // fix automatic whitespace
+
+//       .milestone {
+//         padding: 0 1em;
+//         font-size: 1.1em;
+//         width: 100%;
+//       }
+
+//       .events {
+//         margin-top: 1em;
+//         display: inline-flex;
+
+//         .entry {
+//           position: relative;
+//           padding: 0 1em 1em 1em;
+//           float: left;
+//           text-align: center;
+
+//           // line
+//           &:before {
+//             content: ' ';
+//             height: 2px;
+//             position: absolute;
+//             top: -0.6em;
+//             bottom: 10px;
+//             left: 0;
+//             z-index: 1;
+//             background: #e6e6e6;
+//             width: 100%;
+//           }
+
+//           // dot
+//           &:after {
+//             content: ' ';
+//             width: 6px;
+//             height: 6px;
+//             background: #b6b6b6;
+//             border: 2px solid #fff;
+//             border-radius: 50%;
+//             position: absolute;
+//             left: 50%;
+//             top: -0.9em;
+//             z-index: 2;
+//           }
+
+//           .metadata {
+//             font-size: 0.9em;
+//             color: @text-color-muted;
+//           }
+//         }
+//       }
+//     }
+
+//   }
+// }
+
+// // optional container class used for adding fades
+// .tk-stl-timeline-container {
+//   position: relative;
+//   overflow: auto;
+
+//   // fades
+//   &.fade-left:before {
+//      content: ' ';
+//      background: -moz-linear-gradient(left,  rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+//      background: -webkit-linear-gradient(left,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+//      background: linear-gradient(to right,  rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+//      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=1 );
+//      position: absolute;
+//      left: 0;
+//      top: 0;
+//      height: 100%;
+//      width: 5em;
+//      z-index: 1;
+//    }
+
+//   &.fade-right:after {
+//     content: ' ';
+//     background: -moz-linear-gradient(left,  rgba(255,255,255,0) 0%, rgba(255,255,255,0.99) 99%, rgba(255,255,255,1) 100%);
+//     background: -webkit-linear-gradient(left,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.99) 99%,rgba(255,255,255,1) 100%);
+//     background: linear-gradient(to right,  rgba(255,255,255,0) 0%,rgba(255,255,255,0.99) 99%,rgba(255,255,255,1) 100%);
+//     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=1 );
+//     position: absolute;
+//     right: 0;
+//     top: 0;
+//     height: 100%;
+//     width: 5em;
+//     z-index: 1;
+//   }
+// }

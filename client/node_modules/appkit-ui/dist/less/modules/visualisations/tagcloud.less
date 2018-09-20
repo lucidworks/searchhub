@@ -1,0 +1,135 @@
+////////////////
+//  TAGCLOUD  //
+////////////////
+
+div ol.tagcloud li {
+  padding: 0 0.5em;
+  margin:0;
+}
+
+.tagcloud {
+  font-size: 0.6em;
+  text-align: center;
+
+  ol {
+    padding:0;
+    margin-bottom: 0 !important;
+
+    li {
+      display: inline-block;
+      *display: inline;
+      padding: 0 0.5em;
+      line-height: 1.25em;
+
+      a {
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+}
+
+// Override facet list styles
+ul.facet-list div.tagcloud > ol {
+  margin-bottom: 0;
+  padding: 1em 0.5em 0 0.5em;
+
+  > li {
+    padding: 0 0.5em;
+  }
+}
+
+/* 1-5  *//* 6-10 */
+.tagcloud .level6,
+.tagcloud .level7,
+.tagcloud .level8,
+.tagcloud .level9,
+.tagcloud .level10 {
+  font-weight: bold;
+}
+
+/* size */
+.tagcloud .level1 {
+  font-size: 1.0em;
+}
+
+.tagcloud .level2 {
+  font-size: 1.2em;
+}
+
+.tagcloud .level3 {
+  font-size: 1.4em;
+}
+
+.tagcloud .level4 {
+  font-size: 1.6em;
+}
+
+.tagcloud .level5 {
+  font-size: 2.0em;
+}
+
+.tagcloud .level6 {
+  font-size: 2.4em;
+}
+
+.tagcloud .level7 {
+  font-size: 2.8em;
+}
+
+.tagcloud .level8 {
+  font-size: 3.2em;
+}
+
+.tagcloud .level9 {
+  font-size: 3.6em;
+}
+
+.tagcloud .level10 {
+  font-size: 4.0em;
+}
+
+/* color */
+.tagcloud .level1, .tagcloud .level1 a, .tagcloud .level1 a:visited {
+  color: #8c8c8c;
+}
+
+.tagcloud .level2, .tagcloud .level2 a, .tagcloud .level2 a:visited {
+  color: #808080;
+}
+
+.tagcloud .level3, .tagcloud .level3 a, .tagcloud .level3 a:visited {
+  color: #737373;
+}
+
+.tagcloud .level4, .tagcloud .level4 a, .tagcloud .level4 a:visited {
+  color: #666666;
+}
+
+.tagcloud .level5, .tagcloud .level5 a, .tagcloud .level5 a:visited {
+  color: #595959;
+}
+
+.tagcloud .level6, .tagcloud .level6 a, .tagcloud .level6 a:visited {
+  color: #4d4d4d;
+}
+
+.tagcloud .level7, .tagcloud .level7 a, .tagcloud .level7 a:visited {
+  color: #404040;
+}
+
+.tagcloud .level8, .tagcloud .level8 a, .tagcloud .level8 a:visited {
+  color: #333333;
+}
+
+.tagcloud .level9, .tagcloud .level9 a, .tagcloud .level9 a:visited {
+  color: #262626;
+}
+
+.tagcloud .level10, .tagcloud .level10 a, .tagcloud .level10 a:visited {
+  color: #000000;
+}

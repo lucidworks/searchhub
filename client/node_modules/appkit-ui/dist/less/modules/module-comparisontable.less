@@ -1,0 +1,510 @@
+/* ---------------------------------------------------------------------
+
+MODULE > COMPARISON TABLE
+
+--------------------------------------------------------------------- */
+
+@table-breakpoint: 800px;
+
+/*------------------------------------*/
+/*    #BASICS                         */
+/*------------------------------------*/
+
+
+/*h1, h2, h3, p, ul, ol, table {*/
+/*margin: 0 0 30px 0;*/
+/*padding: 0;*/
+/*}*/
+
+/*h1,*/
+/*h2,*/
+/*h3 {*/
+/*font-weight: 700;*/
+/*letter-spacing: -0.04em;*/
+/*color: #000;*/
+/*}*/
+
+th.sortable{
+	cursor: pointer;
+}
+
+th.sortable.sort-asc:after {
+    visibility: visible;
+    opacity: 0.4;
+}
+
+th.sortable.sort-desc:after {
+    visibility: visible;
+    border-bottom: none;
+    border-width: 4px 4px 0;
+    opacity: 0.4;
+}
+
+th.sortable:after {
+    content: '';
+    float: right;
+    margin-top: 7px;
+    border-width: 0 4px 4px;
+    border-style: solid;
+    border-color: #404040 transparent;
+    visibility: hidden;
+}
+
+th.sortable:hover:after {
+    visibility: visible;
+}
+
+/*------------------------------------*/
+/*    TABLES                         */
+/*------------------------------------*/
+
+.tbl-wrapper {
+    margin: 0 0 1em 0;
+    padding: 0;
+    overflow: auto;
+}
+
+table {
+    width:100%;
+    border-collapse:collapse;
+    border-spacing:0;
+    border:0px solid #e0e0e0;
+    font-size: 0.9em;
+}
+
+table p {
+	margin:0;
+}
+
+table th {
+    border-bottom:1px solid #e0e0e0;
+    color: #333;
+}
+
+table th,
+table td {
+    padding:0.5em 0.7em;
+    text-align:left;
+    vertical-align:top;
+}
+
+table tbody tr:nth-child(odd) td {
+    background-color: #fafafa;
+}
+
+table th,
+table td {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.tbl-compare table th:first-child,
+.tbl-compare table td:first-child,
+.tbl-stacked-compare table th:first-child,
+.tbl-stacked-compare table td:first-child {font-weight: 700;}
+
+
+/*    1 & 2 COMPARISON TABLE 	       */
+/*-----------------------------------*/
+
+@media only screen and (max-width: @table-breakpoint) {
+
+    .tbl-compare table:after {
+        visibility: hidden;
+        display: block;
+        font-size: 0;
+        content: " ";
+        clear: both;
+        height: 0;
+    }
+
+    .tbl-compare table {
+        zoom: 1;
+    }
+
+    .tbl-compare table {
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        border:1px solid #e0e0e0;
+    }
+
+    .tbl-compare table th,
+    .tbl-compare table td {
+        margin: 0;
+        vertical-align: top;
+    }
+
+    .tbl-compare table th {
+        text-align: left;
+    }
+
+    .tbl-compare table {
+        display: block;
+        position: relative;
+        width: 100%;
+    }
+
+    .tbl-compare table thead {
+        display: block;
+        float: left;
+    }
+
+    .tbl-compare table tbody {
+        display: block;
+        width: auto;
+        position: relative;
+        overflow: hidden;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .tbl-compare table thead tr {
+        display: block;
+    }
+
+    .tbl-compare table th {
+        display: block;
+        text-align: right;
+    }
+
+    .tbl-compare table tbody tr {
+        display: inline-block;
+        vertical-align: top;
+        margin-right: -0.28em; /* stretchbg fix */
+    }
+
+    .tbl-compare table td {
+        display: block;
+        text-align: left;
+    }
+
+    /* borders */
+
+    .tbl-compare table th {
+        border-bottom: 0;
+        border-left: 0;
+    }
+
+    .tbl-compare table td {
+        border-left: 0;
+        border-right: 0;
+        border-bottom: 0;
+    }
+
+    .tbl-compare table tbody tr {
+        border-left: 1px solid #e0e0e0;
+    }
+
+    .tbl-compare table th:last-child,
+    .tbl-compare table td:last-child {
+        border-bottom: 0px solid #e0e0e0;
+    }
+
+}
+
+
+/*    3. STACKED                      */
+/*------------------------------------*/
+
+
+@media only screen and (max-width: @table-breakpoint) {
+
+    .tbl-stacked table,
+    .tbl-stacked thead,
+    .tbl-stacked tbody,
+    .tbl-stacked th,
+    .tbl-stacked td,
+    .tbl-stacked tr {
+        display: block;
+    }
+
+    .tbl-stacked table {
+        border:1px solid #e0e0e0;
+        border-bottom: 0;
+    }
+
+    /* Accessibly hide table headers */
+    .tbl-stacked thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .tbl-stacked tr { border-bottom: 1px solid #e0e0e0; }
+
+    .tbl-stacked td {
+        /* as if row */
+        border: none;
+        position: relative;
+        padding-left: 50%;
+        white-space: normal;
+        text-align:left;
+    }
+
+    .tbl-stacked td:last-child {
+        border-bottom: 0;
+    }
+
+    .tbl-stacked td:before {
+        position: absolute;	/* as if header */
+        top: 6px;	/* faux padding */
+        left: 10px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align:left;
+        font-weight: 700;
+    }
+
+    /* Labels */
+    .tbl-stacked td:before {
+        content: attr(data-title);
+        color: #333;
+        line-height: 1.5;
+    }
+
+}
+
+/*    4. STACKED COMPARE              */
+/*------------------------------------*/
+
+
+@media only screen and (max-width: @table-breakpoint) {
+
+    .tbl-stacked-compare table,
+    .tbl-stacked-compare thead,
+    .tbl-stacked-compare tbody,
+    .tbl-stacked-compare th,
+    .tbl-stacked-compare td,
+    .tbl-stacked-compare tr {
+        display: block;
+    }
+
+    .tbl-stacked-compare table {
+        xborder:1px solid #e0e0e0;
+        border-bottom: 0;
+    }
+
+    /* Accessibly hide table headers */
+    .tbl-stacked-compare thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .tbl-stacked-compare tr {
+        border:1px solid #e0e0e0;
+        margin-bottom: 2em;
+    }
+
+    .tbl-stacked-compare td {
+        /* as if row */
+        border: none;
+        position: relative;
+        padding-left: 50%;
+        white-space: normal;
+        text-align:left;
+    }
+
+    .tbl-stacked-compare td:last-child {
+        border-bottom: 0;
+    }
+
+    .tbl-stacked-compare td:before {
+        position: absolute;	/* as if header */
+        top: 6px;	/* faux padding */
+        left: 10px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align:left;
+        font-weight: 700;
+    }
+
+    .tbl-stacked-compare table tbody tr:nth-child(odd) td {background-color: #fff;}
+    .tbl-stacked-compare table tbody tr:nth-child(odd) td:first-child {background-color: #fafafa;}
+
+    /* Categories */
+    .tbl-stacked-compare td:first-child {
+        border-bottom: 1px solid #e0e0e0;
+        padding-left: 0.5em;
+        background-color: #fafafa;
+    }
+
+    /* Labels */
+    .tbl-stacked-compare td:before {
+        content: attr(data-title);
+        color: #333;
+        line-height: 1.5;
+    }
+
+}
+
+/*    5. COMBO COMPARISON TABLE 		 */
+/*-----------------------------------*/
+
+/* DEFAULT */
+
+.tbl-combo-compare table:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
+.tbl-combo-compare table {
+    zoom: 1;
+}
+
+.tbl-combo-compare table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border:1px solid #e0e0e0;
+}
+
+.tbl-combo-compare table th,
+.tbl-combo-compare table td {
+    margin: 0;
+    vertical-align: top;
+}
+
+.tbl-combo-compare table th {
+    text-align: left;
+}
+
+.tbl-combo-compare table {
+    display: block;
+    position: relative;
+    width: 100%;
+}
+
+.tbl-combo-compare table thead {
+    display: block;
+    float: left;
+}
+
+.tbl-combo-compare table tbody {
+    display: block;
+    width: auto;
+    position: relative;
+    overflow: hidden;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.tbl-combo-compare table thead tr {
+    display: block;
+}
+
+.tbl-combo-compare table th {
+    display: block;
+    text-align: right;
+}
+
+.tbl-combo-compare table tbody tr {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: -0.28em; /* stretchbg fix */
+}
+
+.tbl-combo-compare table td {
+    display: block;
+    text-align: left;
+}
+
+/* borders */
+
+.tbl-combo-compare table th {
+    border-bottom: 0;
+    border-left: 0;
+}
+
+.tbl-combo-compare table td {
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+}
+
+.tbl-combo-compare table tbody tr {
+    border-left: 1px solid #e0e0e0;
+}
+
+.tbl-combo-compare table th:last-child,
+.tbl-combo-compare table td:last-child {
+    border-bottom: 0px solid #e0e0e0;
+}
+
+/* SMALLER SCREENS */
+
+@media only screen and (max-width: @table-breakpoint) {
+
+    .tbl-combo-compare table,
+    .tbl-combo-compare thead,
+    .tbl-combo-compare tbody,
+    .tbl-combo-compare th,
+    .tbl-combo-compare td,
+    .tbl-combo-compare tr {
+        display: block;
+    }
+
+    .tbl-combo-compare table {
+        border: 0;
+    }
+
+    /* Accessibly hide table headers */
+    .tbl-combo-compare table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .tbl-combo-compare table tr {
+        border:1px solid #e0e0e0;
+        margin-bottom: 2em;
+    }
+
+    .tbl-combo-compare table td {
+        /* as if row */
+        border: none;
+        position: relative;
+        padding-left: 50%;
+        white-space: normal;
+        text-align:left;
+    }
+
+    .tbl-combo-compare table td:last-child {border-bottom: 0;}
+
+    .tbl-combo-compare table td:before {
+        position: absolute;	/* as if header */
+        top: 6px;	/* faux padding */
+        left: 10px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align:left;
+        font-weight: 700;
+    }
+
+    .tbl-combo-compare table tbody {overflow: hidden;}
+    .tbl-combo-compare table tbody tr {display: block; margin-right: 0;}
+    .tbl-combo-compare table tbody tr:nth-child(odd) td {background-color: #fff;}
+    .tbl-combo-compare table tbody tr:nth-child(odd) td:first-child {background-color: #fafafa;}
+
+    /* Categories */
+    .tbl-combo-compare table td:first-child {
+        border-bottom: 1px solid #e0e0e0;
+        padding-left: 0.5em;
+        background-color: #fafafa;
+    }
+
+    /* Labels */
+    .tbl-combo-compare table td:not(:first-child):before{
+        content: attr(data-title);
+        color: #333;
+        line-height: 1.5;
+    }
+
+}

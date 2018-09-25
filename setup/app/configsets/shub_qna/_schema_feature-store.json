@@ -1,0 +1,60 @@
+{
+  "initArgs":{},
+  "initializedOn":"2018-09-21T19:30:29.826Z",
+  "updatedSinceInit":"2018-09-21T19:32:06.699Z",
+  "managedList":[
+    {
+      "name":"subject_t",
+      "class":"org.apache.solr.ltr.feature.SolrFeature",
+      "params":{"q":"{!dismax qf=subject_t q.op=OR}${text}"},
+      "store":"my_store"},
+    {
+      "name":"question_t",
+      "class":"org.apache.solr.ltr.feature.SolrFeature",
+      "params":{"q":"{!dismax qf=question_t q.op=OR}${text}"},
+      "store":"my_store"},
+    {
+      "name":"answer_t",
+      "class":"org.apache.solr.ltr.feature.SolrFeature",
+      "params":{"q":"{!dismax qf=answer_t q.op=OR}${text}"},
+      "store":"my_store"},
+    {
+      "name":"q_nouns_X_q_nouns_only_t",
+      "class":"org.apache.solr.ltr.feature.SolrFeature",
+      "params":{"q":"{!dismax qf=q_nouns_only_t q.op=OR}${q_nouns}"},
+      "store":"my_store"},
+    {
+      "name":"q_nouns_X_a_nouns_only_t",
+      "class":"org.apache.solr.ltr.feature.SolrFeature",
+      "params":{"q":"{!dismax qf=a_nouns_only_t q.op=OR}${q_nouns}"},
+      "store":"my_store"},
+    {
+      "name":"q_verbs_X_q_verbs_only_t",
+      "class":"org.apache.solr.ltr.feature.SolrFeature",
+      "params":{"q":"{!dismax qf=q_verbs_only_t q.op=OR}${q_verbs}"},
+      "store":"my_store"},
+    {
+      "name":"q_verbs_X_a_verbs_only_t",
+      "class":"org.apache.solr.ltr.feature.SolrFeature",
+      "params":{"q":"{!dismax qf=a_verbs_only_t q.op=OR}${q_verbs}"},
+      "store":"my_store"},
+    {
+      "name":"answer_t_topic_keywords",
+      "class":"org.apache.solr.ltr.feature.SolrFeature",
+      "params":{"q":"{!dismax qf=answer_t_topic_keywords q.op=OR}${text}"},
+      "store":"my_store"},
+    {
+      "name":"answer_t_term_association",
+      "class":"org.apache.solr.ltr.feature.SolrFeature",
+      "params":{"q":"{!dismax qf=answer_t_term_association q.op=OR sow=false}${text}"},
+      "store":"my_store"},
+    {
+      "name":"subject_t_char_ngrams",
+      "class":"org.apache.solr.ltr.feature.SolrFeature",
+      "params":{"q":"{!dismax qf=subject_t_char_ngrams q.op=OR}${text}"},
+      "store":"my_store"},
+    {
+      "name":"answer_t_length",
+      "class":"org.apache.solr.ltr.feature.FieldLengthFeature",
+      "params":{"field":"answer_t"},
+      "store":"my_store"}]}

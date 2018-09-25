@@ -1,0 +1,25 @@
+{
+    "queryParser": {
+        "ltr": {
+            "name": "ltr", 
+            "class": "org.apache.solr.ltr.search.LTRQParserPlugin"
+        }
+    }, 
+    "cache": {
+        "QUERY_DOC_FV": {
+            "regenerator": "solr.search.NoOpRegenerator", 
+            "name": "QUERY_DOC_FV", 
+            "autowarmCount": "4096", 
+            "initialSize": "2048", 
+            "class": "solr.search.LRUCache", 
+            "size": "4096"
+        }
+    }, 
+    "transformer": {
+        "features": {
+            "fvCacheName": "QUERY_DOC_FV", 
+            "name": "features", 
+            "class": "org.apache.solr.ltr.response.transform.LTRFeatureLoggerTransformerFactory"
+        }
+    }
+}

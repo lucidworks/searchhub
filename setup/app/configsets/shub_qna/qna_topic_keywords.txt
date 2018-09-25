@@ -1,0 +1,4468 @@
+abc
+ability
+abort
+abort stage
+abort stage failure
+abortstage
+abortstage dagscheduler.scala
+abortstage dagscheduler.scala org.apache.spark.scheduler.dagscheduler
+abortstage dagscheduler.scala scala.collection.mutable.resizablearray
+absi
+absolutely
+abstract
+abstractdispatcher.scala
+abstractdispatcher.scala scala.concurrent.forkjoin.forkjointask.doexec
+abstractdispatcher.scala scala.concurrent.forkjoin.forkjointask.doexec forkjointask.java
+abuse
+accept
+acceptable
+access
+access solr
+accesscontroller
+accessible
+accidental
+accomplish
+according
+account
+accumulator
+accurate
+achieve
+acl
+across
+act
+action
+active
+activity
+actor
+actorcell.scala
+actorcell.scala akka.actor.actorcell.invoke
+actorcell.scala akka.actor.actorcell.invoke actorcell.scala
+actorcell.scala akka.dispatch.mailbox.processmailbox
+actorcell.scala akka.dispatch.mailbox.processmailbox mailbox.scala
+actual
+ad
+addblock
+addcachefile
+adddocument
+addition
+additional
+addreplica
+address
+addressee
+adeh
+adjust
+admin
+admin collection
+admin core
+admin interface
+admin page
+admin ui
+advanced
+advantage
+advice
+advise
+agarwal
+age
+aggregate
+aggregation
+aggressiveopt
+ago
+agree
+ah
+ahead
+ahmet
+aida
+akhil
+akka
+akka.actor.actorcell.invoke
+akka.actor.actorcell.invoke actorcell.scala
+akka.actor.actorcell.invoke actorcell.scala akka.dispatch.mailbox.processmailbox
+akka.actor.actorcell.receivemessage
+akka.actor.actorcell.receivemessage actorcell.scala
+akka.actor.actorcell.receivemessage actorcell.scala akka.actor.actorcell.invoke
+akka.dispatch.forkjoinexecutorconfigurator
+akka.dispatch.forkjoinexecutorconfigurator akkaforkjointask.exec
+akka.dispatch.forkjoinexecutorconfigurator akkaforkjointask.exec abstractdispatcher.scala
+akka.dispatch.mailbox.processmailbox
+akka.dispatch.mailbox.processmailbox mailbox.scala
+akka.dispatch.mailbox.processmailbox mailbox.scala akka.dispatch.mailbox.run
+akka.dispatch.mailbox.run
+akka.dispatch.mailbox.run mailbox.scala
+akka.dispatch.mailbox.run mailbox.scala akka.dispatch.forkjoinexecutorconfigurator
+akka.remote.endpointassociationexception
+akka.tcp
+akkaforkjointask.exec
+akkaforkjointask.exec abstractdispatcher.scala
+akkaforkjointask.exec abstractdispatcher.scala scala.concurrent.forkjoin.forkjointask.doexec
+alan
+alex
+alex personal
+alex personal website
+alexandre
+alexandrerafalovitch
+alexandrerafalovitch quality
+alexandrerafalovitch quality nature
+alexey
+algorithm
+alias
+all.sh
+allocate
+allocation
+allow
+almost
+alone
+along
+alpha
+alphabetical
+alsmodel
+alternate
+alternative
+although
+amazon
+ami
+among
+amount
+analyse
+analysis
+analysis chain
+analysis page
+analytic
+analyze
+analyzer
+analyzer analyzer
+analyzer analyzer type
+analyzer fieldtype
+analyzer index
+analyzer query
+analyzer standardanalyzer
+analyzer token
+analyzer token class
+analyzer type
+analyzer type index
+analyzer type query
+analyzerstokenizerstokenfilters
+ananth
+anchor
+andrew
+andry
+anmol
+announcement
+anon
+anonfun
+anonfun abortstage
+anonfun abortstage dagscheduler.scala
+anonfun mcv
+anonfun mcv sp
+anonfun org
+anonfun org spark
+anonfun receive
+anonfun receive applyorelse
+anonymous
+anonymous gtd
+anonymous gtd book
+anshul
+answer
+ant
+anybody
+anymore
+anywhere
+apart
+api
+api org
+api org hadoop
+api org lucene
+apology
+app
+apparently
+appclassloader.loadclass
+append
+apple
+applicable
+applicationfilterchain.java
+applicationfilterchain.java org.apache.catalina.core.applicationfilterchain.dofilter
+applicationfilterchain.java org.apache.catalina.core.applicationfilterchain.dofilter applicationfilterchain.java
+applicationfilterchain.java org.apache.catalina.core.standardwrappervalve.invoke
+applicationfilterchain.java org.apache.catalina.core.standardwrappervalve.invoke standardwrappervalve.java
+applyorelse
+approach
+appropriate
+approx
+approximate
+apr
+arabic
+arafalov
+arbitrary
+arc
+architecture
+archive
+area
+arg
+arg array
+argument
+arindam
+arise
+arise loss
+arise loss damage
+arise technical
+arise technical content
+arizona
+arr
+arr component
+arr requesthandler
+array
+array val
+arraybuffer.scala
+arraybuffer.scala org.apache.spark.scheduler.dagscheduler.abortstage
+arraybuffer.scala org.apache.spark.scheduler.dagscheduler.abortstage dagscheduler.scala
+arraylist
+article
+articles
+artifact
+arun
+asc
+ascii
+asf
+ashish
+assembly
+assembly hadoop
+assembly jar
+assign
+associate
+assumption
+atomic
+attach
+attempt
+attribute
+auth
+authenticate
+auto
+auto commit
+autocommit
+autocomplete
+autodetectparser
+automatic
+automatica
+autosoftcommit
+autosuggest
+autosuggestion
+autowarm
+autowarmcount
+avail
+average
+avg
+avis
+avro
+aware
+away
+aws
+babu
+background
+backslash
+backtick
+backup
+bad
+bag
+balance
+base
+basic
+basically
+basis
+batch
+become
+beeline
+begin
+beginner
+beginning
+behave
+behavior
+behaviour
+behind
+belong
+ben
+benchmark
+benefit
+bern
+besides
+bet
+beta
+beyond
+bf
+bg
+bhat
+bill
+billion
+bin
+bin hadoop
+bin hadoop jar
+bin solr
+bin spark
+bin spark submit
+bin start
+binary
+bitrate
+bitset
+blk
+blob
+blob master
+block
+block manager
+block size
+blockmanager
+blockmanagermaster
+blog
+blog.mikemccandless.com
+body
+bodycontenthandler
+book
+books
+bool
+boolean
+boolean query
+booleanclause
+booleanclause.occur.must
+booleanquery
+boost
+boost query
+bottleneck
+bottom
+bound
+box
+bq
+bquery
+bquery.add
+branch
+brand
+break
+breeze
+bring
+britain
+broadcast
+broken
+broker
+bruno
+btw
+bucket
+buffer
+bufferedindexinput
+bug
+build
+build index
+build query
+build solr
+build spark
+build.xml
+building
+building index
+builtin
+builtin java
+builtin java class
+bulk
+bunch
+business
+bye
+byte
+cache
+cachedchain.dofilter
+cachedchain.dofilter servlethandler.java
+cachedchain.dofilter servlethandler.java org.eclipse.jetty.servlet.servlethandler.dohandle
+calculate
+calculation
+calderon
+call
+calling
+came
+campaign
+cant
+capabilities
+capability
+capacity
+capital
+cappa
+care
+careful
+carolina
+carrot
+cassandra
+cast
+cat
+catalina
+catch
+catch exception
+catch ioexception
+categorize
+category
+catenateall
+catenateall splitoncasechange
+catenateall splitoncasechange filter
+catenatenumber
+catenatenumber catenateall
+catenatenumber catenateall splitoncasechange
+catenateword
+catenateword catenatenumber
+catenateword catenatenumber catenateall
+caught
+cause
+cause java.lang.classnotfoundexception
+cause org.apache.solr.common.solrexception
+cc
+cd
+cdata
+cdh
+ce
+cell
+center
+cento
+certain
+certainly
+cfs
+chain
+chainedfilter
+champion
+channel
+char
+character
+charfilter
+charfilter class
+charge
+charming
+charset
+checked
+checker
+checkindex
+checkout
+checkpoint
+cheerful
+cheng
+chicago
+chih
+child
+child.java
+china
+choice
+choose
+chri
+chri hostetter
+chrisdo
+chroot
+chunk
+circumvent
+city
+cjk
+clarify
+class
+class applicable
+class path
+class solr.keywordtokenizerfactory
+class solr.keywordtokenizerfactory filter
+class solr.lowercasefilterfactory
+class solr.lowercasefilterfactory analyzer
+class solr.lowercasefilterfactory filter
+class solr.removeduplicatestokenfilterfactory
+class solr.removeduplicatestokenfilterfactory analyzer
+class solr.searchhandler
+class solr.standardtokenizerfactory
+class solr.standardtokenizerfactory filter
+class solr.stopfilterfactory
+class solr.stopfilterfactory ignorecase
+class solr.synonymfilterfactory
+class solr.synonymfilterfactory synonym
+class solr.textfield
+class solr.textfield positionincrementgap
+class solr.whitespacetokenizerfactory
+class solr.whitespacetokenizerfactory filter
+class solr.worddelimiterfilterfactory
+class solr.worddelimiterfilterfactory generatewordpart
+class.foreach
+class.foreach iterator.scala
+class.foreach resizablearray.scala
+class.foreach resizablearray.scala scala.collection.mutable.arraybuffer.foreach
+class.java
+classify
+classloader
+classloader.java
+classpath
+clause
+clear
+clearthreshold
+click
+client
+client mode
+client side
+client.java
+clinit
+closed
+closure
+cloud
+cloudbase
+cloudera
+cloudsolrserver
+clue
+cluster
+cluster hadoop
+cluster machine
+cluster mode
+cluster node
+cluster spark
+clusterstate
+clusterstate.json
+cmd
+coalesce
+code
+code index
+code solr
+code spark
+code val
+codec
+cody
+coefficient
+collapse
+collation
+collect
+collection
+collection action
+collection api
+collection collection
+collection shard
+collection solr
+collectiondistribution
+collector
+color
+colum
+columbia
+columm
+column
+column column
+com.sun.proxy
+combination
+combine
+combinebykey
+coming
+comma
+command
+command full
+command full import
+command hadoop
+command spark
+comment
+commit
+commit commit
+commit index
+commit optimize
+commit solr
+committed
+commitwithin
+commons
+commonshttpsolrserver
+communication
+community
+company
+comparator
+compare
+comparison
+compatible
+compile
+complain
+complete
+completely
+completion
+complex
+complex query
+complexity
+component
+composite
+compositeid
+compound
+compress
+compression
+computation
+compute
+computer
+concept
+concern
+concerned
+concurrent
+condition
+conditions
+conf
+conf sparkconf
+conf sparkconf setappname
+conf.xml
+confidential
+confidentiel
+config
+config.xml
+configurable
+configuration
+configuration property
+configuration solr
+configure
+configure solr
+confirm
+confluence
+confluence display
+confluence display solr
+confuse
+confusion
+connect
+connect server
+connected
+connection
+connectionhandler.process
+consider
+considered
+considering
+consist
+consistent
+console
+constant
+constraint
+construct
+construct query
+constructor
+consume
+consumer
+consumption
+contact
+contained
+container
+content
+content explicit
+content explicit disclaim
+content group
+content index
+content type
+content type text
+contentgroup
+contenthandler
+contents
+contentstreamhandlerbase.java
+contentstreamhandlerbase.java org.apache.solr.handler.requesthandlerbase.handlerequest
+contentstreamhandlerbase.java org.apache.solr.handler.requesthandlerbase.handlerequest requesthandlerbase.java
+contentstreamupdaterequest
+context
+contexthandler.java
+contexthandler.java org.eclipse.jetty.server.handler.scopedhandler.handle
+contexthandler.java org.eclipse.jetty.server.handler.scopedhandler.handle scopedhandler.java
+contexthandler.java org.eclipse.jetty.servlet.servlethandler.doscope
+contexthandler.java org.eclipse.jetty.servlet.servlethandler.doscope servlethandler.java
+contexthandlercollection.java
+contexthandlercollection.java org.eclipse.jetty.server.handler.handlercollection.handle
+contexthandlercollection.java org.eclipse.jetty.server.handler.handlercollection.handle handlercollection.java
+continent
+continue
+continuous
+contrib
+contribute
+control
+conversion
+convert
+cool
+coord
+copyfield
+copyfield source
+cor
+cord
+core
+core collection
+core core
+core gb
+core index
+core jar
+core node
+core org
+core site.xml
+core solr
+core src
+core src main
+core.properties
+coreadmin
+coreadminhandler
+corecontainer
+corecontainer.java
+corpus
+corresponding
+corrupt
+corruption
+cost
+count
+count facet
+counter
+country
+couple
+courriel
+course
+cover
+coyoteadapter.java
+coyoteadapter.java org.apache.coyote.http
+coyoteadapter.java org.apache.coyote.http processor.process
+cpu
+crash
+crawl
+crawler
+createdirectstream
+creation
+cricket
+crit
+criteria
+criterion
+cron
+cross
+csv
+cta
+curious
+curl
+curl localhost
+curl localhost solr
+cushion
+custom
+custom.jar
+customer
+customscorequery
+cut
+cvs
+cwiki.apache.org
+cwiki.apache.org confluence
+cwiki.apache.org confluence display
+cygwin
+daemon
+dagscheduler
+dagscheduler failjobandindependentstages
+dagscheduler failjobandindependentstages dagscheduler.scala
+dagscheduler.scala
+dagscheduler.scala org.apache.spark.scheduler.dagscheduler
+dagscheduler.scala org.apache.spark.scheduler.dagscheduler anonfun
+dagscheduler.scala scala.collection.mutable.resizablearray
+dagscheduler.scala scala.collection.mutable.resizablearray class.foreach
+dagscheduler.scala scala.option.foreach
+dagscheduler.scala scala.option.foreach option.scala
+daily
+damage
+damage destruction
+damage destruction property
+damages
+damages arise
+damages arise loss
+damien
+daniel
+database
+database index
+database solr
+database table
+databrick
+dataconfig
+dataconfig datasource
+dataconfig datasource type
+datadir
+dataframe
+dataimport
+dataimport command
+dataimport.properties
+dataimporter.java
+dataimporthandler
+datanode
+datanode log
+dataset
+datasource
+datasource type
+date
+date date
+date index
+date range
+datefield
+datefilter
+dateformattransformer
+dateid
+dates
+david
+days
+db
+dbsight
+dbtable
+dd
+de
+dead
+deakin
+deal
+dealing
+dear
+debug
+debug query
+debugquery
+december
+decide
+decided
+decimal
+decision
+declared
+decommission
+decommissione
+decrease
+dedicate
+dedicated
+deep
+def
+def main
+def main arg
+defaultcorename
+defaults.conf
+defaultsimilar
+define
+definitely
+definition
+deftype
+deftype dismax
+deftype edismax
+degrade
+delalain
+delay
+delaycloseindexsearcher
+delegatingmethodaccessorimpl
+delegatingmethodaccessorimpl.java
+delegatingmethodaccessorimpl.java java.lang.reflect.method.invoke
+delegatingmethodaccessorimpl.java java.lang.reflect.method.invoke method.java
+delete
+delete index
+delete query
+deletedocument
+deletion
+delimit
+delta
+delta import
+deltaimportquery
+deltaquery
+demanding
+demo
+deny
+depend
+dependency
+deploy
+deploy mode
+deploy solr
+deprecate
+derby
+desc
+descend
+describe
+description
+descriptor
+design
+desire
+despite
+dest
+destinataire
+destroy
+destruction
+destruction property
+destruction property arise
+detail
+detailed
+detect
+detection
+determine
+dev
+develop
+developer
+development
+device
+df
+dfs
+dfs.data.dir
+dfs.datanode.du.reserved
+dfs.name.dir
+dfs.permissions
+dfs.sh
+dfsclient.java
+dhruba
+dibyendu
+dictionary
+difference
+difficult
+difficulty
+digest
+dih
+dilip
+dino
+dipti
+dir
+direct
+direction
+directly
+directory
+directory index
+directory solr
+directsolrconnection
+directupdatehandler
+directupdatehandler java
+disable
+disabled
+disassociate
+disclaim
+disclaim liable
+disclaim liable monetary
+disclaimer
+disclaimer risk
+disclaimer risk responsibility
+disclosure
+discover
+discussion
+disjunctionmaxquery
+disk
+disk cache
+disk space
+dismax
+dismax handler
+dismax query
+dispatch
+display
+display solr
+disseminate
+dist
+distance
+distcp
+distinct
+distrib
+distribute
+distribute mode
+distribute search
+distributedcache
+distributedfilesystem.java
+distribution
+district
+dml
+dn
+dns
+doa
+doc.add
+docboost
+docfreq
+docid
+docker
+docmap
+docnum
+docset
+docspend
+doctype
+document.setboost
+documentation
+documentcache
+docvalue
+docx
+doesnt
+dom
+domain
+dominique
+dont
+doprivilege
+double
+doublepoint
+doubt
+doug
+download
+downloade
+drill
+drill zk
+drill.apache.org
+drillbit
+drive
+driver
+driver memory
+droid
+drop
+drouin
+dskiptest
+dsolr.solr.home
+dstream
+dual
+dump
+duplicate
+duration
+dv
+dye
+dynamic
+dynamicfield
+eager
+easiest
+ebs
+ec
+ec script
+ecc
+echelon
+echoparam
+echoparam explicit
+eclipse
+edge
+edismax
+edit
+eep
+effect
+effectively
+efficient
+effort
+eg
+egg
+ejb
+elaborate
+eladawy
+elasticsearch
+election
+element
+elements
+eliminate
+em
+embed
+embeddedsolrserver
+emit
+eml
+empty
+empy
+emr
+en
+enable
+enablepositionincrement
+enablepositionincrement filter
+enablepositionincrement filter class
+encode
+encode utf
+encode utf response
+encounter
+engine
+engineer
+english
+ensemble
+ensure
+enter
+enterprise
+entity
+entity dataconfig
+entity entity
+entry
+enum
+enumerate
+env
+env.sh
+environment
+environment solr
+eof
+ephraim
+equal
+equivalent
+ere
+erick
+erick erickson
+erickerickson
+erickson
+erik
+erik hatch
+error
+error error
+error exception
+error exception thread
+error executor
+error index
+error load
+error log
+error message
+error msg
+error notify
+error occur
+error solr
+error spark
+errormessage
+errorreportvalve.java
+errorreportvalve.java org.apache.catalina.core.standardenginevalve.invoke
+errorreportvalve.java org.apache.catalina.core.standardenginevalve.invoke standardenginevalve.java
+escape
+especially
+essentially
+estimate
+et
+evaluate
+event
+event lately
+event lately anonymous
+eventually
+ever
+everybody
+everyone
+evict
+ex
+examine
+example.i
+exampledoc
+exceed
+excel
+excellent
+except
+exception
+exception task
+exception thread
+exception thread main
+exclude
+exec
+execute
+execute query
+execution
+executor
+executor core
+executor executor
+executor memory
+executor.scala
+executor.scala java.util.concurrent.threadpoolexecutor.runworker
+executor.scala java.util.concurrent.threadpoolexecutor.runworker threadpoolexecutor.java
+executors.java
+exist
+existence
+exit
+expand
+expand filter
+expand filter class
+expansion
+expensive
+experience
+experienced
+experiment
+expert
+explain
+explanation
+explicit
+explicit disclaim
+explicit disclaim liable
+explore
+export
+export spark
+expose
+expression
+expunge
+expungedelete
+ext
+extend
+extension
+external
+extra
+extract
+extraction
+extremely
+ey
+f.i
+face
+facet
+facet count
+facet facet
+facet facet.field
+facet query
+facet result
+facet search
+facet value
+facet.field
+facet.limit
+facet.method
+facet.mincount
+facet.query
+facing
+fact
+factor
+factory
+failing
+failjobandindependentstages
+failjobandindependentstages dagscheduler.scala
+failjobandindependentstages dagscheduler.scala org.apache.spark.scheduler.dagscheduler
+failure
+failure lost
+failure lost task
+failure task
+failure task stage
+fair
+fairly
+fall
+familiar
+family
+fanny
+faq
+fast
+fastvectorhighlighter
+fatal
+fax
+fc
+fdt
+fdx
+feasible
+feature
+features
+feb
+federation
+feed
+feedback
+feel
+feel free
+fetch
+fetchindex
+fetching
+fiction
+field.i
+field.store.yes
+field.text
+fielda
+fieldb
+fieldcache
+fieldname
+fieldnorm
+fieldtype
+fieldtype class
+fieldtype text
+fieldtype text class
+fieldvaluecache
+fieldweight
+figure
+figured
+filename
+filenotfound
+filesystem
+filesystem.java
+filetype
+fill
+filter
+filter cache
+filter class
+filter class solr.lowercasefilterfactory
+filter class solr.removeduplicatestokenfilterfactory
+filter class solr.stopfilterfactory
+filter class solr.synonymfilterfactory
+filter class solr.worddelimiterfilterfactory
+filter query
+filter result
+filtercache
+filteredquery
+final
+finally
+financial
+finish
+finished
+fire
+firewall
+first.htm
+fit
+fix
+fixed
+fl
+fl score
+flag
+flexible
+flink
+float
+flow
+flume
+flush
+fly
+fnm
+focus
+folder
+folk
+folks
+food
+football
+force
+foreach
+foreachrdd
+forest
+forget
+forgot
+forkjoinpool.java
+forkjoinpool.java scala.concurrent.forkjoin.forkjoinpool.runworker
+forkjoinpool.java scala.concurrent.forkjoin.forkjoinpool.runworker forkjoinpool.java
+forkjoinpool.java scala.concurrent.forkjoin.forkjoinworkerthread.run
+forkjoinpool.java scala.concurrent.forkjoin.forkjoinworkerthread.run forkjoinworkerthread.java
+forkjointask.java
+forkjointask.java scala.concurrent.forkjoin.forkjoinpool
+forkjointask.java scala.concurrent.forkjoin.forkjoinpool workqueue.runtask
+forkjoinworkerthread.java
+form
+format
+forum
+forward
+four
+fox
+fq
+fragment
+frame
+framework
+france
+frederico
+free
+free mb
+freq
+frequency
+frequent
+fresh
+fri
+friend
+friends
+front
+fs
+fs.default.name
+fs.default.name value
+fsck
+fsdir
+fsdirectory
+fsdirectory.java
+fsimage
+fsnamesystem.java
+full
+full import
+full index
+full text
+function
+function query
+functional
+functionquery
+fuse
+futuretask.java
+futuretask.java java.util.concurrent.futuretask.run
+futuretask.java java.util.concurrent.futuretask.run futuretask.java
+fuzzy
+fvh
+fwiw
+fyi
+gain
+ganglia
+gap
+garbage
+garbage collection
+garc
+gave
+gb
+gb gb
+gb index
+gb memory
+gb ram
+gb size
+gc
+gen
+general
+general index
+generally
+generatenumberpart
+generatenumberpart catenateword
+generatenumberpart catenateword catenatenumber
+generatewordpart
+generatewordpart generatenumberpart
+generatewordpart generatenumberpart catenateword
+generation
+generic
+germany
+ghorayeb
+ghz
+gilad
+global
+gmetad
+goal
+gone
+googl
+google
+gospodnetic
+gps
+gram
+grant
+granular
+graph
+graphx
+grateful
+greater
+greatly
+greeting
+grep
+grilo
+group
+group.limit
+groupbykey
+grouping
+grow
+gtd
+gtd book
+guarantee
+guava
+gui
+guidance
+guide
+guide.html
+guido
+guy
+hack
+hadoop
+hadoop bin
+hadoop bin hadoop
+hadoop cluster
+hadoop conf
+hadoop core
+hadoop dfs
+hadoop env.sh
+hadoop fs
+hadoop hadoop
+hadoop hbase
+hadoop hdf
+hadoop home
+hadoop install
+hadoop jar
+hadoop jar hadoop
+hadoop job
+hadoop lib
+hadoop library
+hadoop library platform
+hadoop log
+hadoop map
+hadoop mapre
+hadoop mapreduce
+hadoop namenode
+hadoop node
+hadoop project
+hadoop site.xml
+hadoop spark
+hadoop stream
+hadoop user
+hadoop yarn
+hadoop.apache.org
+hadoop.tmp.dir
+hadooprdd
+hahn
+half
+hand
+handler
+handler.run
+handler.run server.java
+handlercollection.java
+handlercollection.java org.eclipse.jetty.server.handler.handlerwrapper.handle
+handlercollection.java org.eclipse.jetty.server.handler.handlerwrapper.handle handlerwrapper.java
+handlerwrapper.java
+handlerwrapper.java org.eclipse.jetty.server.server.handle
+handlerwrapper.java org.eclipse.jetty.server.server.handle server.java
+handy
+hang
+hank
+happy
+hardware
+harold
+harsh
+hash
+hashmap
+hashset
+hasnext
+hatch
+hbase
+hbase table
+hdd
+hdf
+hdf hadoop
+hdf site.xml
+head
+header
+headless
+heap
+heap size
+heap space
+hear
+heard
+heartbeat
+heavy
+helio
+hendra
+hereby
+heritrix
+hibernate
+hierarchy
+high
+higher
+highest
+highlight
+highlight highlight
+highly
+hilborn
+hindi
+hint
+history
+hit
+hit hit
+hit searcher.search
+hit status
+hit status qtime
+hitcollector
+hitratio
+hits.doc
+hits.getscore
+hits.length
+hive
+hive spark
+hive table
+hivecontext
+hivecontext.sql
+hl
+hl.fl
+hl.q
+hl.usephrasehighlighter
+hmm
+hmmm
+hold
+holding
+holger
+home
+home hadoop
+home solr
+honor
+hook
+hopefully
+hortonfo
+hortonwork
+hose
+hosen
+hoss
+hoss www.lucidworks.com
+hossman
+host
+host solr
+hostetter
+hostname
+hour
+hql
+hs
+hte
+hth
+hth profile
+hth profile view
+html
+htmlparser.jj
+httpclient
+httpconnection.java
+httpf
+httpparser.java
+httpsolrserver
+huge
+hundred
+hunk
+hvm
+hyperthreade
+ian
+ide
+ideal
+ideally
+identical
+identify
+idf
+idle
+ids
+ie
+igal
+ignore
+ignorecase
+ignorecase expand
+ignorecase expand filter
+ignorecase words
+ignorecase words stopwords.txt
+im
+image
+imagine
+immediately
+impact
+implement
+implement solr
+imply
+import
+import handler
+important
+impossible
+improve
+improve performance
+inbox
+inc
+include
+included
+including
+incoming
+incorrect
+increase
+increment
+incrementtoken
+incubate
+indeed
+indent
+independent
+index
+index analyzer
+index base
+index code
+index collection
+index commit
+index content
+index core
+index corrupt
+index database
+index delete
+index directory
+index error
+index fast
+index folder
+index format
+index gb
+index index
+index lucene
+index master
+index memory
+index merge
+index million
+index multiple
+index open
+index optimize
+index pdf
+index performance
+index process
+index query
+index read
+index reader
+index record
+index replicate
+index result
+index search
+index searching
+index segment
+index separate
+index server
+index shard
+index size
+index size gb
+index slow
+index small
+index solr
+index start
+index store
+index store multivalue
+index store require
+index term
+index terms
+index text
+index token
+index token class
+index type
+index update
+index user
+index value
+index writer
+index xml
+indexdir
+indexinterval
+indexreader
+indexreader reader
+indexreader.delete
+indexreader.open
+indexreaderfactory
+indexsearcher
+indexsearcher search
+indexsearcher search indexsearcher
+indexsearcher.java
+indexversion
+indexwriter
+indexwriter writer
+indexwriter writer indexwriter
+indexwriter.java
+indexwriterconfig
+indicate
+indices
+individual
+inf
+influence
+information
+ingest
+ingram
+ingram content
+ingram content group
+init
+initial
+initially
+initialsize
+input
+input path
+input path process
+inputformat
+inputsplit
+inputstream
+insensitive
+insert
+inside
+insight
+insignificant
+install
+install hadoop
+install solr
+install spark
+installation
+instance
+instance solr
+instancedir
+instruction
+integer
+integrate
+integrate solr
+integrated
+intel
+intended
+intended recipient
+intercept
+interest
+interface
+intermediate
+internal
+internet
+interval
+introduce
+intwritable
+invalid
+invert
+invert index
+investigate
+invoke
+invoker.invoke
+involve
+involved
+io
+ioexception
+iowait
+ip
+ip address
+ipc
+ipinyou.com
+issue
+issue index
+issue query
+issue solr
+issue spark
+issues.apache.org
+issues.apache.org jira
+issues.apache.org jira hadoop
+issues.apache.org jira lucene
+issues.apache.org jira solr
+issues.apache.org jira spark
+item
+iterate
+iterator.scala
+iterator.scala scala.collection.iterator
+ivy
+iw
+j.properties
+jack
+jae
+jakarta
+jakarta.apache.org
+james
+jan
+japan
+jar
+jar hadoop
+jar jar
+jar solr
+jar spark
+jar start.jar
+java
+java api
+java api org
+java class
+java class applicable
+java code
+java heap
+java heap space
+java home
+java jar
+java java
+java org
+java user
+java.io.filenotfoundexception
+java.io.ioexception
+java.io.objectinputstream.readobject
+java.lang.class.forname
+java.lang.class.forname class.java
+java.lang.class.forname native
+java.lang.class.forname native method
+java.lang.classloader.loadclass
+java.lang.classloader.loadclass classloader.java
+java.lang.classnotfoundexception
+java.lang.noclassdeffounderror
+java.lang.noclassdeffounderror org
+java.lang.nosuchmethoderror
+java.lang.nullpointerexception
+java.lang.outofmemoryerror
+java.lang.outofmemoryerror java
+java.lang.outofmemoryerror java heap
+java.lang.reflect.method.invoke
+java.lang.reflect.method.invoke method.java
+java.lang.reflect.method.invoke method.java org.apache.spark.deploy.sparksubmit
+java.lang.runtimeexception
+java.lang.string
+java.lang.thread.run
+java.lang.thread.run thread.java
+java.lang.thread.run thread.java cause
+java.net.connectexception
+java.net.socketexception
+java.net.urlclassloader
+java.net.urlclassloader urlclassloader.java
+java.net.urlclassloader urlclassloader.java java.security.accesscontroller.doprivileged
+java.net.urlclassloader.findclass
+java.net.urlclassloader.findclass urlclassloader.java
+java.net.urlclassloader.findclass urlclassloader.java java.lang.classloader.loadclass
+java.security.accesscontroller.doprivileged
+java.security.accesscontroller.doprivileged native
+java.security.accesscontroller.doprivileged native method
+java.sql.date
+java.util.concurrent.executors
+java.util.concurrent.executors runnableadapter.call
+java.util.concurrent.executors runnableadapter.call executors.java
+java.util.concurrent.futuretask
+java.util.concurrent.futuretask sync.innerrun
+java.util.concurrent.futuretask sync.innerrun futuretask.java
+java.util.concurrent.futuretask.run
+java.util.concurrent.futuretask.run futuretask.java
+java.util.concurrent.threadpoolexecutor
+java.util.concurrent.threadpoolexecutor worker.run
+java.util.concurrent.threadpoolexecutor worker.run threadpoolexecutor.java
+java.util.concurrent.threadpoolexecutor worker.runtask
+java.util.concurrent.threadpoolexecutor worker.runtask threadpoolexecutor.java
+java.util.concurrent.threadpoolexecutor.runworker
+java.util.concurrent.threadpoolexecutor.runworker threadpoolexecutor.java
+java.util.concurrent.threadpoolexecutor.runworker threadpoolexecutor.java java.util.concurrent.threadpoolexecutor
+javabin
+javac
+javadoc
+javaopt
+javardd
+javaschemardd
+javascript
+javasparkcontext
+javax
+javax.security.auth.subject.doas
+javax.security.auth.subject.doas subject.java
+javax.security.auth.subject.doas subject.java org.apache.hadoop.security.usergroupinformation.doas
+jba
+jbod
+jdbc
+jdbc drill
+jdbc drill zk
+jdbcdatasource
+jdk
+jem
+jeryl
+jess
+jetty
+jetty solr
+jguru
+jioendpoint.java
+jira
+jira drill
+jira hadoop
+jira issue
+jira lucene
+jira solr
+jira spark
+jjm
+jmx
+jndi
+job
+job abort
+job abort stage
+job complete
+job hadoop
+job job
+job map
+job spark
+job track
+job yarn
+jobclient.java
+jobconf
+jobtracker
+john
+johri
+join
+joo
+jpmml
+jps
+jquery
+jre
+json
+json indent
+jsp
+jstack
+jt
+juan
+jupyter
+jvm
+kafka
+kafka spark
+kafka topic
+kafkardd
+kafkautil
+kb
+keeping
+keeps
+keeps event
+keeps event lately
+kennedy
+kept
+kerbero
+key
+key value
+key value pair
+keyvalue
+keyword
+keywordanalyzer
+khludnev
+kill
+killing
+kindly
+kinesi
+kl
+kl skrev
+knowing
+knowledge
+known
+koji
+korea
+kristine
+kryo
+kstemmer
+la
+label
+lack
+lamb
+lance
+lang
+language
+largest
+lat
+lately
+lately anonymous
+lately anonymous gtd
+latent
+later
+latter
+launch
+launch spark
+launcher.java
+lava
+layer
+lazy
+lazzara
+lb
+lda
+ldap
+le
+lead
+leader
+leading
+leak
+learnt
+leave
+left
+legal
+length
+letter
+level
+lgpl
+lia
+liability
+liable
+liable monetary
+liable monetary damages
+lib
+lib directory
+lib hadoop
+lib spark
+libjar
+library
+library platform
+library platform builtin
+life
+lifetime
+light
+likely
+lim
+limit
+limitation
+limited
+linear
+lines
+link
+linkcontenthandler
+linkdb
+linkedpeople
+linkedproject
+links
+linux
+list
+list nabble.com
+listen
+listener
+lists
+literal
+little
+live
+load
+load balance
+load class
+load native
+load native hadoop
+load solr
+loaded
+loadonstartup
+local
+local directory
+local hadoop
+local mode
+localhost
+localhost solr
+localhost solr admin
+localhost solr collection
+localhost solr select
+localhost solr update
+locality
+locally
+located
+location
+lock
+locker
+log
+log error
+log hadoop
+log j.properties
+log log
+log severe
+log solr
+log spark
+logger
+logic
+logical
+login
+logistic
+longwritable
+lookup
+loop
+lose
+loss
+loss damage
+loss damage destruction
+lost
+lost task
+lost task stage
+love
+low
+lower
+lowercase
+lowercasefilterfactory
+lowercasetokenize
+ls
+lt
+ltd
+luan
+lucene
+lucene action
+lucene api
+lucene code
+lucene core
+lucene dev
+lucene index
+lucene java
+lucene lucene
+lucene nabble.com
+lucene query
+lucene score
+lucene search
+lucene solr
+lucene user
+lucene.apache.org
+lucene.apache.org core
+lucene.apache.org java
+lucene.apache.org java api
+lucene.apache.org solr
+luceneindexaccessor
+lucenematch
+lucidimagination.com
+lucidwork
+lucidworks.com
+lucidworks.com blog
+lucinda
+luck
+lzycompute
+mac
+machine
+mahout
+mail
+mail list
+mailbox.scala
+mailbox.scala akka.dispatch.forkjoinexecutorconfigurator
+mailbox.scala akka.dispatch.forkjoinexecutorconfigurator akkaforkjointask.exec
+mailbox.scala akka.dispatch.mailbox.run
+mailbox.scala akka.dispatch.mailbox.run mailbox.scala
+main
+main arg
+main arg array
+main org.apache.spark.sparkexception
+main scala
+main scala org
+main sparksubmit.scala
+main sparksubmit.scala org.apache.spark.deploy.sparksubmit.main
+mainly
+maintain
+major
+mall
+malligarjunan
+manage
+management
+manager
+mangar
+mani
+manifoldcf
+manner
+mannina
+manual
+map
+map function
+map input
+map map
+map reduce
+map reduce job
+map task
+map.input.file
+mappartition
+mappartitionsrdd.scala
+mapping
+mapr
+mapre
+mapre site.xml
+mapred.job.tracker
+mapred.jobclient
+mapred.jobclient job
+mapred.jobclient map
+mapred.jobclient map reduce
+mapred.local.dir
+mapred.tasktracker.map.tasks.maximum
+mapreduce
+mapreduce job
+mapreducebase
+maptask.java
+mapwithstate
+marc
+marjan
+mark
+marked
+marklogic
+marku
+martijn
+master
+master index
+master local
+master node
+master slave
+master spark
+master worker
+master yarn
+match
+match query
+match search
+matching
+matei
+math
+matrix
+matter
+mattmann
+maven
+max
+maxdoc
+maxfieldlength
+maxgramsize
+maximum
+maxmergedoc
+maxscore
+maxsegment
+maxshardspernode
+maxtime
+maxwarmingsearcher
+mayo
+mb
+mb ram
+mbean
+mccandless
+mcv
+mcv sp
+meant
+measure
+mechanism
+medianame
+mediatype
+meet
+member
+memory
+memory error
+memory executor
+memory gb
+memory usage
+memorystore
+merge
+merge factor
+merge index
+merge segment
+mergefactor
+mergepolicy
+meso
+mess
+message
+messagehandler
+met
+meta
+metadata
+metastore
+method
+method java.lang.class.forname
+method java.lang.class.forname class.java
+method java.net.urlclassloader.findclass
+method java.net.urlclassloader.findclass urlclassloader.java
+method javax.security.auth.subject.doas
+method javax.security.auth.subject.doas subject.java
+method sun.reflect.nativemethodaccessorimpl.invoke
+method sun.reflect.nativemethodaccessorimpl.invoke nativemethodaccessorimpl.java
+method.java
+method.java org.apache.spark.deploy.sparksubmit
+metric
+mich
+michael
+michael mccandless
+middle
+migrate
+mikhail
+million
+million index
+million record
+millisecond
+mime
+mimetype
+mimetypes.xml
+min
+mingramsize
+mingramsize maxgramsize
+minimum
+minisolrcloudcluster
+minshouldmatch
+minute
+minutes
+mismatch
+miss
+missing
+mistake
+mithila
+mix
+mixed
+ml
+mllib
+mlt
+mm
+mmapdirectory
+mobile
+mod
+mode
+mode spark
+model
+modification
+modify
+module
+mohammad
+moiz
+moment
+mon
+monetary
+monetary damages
+monetary damages arise
+mongodb
+monitor
+morelikethi
+morning
+morphology
+mostly
+motor
+mount
+move
+moving
+mp
+mr
+mr job
+mrappmaster
+mrv
+ms
+msg
+msgno
+msword
+multi
+multi core
+multi value
+multicore
+multifieldqueryparser
+multilingual
+multiple
+multiple core
+multiple index
+multiple solr
+multiple thread
+multiply
+multireader
+multisearcher
+multithreade
+multivalue
+mutlifield
+mvn
+myemail
+mysql
+n.b
+na
+nabble
+nabble.com
+nagesh
+namedlist
+namenode
+namenode datanode
+namenode jobtracker
+namenode log
+namenode.java
+namespace
+native
+native hadoop
+native hadoop library
+native method
+native method java.lang.class.forname
+native method java.net.urlclassloader.findclass
+native method javax.security.auth.subject.doas
+native method sun.reflect.nativemethodaccessorimpl.invoke
+nativemethodaccessorimpl
+nativemethodaccessorimpl.java
+nativemethodaccessorimpl.java sun.reflect.delegatingmethodaccessorimpl.invoke
+nativemethodaccessorimpl.java sun.reflect.delegatingmethodaccessorimpl.invoke delegatingmethodaccessorimpl.java
+nature
+nature keeps
+nature keeps event
+nd
+ndaley
+near
+nearly
+necessarily
+necessary
+negative
+neither
+nest
+net
+netboot
+netboote
+netty
+network
+newbie
+newly
+news
+newsearcher
+nfs
+ngram
+nick
+night
+nightly
+nightly build
+niraj
+nirav
+nlineinputformat
+nm
+nn
+noble
+noble paul
+node
+node cluster
+node hadoop
+node node
+node shard
+node solr
+node spark
+nodemanager
+none
+nonzero
+norm
+normal
+normalise
+normalize
+nosql
+notebook
+notify
+notify sender
+nov
+novice
+nrt
+null
+nullpointerexception
+num
+num executor
+numbers
+numdoc
+numerical
+numericdocvalue
+numfound
+numfound start
+numpartition
+numshard
+nutch
+object
+objectinputstream.java
+objectoutputstream.java
+observe
+obtain
+obvious
+occur
+occurrence
+oclc
+ocr
+oct
+odbc
+odd
+offcourse
+offer
+office
+official
+offset
+often
+oh
+okay
+olive
+omitnorm
+online
+oom
+oozie
+open
+open index
+open jira
+open reader
+open search
+open source
+opening
+opening search
+opensearcher
+operate
+operate system
+operation
+operator
+opinion
+opt
+opt solr
+optimistic
+optimize
+optimize index
+optimum
+option
+option.scala
+optional
+oracle
+orc
+order
+ordered
+oren
+org
+org hadoop
+org lucene
+org lucene index
+org lucene search
+org solr
+org spark
+org spark deploy
+org.apache.catalina.connector.coyoteadapter.service
+org.apache.catalina.connector.coyoteadapter.service coyoteadapter.java
+org.apache.catalina.connector.coyoteadapter.service coyoteadapter.java org.apache.coyote.http
+org.apache.catalina.core.applicationfilterchain.dofilter
+org.apache.catalina.core.applicationfilterchain.dofilter applicationfilterchain.java
+org.apache.catalina.core.applicationfilterchain.dofilter applicationfilterchain.java org.apache.catalina.core.standardwrappervalve.invoke
+org.apache.catalina.core.applicationfilterchain.internaldofilter
+org.apache.catalina.core.applicationfilterchain.internaldofilter applicationfilterchain.java
+org.apache.catalina.core.applicationfilterchain.internaldofilter applicationfilterchain.java org.apache.catalina.core.applicationfilterchain.dofilter
+org.apache.catalina.core.standardcontextvalve.invoke
+org.apache.catalina.core.standardcontextvalve.invoke standardcontextvalve.java
+org.apache.catalina.core.standardcontextvalve.invoke standardcontextvalve.java org.apache.catalina.core.standardhostvalve.invoke
+org.apache.catalina.core.standardenginevalve.invoke
+org.apache.catalina.core.standardenginevalve.invoke standardenginevalve.java
+org.apache.catalina.core.standardenginevalve.invoke standardenginevalve.java org.apache.catalina.connector.coyoteadapter.service
+org.apache.catalina.core.standardhostvalve.invoke
+org.apache.catalina.core.standardhostvalve.invoke standardhostvalve.java
+org.apache.catalina.core.standardhostvalve.invoke standardhostvalve.java org.apache.catalina.valves.errorreportvalve.invoke
+org.apache.catalina.core.standardwrappervalve.invoke
+org.apache.catalina.core.standardwrappervalve.invoke standardwrappervalve.java
+org.apache.catalina.core.standardwrappervalve.invoke standardwrappervalve.java org.apache.catalina.core.standardcontextvalve.invoke
+org.apache.catalina.valves.errorreportvalve.invoke
+org.apache.catalina.valves.errorreportvalve.invoke errorreportvalve.java
+org.apache.catalina.valves.errorreportvalve.invoke errorreportvalve.java org.apache.catalina.core.standardenginevalve.invoke
+org.apache.coyote.http
+org.apache.coyote.http processor.process
+org.apache.coyote.http processor.process processor.java
+org.apache.coyote.http protocol
+org.apache.hadoop.ipc.client.call
+org.apache.hadoop.ipc.client.call client.java
+org.apache.hadoop.ipc.remoteexception
+org.apache.hadoop.ipc.rpc
+org.apache.hadoop.ipc.rpc server.call
+org.apache.hadoop.ipc.rpc server.call rpc.java
+org.apache.hadoop.ipc.server
+org.apache.hadoop.ipc.server handler.run
+org.apache.hadoop.ipc.server handler.run server.java
+org.apache.hadoop.mapred.maptask.run
+org.apache.hadoop.mapred.maptask.run maptask.java
+org.apache.hadoop.mapred.tasktracker
+org.apache.hadoop.security.usergroupinformation.doas
+org.apache.hadoop.security.usergroupinformation.doas usergroupinformation.java
+org.apache.hadoop.util.runjar.main
+org.apache.hadoop.util.runjar.main runjar.java
+org.apache.hadoop.util.toolrunner.run
+org.apache.hadoop.util.toolrunner.run toolrunner.java
+org.apache.http.truncatedchunkexception
+org.apache.lucene.index.indexwriter
+org.apache.solr.client.solrj.solrserverexception
+org.apache.solr.common.solrexception
+org.apache.solr.common.solrexception error
+org.apache.solr.common.solrexception log
+org.apache.solr.common.solrexception log severe
+org.apache.solr.core.corecontainer
+org.apache.solr.core.solrcore
+org.apache.solr.core.solrcore execute
+org.apache.solr.core.solrcore init
+org.apache.solr.core.solrcore.execute
+org.apache.solr.core.solrcore.execute solrcore.java
+org.apache.solr.core.solrcore.execute solrcore.java org.apache.solr.servlet.solrdispatchfilter.execute
+org.apache.solr.handler.component.searchhandler.handlerequestbody
+org.apache.solr.handler.component.searchhandler.handlerequestbody searchhandler.java
+org.apache.solr.handler.component.searchhandler.handlerequestbody searchhandler.java org.apache.solr.handler.requesthandlerbase.handlerequest
+org.apache.solr.handler.contentstreamhandlerbase.handlerequestbody
+org.apache.solr.handler.contentstreamhandlerbase.handlerequestbody contentstreamhandlerbase.java
+org.apache.solr.handler.contentstreamhandlerbase.handlerequestbody contentstreamhandlerbase.java org.apache.solr.handler.requesthandlerbase.handlerequest
+org.apache.solr.handler.dataimport.dataimporter
+org.apache.solr.handler.dataimport.dataimporthandler
+org.apache.solr.handler.requesthandlerbase.handlerequest
+org.apache.solr.handler.requesthandlerbase.handlerequest requesthandlerbase.java
+org.apache.solr.handler.requesthandlerbase.handlerequest requesthandlerbase.java org.apache.solr.core.solrcore.execute
+org.apache.solr.servlet.solrdispatchfilter.dofilter
+org.apache.solr.servlet.solrdispatchfilter.dofilter solrdispatchfilter.java
+org.apache.solr.servlet.solrdispatchfilter.dofilter solrdispatchfilter.java org.apache.catalina.core.applicationfilterchain.internaldofilter
+org.apache.solr.servlet.solrdispatchfilter.dofilter solrdispatchfilter.java org.apache.solr.servlet.solrdispatchfilter.dofilter
+org.apache.solr.servlet.solrdispatchfilter.dofilter solrdispatchfilter.java org.eclipse.jetty.servlet.servlethandler
+org.apache.solr.servlet.solrdispatchfilter.execute
+org.apache.solr.servlet.solrdispatchfilter.execute solrdispatchfilter.java
+org.apache.solr.servlet.solrdispatchfilter.execute solrdispatchfilter.java org.apache.solr.servlet.solrdispatchfilter.dofilter
+org.apache.solr.update.directupdatehandler
+org.apache.solr.update.directupdatehandler commit
+org.apache.spark
+org.apache.spark spark
+org.apache.spark spark core
+org.apache.spark.deploy.sparksubmit
+org.apache.spark.deploy.sparksubmit main
+org.apache.spark.deploy.sparksubmit main sparksubmit.scala
+org.apache.spark.deploy.sparksubmit.main
+org.apache.spark.deploy.sparksubmit.main sparksubmit.scala
+org.apache.spark.executor.executor
+org.apache.spark.executor.executor taskrunner.run
+org.apache.spark.executor.executor taskrunner.run executor.scala
+org.apache.spark.rdd.rdd
+org.apache.spark.rdd.rdd anonfun
+org.apache.spark.rdd.rdd.computeorreadcheckpoint
+org.apache.spark.rdd.rdd.computeorreadcheckpoint rdd.scala
+org.apache.spark.rdd.rdd.computeorreadcheckpoint rdd.scala org.apache.spark.rdd.rdd.iterator
+org.apache.spark.rdd.rdd.iterator
+org.apache.spark.rdd.rdd.iterator rdd.scala
+org.apache.spark.scheduler.dagscheduler
+org.apache.spark.scheduler.dagscheduler anonfun
+org.apache.spark.scheduler.dagscheduler anonfun abortstage
+org.apache.spark.scheduler.dagscheduler.abortstage
+org.apache.spark.scheduler.dagscheduler.abortstage dagscheduler.scala
+org.apache.spark.scheduler.dagscheduler.org
+org.apache.spark.scheduler.dagscheduler.org spark
+org.apache.spark.scheduler.dagscheduler.org spark schedule
+org.apache.spark.scheduler.resulttask.runtask
+org.apache.spark.scheduler.resulttask.runtask resulttask.scala
+org.apache.spark.scheduler.resulttask.runtask resulttask.scala org.apache.spark.scheduler.task.run
+org.apache.spark.scheduler.task.run
+org.apache.spark.scheduler.task.run task.scala
+org.apache.spark.scheduler.task.run task.scala org.apache.spark.executor.executor
+org.apache.spark.sparkcontext
+org.apache.spark.sparkexception
+org.apache.spark.sparkexception job
+org.apache.spark.sparkexception job abort
+org.apache.spark.sql.hive.hivecontext
+org.apache.spark.sql.sqlcontext
+org.apache.spark.util.utils
+org.apache.tomcat.util.net.jioendpoint
+org.eclipse.jetty.security.securityhandler.handle
+org.eclipse.jetty.security.securityhandler.handle securityhandler.java
+org.eclipse.jetty.security.securityhandler.handle securityhandler.java org.eclipse.jetty.server.session.sessionhandler.dohandle
+org.eclipse.jetty.server.handler.contexthandler.dohandle
+org.eclipse.jetty.server.handler.contexthandler.dohandle contexthandler.java
+org.eclipse.jetty.server.handler.contexthandler.dohandle contexthandler.java org.eclipse.jetty.servlet.servlethandler.doscope
+org.eclipse.jetty.server.handler.contexthandler.doscope
+org.eclipse.jetty.server.handler.contexthandler.doscope contexthandler.java
+org.eclipse.jetty.server.handler.contexthandler.doscope contexthandler.java org.eclipse.jetty.server.handler.scopedhandler.handle
+org.eclipse.jetty.server.handler.contexthandlercollection.handle
+org.eclipse.jetty.server.handler.contexthandlercollection.handle contexthandlercollection.java
+org.eclipse.jetty.server.handler.contexthandlercollection.handle contexthandlercollection.java org.eclipse.jetty.server.handler.handlercollection.handle
+org.eclipse.jetty.server.handler.handlercollection.handle
+org.eclipse.jetty.server.handler.handlercollection.handle handlercollection.java
+org.eclipse.jetty.server.handler.handlercollection.handle handlercollection.java org.eclipse.jetty.server.handler.handlerwrapper.handle
+org.eclipse.jetty.server.handler.handlerwrapper.handle
+org.eclipse.jetty.server.handler.handlerwrapper.handle handlerwrapper.java
+org.eclipse.jetty.server.handler.handlerwrapper.handle handlerwrapper.java org.eclipse.jetty.server.server.handle
+org.eclipse.jetty.server.handler.scopedhandler.handle
+org.eclipse.jetty.server.handler.scopedhandler.handle scopedhandler.java
+org.eclipse.jetty.server.handler.scopedhandler.handle scopedhandler.java org.eclipse.jetty.security.securityhandler.handle
+org.eclipse.jetty.server.handler.scopedhandler.handle scopedhandler.java org.eclipse.jetty.server.handler.contexthandlercollection.handle
+org.eclipse.jetty.server.server.handle
+org.eclipse.jetty.server.server.handle server.java
+org.eclipse.jetty.server.session.sessionhandler.dohandle
+org.eclipse.jetty.server.session.sessionhandler.dohandle sessionhandler.java
+org.eclipse.jetty.server.session.sessionhandler.dohandle sessionhandler.java org.eclipse.jetty.server.handler.contexthandler.dohandle
+org.eclipse.jetty.server.session.sessionhandler.doscope
+org.eclipse.jetty.server.session.sessionhandler.doscope sessionhandler.java
+org.eclipse.jetty.server.session.sessionhandler.doscope sessionhandler.java org.eclipse.jetty.server.handler.contexthandler.doscope
+org.eclipse.jetty.servlet.servlethandler
+org.eclipse.jetty.servlet.servlethandler cachedchain.dofilter
+org.eclipse.jetty.servlet.servlethandler cachedchain.dofilter servlethandler.java
+org.eclipse.jetty.servlet.servlethandler.dohandle
+org.eclipse.jetty.servlet.servlethandler.dohandle servlethandler.java
+org.eclipse.jetty.servlet.servlethandler.dohandle servlethandler.java org.eclipse.jetty.server.handler.scopedhandler.handle
+org.eclipse.jetty.servlet.servlethandler.doscope
+org.eclipse.jetty.servlet.servlethandler.doscope servlethandler.java
+org.eclipse.jetty.servlet.servlethandler.doscope servlethandler.java org.eclipse.jetty.server.session.sessionhandler.doscope
+org.eclipse.jetty.util.thread.queuedthreadpool
+org.eclipse.jetty.util.thread.queuedthreadpool queuedthreadpool.java
+org.eclipse.jetty.util.thread.queuedthreadpool queuedthreadpool.java java.lang.thread.run
+org.eclipse.jetty.util.thread.queuedthreadpool.runjob
+org.eclipse.jetty.util.thread.queuedthreadpool.runjob queuedthreadpool.java
+org.eclipse.jetty.util.thread.queuedthreadpool.runjob queuedthreadpool.java org.eclipse.jetty.util.thread.queuedthreadpool
+org.scalanlp
+original
+originally
+os
+otherwise
+ou
+outlier
+outofmemoryerror
+outputcollector
+outside
+overall
+overhead
+overlap
+override
+override public
+override.conf
+overseer
+overwrite
+p.s
+package
+page
+pair
+paolo
+paper
+par
+parallel
+parallelism
+param
+parameter
+parent
+parquet
+parse
+parse query
+parse queryparser
+parsecontext
+parsedquery
+parsedquery tostr
+parser.parse
+part
+partial
+particularly
+partition
+parts
+party
+pas
+pass
+passing
+password
+passwordless
+past
+paste
+patch
+patch solr
+path
+path process
+path select
+path select param
+pattern
+paul
+pause
+pay
+payload
+pdf
+pdfbox
+pdfparser
+pdftextstripper
+pdftotext
+pdt
+peder
+percentage
+percentile
+perfect
+perfectly
+perform
+perform query
+perform search
+performance
+performance index
+performance issue
+perhaps
+peridale
+period
+periodical
+permission
+persist
+persistent
+person
+personal
+personal website
+personal website www.outerthoughts.com
+personally
+peter
+pf
+ph
+phane
+phase
+php
+phrase
+phrase query
+phrase search
+phrasequery
+physical
+pick
+piece
+pig
+ping
+pipe
+pipeline
+pivot
+pizza
+pk
+place
+placed
+plain
+plan
+platform
+platform builtin
+platform builtin java
+play
+plug
+plugin
+plus
+pm
+pm org.apache.solr.common.solrexception
+pm org.apache.solr.common.solrexception log
+pmml
+pn
+poi
+point
+point direction
+point solr
+pointed
+pointer
+points
+pojo
+policy
+polling
+pom
+pool
+popular
+populate
+port
+port solr
+porter
+portion
+position
+positionincrementgap
+positionincrementgap analyzer
+positionincrementgap analyzer token
+positionincrementgap analyzer type
+possibility
+possibly
+post
+post solr
+post.jar
+posting
+potential
+power
+powerpoint
+ppt
+pr
+practice
+praveen
+praveenesh
+pravin
+pre
+prebuilt
+precision
+predict
+prediction
+preeti
+prefix
+prefix query
+prepare
+prerna.dyndns.org
+present
+preserve
+president
+prevent
+previous
+price
+primary
+print
+println
+printstacktrace
+prior
+priority
+priva
+private
+privileged
+priya
+probability
+procedure
+proceed
+process
+process index
+process local
+process spark
+processor.java
+processor.java org.apache.coyote.http
+processor.java org.apache.coyote.http protocol
+processor.process
+processor.process processor.java
+processor.process processor.java org.apache.coyote.http
+produce
+producer
+product
+production
+profile
+profile view
+profile view disclaimer
+profile view profile
+program
+program guide.html
+programmatic
+progress
+prohibit
+project
+proper
+properly
+property
+property arise
+property arise technical
+property configuration
+property fs.default.name
+property property
+proprietary
+protect
+protect protwords.txt
+protect protwords.txt filter
+protobuf
+protocol
+protocol.java
+protwords.txt
+protwords.txt filter
+protwords.txt filter class
+proximity
+proxy
+ps
+pseudo
+pseudo distribute
+pu
+public
+public class
+public static
+public static void
+public void
+publish
+punctuation
+purely
+purpose
+push
+putt
+py
+pyspark
+python
+q.add
+q.alt
+qa.add
+qf
+qp
+qparser
+qt
+qtime
+qtime param
+quad
+quality
+quality nature
+quality nature keeps
+query
+query analyzer
+query boost
+query cache
+query execute
+query facet
+query filter
+query fq
+query hit
+query index
+query localhost
+query localhost solr
+query lucene
+query match
+query multiple
+query parameter
+query parse
+query performance
+query query
+query response
+query result
+query returns
+query score
+query search
+query select
+query solr
+query sort
+query syntax
+query term
+query terms
+query text
+query title
+query token
+query token class
+query type
+query user
+query value
+querycomponent
+querycomponent.java
+querynorm
+queryparser
+queryparser parse
+queryparser.parse
+queryresponse
+queryresultcache
+queryscorer
+querystr
+queryweight
+queue
+queuedthreadpool.java
+queuedthreadpool.java java.lang.thread.run
+queuedthreadpool.java java.lang.thread.run thread.java
+queuedthreadpool.java org.eclipse.jetty.util.thread.queuedthreadpool
+queuedthreadpool.java org.eclipse.jetty.util.thread.queuedthreadpool queuedthreadpool.java
+quick
+quorum
+quote
+rack
+raise
+rajavuori
+ram
+ram gb
+rambuffersizemb
+ramdir
+ramdirectory
+ramwriter
+random
+range
+range query
+rangefilter
+rangepartitioner
+rangequery
+rank
+ranking
+rate
+raw
+rawquerystr
+rbp
+rc
+rd
+rdbm
+rdd
+rdd rdd
+rdd.coalesce
+rdd.scala
+rdd.scala org.apache.spark.rdd.rdd
+rdd.scala org.apache.spark.rdd.rdd anonfun
+rdd.scala org.apache.spark.rdd.rdd.iterator
+rdd.scala org.apache.spark.rdd.rdd.iterator rdd.scala
+reach
+read
+read index
+readbyte
+reader
+ready
+realize
+rebalance
+rebuild
+recall
+receive
+receive applyorelse
+received
+receiver
+receiving
+recent
+recent failure
+recent failure lost
+recipient
+recomend
+recommend
+recommendation
+reconstruct
+record
+record index
+recordreader
+recover
+recovery
+red
+redhat
+reduce
+reduce job
+reduce phase
+reduce reduce
+reduce task
+reducebykey
+refer
+reference
+reflect
+refresh
+refreshnode
+refuse
+regarding
+regardless
+regex
+region
+register
+regress
+regular
+reindex
+reindexe
+rejoin
+related
+relation
+relational
+relationship
+relative
+release
+relevance
+relevant
+religion
+reload
+remain
+remains
+remarkable
+remember
+remote
+removeduplicatestokenfilterfactory
+rename
+reopen
+repartition
+repartitione
+repeat
+repeated
+repeater
+repl
+replace
+replacement
+replica
+replica shard
+replicate
+replicate factor
+replicate index
+replicateafter
+replicationfactor
+replicationhandler
+repo
+repo asf
+report
+repository
+represent
+representation
+reproduce
+requesthandler
+requesthandler update
+requesthandler.headercomplete
+requesthandlerbase.java
+requesthandlerbase.java org.apache.solr.core.solrcore.execute
+requesthandlerbase.java org.apache.solr.core.solrcore.execute solrcore.java
+require
+require multivalue
+requirement
+research
+reset
+resizablearray.scala
+resizablearray.scala scala.collection.mutable.arraybuffer.foreach
+resizablearray.scala scala.collection.mutable.arraybuffer.foreach arraybuffer.scala
+resolusion
+resolution
+resolve
+resource
+resourcemanager
+resources
+respect
+respond
+response
+response numfound
+response numfound start
+response responseheader
+response responseheader status
+responseheader
+responseheader status
+responseheader status qtime
+responsibility
+responsibility loss
+responsibility loss damage
+rest
+restart
+restart solr
+restart tomcat
+restarte
+restaurant
+restrict
+result
+result base
+result facet
+result index
+result match
+result query
+result response
+result response numfound
+result result
+result score
+result search
+result solr
+result sort
+resulttask.scala
+resulttask.scala org.apache.spark.scheduler.task.run
+resulttask.scala org.apache.spark.scheduler.task.run task.scala
+retrieval
+retrieve
+retrive
+retrye
+returns
+returns result
+reuse
+reverse
+review
+revision
+rewrite
+rick
+rid
+rihae
+risk
+risk responsibility
+risk responsibility loss
+riz
+rm
+robert
+rock
+rockemore
+rogers
+role
+rollback
+root
+roughly
+round
+route
+row
+row fl
+row indent
+rpc
+rpc.java
+rpc.java org.apache.hadoop.ipc.server
+rss
+rstudio
+rsync
+rtf
+ruby
+rule
+runjar.java
+runnableadapter.call
+runnableadapter.call executors.java
+runtime
+russia
+rw
+ryan
+safe
+safemode
+safety
+said
+sales
+samir
+sample
+sandhya
+sandy
+sarathy
+saturday
+save
+saveastable
+saveastextfile
+saving
+saw
+sbt
+sbt assembly
+sbt sbt
+sc
+sc sparkcontext
+sc sparkcontext conf
+sc.parallelize
+sc.textfile
+scala
+scala org
+scala org spark
+scala spark
+scala val
+scala.collection.iterator
+scala.collection.iterator anon
+scala.collection.iterator class.foreach
+scala.collection.iterator class.foreach iterator.scala
+scala.collection.mutable.arraybuffer.foreach
+scala.collection.mutable.arraybuffer.foreach arraybuffer.scala
+scala.collection.mutable.arraybuffer.foreach arraybuffer.scala org.apache.spark.scheduler.dagscheduler.abortstage
+scala.collection.mutable.resizablearray
+scala.collection.mutable.resizablearray class.foreach
+scala.collection.mutable.resizablearray class.foreach resizablearray.scala
+scala.concurrent.forkjoin.forkjoinpool
+scala.concurrent.forkjoin.forkjoinpool workqueue.runtask
+scala.concurrent.forkjoin.forkjoinpool workqueue.runtask forkjoinpool.java
+scala.concurrent.forkjoin.forkjoinpool.runworker
+scala.concurrent.forkjoin.forkjoinpool.runworker forkjoinpool.java
+scala.concurrent.forkjoin.forkjoinpool.runworker forkjoinpool.java scala.concurrent.forkjoin.forkjoinworkerthread.run
+scala.concurrent.forkjoin.forkjointask.doexec
+scala.concurrent.forkjoin.forkjointask.doexec forkjointask.java
+scala.concurrent.forkjoin.forkjointask.doexec forkjointask.java scala.concurrent.forkjoin.forkjoinpool
+scala.concurrent.forkjoin.forkjoinworkerthread.run
+scala.concurrent.forkjoin.forkjoinworkerthread.run forkjoinworkerthread.java
+scala.option.foreach
+scala.option.foreach option.scala
+scala.option.getorelse
+scale
+scan
+scenario
+schedule
+schedule dagscheduler
+schedule dagscheduler failjobandindependentstages
+schema
+schema index
+schema solr
+schema type
+schema.xml
+schema.xml fieldtype
+schema.xml solrconfig.xml
+schemardd
+scheme
+schrieb
+science
+scopedhandler.java
+scopedhandler.java org.eclipse.jetty.security.securityhandler.handle
+scopedhandler.java org.eclipse.jetty.security.securityhandler.handle securityhandler.java
+scopedhandler.java org.eclipse.jetty.server.handler.contexthandlercollection.handle
+scopedhandler.java org.eclipse.jetty.server.handler.contexthandlercollection.handle contexthandlercollection.java
+score
+score query
+score result
+score score
+scorer
+scratch
+screen
+script
+sdataimporter.last
+se
+sean
+searc
+search
+search across
+search engine
+search hit
+search index
+search indexsearcher
+search keyword
+search lucene
+search match
+search open
+search performance
+search phrase
+search query
+search result
+search search
+search server
+search solr
+search term
+search terms
+search text
+search title
+searchcomponent
+searcher.search
+searcher.search query
+searchhandler.java
+searchhandler.java org.apache.solr.handler.requesthandlerbase.handlerequest
+searchhandler.java org.apache.solr.handler.requesthandlerbase.handlerequest requesthandlerbase.java
+searching
+searching index
+seat
+sec
+secondary
+secondarynamenode
+secret
+section
+secure
+securerandom
+security
+security.json
+securityhandler.java
+securityhandler.java org.eclipse.jetty.server.session.sessionhandler.dohandle
+securityhandler.java org.eclipse.jetty.server.session.sessionhandler.dohandle sessionhandler.java
+seek
+seeley
+segment
+segment index
+segment merge
+segment segment
+segmentinfo
+segmentreader.java
+select
+select param
+selective
+self
+semantic
+sematext.com
+send
+send query
+send solr
+sender
+seng
+sense
+sensitive
+sensitivity
+sent
+sentence
+separate
+separate index
+seperate
+seq
+sequence
+sequenece
+serialize
+series
+serve
+server
+server index
+server server
+server solr
+server.call
+server.call rpc.java
+server.call rpc.java org.apache.hadoop.ipc.server
+server.java
+service
+servlet
+servlet container
+servlethandler.java
+servlethandler.java org.eclipse.jetty.server.handler.scopedhandler.handle
+servlethandler.java org.eclipse.jetty.server.handler.scopedhandler.handle scopedhandler.java
+servlethandler.java org.eclipse.jetty.server.session.sessionhandler.doscope
+servlethandler.java org.eclipse.jetty.server.session.sessionhandler.doscope sessionhandler.java
+servlethandler.java org.eclipse.jetty.servlet.servlethandler.dohandle
+servlethandler.java org.eclipse.jetty.servlet.servlethandler.dohandle servlethandler.java
+session
+sessionhandler.java
+sessionhandler.java org.eclipse.jetty.server.handler.contexthandler.dohandle
+sessionhandler.java org.eclipse.jetty.server.handler.contexthandler.dohandle contexthandler.java
+sessionhandler.java org.eclipse.jetty.server.handler.contexthandler.doscope
+sessionhandler.java org.eclipse.jetty.server.handler.contexthandler.doscope contexthandler.java
+setappname
+setmaster
+setmaster local
+setosa
+setrep
+setup
+setup solr
+severe
+shade
+shah
+shalin
+shalin shekhar
+shalin shekhar mangar
+shall
+shard
+shard collection
+shard core
+shard index
+shard node
+shard replica
+shard replicate
+shard shard
+shard solr
+share
+shark
+shawn
+shed
+sheet
+shekhar
+shekhar mangar
+shell
+ship
+shir
+shirley
+short
+shoud
+showing
+shown
+shuffle
+shufflemaptask.scala
+shut
+shutdown
+si
+side
+signature
+significant
+signle
+signup
+similarity
+simplehtmlformatter
+simpleposttool
+simplify
+simultaneous
+sincerely
+sindhu
+site
+site.xml
+sitemap
+situation
+sivakumar
+size
+size gb
+size index
+size kb
+size mb
+skar
+skip
+skrev
+slave
+slave node
+slave replicate
+slf
+slice
+slop
+slot
+slow
+small
+small index
+snapinputstage.scala
+snapinstaller
+snappuller
+snappy
+snapshot
+snapshot.jar
+snippet
+snowball
+snowballanalyzer
+soap
+socket
+socketconnector.java
+soft
+soft commit
+softcommit
+software
+sole
+solr
+solr admin
+solr admin page
+solr analyzerstokenizerstokenfilters
+solr api
+solr bin
+solr cache
+solr client
+solr cloud
+solr cluster
+solr code
+solr collection
+solr commit
+solr conf
+solr config
+solr configuration
+solr core
+solr dataimporthandler
+solr directory
+solr error
+solr facet
+solr home
+solr implement
+solr index
+solr install
+solr installation
+solr instance
+solr issue
+solr issues.apache.org
+solr issues.apache.org jira
+solr java
+solr jetty
+solr lib
+solr log
+solr lucene
+solr master
+solr nightly
+solr node
+solr open
+solr patch
+solr path
+solr process
+solr project
+solr query
+solr release
+solr replicate
+solr response
+solr result
+solr schema
+solr schema.xml
+solr search
+solr select
+solr server
+solr server solr
+solr setup
+solr shard
+solr solr
+solr solrcloud
+solr solrj
+solr source
+solr start
+solr support
+solr tomcat
+solr trunk
+solr update
+solr user
+solr usingmailinglist
+solr war
+solr web
+solr webapp
+solr wiki
+solr xml
+solr zookeeper
+solr.englishporterfilterfactory
+solr.keywordmarkerfilterfactory
+solr.keywordtokenizerfactory
+solr.keywordtokenizerfactory filter
+solr.keywordtokenizerfactory filter class
+solr.lowercasefilterfactory
+solr.lowercasefilterfactory analyzer
+solr.lowercasefilterfactory analyzer fieldtype
+solr.lowercasefilterfactory filter
+solr.lowercasefilterfactory filter class
+solr.patternreplacefilterfactory
+solr.removeduplicatestokenfilterfactory
+solr.removeduplicatestokenfilterfactory analyzer
+solr.removeduplicatestokenfilterfactory analyzer analyzer
+solr.removeduplicatestokenfilterfactory analyzer fieldtype
+solr.searchhandler
+solr.snowballporterfilterfactory
+solr.standardtokenizerfactory
+solr.standardtokenizerfactory filter
+solr.standardtokenizerfactory filter class
+solr.stopfilterfactory
+solr.stopfilterfactory ignorecase
+solr.stopfilterfactory ignorecase words
+solr.strfield
+solr.synonymfilterfactory
+solr.synonymfilterfactory synonym
+solr.synonymfilterfactory synonym synonyms.txt
+solr.textfield
+solr.textfield positionincrementgap
+solr.textfield positionincrementgap analyzer
+solr.triedatefield
+solr.war
+solr.whitespacetokenizerfactory
+solr.whitespacetokenizerfactory filter
+solr.whitespacetokenizerfactory filter class
+solr.worddelimiterfilterfactory
+solr.worddelimiterfilterfactory generatewordpart
+solr.worddelimiterfilterfactory generatewordpart generatenumberpart
+solr.xml
+solradmin
+solrcloud
+solrcloud cluster
+solrconfig
+solrconfig.xml
+solrconfig.xml requesthandler
+solrconfig.xml schema.xml
+solrcore
+solrcore.java
+solrcore.java org.apache.solr.servlet.solrdispatchfilter.execute
+solrcore.java org.apache.solr.servlet.solrdispatchfilter.execute solrdispatchfilter.java
+solrdispatchfilter.java
+solrdispatchfilter.java org.apache.catalina.core.applicationfilterchain.internaldofilter
+solrdispatchfilter.java org.apache.catalina.core.applicationfilterchain.internaldofilter applicationfilterchain.java
+solrdispatchfilter.java org.apache.solr.servlet.solrdispatchfilter.dofilter
+solrdispatchfilter.java org.apache.solr.servlet.solrdispatchfilter.dofilter solrdispatchfilter.java
+solrdispatchfilter.java org.eclipse.jetty.servlet.servlethandler
+solrdispatchfilter.java org.eclipse.jetty.servlet.servlethandler cachedchain.dofilter
+solrdocumentlist
+solrindex
+solrindexsearcher
+solrinputdocument
+solrj
+solrj client
+solrpedia
+solrquery
+solrqueryparser
+solrserver
+solution
+solve
+somebody
+sometimes
+somewhat
+soon
+sophisticated
+sort
+sort order
+sort query
+sort result
+sort score
+sort sort
+sortdocset
+sortfield
+sortmissinglast
+sound
+source
+source code
+sp
+space
+spain
+spam
+span
+spannearquery
+spanquery
+spark
+spark app
+spark assembly
+spark assembly hadoop
+spark bin
+spark bin hadoop
+spark blob
+spark blob master
+spark class
+spark cluster
+spark code
+spark conf
+spark context
+spark core
+spark defaults.conf
+spark deploy
+spark ec
+spark env.sh
+spark executor
+spark hadoop
+spark hive
+spark home
+spark jar
+spark java
+spark job
+spark local
+spark log
+spark master
+spark mllib
+spark program
+spark python
+spark scala
+spark schedule
+spark schedule dagscheduler
+spark shell
+spark spark
+spark sql
+spark standalone
+spark stream
+spark stream job
+spark stream kafka
+spark submit
+spark submit class
+spark submit master
+spark ui
+spark user
+spark user list
+spark web
+spark worker
+spark yarn
+spark.apache.org
+spark.executor.memory
+spark.shuffle.spill
+sparkconf
+sparkconf setappname
+sparkconf sparkconf
+sparkcontext
+sparkcontext conf
+sparkcontext.scala
+sparkdriver
+sparkexception
+sparkr
+sparksql
+sparksubmit
+sparksubmit.scala
+sparksubmit.scala org.apache.spark.deploy.sparksubmit
+sparksubmit.scala org.apache.spark.deploy.sparksubmit main
+sparksubmit.scala org.apache.spark.deploy.sparksubmit.main
+sparksubmit.scala org.apache.spark.deploy.sparksubmit.main sparksubmit.scala
+sparkui
+spatial
+speak
+special
+special character
+specifically
+speculative
+speed
+speedpost
+spell
+spellcheck
+spellcheck.build
+spellcheck.collate
+spellcheck.count
+spellcheck.q
+spellcheckcomponent
+spellchecker
+spelling
+spend
+spent
+spetial
+spi
+spill
+spinal
+split
+splitoncasechange
+splitoncasechange filter
+splitoncasechange filter class
+splits
+splitshard
+splitting
+sponse
+sports
+sql
+sql query
+sqlcontext
+sqlcontext.sql
+sqlline
+sqlserver
+sqoop
+src
+src java
+src java org
+src main
+src main scala
+ssc
+ssc streamingcontext
+ssd
+ssh
+st
+stable
+stack
+stack trace
+stackoverflow.com
+stacktrace
+stage
+stage failure
+stage failure task
+stage stage
+stage tid
+stage times
+stage times recent
+stand
+standalone
+standalone cluster
+standalone mode
+standard
+standardanalyzer
+standardcontextvalve.java
+standardcontextvalve.java org.apache.catalina.core.standardhostvalve.invoke
+standardcontextvalve.java org.apache.catalina.core.standardhostvalve.invoke standardhostvalve.java
+standardenginevalve.java
+standardenginevalve.java org.apache.catalina.connector.coyoteadapter.service
+standardenginevalve.java org.apache.catalina.connector.coyoteadapter.service coyoteadapter.java
+standardhostvalve.java
+standardhostvalve.java org.apache.catalina.valves.errorreportvalve.invoke
+standardhostvalve.java org.apache.catalina.valves.errorreportvalve.invoke errorreportvalve.java
+standardtokenize
+standardtokenizerfactory
+standardwrappervalve.java
+standardwrappervalve.java org.apache.catalina.core.standardcontextvalve.invoke
+standardwrappervalve.java org.apache.catalina.core.standardcontextvalve.invoke standardcontextvalve.java
+standby
+start
+start all.sh
+start datanode
+start dfs.sh
+start hadoop
+start index
+start job
+start namenode
+start remote
+start row
+start row indent
+start solr
+start spark
+start task
+start.com
+start.jar
+starttitle
+startup
+stat
+state
+statement
+states
+static
+static void
+static void main
+statistic
+statistics
+status
+status qtime
+status qtime param
+stay
+stderr
+stdout
+stefan
+stem
+step
+stephenson
+steps
+steve
+stick
+stop
+stop words
+stopfilterfactory
+stopping
+stopword
+stopwords.txt
+stopwords.txt enablepositionincrement
+stopwords.txt enablepositionincrement filter
+stopwords.txt filter
+stopwords.txt filter class
+storage
+storage plugin
+store
+store hdf
+store index
+store lucene
+store multivalue
+store require
+store require multivalue
+store solr
+store type
+store value
+stores
+straight
+straightforward
+strange
+strategy
+stream
+stream job
+stream kafka
+streamingcontext
+strict
+strings
+strip
+strong
+struct
+structure
+struggle
+stuck
+student
+stuff
+stupid
+style
+sub
+subcategory
+subclass
+subfolder
+subject.java
+subject.java org.apache.hadoop.security.usergroupinformation.doas
+subject.java org.apache.hadoop.security.usergroupinformation.doas usergroupinformation.java
+submit
+submit class
+submit job
+submit master
+submit spark
+subscribe
+subsequent
+subset
+subshard
+subsidiary
+subtopic
+succeed
+success
+successful
+sudden
+sufficient
+suggestion
+suitable
+sum
+summary
+sun
+sun.misc.launcher
+sun.reflect.delegatingmethodaccessorimpl.invoke
+sun.reflect.delegatingmethodaccessorimpl.invoke delegatingmethodaccessorimpl.java
+sun.reflect.delegatingmethodaccessorimpl.invoke delegatingmethodaccessorimpl.java java.lang.reflect.method.invoke
+sun.reflect.nativeconstructoraccessorimpl.newinstance
+sun.reflect.nativemethodaccessorimpl.invoke
+sun.reflect.nativemethodaccessorimpl.invoke native
+sun.reflect.nativemethodaccessorimpl.invoke native method
+sun.reflect.nativemethodaccessorimpl.invoke nativemethodaccessorimpl.java
+sun.reflect.nativemethodaccessorimpl.invoke nativemethodaccessorimpl.java sun.reflect.delegatingmethodaccessorimpl.invoke
+super
+supply
+support
+support solr
+suppose
+supposed
+surfcontrol
+surprise
+surround
+suse
+suspect
+svn
+svn.apache.org
+svn.apache.org repo
+svn.apache.org repo asf
+swap
+switch
+symbol
+symlink
+sync
+sync.innerrun
+sync.innerrun futuretask.java
+sync.innerrun futuretask.java java.util.concurrent.futuretask.run
+synchronize
+synonym
+synonym synonyms.txt
+synonym synonyms.txt ignorecase
+synonymfilter
+synonymfilterfactory
+synonyms.txt
+synonyms.txt ignorecase
+synonyms.txt ignorecase expand
+syntax
+system
+system error
+system property
+system.out.println
+tab
+table
+table hive
+table spark
+table table
+tableau
+tag
+taglist
+taken
+taking
+talk
+tarandeep
+target
+target scala
+tariq
+task
+task attempt
+task stage
+task stage tid
+task stage times
+task task
+task track
+task.scala
+task.scala org.apache.spark.executor.executor
+task.scala org.apache.spark.executor.executor taskrunner.run
+taskrunner.run
+taskrunner.run executor.scala
+taskrunner.run executor.scala java.util.concurrent.threadpoolexecutor.runworker
+taskschedulerimpl
+tasksetmanager
+tasktracker
+tb
+td
+td html
+team
+technical
+technical content
+technical content explicit
+technique
+technology
+ted
+tel
+temp
+template
+temporary
+ten
+tenant
+tend
+terence
+term
+term frequency
+term query
+term term
+term vector
+termdoc
+termenum
+termfreq
+terminology
+termquery
+termquery term
+terms
+terms index
+terms match
+terms query
+termsenum
+termvector
+termvectore
+terracotta
+terrence
+tesseract
+text
+text class
+text class solr.textfield
+text general
+text index
+text index store
+text search
+text solr
+text text
+text type
+text type text
+text.class
+textfile
+textinputformat
+textspell
+tf
+th
+theory
+therefore
+thousand
+thread
+thread main
+thread.java
+thread.java cause
+threadpoolexecutor
+threadpoolexecutor.java
+threadpoolexecutor.java java.lang.thread.run
+threadpoolexecutor.java java.lang.thread.run thread.java
+threadpoolexecutor.java java.util.concurrent.threadpoolexecutor
+threadpoolexecutor.java java.util.concurrent.threadpoolexecutor worker.run
+three
+threshold
+thrift
+thriftserver
+throughput
+throw
+throw error
+throw exception
+throw ioexception
+thrown
+thus
+thx
+tia
+ticket
+tid
+tie
+tieredmergepolicy
+tika
+tikaentityprocessor
+till
+tim
+timeout
+times
+times recent
+times recent failure
+timestamp
+timing
+tional
+tip
+title
+title title
+title type
+titleid
+tlog
+tmp
+tmp hadoop
+tmp spark
+tmpf
+together
+token
+token class
+token class solr.keywordtokenizerfactory
+token class solr.standardtokenizerfactory
+token class solr.whitespacetokenizerfactory
+token filter
+token index
+token token
+tokenfilter
+tokenstream
+told
+tom
+toma
+tomcat
+tomcat solr
+took
+tool
+toolrunner.java
+top
+topdoc
+topic
+tostr
+total
+total index
+total input
+total input path
+toute
+trace
+track
+tracy
+traffic
+train
+training
+transaction
+transaction log
+transfer
+transform
+transformation
+transformer
+translate
+transmission
+transmit
+transplant
+treat
+tree
+trick
+tricky
+triedatefield
+trigger
+trivia
+trivial
+trouble
+trunk
+tue
+tune
+tuple
+turn
+tutorial
+tutorial.everything
+tweak
+twice
+twitter
+twitter.com
+txt
+type
+type date
+type fieldtype
+type index
+type index store
+type index token
+type query
+type query token
+type text
+type text general
+type text index
+typical
+typically
+typo
+uber
+ubuntu
+ucen
+udbhav
+udf
+ui
+uid
+ulimit
+um
+un
+unauthorized
+underlying
+understanding
+understood
+unexpected
+unicode
+uninvert
+uninvertedfield
+unique
+unique key
+unique terms
+uniquekey
+unit
+united
+university
+unix
+unknown
+unknown source
+unless
+unload
+unstored
+unsubscribe
+unsuccessful
+untokenized
+upconfig
+update
+update commit
+update delete
+update extract
+update handler
+update index
+update process
+update solr
+updatejson
+updatestatebykey
+upgrade
+upgrade solr
+upload
+uploade
+upon
+upper
+uri
+url
+url jdbc
+url localhost
+url localhost solr
+url solr
+urlclassloader.java
+urlclassloader.java java.lang.classloader.loadclass
+urlclassloader.java java.lang.classloader.loadclass classloader.java
+urlclassloader.java java.net.urlclassloader
+urlclassloader.java java.net.urlclassloader urlclassloader.java
+urlclassloader.java java.security.accesscontroller.doprivileged
+urlclassloader.java java.security.accesscontroller.doprivileged native
+urvashi
+usa
+usage
+useg
+user
+user enter
+user hadoop
+user list
+user list nabble.com
+user lucene.apache.org
+user query
+user search
+user solr
+user spark
+user user
+usergroupinformation.java
+username
+usingmailinglist
+usr
+usr lib
+usr local
+usr local hadoop
+usual
+usually
+utc
+utf
+utf response
+utf response responseheader
+util
+utility
+utilize
+utils.scala
+uwe
+val
+val conf
+val conf sparkconf
+val sc
+val sc sparkcontext
+val sqlcontext
+valid
+value
+value hdf
+value index
+value key
+value pair
+value property
+value property property
+value query
+value store
+value value
+value value property
+var
+variable
+variant
+various
+vary
+vcore
+vector
+velocity
+velocityresponsewriter
+verify
+version.lucene
+vertex
+veuillez
+video
+view
+view disclaimer
+view disclaimer risk
+view profile
+view profile view
+vincenzo
+vip
+virtual
+virus
+visible
+vm
+void
+void main
+void main arg
+volume
+volumes
+vous
+vs
+vulnerable
+vwr
+wait
+waitflush
+waitsearcher
+walter
+wan
+wants
+war
+warm
+warn
+warn tasksetmanager
+warning
+watch
+ways
+web
+web app
+web inf
+web ui
+web.xml
+webapp
+webapp solr
+webapp solr path
+webappcontext.java
+website
+website www.outerthoughts.com
+weight
+weird
+welcome
+welcomelucene
+went
+whatever
+whenever
+whereas
+whether
+whil
+whirr
+whitespace
+whitespaceanalyzer
+whitespacetokenize
+whitespacetokenizerfactory
+whose
+wiki
+wiki page
+wiki wiki.apache.org
+wiki wiki.apache.org solr
+wiki.apache.org
+wiki.apache.org hadoop
+wiki.apache.org lucene
+wiki.apache.org lucene java
+wiki.apache.org solr
+wiki.apache.org solr analyzerstokenizerstokenfilters
+wiki.apache.org solr dataimporthandler
+wiki.apache.org solr usingmailinglist
+wildcard
+wildcard query
+wildcard search
+window
+winzip
+wise
+wish
+wonder
+wordcount
+worddelimiterfilter
+worddelimiterfilterfactory
+words
+words stopwords.txt
+words stopwords.txt enablepositionincrement
+words stopwords.txt filter
+wore
+workaround
+worker
+worker memory
+worker node
+worker.run
+worker.run threadpoolexecutor.java
+worker.run threadpoolexecutor.java java.lang.thread.run
+worker.runtask
+worker.runtask threadpoolexecutor.java
+worker.runtask threadpoolexecutor.java java.util.concurrent.threadpoolexecutor
+workqueue.runtask
+workqueue.runtask forkjoinpool.java
+workqueue.runtask forkjoinpool.java scala.concurrent.forkjoin.forkjoinpool.runworker
+world
+worldnum
+worry
+worse
+wrap
+writ
+writablecomparable
+write.lock
+writer
+writer indexwriter
+writer.adddocument
+writer.close
+writing
+wt
+wt javabin
+wt json
+wt json indent
+wt xml
+wunder
+wunder wunderwood.org
+wunderwood.org
+www.example.com
+www.lucidimagination.com
+www.lucidworks.com
+www.outerthoughts.com
+www.sigmoidanalytics.com
+www.sigmoidanalytics.com twitter.com
+www.solr
+www.solr start.com
+www.surfcontrol.com
+www.td.com
+xeon
+xiangrui
+xls
+xml
+xml encode
+xml encode utf
+xml solr
+xmlrequesthandler
+xms
+xms xmx
+xmx
+xpath
+xpathentityprocessor
+xquery
+xsl
+xslt
+xx
+xxx
+xyz
+yanbo
+yarn
+yarn client
+yarn client mode
+yarn cluster
+yarn cluster mode
+yeah
+years
+yep
+yield
+yingnan.ma
+yonik
+yonik seeley
+yyyy
+yyyymmdd
+zeon
+zero
+zinc
+zip
+zipwithindex
+zk
+zkcli
+zkfc
+zkhost
+zookeeper
+zookeeper ensemble

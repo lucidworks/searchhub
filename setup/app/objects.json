@@ -5645,6 +5645,7 @@
         "modelId" : "shub/shub_fusion_xgboost.zip",
         "type" : "response-ltr",
         "skip" : false,
+        "condition" : "request.getFirstParam(\"disable_ltr_rerank\") == null",
         "licensed" : true,
         "secretSourceStageId" : "u0f"
       } ],
@@ -12147,7 +12148,7 @@
       "properties" : {
         "headerImageName" : "headerImage3",
         "tileColor" : "apps-darkblue",
-        "previousCollectionId" : "lucidfind"
+        "previousCollectionId" : "shub_qna"
       }
     } ],
     "dataSources" : [ {
@@ -28997,7 +28998,7 @@
   "metadata" : {
     "formatVersion" : "1",
     "exportedBy" : "default-subject",
-    "exportedDate" : "2018-09-25T19:44:32.047Z",
+    "exportedDate" : "2018-10-01T16:35:18.751Z",
     "fusionVersion" : "4.2.0-SNAPSHOT",
     "fusionGuid" : "8b173e03-ea20-46d4-ac64-d2e019b2b26b"
   }
